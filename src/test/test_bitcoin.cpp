@@ -8,6 +8,7 @@
 #include <consensus/consensus.h>
 #include <consensus/validation.h>
 #include <crypto/sha256.h>
+#include <crypto/equihash.h>
 #include <validation.h>
 #include <miner.h>
 #include <net_processing.h>
@@ -16,6 +17,7 @@
 #include <rpc/server.h>
 #include <rpc/register.h>
 #include <script/sigcache.h>
+#include <consensus/merkle.h>
 
 #include <memory>
 
@@ -144,14 +146,44 @@ TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>&
     block.vtx.resize(1);
     for (const CMutableTransaction& tx : txns)
         block.vtx.push_back(MakeTransactionRef(tx));
-    // IncrementExtraNonce creates a valid coinbase and merkleRoot
-    unsigned int extraNonce = 0;
-    {
-        LOCK(cs_main);
-        IncrementExtraNonce(&block, chainActive.Tip(), extraNonce);
-    }
+    block.hashMerkleRoot = BlockMerkleRoot(block);
 
-    while (!CheckProofOfWork(block.GetHash(), block.nBits, chainparams.GetConsensus())) ++block.nNonce;
+    unsigned int n = chainparams.EquihashN();
+    unsigned int k = chainparams.EquihashK();
+    // Hash state
+    crypto_generichash_blake2b_state state;
+    EhInitialiseState(n, k, state);
+    // I = the block header minus nonce and solution.
+    CEquihashInput I{block};
+    // I||V
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << I;
+    // H(I||V||...
+    crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+    while (true) {
+            // Yes, there is a chance every nonce could fail to satisfy the -regtest
+            // target -- 1 in 2^(2^256). That ain't gonna happen
+            block.nNonce = ArithToUint256(UintToArith256(block.nNonce) + 1);
+
+            // H(I||V||...
+            crypto_generichash_blake2b_state curr_state;
+            curr_state = state;
+            crypto_generichash_blake2b_update(&curr_state,
+                                              block.nNonce.begin(),
+                                              block.nNonce.size());
+
+            // (x_1, x_2, ...) = A(I, V, n, k)
+            std::function<bool(std::vector<unsigned char>)> validBlock =
+                    [&block](std::vector<unsigned char> soln) {     
+                block.nSolution = soln;
+                return CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus());
+            };
+            bool found = EhBasicSolveUncancellable(n, k, curr_state, validBlock);
+            if (found) {
+                goto endloop;
+            }
+        }
+endloop:
 
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(block);
     ProcessNewBlock(chainparams, shared_pblock, true, nullptr);

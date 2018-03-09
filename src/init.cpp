@@ -62,6 +62,8 @@
 #include <boost/interprocess/sync/file_lock.hpp>
 #include <boost/thread.hpp>
 #include <openssl/crypto.h>
+#include <miner.h>
+#include <key_io.h>
 
 #if ENABLE_ZMQ
 #include <zmq/zmqnotificationinterface.h>
@@ -192,6 +194,11 @@ void Shutdown()
 #ifdef ENABLE_WALLET
     FlushWallets();
 #endif
+#ifdef ENABLE_WALLET
+    GenerateBitcoins(false, NULL, 0);
+#else
+    GenerateBitcoins(false, 0);
+#endif    
     StopMapPort();
 
     // Because these depend on each-other, we make sure that neither can be
@@ -497,6 +504,19 @@ std::string HelpMessage(HelpMessageMode mode)
     strUsage += HelpMessageOpt("-blockmintxfee=<amt>", strprintf(_("Set lowest fee rate (in %s/kB) for transactions to be included in block creation. (default: %s)"), CURRENCY_UNIT, FormatMoney(DEFAULT_BLOCK_MIN_TX_FEE)));
     if (showDebug)
         strUsage += HelpMessageOpt("-blockversion=<n>", "Override block version to test forking scenarios");
+
+    strUsage += HelpMessageGroup(_("Mining options:"));
+    strUsage += HelpMessageOpt("-gen", strprintf(_("Generate coins (default: %u)"), 0));
+    strUsage += HelpMessageOpt("-genproclimit=<n>", strprintf(_("Set the number of threads for coin generation if enabled (-1 = all cores, default: %d)"), 1));
+    strUsage += HelpMessageOpt("-mineraddress=<addr>", _("Send mined coins to a specific single address"));
+    strUsage += HelpMessageOpt("-minetolocalwallet", strprintf(
+            _("Require that mined blocks use a coinbase address in the local wallet (default: %u)"),
+ #ifdef ENABLE_WALLET
+            1
+ #else
+            0
+ #endif
+            ));
 
     strUsage += HelpMessageGroup(_("RPC server options:"));
     strUsage += HelpMessageOpt("-rest", strprintf(_("Accept public REST requests (default: %u)"), DEFAULT_REST_ENABLE));
@@ -1105,6 +1125,15 @@ bool AppInitParameterInteraction()
     // Option to startup with mocktime set (used for regression testing):
     SetMockTime(gArgs.GetArg("-mocktime", 0)); // SetMockTime(0) is a no-op
 
+    if (gArgs.IsArgSet("-mineraddress")) {
+        CTxDestination addr = DecodeDestination(gArgs.GetArg("-mineraddress", ""));
+        if (boost::get<CNoDestination>(&addr)) {
+            return InitError(strprintf(
+                    _("Invalid address for -mineraddress=<addr>: '%s' (must be a transparent address)"),
+                    gArgs.GetArg("-mineraddress", "")));
+        }
+    }
+
     if (gArgs.GetBoolArg("-peerbloomfilters", DEFAULT_PEERBLOOMFILTERS))
         nLocalServices = ServiceFlags(nLocalServices | NODE_BLOOM);
 
@@ -1174,6 +1203,11 @@ static bool LockDataDirectory(bool probeOnly)
 bool AppInitSanityChecks()
 {
     // ********************************************************* Step 4: sanity checks
+
+    // Initialize libsodium
+    if (init_and_check_sodium() == -1) {
+        return false;
+    }
 
     // Initialize elliptic curve code
     std::string sha256_algo = SHA256AutoDetect();
@@ -1605,6 +1639,39 @@ bool AppInitMain()
 #else
     LogPrintf("No wallet support compiled in!\n");
 #endif
+
+#ifndef ENABLE_WALLET
+    if (gArgs.GetBoolArg("-minetolocalwallet", false)) {
+        return InitError(_("RCoin was not built with wallet support. Set -minetolocalwallet=0 to use -mineraddress, or rebuild RCoin with wallet support."));
+    }
+    if (gArgs.GetArg("-mineraddress", "").empty() && gArgs.GetBoolArg("-gen", false)) {
+        return InitError(_("RCoin was not built with wallet support. Set -mineraddress, or rebuild RCoin with wallet support."));
+    }
+#endif // !ENABLE_WALLET
+
+    if (gArgs.IsArgSet("-mineraddress")) {
+#ifdef ENABLE_WALLET
+        bool minerAddressInLocalWallet = false;
+        CWallet *pwalletMain = ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
+        if (pwalletMain) {
+            // Address has alreday been validated
+            CTxDestination addr = DecodeDestination(gArgs.GetArg("-mineraddress", ""));
+            CKeyID *keyID = boost::get<CKeyID>(&addr);
+            minerAddressInLocalWallet = pwalletMain->HaveKey(*keyID);
+        }
+        if (gArgs.GetBoolArg("-minetolocalwallet", true) && !minerAddressInLocalWallet) {
+            return InitError(_("-mineraddress is not in the local wallet. Either use a local address, or set -minetolocalwallet=0"));
+        }
+#endif // ENABLE_WALLET
+    }
+
+#ifdef ENABLE_WALLET
+    CWallet *pwalletMain = ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
+    if (pwalletMain || !gArgs.IsArgSet("-mineraddress"))
+        GenerateBitcoins(gArgs.GetBoolArg("-gen", false), pwalletMain, gArgs.GetArg("-genproclimit", 1));
+ #else
+    GenerateBitcoins(gArgs.GetBoolArg("-gen", false), gArgs.GetArg("-genproclimit", 1));
+ #endif    
 
     // ********************************************************* Step 9: data directory maintenance
 

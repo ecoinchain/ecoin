@@ -103,6 +103,7 @@ namespace BCLog {
         COINDB      = (1 << 18),
         QT          = (1 << 19),
         LEVELDB     = (1 << 20),
+        POW         = (1 << 21),
         ALL         = ~(uint32_t)0,
     };
 }
@@ -316,7 +317,7 @@ std::string HelpMessageOpt(const std::string& option, const std::string& message
  * @note This does count virtual cores, such as those provided by HyperThreading.
  */
 int GetNumCores();
-
+void SetThreadPriority(int nPriority);
 void RenameThread(const char* name);
 
 /**

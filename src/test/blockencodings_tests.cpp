@@ -6,6 +6,7 @@
 #include <consensus/merkle.h>
 #include <chainparams.h>
 #include <random.h>
+#include <crypto/equihash.h>
 
 #include <test/test_bitcoin.h>
 
@@ -47,7 +48,44 @@ static CBlock BuildBlockTestCase() {
     bool mutated;
     block.hashMerkleRoot = BlockMerkleRoot(block, &mutated);
     assert(!mutated);
-    while (!CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus())) ++block.nNonce;
+
+    const CChainParams params = Params();
+    unsigned int n = params.EquihashN();
+    unsigned int k = params.EquihashK();
+    // Hash state
+    crypto_generichash_blake2b_state state;
+    EhInitialiseState(n, k, state);
+    // I = the block header minus nonce and solution.
+    CEquihashInput I{block};
+    // I||V
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << I;
+    // H(I||V||...
+    crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+    while (true) {
+            // Yes, there is a chance every nonce could fail to satisfy the -regtest
+            // target -- 1 in 2^(2^256). That ain't gonna happen
+            block.nNonce = ArithToUint256(UintToArith256(block.nNonce) + 1);
+
+            // H(I||V||...
+            crypto_generichash_blake2b_state curr_state;
+            curr_state = state;
+            crypto_generichash_blake2b_update(&curr_state,
+                                              block.nNonce.begin(),
+                                              block.nNonce.size());
+
+            // (x_1, x_2, ...) = A(I, V, n, k)
+            std::function<bool(std::vector<unsigned char>)> validBlock =
+                    [&block](std::vector<unsigned char> soln) {        
+                block.nSolution = soln;
+                return CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus());
+            };
+            bool found = EhBasicSolveUncancellable(n, k, curr_state, validBlock);
+            if (found) {
+                goto endloop;
+            }
+        }
+endloop:
     return block;
 }
 
@@ -292,7 +330,44 @@ BOOST_AUTO_TEST_CASE(EmptyBlockRoundTripTest)
     bool mutated;
     block.hashMerkleRoot = BlockMerkleRoot(block, &mutated);
     assert(!mutated);
-    while (!CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus())) ++block.nNonce;
+
+    const CChainParams params = Params();
+    unsigned int n = params.EquihashN();
+    unsigned int k = params.EquihashK();
+    // Hash state
+    crypto_generichash_blake2b_state state;
+    EhInitialiseState(n, k, state);
+    // I = the block header minus nonce and solution.
+    CEquihashInput I{block};
+    // I||V
+    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+    ss << I;
+    // H(I||V||...
+    crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+    while (true) {
+            // Yes, there is a chance every nonce could fail to satisfy the -regtest
+            // target -- 1 in 2^(2^256). That ain't gonna happen
+            block.nNonce = ArithToUint256(UintToArith256(block.nNonce) + 1);
+
+            // H(I||V||...
+            crypto_generichash_blake2b_state curr_state;
+            curr_state = state;
+            crypto_generichash_blake2b_update(&curr_state,
+                                              block.nNonce.begin(),
+                                              block.nNonce.size());
+
+            // (x_1, x_2, ...) = A(I, V, n, k)
+            std::function<bool(std::vector<unsigned char>)> validBlock =
+                    [&block](std::vector<unsigned char> soln) {       
+                block.nSolution = soln;
+                return CheckProofOfWork(block.GetHash(), block.nBits, Params().GetConsensus());
+            };
+            bool found = EhBasicSolveUncancellable(n, k, curr_state, validBlock);
+            if (found) {
+                goto endloop;
+            }
+        }
+endloop:
 
     // Test simple header round-trip with only coinbase
     {

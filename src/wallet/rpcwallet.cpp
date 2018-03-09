@@ -36,6 +36,7 @@
 #include <stdint.h>
 
 #include <univalue.h>
+#include <miner.h>
 
 static const std::string WALLET_ENDPOINT_BASE = "/wallet/";
 
@@ -3484,6 +3485,86 @@ UniValue bumpfee(const JSONRPCRequest& request)
     return result;
 }
 
+UniValue getgenerate(const JSONRPCRequest& request)
+{
+    if (request.fHelp || request.params.size() != 0)
+        throw std::runtime_error(
+                "getgenerate\n"
+                        "\nReturn if the server is set to generate coins or not. The default is false.\n"
+                        "It is set with the command line argument -gen (or bitcoind.conf setting gen)\n"
+                        "It can also be set with the setgenerate call.\n"
+                        "\nResult\n"
+                        "true|false      (boolean) If the server is set to generate coins or not\n"
+                        "\nExamples:\n"
+                + HelpExampleCli("getgenerate", "")
+                + HelpExampleRpc("getgenerate", "")
+        );
+
+    LOCK(cs_main);
+    return gArgs.GetBoolArg("-gen", false);
+}
+
+UniValue setgenerate(const JSONRPCRequest& request)
+{
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+
+    if (request.fHelp || request.params.size() < 1 || request.params.size() > 2)
+        throw std::runtime_error(
+                "setgenerate generate ( genproclimit )\n"
+                        "\nSet 'generate' true or false to turn generation on or off.\n"
+                        "Generation is limited to 'genproclimit' processors, -1 is unlimited.\n"
+                        "See the getgenerate call for the current setting.\n"
+                        "\nArguments:\n"
+                        "1. generate         (boolean, required) Set to true to turn on generation, off to turn off.\n"
+                        "2. genproclimit     (numeric, optional) Set the processor limit for when generation is on. Can be -1 for unlimited.\n"
+                        "\nExamples:\n"
+                        "\nSet the generation on with a limit of one processor\n"
+                + HelpExampleCli("setgenerate", "true 1") +
+                "\nCheck the setting\n"
+                + HelpExampleCli("getgenerate", "") +
+                "\nTurn off generation\n"
+                + HelpExampleCli("setgenerate", "false") +
+                "\nUsing json rpc\n"
+                + HelpExampleRpc("setgenerate", "true, 1")
+        );
+
+    if (gArgs.GetArg("-mineraddress", "").empty()) {
+#ifdef ENABLE_WALLET
+        if (!pwallet) {
+            throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Wallet disabled and -mineraddress not set");
+        }
+#else
+        throw JSONRPCError(RPC_METHOD_NOT_FOUND, "RCoin compiled without wallet and -mineraddress not set");
+#endif
+    }
+    if (Params().MineBlocksOnDemand())
+        throw JSONRPCError(RPC_METHOD_NOT_FOUND, "Use the generate method instead of setgenerate on this network");
+
+    bool fGenerate = true;
+    if (request.params.size() > 0)
+        fGenerate = request.params[0].get_bool();
+
+    int nGenProcLimit = -1;
+    if (request.params.size() > 1)
+    {
+        nGenProcLimit = request.params[1].get_int();
+        if (nGenProcLimit == 0)
+            fGenerate = false;
+    }
+
+#ifdef ENABLE_WALLET
+    GenerateBitcoins(fGenerate, pwallet, nGenProcLimit);
+#else
+    GenerateBitcoins(fGenerate, nGenProcLimit);
+#endif
+
+    return NullUniValue;
+}
+
 UniValue generate(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -3886,6 +3967,8 @@ static const CRPCCommand commands[] =
     { "wallet",             "removeprunedfunds",                &removeprunedfunds,             {"txid"} },
     { "wallet",             "rescanblockchain",                 &rescanblockchain,              {"start_height", "stop_height"} },
 
+    { "generating",         "getgenerate",                 &getgenerate,                 {} },
+    { "generating",         "setgenerate",                 &setgenerate,                 {"generate","genproclimit"} },
     { "generating",         "generate",                         &generate,                      {"nblocks","maxtries"} },
 };
 

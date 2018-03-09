@@ -29,6 +29,10 @@
 #include <algorithm>
 #include <queue>
 #include <utility>
+#include <key_io.h>
+#include <compat.h>
+#include <crypto/equihash.h>
+#include <boost/thread.hpp>
 
 // Unconfirmed transactions in the memory pool often depend on other
 // transactions in the memory pool. When we select transactions from the
@@ -169,7 +173,8 @@ std::unique_ptr<CBlockTemplate> BlockAssembler::CreateNewBlock(const CScript& sc
     pblock->hashPrevBlock  = pindexPrev->GetBlockHash();
     UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
     pblock->nBits          = GetNextWorkRequired(pindexPrev, pblock, chainparams.GetConsensus());
-    pblock->nNonce         = 0;
+    pblock->nNonce         = uint256();
+    pblock->nSolution.clear();
     pblocktemplate->vTxSigOpsCost[0] = WITNESS_SCALE_FACTOR * GetLegacySigOpCount(*pblock->vtx[0]);
 
     CValidationState state;
@@ -433,6 +438,48 @@ void BlockAssembler::addPackageTxs(int &nPackagesSelected, int &nDescendantsUpda
     }
 }
 
+#ifdef ENABLE_WALLET
+boost::optional<CScript> GetMinerScriptPubKey(CReserveKey& reservekey)
+#else
+boost::optional<CScript> GetMinerScriptPubKey()
+#endif
+{
+    CKeyID keyID;
+    CTxDestination addr = DecodeDestination(gArgs.GetArg("-mineraddress", ""));
+    if (!boost::get<CNoDestination>(&addr)) {
+        return GetScriptForDestination(addr);
+    } else {
+#ifdef ENABLE_WALLET
+        CPubKey pubkey;
+        if (!reservekey.GetReservedKey(pubkey)) {
+            return boost::optional<CScript>();
+        }
+        keyID = pubkey.GetID();
+        CScript scriptPubKey = CScript() << OP_DUP << OP_HASH160 << ToByteVector(keyID) << OP_EQUALVERIFY << OP_CHECKSIG;
+        return scriptPubKey;
+#else
+        return boost::optional<CScript>();
+#endif
+    }
+}
+
+#ifdef ENABLE_WALLET
+CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
+{
+    boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey(reservekey);
+#else
+CBlockTemplate* CreateNewBlockWithKey()
+{
+    boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey();
+#endif
+
+    if (!scriptPubKey) {
+        return NULL;
+    }
+    std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(*scriptPubKey));
+    return pblocktemplate.get();
+}
+
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce)
 {
     // Update nExtraNonce
@@ -450,4 +497,259 @@ void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned
 
     pblock->vtx[0] = MakeTransactionRef(std::move(txCoinbase));
     pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
+}
+
+#ifdef ENABLE_WALLET
+static bool ProcessBlockFound(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
+#else
+static bool ProcessBlockFound(CBlock* pblock)
+#endif // ENABLE_WALLET
+{
+    LogPrintf("%s\n", pblock->ToString());
+    LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0]->vout[0].nValue));
+
+    // Found a solution
+    {
+        LOCK(cs_main);
+        if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
+            return error("RCoinMiner: generated block is stale");
+    }
+
+#ifdef ENABLE_WALLET
+    if (gArgs.GetArg("-mineraddress", "").empty()) {
+        // Remove key from key pool
+        reservekey.KeepKey();
+    }
+
+    // Track how many getdata requests this block gets
+    {
+        LOCK(wallet.cs_wallet);
+        wallet.mapRequestCount[pblock->GetHash()] = 0;
+    }
+#endif
+
+    // Process this block the same as if we had received it from another node
+    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
+    if (!ProcessNewBlock(Params(), shared_pblock, true, NULL))
+        return error("RCoinMiner: ProcessNewBlock, block not accepted");
+
+    return true;
+}
+
+#ifdef ENABLE_WALLET
+void static BitcoinMiner(CWallet *pwallet)
+#else
+void static BitcoinMiner()
+#endif
+{
+    LogPrintf("RCoinMiner started\n");
+    SetThreadPriority(THREAD_PRIORITY_LOWEST);
+    RenameThread("rcoin-miner");
+    const CChainParams& chainparams = Params();
+
+#ifdef ENABLE_WALLET
+    // Each thread has its own key
+    CReserveKey reservekey(pwallet);
+#endif
+
+    // Each thread has its own counter
+    unsigned int n = chainparams.EquihashN();
+    unsigned int k = chainparams.EquihashK();
+
+    std::string solver = gArgs.GetArg("-equihashsolver", "default");
+    assert(solver == "tromp" || solver == "default");
+    LogPrint(BCLog::POW, "Using Equihash solver \"%s\" with n = %u, k = %u\n", solver, n, k);
+
+    std::mutex m_cs;
+    bool cancelSolver = false;
+    boost::signals2::connection c = uiInterface.NotifyBlockTip.connect(
+            [&m_cs, &cancelSolver](bool ibd, const CBlockIndex * pindex) mutable {
+                std::lock_guard<std::mutex> lock{m_cs};
+                cancelSolver = true;
+            }
+    );
+
+    try {
+        while (true) {
+            if (chainparams.MiningRequiresPeers()) {
+                // Busy-wait for the network to come online so we don't waste time mining
+                // on an obsolete chain. In regtest mode we expect to fly solo.
+                do {
+                    bool fvNodesEmpty = g_connman->GetNodeCount(CConnman::CONNECTIONS_ALL) == 0;
+                    if (!fvNodesEmpty && !IsInitialBlockDownload())
+                        break;
+                    MilliSleep(1000);
+                } while (true);
+            }
+            //
+            // Create new block
+            //
+            unsigned int nTransactionsUpdatedLast = mempool.GetTransactionsUpdated();
+            CBlockIndex* pindexPrev = chainActive.Tip();
+
+#ifdef ENABLE_WALLET
+            std::unique_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
+#else
+            std::unique_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey());
+#endif
+            if (!pblocktemplate.get())
+            {
+                if (gArgs.GetArg("-mineraddress", "").empty()) {
+                    LogPrintf("Error in RCoinMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+                } else {
+                    // Should never reach here, because -mineraddress validity is checked in init.cpp
+                    LogPrintf("Error in RCoinMiner: Invalid -mineraddress\n");
+                }
+                return;
+            }
+            CBlock *pblock = &pblocktemplate->block;
+            pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
+
+            LogPrintf("Running RCoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+                      ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
+
+            //
+            // Search
+            //
+            int64_t nStart = GetTime();
+            arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
+
+            while (true) {
+                // Hash state
+                crypto_generichash_blake2b_state state;
+                EhInitialiseState(n, k, state);
+
+                // I = the block header minus nonce and solution.
+                CEquihashInput I{*pblock};
+                CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
+                ss << I;
+
+                // H(I||...
+                crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+
+                // H(I||V||...
+                crypto_generichash_blake2b_state curr_state;
+                curr_state = state;
+                crypto_generichash_blake2b_update(&curr_state,
+                                                  pblock->nNonce.begin(),
+                                                  pblock->nNonce.size());
+
+                // (x_1, x_2, ...) = A(I, V, n, k)
+                LogPrint(BCLog::POW, "Running Equihash solver \"%s\" with nNonce = %s\n",
+                         solver, pblock->nNonce.ToString());
+
+                std::function<bool(std::vector<unsigned char>)> validBlock =
+#ifdef ENABLE_WALLET
+                        [&pblock, &hashTarget, &pwallet, &reservekey, &m_cs, &cancelSolver, &chainparams]
+#else
+                        [&pblock, &hashTarget, &m_cs, &cancelSolver, &chainparams]
+#endif
+                                (std::vector<unsigned char> soln) {
+                            // Write the solution to the hash and compute the result.
+                            LogPrint(BCLog::POW, "- Checking solution against target\n");
+                            pblock->nSolution = soln;
+
+                            if (UintToArith256(pblock->GetHash()) > hashTarget) {
+                                return false;
+                            }
+
+                            // Found a solution
+                            SetThreadPriority(THREAD_PRIORITY_NORMAL);
+                            LogPrintf("RCoinMiner:\n");
+                            LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
+#ifdef ENABLE_WALLET
+                            if (ProcessBlockFound(pblock, *pwallet, reservekey)) {
+#else
+                            if (ProcessBlockFound(pblock)) {
+#endif
+                                // Ignore chain updates caused by us
+                                std::lock_guard<std::mutex> lock{m_cs};
+                                cancelSolver = false;
+                            }
+                            SetThreadPriority(THREAD_PRIORITY_LOWEST);
+
+                            // In regression test mode, stop mining after a block is found.
+                            if (chainparams.MineBlocksOnDemand()) {
+                                // Increment here because throwing skips the call below
+                                throw boost::thread_interrupted();
+                            }
+
+                            return true;
+                        };
+                std::function<bool(EhSolverCancelCheck)> cancelled = [&m_cs, &cancelSolver](EhSolverCancelCheck pos) {
+                    std::lock_guard<std::mutex> lock{m_cs};
+                    return cancelSolver;
+                };
+
+                try {
+                    // If we find a valid block, we rebuild
+                    bool found = EhOptimisedSolve(n, k, curr_state, validBlock, cancelled);
+                    if (found) {
+                        break;
+                    }
+                } catch (EhSolverCancelledException&) {
+                    LogPrint(BCLog::POW, "Equihash solver cancelled\n");
+                    std::lock_guard<std::mutex> lock{m_cs};
+                    cancelSolver = false;
+                }
+
+                // Check for stop or if block needs to be rebuilt
+                boost::this_thread::interruption_point();
+                if (pblock->nNonce == uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
+                    break;
+                if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
+                    break;
+                if (pindexPrev != chainActive.Tip())
+                    break;
+
+                // Update nNonce and nTime
+                pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
+                UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
+            }
+        }
+    }
+    catch (const boost::thread_interrupted&)
+    {
+        c.disconnect();
+        LogPrintf("RCoinMiner terminated\n");
+        throw;
+    }
+    catch (const std::runtime_error &e)
+    {
+        c.disconnect();
+        LogPrintf("RCoinMiner runtime error: %s\n", e.what());
+        return;
+    }
+    c.disconnect();
+}
+
+#ifdef ENABLE_WALLET
+void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
+#else
+void GenerateBitcoins(bool fGenerate, int nThreads)
+#endif
+{
+    static boost::thread_group* minerThreads = NULL;
+
+    if (nThreads < 0)
+        nThreads = GetNumCores();
+
+    if (minerThreads != NULL)
+    {
+        minerThreads->interrupt_all();
+        delete minerThreads;
+        minerThreads = NULL;
+    }
+
+    if (nThreads == 0 || !fGenerate)
+        return;
+
+    minerThreads = new boost::thread_group();
+    for (int i = 0; i < nThreads; i++) {
+#ifdef ENABLE_WALLET
+        minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet));
+#else
+        minerThreads->create_thread(&BitcoinMiner);
+#endif
+    }
 }

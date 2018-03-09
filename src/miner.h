@@ -13,6 +13,9 @@
 #include <memory>
 #include <boost/multi_index_container.hpp>
 #include <boost/multi_index/ordered_index.hpp>
+#ifdef ENABLE_WALLET
+#include <wallet/wallet.h>
+#endif
 
 class CBlockIndex;
 class CChainParams;
@@ -192,8 +195,22 @@ private:
     int UpdatePackagesForAdded(const CTxMemPool::setEntries& alreadyAdded, indexed_modified_transaction_set &mapModifiedTx);
 };
 
+#ifdef ENABLE_WALLET
+boost::optional<CScript> GetMinerScriptPubKey(CReserveKey& reservekey);
+CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey);
+#else
+boost::optional<CScript> GetMinerScriptPubKey();
+CBlockTemplate* CreateNewBlockWithKey();
+#endif
+
 /** Modify the extranonce in a block */
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce);
+/** Run the miner threads */
+#ifdef ENABLE_WALLET
+void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads);
+#else
+void GenerateBitcoins(bool fGenerate, int nThreads);
+#endif
 int64_t UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, const CBlockIndex* pindexPrev);
 
 #endif // BITCOIN_MINER_H
