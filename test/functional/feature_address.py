@@ -1,53 +1,44 @@
-#!/usr/bin/env python
-# Copyright (c) 2012-2017 The Bitcoin Core developers
-# Distributed under the MIT software license, see the accompanying
-# file COPYING or http://www.opensource.org/licenses/mit-license.php.
-'''
-Generate valid and invalid base58 address and private key test vectors.
-
-Usage: 
-    gen_base58_test_vectors.py valid 50 > ../../src/test/data/base58_keys_valid.json
-    gen_base58_test_vectors.py invalid 50 > ../../src/test/data/base58_keys_invalid.json
-'''
-# 2012 Wladimir J. van der Laan
-# Released under MIT License
 import os
 from itertools import islice
-from base58 import b58encode_chk, b58decode_chk, b58chars
 import random
-from binascii import b2a_hex
+
+from test_framework.base58 import b58encode_chk, b58decode_chk, b58chars
+from test_framework.script import CScript, OP_HASH160, OP_CHECKSIG, hash160, OP_EQUAL, OP_DUP, OP_EQUALVERIFY
+
+# 为key_io_tests.cpp准备测试数据
+# python test/functional/feature_address.py valid 50 > src/test/data/key_io_valid.json
 
 # key types
-PUBKEY_ADDRESS = 0
-SCRIPT_ADDRESS = 5
+PUBKEY_ADDRESS = 122
+SCRIPT_ADDRESS = 13
 PUBKEY_ADDRESS_TEST = 111
 SCRIPT_ADDRESS_TEST = 196
 PRIVKEY = 128
 PRIVKEY_TEST = 239
 
-metadata_keys = ['isPrivkey', 'isTestnet', 'addrType', 'isCompressed']
+metadata_keys = ['isPrivkey', 'chain', 'addrType', 'isCompressed']
 # templates for valid sequences
 templates = [
   # prefix, payload_size, suffix, metadata
   #                                  None = N/A
-  ((PUBKEY_ADDRESS,),      20, (),   (False, False, 'pubkey', None)),
-  ((SCRIPT_ADDRESS,),      20, (),   (False, False, 'script',  None)),
-  ((PUBKEY_ADDRESS_TEST,), 20, (),   (False, True,  'pubkey', None)),
-  ((SCRIPT_ADDRESS_TEST,), 20, (),   (False, True,  'script',  None)),
-  ((PRIVKEY,),             32, (),   (True,  False, None,  False)),
-  ((PRIVKEY,),             32, (1,), (True,  False, None,  True)),
-  ((PRIVKEY_TEST,),        32, (),   (True,  True,  None,  False)),
-  ((PRIVKEY_TEST,),        32, (1,), (True,  True,  None,  True))
+  ((PUBKEY_ADDRESS,),      20, (),   (False, 'main', 'pubkey', None)),
+  ((SCRIPT_ADDRESS,),      20, (),   (False, 'main', 'script',  None)),
+  ((PUBKEY_ADDRESS_TEST,), 20, (),   (False, 'test',  'pubkey', None)),
+  ((SCRIPT_ADDRESS_TEST,), 20, (),   (False, 'test',  'script',  None)),
+  ((PRIVKEY,),             32, (),   (True,  'main', None,  False)),
+  ((PRIVKEY,),             32, (1,), (True,  'main', None,  True)),
+  ((PRIVKEY_TEST,),        32, (),   (True,  'test',  None,  False)),
+  ((PRIVKEY_TEST,),        32, (1,), (True,  'test',  None,  True))
 ]
 
 def is_valid(v):
     '''Check vector v for validity'''
     result = b58decode_chk(v)
     if result is None:
-        return False
+        return False   
     for template in templates:
-        prefix = str(bytearray(template[0]))
-        suffix = str(bytearray(template[2]))
+        prefix = bytearray(template[0])
+        suffix = bytearray(template[2])
         if result.startswith(prefix) and result.endswith(suffix):
             if (len(result) - len(prefix) - len(suffix)) == template[1]:
                 return True
@@ -57,13 +48,27 @@ def gen_valid_vectors():
     '''Generate valid test vectors'''
     while True:
         for template in templates:
-            prefix = str(bytearray(template[0]))
-            payload = os.urandom(template[1]) 
-            suffix = str(bytearray(template[2]))
-            rv = b58encode_chk(prefix + payload + suffix)
-            assert is_valid(rv)
+            prefix = bytearray(template[0])
+            payload = os.urandom(template[1])
+            suffix = bytearray(template[2])
+            chk_b = bytearray()
+            chk_b.extend(prefix)
+            chk_b.extend(payload)
+            chk_b.extend(suffix)
             metadata = dict([(x,y) for (x,y) in zip(metadata_keys,template[3]) if y is not None])
-            yield (rv, b2a_hex(payload), metadata)
+            rv = b58encode_chk(chk_b)
+            assert is_valid(rv)
+            if (metadata['isPrivkey']):
+                yield (rv, payload.hex(), metadata)
+            else:
+                if (metadata['addrType'] == 'pubkey'):
+                    # OP_DUP << OP_HASH160 << ToByteVector(keyID) << OP_EQUALVERIFY << OP_CHECKSIG;
+                    p2pkh = CScript([OP_DUP, OP_HASH160, payload, OP_EQUALVERIFY, OP_CHECKSIG])
+                    yield (rv, p2pkh.hex(), metadata)
+                else:
+                    # OP_HASH160 << ToByteVector(scriptID) << OP_EQUAL;
+                    p2sh = CScript([OP_HASH160, payload, OP_EQUAL])	
+                    yield (rv, p2sh.hex(), metadata)
 
 def gen_invalid_vector(template, corrupt_prefix, randomize_payload_size, corrupt_suffix):
     '''Generate possibly invalid vector'''

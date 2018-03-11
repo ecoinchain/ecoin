@@ -12,6 +12,9 @@ import ctypes.util
 import hashlib
 import sys
 
+from .base58 import b58encode_chk
+from binascii import hexlify
+
 ssl = ctypes.cdll.LoadLibrary(ctypes.util.find_library ('ssl') or 'libeay32')
 
 ssl.BN_new.restype = ctypes.c_void_p
@@ -19,6 +22,12 @@ ssl.BN_new.argtypes = []
 
 ssl.BN_bin2bn.restype = ctypes.c_void_p
 ssl.BN_bin2bn.argtypes = [ctypes.c_char_p, ctypes.c_int, ctypes.c_void_p]
+
+ssl.BN_bn2bin.restype = ctypes.c_int
+ssl.BN_bn2bin.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
+
+ssl.BN_num_bits.restype = ctypes.c_int
+ssl.BN_num_bits.argtypes = [ctypes.c_void_p]
 
 ssl.BN_CTX_free.restype = None
 ssl.BN_CTX_free.argtypes = [ctypes.c_void_p]
@@ -46,6 +55,9 @@ ssl.EC_KEY_get0_group.argtypes = [ctypes.c_void_p]
 
 ssl.EC_KEY_get0_public_key.restype = ctypes.c_void_p
 ssl.EC_KEY_get0_public_key.argtypes = [ctypes.c_void_p]
+
+ssl.EC_KEY_get0_private_key.restype = ctypes.c_void_p
+ssl.EC_KEY_get0_private_key.argtypes = [ctypes.c_void_p]
 
 ssl.EC_KEY_set_private_key.restype = ctypes.c_int
 ssl.EC_KEY_set_private_key.argtypes = [ctypes.c_void_p, ctypes.c_void_p]
@@ -188,6 +200,22 @@ class CECKey():
         else:
             form = self.POINT_CONVERSION_UNCOMPRESSED
         ssl.EC_KEY_set_conv_form(self.k, form)
+
+    def get_secret(self):
+        bn = ssl.EC_KEY_get0_private_key(self.k)
+        # open ssl BN_num_bytes = int((BN_num_bits(bn) + 7) / 8)
+        n_size = int((ssl.BN_num_bits(bn) + 7) / 8)
+        b = ctypes.create_string_buffer(n_size)
+        ssl.BN_bn2bin(bn, b)
+        return b.raw    
+
+    def get_wif(self, version):
+        priv_key = bytearray(version)
+        priv_key.extend(self.get_secret())
+        form = ssl.EC_KEY_get_conv_form(self.k)
+        if form == self.POINT_CONVERSION_COMPRESSED:
+            priv_key.append(1)   
+        return b58encode_chk(priv_key)    
 
 
 class CPubKey(bytes):
