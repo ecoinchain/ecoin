@@ -51,7 +51,7 @@ MSG_TYPE_MASK = 0xffffffff >> 2
 
 # Serialization/deserialization tools
 def sha256(s):
-    return hashlib.new('sha256', s).digest()
+    return hashlib.new('sha3_256', s).digest()
 
 def ripemd160(s):
     return hashlib.new('ripemd160', s).digest()

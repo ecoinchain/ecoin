@@ -49,11 +49,11 @@ def wordreverse(in_buf):
 	return b''.join(out_words)
 
 def calc_hdr_hash(blk_hdr):
-	hash1 = hashlib.sha256()
+	hash1 = hashlib.sha3_256()
 	hash1.update(blk_hdr)
 	hash1_o = hash1.digest()
 
-	hash2 = hashlib.sha256()
+	hash2 = hashlib.sha3_256()
 	hash2.update(hash1_o)
 	hash2_o = hash2.digest()
 

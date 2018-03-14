@@ -153,7 +153,7 @@ class CECKey():
             raise Exception('CKey.get_ecdh_key(): ECDH_compute_key() failed')
         return ecdh_keybuffer.raw
 
-    def get_ecdh_key(self, other_pubkey, kdf=lambda k: hashlib.sha256(k).digest()):
+    def get_ecdh_key(self, other_pubkey, kdf=lambda k: hashlib.sha3_256(k).digest()):
         # FIXME: be warned it's not clear what the kdf should be as a default
         r = self.get_raw_ecdh_key(other_pubkey)
         return kdf(r)

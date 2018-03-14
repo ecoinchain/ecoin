@@ -4277,7 +4277,7 @@ CTxDestination CWallet::AddAndGetDestinationForScript(const CScript& script, Out
     case OUTPUT_TYPE_P2SH_SEGWIT:
     case OUTPUT_TYPE_BECH32: {
         WitnessV0ScriptHash hash;
-        CSHA256().Write(script.data(), script.size()).Finalize(hash.begin());
+        CSHA3_256().Write(script.data(), script.size()).Finalize(hash.begin());
         CTxDestination witdest = hash;
         CScript witprog = GetScriptForDestination(witdest);
         // Check if the resulting program is solvable (i.e. doesn't use an uncompressed key)

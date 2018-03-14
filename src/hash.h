@@ -7,7 +7,7 @@
 #define BITCOIN_HASH_H
 
 #include <crypto/ripemd160.h>
-#include <crypto/sha256.h>
+#include <crypto/sha3_256.h>
 #include <prevector.h>
 #include <serialize.h>
 #include <uint256.h>
@@ -20,14 +20,14 @@ typedef uint256 ChainCode;
 /** A hasher class for Bitcoin's 256-bit hash (double SHA-256). */
 class CHash256 {
 private:
-    CSHA256 sha;
+    CSHA3_256 sha;
 public:
-    static const size_t OUTPUT_SIZE = CSHA256::OUTPUT_SIZE;
+    static const size_t OUTPUT_SIZE = CSHA3_256::OUTPUT_SIZE;
 
     void Finalize(unsigned char hash[OUTPUT_SIZE]) {
-        unsigned char buf[CSHA256::OUTPUT_SIZE];
+        unsigned char buf[CSHA3_256::OUTPUT_SIZE];
         sha.Finalize(buf);
-        sha.Reset().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
+        sha.Reset().Write(buf, CSHA3_256::OUTPUT_SIZE).Finalize(hash);
     }
 
     CHash256& Write(const unsigned char *data, size_t len) {
@@ -44,14 +44,14 @@ public:
 /** A hasher class for Bitcoin's 160-bit hash (SHA-256 + RIPEMD-160). */
 class CHash160 {
 private:
-    CSHA256 sha;
+    CSHA3_256 sha;
 public:
     static const size_t OUTPUT_SIZE = CRIPEMD160::OUTPUT_SIZE;
 
     void Finalize(unsigned char hash[OUTPUT_SIZE]) {
-        unsigned char buf[CSHA256::OUTPUT_SIZE];
+        unsigned char buf[CSHA3_256::OUTPUT_SIZE];
         sha.Finalize(buf);
-        CRIPEMD160().Write(buf, CSHA256::OUTPUT_SIZE).Finalize(hash);
+        CRIPEMD160().Write(buf, CSHA3_256::OUTPUT_SIZE).Finalize(hash);
     }
 
     CHash160& Write(const unsigned char *data, size_t len) {

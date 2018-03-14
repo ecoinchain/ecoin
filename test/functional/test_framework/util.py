@@ -185,9 +185,9 @@ def bytes_to_hex_str(byte_str):
     return hexlify(byte_str).decode('ascii')
 
 def hash256(byte_str):
-    sha256 = hashlib.sha256()
+    sha256 = hashlib.sha3_256()
     sha256.update(byte_str)
-    sha256d = hashlib.sha256()
+    sha256d = hashlib.sha3_256()
     sha256d.update(sha256.digest())
     return sha256d.digest()[::-1]
 

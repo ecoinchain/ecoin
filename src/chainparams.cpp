@@ -134,11 +134,13 @@ public:
         genesis = CreateGenesisBlock(
             1296688602,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
-            ParseHex("0006e97823b4960b8603171a0fe1cda87da700f14f9c824320e3a952741c7ca70b9669b6"),
+            ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
             0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x715a020dc6c882ab46a2a8d3c9d5c8a193e75e95e7ed88c07734cb109a4f1cb6"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc653055584d09dbacb0f8fdd5765cb6bc1ee9eb2b2580d379668608bb84533d5"));
+        // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        assert(consensus.hashGenesisBlock == uint256S("0x214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0860d3e7c114c3cc2daa492ce974006ea74c2e4197320e393889a236c8191445"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -170,7 +172,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置
         checkpointData = {
             {
-                {0, uint256S("037b933aaeb901e30063c6417004b5bf9f7ceba3ac77b4d85a5df270c8546fdd")},
+                {0, uint256S("214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a")},
             }
         };
 
@@ -238,11 +240,13 @@ public:
         genesis = CreateGenesisBlock(
             1296688602,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
-            ParseHex("0006e97823b4960b8603171a0fe1cda87da700f14f9c824320e3a952741c7ca70b9669b6"),
+            ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
             0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x715a020dc6c882ab46a2a8d3c9d5c8a193e75e95e7ed88c07734cb109a4f1cb6"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc653055584d09dbacb0f8fdd5765cb6bc1ee9eb2b2580d379668608bb84533d5"));
+        // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        assert(consensus.hashGenesisBlock == uint256S("0x214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0860d3e7c114c3cc2daa492ce974006ea74c2e4197320e393889a236c8191445"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -271,7 +275,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置
         checkpointData = {
             {
-                {0, uint256S("037b933aaeb901e30063c6417004b5bf9f7ceba3ac77b4d85a5df270c8546fdd")},
+                {0, uint256S("214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a")},
             }
         };
 
@@ -327,13 +331,13 @@ public:
         genesis = CreateGenesisBlock(
             1296688602,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
-            ParseHex("0006e97823b4960b8603171a0fe1cda87da700f14f9c824320e3a952741c7ca70b9669b6"),
+            ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
             0x207fffff, 1, 50 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
-        printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
-        printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        assert(consensus.hashGenesisBlock == uint256S("0x715a020dc6c882ab46a2a8d3c9d5c8a193e75e95e7ed88c07734cb109a4f1cb6"));
-        assert(genesis.hashMerkleRoot == uint256S("0xc653055584d09dbacb0f8fdd5765cb6bc1ee9eb2b2580d379668608bb84533d5"));
+        // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
+        // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
+        assert(consensus.hashGenesisBlock == uint256S("0x214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x0860d3e7c114c3cc2daa492ce974006ea74c2e4197320e393889a236c8191445"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -345,7 +349,7 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("b46560d739e58f47a80798d7702eaa8080cc1382cbe28fa50ef27b8b6cda5fd9")},
+                {0, uint256S("214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a")},
             }
         };
 

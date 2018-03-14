@@ -4,7 +4,6 @@
 
 #include <bench/bench.h>
 
-#include <crypto/sha256.h>
 #include <key.h>
 #include <validation.h>
 #include <util.h>
@@ -42,7 +41,6 @@ main(int argc, char** argv)
         return 0;
     }
 
-    SHA256AutoDetect();
     RandomInit();
     ECC_Start();
     SetupEnvironment();

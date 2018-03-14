@@ -354,7 +354,7 @@ CScript GetScriptForWitness(const CScript& redeemscript)
         }
     }
     uint256 hash;
-    CSHA256().Write(&redeemscript[0], redeemscript.size()).Finalize(hash.begin());
+    CSHA3_256().Write(&redeemscript[0], redeemscript.size()).Finalize(hash.begin());
     return GetScriptForDestination(WitnessV0ScriptHash(hash));
 }
 

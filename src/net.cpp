@@ -13,7 +13,6 @@
 #include <clientversion.h>
 #include <consensus/consensus.h>
 #include <crypto/common.h>
-#include <crypto/sha256.h>
 #include <primitives/transaction.h>
 #include <netbase.h>
 #include <scheduler.h>
@@ -72,8 +71,8 @@ enum BindFlags {
 
 const static std::string NET_MESSAGE_COMMAND_OTHER = "*other*";
 
-static const uint64_t RANDOMIZER_ID_NETGROUP = 0x6c0edd8036ef4036ULL; // SHA256("netgroup")[0:8]
-static const uint64_t RANDOMIZER_ID_LOCALHOSTNONCE = 0xd93e69e2bbfa5735ULL; // SHA256("localhostnonce")[0:8]
+static const uint64_t RANDOMIZER_ID_NETGROUP = 0xabb2b5f9a692e3aaULL; // SHA3_256("netgroup")[0:8]
+static const uint64_t RANDOMIZER_ID_LOCALHOSTNONCE = 0xe42e8de9f9a5d4d6ULL; // SHA3_256("localhostnonce")[0:8]
 //
 // Global state variables
 //

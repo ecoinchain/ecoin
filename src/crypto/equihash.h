@@ -6,11 +6,10 @@
 #ifndef BITCOIN_EQUIHASH_H
 #define BITCOIN_EQUIHASH_H
 
-#include "compat/endian.h"
-#include "crypto/sha256.h"
-#include "utilstrencodings.h"
+#include <compat/endian.h>
+#include <utilstrencodings.h>
 
-#include "sodium.h"
+#include <sodium.h>
 
 #include <cstring>
 #include <exception>

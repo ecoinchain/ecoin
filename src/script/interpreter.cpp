@@ -7,7 +7,7 @@
 
 #include <crypto/ripemd160.h>
 #include <crypto/sha1.h>
-#include <crypto/sha256.h>
+#include <crypto/sha3_256.h>
 #include <pubkey.h>
 #include <script/script.h>
 #include <uint256.h>
@@ -859,7 +859,7 @@ bool EvalScript(std::vector<std::vector<unsigned char> >& stack, const CScript& 
                     else if (opcode == OP_SHA1)
                         CSHA1().Write(vch.data(), vch.size()).Finalize(vchHash.data());
                     else if (opcode == OP_SHA256)
-                        CSHA256().Write(vch.data(), vch.size()).Finalize(vchHash.data());
+                        CSHA3_256().Write(vch.data(), vch.size()).Finalize(vchHash.data());
                     else if (opcode == OP_HASH160)
                         CHash160().Write(vch.data(), vch.size()).Finalize(vchHash.data());
                     else if (opcode == OP_HASH256)
@@ -1369,7 +1369,7 @@ static bool VerifyWitnessProgram(const CScriptWitness& witness, int witversion, 
             scriptPubKey = CScript(witness.stack.back().begin(), witness.stack.back().end());
             stack = std::vector<std::vector<unsigned char> >(witness.stack.begin(), witness.stack.end() - 1);
             uint256 hashScriptPubKey;
-            CSHA256().Write(&scriptPubKey[0], scriptPubKey.size()).Finalize(hashScriptPubKey.begin());
+            CSHA3_256().Write(&scriptPubKey[0], scriptPubKey.size()).Finalize(hashScriptPubKey.begin());
             if (memcmp(hashScriptPubKey.begin(), program.data(), 32)) {
                 return set_error(serror, SCRIPT_ERR_WITNESS_PROGRAM_MISMATCH);
             }

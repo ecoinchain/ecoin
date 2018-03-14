@@ -75,7 +75,7 @@ def gen_invalid_vector(template, corrupt_prefix, randomize_payload_size, corrupt
     if corrupt_prefix:
         prefix = os.urandom(1)
     else:
-        prefix = str(bytearray(template[0]))
+        prefix = bytearray(template[0])
     
     if randomize_payload_size:
         payload = os.urandom(max(int(random.expovariate(0.5)), 50))
@@ -85,9 +85,13 @@ def gen_invalid_vector(template, corrupt_prefix, randomize_payload_size, corrupt
     if corrupt_suffix:
         suffix = os.urandom(len(template[2]))
     else:
-        suffix = str(bytearray(template[2]))
+        suffix = bytearray(template[2])
 
-    return b58encode_chk(prefix + payload + suffix)
+    chk_b = bytearray()
+    chk_b.extend(prefix)
+    chk_b.extend(payload)
+    chk_b.extend(suffix)
+    return b58encode_chk(chk_b)
 
 def randbool(p = 0.5):
     '''Return True with P(p)'''

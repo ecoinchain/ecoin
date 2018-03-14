@@ -59,7 +59,7 @@ void EraseOrphansFor(NodeId peer);
 static size_t vExtraTxnForCompactIt GUARDED_BY(g_cs_orphans) = 0;
 static std::vector<std::pair<uint256, CTransactionRef>> vExtraTxnForCompact GUARDED_BY(g_cs_orphans);
 
-static const uint64_t RANDOMIZER_ID_ADDRESS_RELAY = 0x3cac0035b5866b90ULL; // SHA256("main address relay")[0:8]
+static const uint64_t RANDOMIZER_ID_ADDRESS_RELAY = 0xd300e44b7816d28bULL; // SHA3_256("main address relay")[0:8]
 
 /// Age after which a stale block will no longer be served if requested as
 /// protection against fingerprinting. Set to one month, denominated in seconds.

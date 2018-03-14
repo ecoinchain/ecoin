@@ -36,17 +36,17 @@ static void SHA1(benchmark::State& state)
 
 static void SHA256(benchmark::State& state)
 {
-    uint8_t hash[CSHA256::OUTPUT_SIZE];
+    uint8_t hash[CSHA3_256::OUTPUT_SIZE];
     std::vector<uint8_t> in(BUFFER_SIZE,0);
     while (state.KeepRunning())
-        CSHA256().Write(in.data(), in.size()).Finalize(hash);
+        CSHA3_256().Write(in.data(), in.size()).Finalize(hash);
 }
 
 static void SHA256_32b(benchmark::State& state)
 {
     std::vector<uint8_t> in(32,0);
     while (state.KeepRunning()) {
-        CSHA256()
+        CSHA3_256()
             .Write(in.data(), in.size())
             .Finalize(in.data());
     }

@@ -10,7 +10,8 @@ import hashlib
 
 # for compatibility with following code...
 class SHA256:
-    new = hashlib.sha256
+    # python版本必须是3.6以上才有sha3
+    new = hashlib.sha3_256
 
 if str != bytes:
     # Python 3.x
