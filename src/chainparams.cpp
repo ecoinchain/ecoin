@@ -113,12 +113,12 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        // 用可见的消息magic感觉更好点，rcom表示rcoin main net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecom表示ecoin main net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x4d; // m
-        nDefaultPort = 8866;
+        nDefaultPort = 8877;
         nPruneAfterHeight = 100000;
         // const size_t N = 200, K = 9;
         // todo 临时使用reg test的参数
@@ -158,13 +158,13 @@ public:
         // vSeeds.emplace_back("seed.bitcoin.jonasschnelli.ch"); // Jonas Schnelli, only supports x1, x5, x9, and xd
         // vSeeds.emplace_back("seed.btc.petertodd.org"); // Peter Todd, only supports x1, x5, x9, and xd
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,122); // r为地址的第一个字母
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,13); // 6为地址的第一个字母
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,33); // E为地址的第一个字母
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,15); // 7为地址的第一个字母
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x88, 0xB2, 0x1E};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x88, 0xAD, 0xE4};
 
-        bech32_hrp = "rc";
+        bech32_hrp = "ec";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -199,16 +199,16 @@ class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
         strNetworkID = "test";
-        consensus.nSubsidyHalvingInterval = 20000;
+        consensus.nSubsidyHalvingInterval = 50000;
         // todo 临时使用reg test的参数
         // consensus.powLimit = uint256S("07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 2 * 24 * 60 * 60; // two days
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetSpacing = 4 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 288; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 720; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -221,12 +221,12 @@ public:
         // todo 等到链成长到一定的长度再设置
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //1135275
 
-        // 用可见的消息magic感觉更好点，rcot表示rcoin test net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecot表示ecoin test net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x54; // t
-        nDefaultPort = 18866;
+        nDefaultPort = 18877;
         nPruneAfterHeight = 1000;
         // const size_t N = 200, K = 9;  // Same as mainchain.
         // todo 临时使用reg test的参数
@@ -244,14 +244,14 @@ public:
         // 网络部署时间跟genesis设置的时间不能超过1
         genesis = CreateGenesisBlock(
             1521474869,
-            uint256S("0x0000000000000000000000000000000000000000000000000000000000000003"),
-            ParseHex("00a3868f617c44c3581892886f028a4577260ba2731d724e98e1640c9b9a189361fba9f0"),
+            uint256S("0x0000000000000000000000000000000000000000000000000000000000000001"),
+            ParseHex("0155d0db683c4aab6b1e18279a54271932ff0659cf09432d2d374e0fcb88b6a25e5183cd"),
             0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
         // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        assert(consensus.hashGenesisBlock == uint256S("0x23fe11b6f4a318a1d1ce1a74f81c7acca85db7f921b4bd2615383728cb3788de"));
-        assert(genesis.hashMerkleRoot == uint256S("0x8e5701f0c7f052f0e59eda1fca7f64a86ff42398415326bd529b25c8b540a14c"));
+        assert(consensus.hashGenesisBlock == uint256S("0x3fa13a55a63059b64a508c18c2980af5c7d5d0d8de054cf3be72330eb03964f2"));
+        assert(genesis.hashMerkleRoot == uint256S("0xb56e77729e6d50fbb3cf2a47d08edf2ae1a239945d626f870e6dbb43ae32db65"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -268,7 +268,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "tr";
+        bech32_hrp = "te";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -281,7 +281,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置
         checkpointData = {
             {
-                {0, uint256S("23fe11b6f4a318a1d1ce1a74f81c7acca85db7f921b4bd2615383728cb3788de")},
+                {0, uint256S("3fa13a55a63059b64a508c18c2980af5c7d5d0d8de054cf3be72330eb03964f2")},
             }
         };
 
@@ -322,12 +322,12 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
-        // 用可见的消息magic感觉更好点，rcor表示rcoin reg net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecor表示ecoin reg net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x52; // r
-        nDefaultPort = 18666;
+        nDefaultPort = 18777;
         nPruneAfterHeight = 1000;
         const size_t N = 48, K = 5;
         BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
@@ -371,7 +371,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x04, 0x35, 0x87, 0xCF};
         base58Prefixes[EXT_SECRET_KEY] = {0x04, 0x35, 0x83, 0x94};
 
-        bech32_hrp = "rcrt";
+        bech32_hrp = "ecrt";
 
         /* enable fallback fee on regtest */
         m_fallback_fee_enabled = true;

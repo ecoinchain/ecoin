@@ -347,6 +347,7 @@ bool Equihash<N,K>::BasicSolve(const eh_HashState& base_state,
     // 3) Repeat step 2 until 2n/(k+1) bits remain
     for (unsigned int r = 1; r < K && X.size() > 0; r++) {
         // 2a) Sort the list
+        std::sort(X.begin(), X.end(), CompareSR(CollisionByteLength));
         if (cancelled(ListSorting)) throw solver_cancelled;
 
         size_t i = 0;

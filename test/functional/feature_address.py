@@ -9,8 +9,8 @@ from test_framework.script import CScript, OP_HASH160, OP_CHECKSIG, hash160, OP_
 # python test/functional/feature_address.py valid 50 > src/test/data/key_io_valid.json
 
 # key types
-PUBKEY_ADDRESS = 122
-SCRIPT_ADDRESS = 13
+PUBKEY_ADDRESS = 33
+SCRIPT_ADDRESS = 15
 PUBKEY_ADDRESS_TEST = 111
 SCRIPT_ADDRESS_TEST = 196
 PRIVKEY = 128

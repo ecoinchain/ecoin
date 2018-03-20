@@ -495,7 +495,7 @@ static bool ProcessBlockFound(CBlock* pblock)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
-            return error("RCoinMiner: generated block is stale");
+            return error("BitcoinMiner: generated block is stale");
     }
 
 #ifdef ENABLE_WALLET
@@ -514,7 +514,7 @@ static bool ProcessBlockFound(CBlock* pblock)
     // Process this block the same as if we had received it from another node
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
     if (!ProcessNewBlock(Params(), shared_pblock, true, NULL))
-        return error("RCoinMiner: ProcessNewBlock, block not accepted");
+        return error("BitcoinMiner: ProcessNewBlock, block not accepted");
 
     return true;
 }
@@ -525,9 +525,9 @@ void static BitcoinMiner(CWallet *pwallet)
 void static BitcoinMiner()
 #endif
 {
-    LogPrintf("RCoinMiner started\n");
+    LogPrintf("BitcoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("rcoin-miner");
+    RenameThread("Bitcoin-miner");
     const CChainParams& chainparams = Params();
 
 #ifdef ENABLE_WALLET
@@ -579,17 +579,17 @@ void static BitcoinMiner()
             if (!pblocktemplate.get())
             {
                 if (gArgs.GetArg("-mineraddress", "").empty()) {
-                    LogPrintf("Error in RCoinMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+                    LogPrintf("Error in BitcoinMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
                 } else {
                     // Should never reach here, because -mineraddress validity is checked in init.cpp
-                    LogPrintf("Error in RCoinMiner: Invalid -mineraddress\n");
+                    LogPrintf("Error in BitcoinMiner: Invalid -mineraddress\n");
                 }
                 return;
             }
             CBlock *pblock = &pblocktemplate->block;
             pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
 
-            LogPrintf("Running RCoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+            LogPrintf("Running BitcoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
                       ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
             //
@@ -636,7 +636,7 @@ void static BitcoinMiner()
                             // Found a solution
                             SetThreadPriority(THREAD_PRIORITY_NORMAL);
                             arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
-                            LogPrintf("RCoinMiner:\n");
+                            LogPrintf("BitcoinMiner:\n");
                             LogPrintf("Proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
 #ifdef ENABLE_WALLET
                             if (ProcessBlockFound(pblock, *pwallet, reservekey)) {
@@ -692,13 +692,13 @@ void static BitcoinMiner()
     catch (const boost::thread_interrupted&)
     {
         c.disconnect();
-        LogPrintf("RCoinMiner terminated\n");
+        LogPrintf("BitcoinMiner terminated\n");
         throw;
     }
     catch (const std::runtime_error &e)
     {
         c.disconnect();
-        LogPrintf("RCoinMiner runtime error: %s\n", e.what());
+        LogPrintf("BitcoinMiner runtime error: %s\n", e.what());
         return;
     }
     c.disconnect();
