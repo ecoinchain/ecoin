@@ -1136,6 +1136,10 @@ bool ReadBlockFromDisk(CBlock& block, const CBlockIndex* pindex, const Consensus
 
 CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
 {
+    if (nHeight == 0) {
+        return GENESIS_MONEY;
+    }
+
     int halvings = nHeight / consensusParams.nSubsidyHalvingInterval;
     // Force block reward to zero when right shift is undefined.
     if (halvings >= 64)
@@ -1481,7 +1485,7 @@ static bool UndoReadFromDisk(CBlockUndo& blockundo, const CBlockIndex *pindex)
     uint256 hashChecksum;
     CHashVerifier<CAutoFile> verifier(&filein); // We need a CHashVerifier as reserializing may lose data
     try {
-        verifier << pindex->pprev->GetBlockHash();
+        verifier << (pindex->pprev == nullptr ? uint256() : pindex->pprev->GetBlockHash());
         verifier >> blockundo;
         filein >> hashChecksum;
     }
@@ -1604,7 +1608,7 @@ DisconnectResult CChainState::DisconnectBlock(const CBlock& block, const CBlockI
     }
 
     // move best block pointer to prevout block
-    view.SetBestBlock(pindex->pprev->GetBlockHash());
+    view.SetBestBlock(pindex->pprev == nullptr ? uint256() : pindex->pprev->GetBlockHash());
 
     return fClean ? DISCONNECT_OK : DISCONNECT_UNCLEAN;
 }
@@ -1641,7 +1645,7 @@ static bool WriteUndoDataForBlock(const CBlockUndo& blockundo, CValidationState&
         CDiskBlockPos _pos;
         if (!FindUndoPos(state, pindex->nFile, _pos, ::GetSerializeSize(blockundo, SER_DISK, CLIENT_VERSION) + 40))
             return error("ConnectBlock(): FindUndoPos failed");
-        if (!UndoWriteToDisk(blockundo, _pos, pindex->pprev->GetBlockHash(), chainparams.MessageStart()))
+        if (!UndoWriteToDisk(blockundo, _pos, pindex->pprev == nullptr ? uint256() : pindex->pprev->GetBlockHash(), chainparams.MessageStart()))
             return AbortNode(state, "Failed to write undo data");
 
         // update nUndoPos in block index
@@ -1799,11 +1803,7 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
 
     // Special case for the genesis block, skipping connection of its transactions
     // (its coinbase is unspendable)
-    if (block.GetHash() == chainparams.GetConsensus().hashGenesisBlock) {
-        if (!fJustCheck)
-            view.SetBestBlock(pindex->GetBlockHash());
-        return true;
-    }
+    // 创世块可以直接使用
 
     nBlocksTotal++;
 
@@ -1897,7 +1897,10 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     // post BIP34 before approximately height 486,000,000 and presumably will
     // be reset before it reaches block 1,983,702 and starts doing unnecessary
     // BIP30 checking again.
-    assert(pindex->pprev);
+    // 创世块之后的块的pprev必然不为null
+    if (view.GetBestBlock() != uint256()) {
+        assert(pindex->pprev);
+    }
 
     // Start enforcing BIP68 (sequence locks) and BIP112 (CHECKSEQUENCEVERIFY) using versionbits logic.
     int nLockTimeFlags = 0;

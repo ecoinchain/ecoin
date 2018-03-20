@@ -33,7 +33,7 @@ BOOST_AUTO_TEST_CASE(GenesisMain)
             1231006505,
             uint256S("0x0"),
             ParseHex(""),
-            0x1f07ffff, 1, 50 * COIN);
+            0x1f07ffff, 1, 8000000 * COIN);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 

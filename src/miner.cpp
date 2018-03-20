@@ -463,23 +463,6 @@ boost::optional<CScript> GetMinerScriptPubKey()
     }
 }
 
-#ifdef ENABLE_WALLET
-CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
-{
-    boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey(reservekey);
-#else
-CBlockTemplate* CreateNewBlockWithKey()
-{
-    boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey();
-#endif
-
-    if (!scriptPubKey) {
-        return NULL;
-    }
-    std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(*scriptPubKey));
-    return pblocktemplate.get();
-}
-
 void IncrementExtraNonce(CBlock* pblock, const CBlockIndex* pindexPrev, unsigned int& nExtraNonce)
 {
     // Update nExtraNonce
@@ -558,7 +541,7 @@ void static BitcoinMiner()
 
     std::string solver = gArgs.GetArg("-equihashsolver", "default");
     assert(solver == "tromp" || solver == "default");
-    LogPrint(BCLog::POW, "Using Equihash solver \"%s\" with n = %u, k = %u\n", solver, n, k);
+    LogPrintf("Using Equihash solver \"%s\" with n = %u, k = %u\n", solver, n, k);
 
     std::mutex m_cs;
     bool cancelSolver = false;
@@ -588,10 +571,11 @@ void static BitcoinMiner()
             CBlockIndex* pindexPrev = chainActive.Tip();
 
 #ifdef ENABLE_WALLET
-            std::unique_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey(reservekey));
+            boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey(reservekey); 
 #else
-            std::unique_ptr<CBlockTemplate> pblocktemplate(CreateNewBlockWithKey());
+            boost::optional<CScript> scriptPubKey = GetMinerScriptPubKey();
 #endif
+            std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(*scriptPubKey));
             if (!pblocktemplate.get())
             {
                 if (gArgs.GetArg("-mineraddress", "").empty()) {
@@ -612,7 +596,6 @@ void static BitcoinMiner()
             // Search
             //
             int64_t nStart = GetTime();
-            arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
 
             while (true) {
                 // Hash state
@@ -635,28 +618,26 @@ void static BitcoinMiner()
                                                   pblock->nNonce.size());
 
                 // (x_1, x_2, ...) = A(I, V, n, k)
-                LogPrint(BCLog::POW, "Running Equihash solver \"%s\" with nNonce = %s\n",
-                         solver, pblock->nNonce.ToString());
 
                 std::function<bool(std::vector<unsigned char>)> validBlock =
 #ifdef ENABLE_WALLET
-                        [&pblock, &hashTarget, &pwallet, &reservekey, &m_cs, &cancelSolver, &chainparams]
+                        [&pblock, &pwallet, &reservekey, &m_cs, &cancelSolver, &chainparams]
 #else
-                        [&pblock, &hashTarget, &m_cs, &cancelSolver, &chainparams]
+                        [&pblock, &m_cs, &cancelSolver, &chainparams]
 #endif
                                 (std::vector<unsigned char> soln) {
                             // Write the solution to the hash and compute the result.
-                            LogPrint(BCLog::POW, "- Checking solution against target\n");
                             pblock->nSolution = soln;
 
-                            if (UintToArith256(pblock->GetHash()) > hashTarget) {
+                            if (!CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
                                 return false;
                             }
 
                             // Found a solution
                             SetThreadPriority(THREAD_PRIORITY_NORMAL);
+                            arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
                             LogPrintf("RCoinMiner:\n");
-                            LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
+                            LogPrintf("Proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
 #ifdef ENABLE_WALLET
                             if (ProcessBlockFound(pblock, *pwallet, reservekey)) {
 #else
@@ -688,7 +669,7 @@ void static BitcoinMiner()
                         break;
                     }
                 } catch (EhSolverCancelledException&) {
-                    LogPrint(BCLog::POW, "Equihash solver cancelled\n");
+                    LogPrintf("Equihash solver cancelled\n");
                     std::lock_guard<std::mutex> lock{m_cs};
                     cancelSolver = false;
                 }

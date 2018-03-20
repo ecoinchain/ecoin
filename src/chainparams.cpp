@@ -18,6 +18,8 @@
 #include <crypto/equihash.h>
 #include <net.h>
 #include <validation.h>
+#include <amount.h>
+
 #define equihash_parameters_acceptable(N, K) \
     ((CBlockHeader::HEADER_SIZE + equihash_solution_size(N, K))*MAX_HEADERS_RESULTS < \
      MAX_PROTOCOL_MESSAGE_LENGTH-1000)
@@ -59,7 +61,7 @@ CBlock CChainParams::CreateGenesisBlock(const char* pszTimestamp, const CScript&
 CBlock CChainParams::CreateGenesisBlock(uint32_t nTime, const uint256& nNonce, const std::vector<unsigned char>& nSolution, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
-    const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+    const CScript genesisOutputScript = CScript() << OP_DUP << OP_HASH160 << ParseHex("b95a9a41ec86fd7908986b903b5c2a8f549e6ea3") << OP_EQUALVERIFY << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nSolution, nBits, nVersion, genesisReward);
 }
 
@@ -129,13 +131,14 @@ public:
         //     1231006505,
         //     uint256S("0x0"),
         //     ParseHex(""),
-        //     0x1f07ffff, 1, 50 * COIN);
+        //     0x1f07ffff, 1, GENESIS_MONEY);
         // todo 临时使用reg test的参数，main的参数计算一个合适的nonce耗时太长了
+        // 网络部署时间跟genesis设置的时间不能超过1
         genesis = CreateGenesisBlock(
-            1296688602,
+            1521474869,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
             ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
-            0x207fffff, 1, 50 * COIN);
+            0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
         // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
@@ -195,16 +198,16 @@ class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
         strNetworkID = "test";
-        consensus.nSubsidyHalvingInterval = 210000;
+        consensus.nSubsidyHalvingInterval = 20000;
         // todo 临时使用reg test的参数
         // consensus.powLimit = uint256S("07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 14 * 24 * 60 * 60; // two weeks
+        consensus.nPowTargetTimespan = 2 * 24 * 60 * 60; // two days
         consensus.nPowTargetSpacing = 10 * 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
         consensus.nRuleChangeActivationThreshold = 1512; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 2016; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nMinerConfirmationWindow = 288; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -235,18 +238,19 @@ public:
         //     1296688602,
         //     uint256S("0x000000000000000000000000000000000000000000000000000000000000000b"),
         //     ParseHex("00d276f2e04b5b4b2a8df7dd7fe5a262fc353e423c1ac4c16e421a12218f517380237b3da270e09397a20aca40e1e9df21a91ad3b62eb437968dd76730c983132aac7cc9c66f6968ae77b1fbd5d78a196f7420e9027bc3fc9264dad9becf034beb4958ccfd6774eb141aefcd82a59a6118ef5e874f6f63fcc1eea8d62b270f57fbdcff8db199fe13e4b6d6cfeb2ad99299d3a33b47530aa792729adabbc59b25d7164348093b3b9301313a888a94fbb70d7cc128972aced4efff19930a064ec67590077d6d8d65548e9376b48fae09be1ad206ee5ce32702ad382a74e2549a97c93653bf3b8edf1a33cdf9ba91be45dbbf1285327831999c6bdc17e1056f6ca212673525dba130d41bfdaa8af254bd3d510b19b3d6178b45cc8535956cacf3d1e188604e52ba15eb859e092d2ef9cdd9f160f4aebe208bb00e4dd333099ade1f9b164f7c40f4022a46e8fd4b1079ff3600e20aa42e123f3cdb70d398e0ea402645bc5f75ea07fbeab42451029f37d8f4dae3bac336f6245a25160f183feb03b0bfb5a5e4b6935f50fb8302729a79f02b19d42d1fab528763ddd46c8ac8af966701b778d70359563b61d95009f9d072b8b92566b15c4b5d43b006be4a26b9b03f7ff582f14a4cbb95a96633f7a6ce286ccb3e6ffabd99e50c743a5d5bacd296c8f782f8397b046c8b9b55d5a778740b8ab48cd5acf8d5218404d2794b60200a7f42302185f3aa29b5d7ab5912f33395ef812612f77b5c74245a7a7eea718cf44e84da0aa22ab369c9bfeb8cf851195b24f618eab0cfc14a163cbd4df2fac01dff61d2b4b9787e83a28f9e60ef062a78f83fd88a25f803f1aebeb1df2120b85366440ae6877c160d1eaec4c353bf9e2928e1139a8f435008750a53534dadacd87fb31398d6bd793453ea75473b1cfbb72d5b09d9dc640c589e6a49072c3f7f547601d57a54eb1349a7abf767f8a6f50a8aa0c9d8e9043d9bbd29426e64a5985856d69cd667f610a09d96081016b6a946510626bcc613f743e7064d4c2559eac51b6f61f881091ac36b1112b57f59e5b29268bf153305ecef08a4d6697ae1b80207bdf63b6d9a74ed0f5f287e2b05ab0a74b7be2fe5898be9ad09e07cdcea8b07015eb9f54bffeee745b16d30324eb9d05cdcbb7a1375a6211b9601a18157559e51f51779e3a0b7cd3d0484268e6d5747bfd3b983d7b9abfe8b60cfbe38fa0484fd02c78465fb222272912da21c7ef31c7ba67b0794b1ce74a0428ba8ecfc88e775876f5e135d6221244397d12c8ee82735ef59fc26ddf366953d5d7c2304b35d726b84b9694d2d5446b22aa56eebb4f776511cbf8fa7c4a7fa0370570215055ca8722e1edbb142061cc528db5e7233a26db10bc29b4910ed4558ba6f0af97b503898d04f8248c5bac3ca587e0652194b1c070e73aec1098f7fb930a63fccebb8860d35bc0192075b931949e5334df6a413fa2d270d3e40cabe87e6098e4ad9d54b7467321893113dc3f308dfb319a0fa317a99db89a48fe1d201a433f5a7e20ee3e03d94a811d21aac5b905bb5e77eb22c1ad1dbc26e9e3470b85d09bdd170a8bc3d6c4a2680f66fe15dac163283f230aa87b06c26afed9160e81cb7f8432aea8377e99846e8b6f212364807e6db27073b4027be4e82927af207882e8109d3486bbbd8b678d85a6e4a8f9ed590de430b5fa20a111539e87cc44d7fcf83394404d9b61f17fb34c534e4e89382c9d2770ce197fecb737ab4d4433cf602d554e54bac0a14bd17608d4db69f33ab7c08a7d607366e99f1a0c1a4cf08dfaed97f1b9870174871974f43b6fc1fd73f3637155349d2af14babcf30f6d7ce2bfd228972ec7d38922bfed7f38b19fe16a279bdc936a8c5a378f90f7165f7652da180494681e"),
-        //     0x2007ffff, 1, 50 * COIN);
+        //     0x2007ffff, 1, GENESIS_MONEY);
         // todo 临时使用reg test的参数，test的参数计算一个合适的nonce耗时太长了
+        // 网络部署时间跟genesis设置的时间不能超过1
         genesis = CreateGenesisBlock(
-            1296688602,
-            uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
-            ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
-            0x207fffff, 1, 50 * COIN);
+            1521474869,
+            uint256S("0x0000000000000000000000000000000000000000000000000000000000000003"),
+            ParseHex("00a3868f617c44c3581892886f028a4577260ba2731d724e98e1640c9b9a189361fba9f0"),
+            0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
         // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());
-        assert(consensus.hashGenesisBlock == uint256S("0x214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a"));
-        assert(genesis.hashMerkleRoot == uint256S("0x0860d3e7c114c3cc2daa492ce974006ea74c2e4197320e393889a236c8191445"));
+        assert(consensus.hashGenesisBlock == uint256S("0x23fe11b6f4a318a1d1ce1a74f81c7acca85db7f921b4bd2615383728cb3788de"));
+        assert(genesis.hashMerkleRoot == uint256S("0x8e5701f0c7f052f0e59eda1fca7f64a86ff42398415326bd529b25c8b540a14c"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -275,7 +279,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置
         checkpointData = {
             {
-                {0, uint256S("214033fec623e9d1224e20d5ce2b24906585b9fb80d515916792608bf0c4190a")},
+                {0, uint256S("23fe11b6f4a318a1d1ce1a74f81c7acca85db7f921b4bd2615383728cb3788de")},
             }
         };
 
@@ -332,7 +336,7 @@ public:
             1296688602,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000002"),
             ParseHex("05fa8a47319cc4ace01b52c7764281e1db9e072303cff096e097a618af6e3de28ba5d76a"),
-            0x207fffff, 1, 50 * COIN);
+            0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
         // printf("consensus.hashGenesisBlock = %s\n", consensus.hashGenesisBlock.ToString().c_str());
         // printf("genesis.hashMerkleRoot = %s\n", genesis.hashMerkleRoot.ToString().c_str());

@@ -1669,7 +1669,7 @@ bool AppInitMain()
         GenerateBitcoins(gArgs.GetBoolArg("-gen", false), pwalletMain, gArgs.GetArg("-genproclimit", 1));
  #else
     GenerateBitcoins(gArgs.GetBoolArg("-gen", false), gArgs.GetArg("-genproclimit", 1));
- #endif    
+ #endif
 
     // ********************************************************* Step 9: data directory maintenance
 
