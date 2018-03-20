@@ -5,6 +5,7 @@
 // 参考的实现是digestpp[https://github.com/kerukuro/digestpp]
 
 #include <crypto/sha3_256.h>
+#include <crypto/common.h>
 
 // Internal implementation code.
 /// Internal SHA3-256 implementation.
