@@ -41,6 +41,7 @@
 
 #include <boost/thread.hpp>
 
+#include <QString>
 #include <QApplication>
 #include <QDebug>
 #include <QLibraryInfo>
@@ -246,12 +247,12 @@ Q_SIGNALS:
 private:
     QThread *coreThread;
     OptionsModel *optionsModel;
-    ClientModel *clientModel;
-    BitcoinGUI *window;
+    std::unique_ptr<ClientModel> clientModel;
+    std::unique_ptr<BitcoinGUI> window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
-    PaymentServer* paymentServer;
-    WalletModel *walletModel;
+    std::unique_ptr<PaymentServer> paymentServer;
+    std::unique_ptr<WalletModel> walletModel;
 #endif
     int returnValue;
     const PlatformStyle *platformStyle;
@@ -328,13 +329,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     QApplication(argc, argv),
     coreThread(0),
     optionsModel(0),
-    clientModel(0),
-    window(0),
     pollShutdownTimer(0),
-#ifdef ENABLE_WALLET
-    paymentServer(0),
-    walletModel(0),
-#endif
     returnValue(0)
 {
     setQuitOnLastWindowClosed(false);
@@ -360,12 +355,6 @@ BitcoinApplication::~BitcoinApplication()
         qDebug() << __func__ << ": Stopped thread";
     }
 
-    delete window;
-    window = 0;
-#ifdef ENABLE_WALLET
-    delete paymentServer;
-    paymentServer = 0;
-#endif
     delete optionsModel;
     optionsModel = 0;
     delete platformStyle;
@@ -375,7 +364,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this);
+    paymentServer.reset(new PaymentServer(this));
 }
 #endif
 
@@ -386,10 +375,10 @@ void BitcoinApplication::createOptionsModel(bool resetSettings)
 
 void BitcoinApplication::createWindow(const NetworkStyle *networkStyle)
 {
-    window = new BitcoinGUI(platformStyle, networkStyle, 0);
+    window.reset(new BitcoinGUI(platformStyle, networkStyle, 0));
 
-    pollShutdownTimer = new QTimer(window);
-    connect(pollShutdownTimer, SIGNAL(timeout()), window, SLOT(detectShutdown()));
+    pollShutdownTimer = new QTimer(window.get());
+    connect(pollShutdownTimer, SIGNAL(timeout()), window.get(), SLOT(detectShutdown()));
 }
 
 void BitcoinApplication::createSplashScreen(const NetworkStyle *networkStyle)
@@ -441,7 +430,7 @@ void BitcoinApplication::requestShutdown()
     // Show a simple window indicating shutdown status
     // Do this first as some of the steps may take some time below,
     // for example the RPC console may still be executing a command.
-    shutdownWindow.reset(ShutdownWindow::showShutdownWindow(window));
+    shutdownWindow.reset(ShutdownWindow::showShutdownWindow(window.get()));
 
     qDebug() << __func__ << ": Requesting shutdown";
     startThread();
@@ -451,11 +440,9 @@ void BitcoinApplication::requestShutdown()
 
 #ifdef ENABLE_WALLET
     window->removeAllWallets();
-    delete walletModel;
-    walletModel = 0;
+    walletModel.reset();
 #endif
-    delete clientModel;
-    clientModel = 0;
+    clientModel.reset();
 
     StartShutdown();
 
@@ -477,20 +464,20 @@ void BitcoinApplication::initializeResult(bool success)
         paymentServer->setOptionsModel(optionsModel);
 #endif
 
-        clientModel = new ClientModel(optionsModel);
-        window->setClientModel(clientModel);
+        clientModel.reset(new ClientModel(optionsModel));
+        window->setClientModel(clientModel.get());
 
 #ifdef ENABLE_WALLET
         // TODO: Expose secondary wallets
         if (!vpwallets.empty())
         {
-            walletModel = new WalletModel(platformStyle, vpwallets[0], optionsModel);
+            walletModel.reset(new WalletModel(platformStyle, vpwallets[0], optionsModel));
 
-            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel);
+            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
 
-            connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                             paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
+            connect(walletModel.get(), SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
+                             paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
         }
 #endif
 
@@ -503,22 +490,22 @@ void BitcoinApplication::initializeResult(bool success)
         {
             window->show();
         }
-        Q_EMIT splashFinished(window);
+        Q_EMIT splashFinished(window.get());
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
         // bitcoin: URIs or payment requests:
-        connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
-                         window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
-        connect(window, SIGNAL(receivedURI(QString)),
-                         paymentServer, SLOT(handleURIOrFile(QString)));
-        connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
-                         window, SLOT(message(QString,QString,unsigned int)));
-        QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
+        connect(paymentServer.get(), SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
+                         window.get(), SLOT(handlePaymentRequest(SendCoinsRecipient)));
+        connect(window.get(), SIGNAL(receivedURI(QString)),
+                         paymentServer.get(), SLOT(handleURIOrFile(QString)));
+        connect(paymentServer.get(), SIGNAL(message(QString,QString,unsigned int)),
+                         window.get(), SLOT(message(QString,QString,unsigned int)));
+        QTimer::singleShot(100, paymentServer.get(), SLOT(uiReady()));
 #endif
         pollShutdownTimer->start(200);
     } else {
-        Q_EMIT splashFinished(window); // Make sure splash screen doesn't stick around during shutdown
+        Q_EMIT splashFinished(window.get()); // Make sure splash screen doesn't stick around during shutdown
         quit(); // Exit first main loop invocation
     }
 }
