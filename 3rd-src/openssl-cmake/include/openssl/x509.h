@@ -314,6 +314,7 @@ typedef struct x509_trust_st {
 
 DECLARE_STACK_OF(X509_TRUST)
 
+#undef X509_CERT_PAIR
 typedef struct x509_cert_pair_st {
     X509 *forward;
     X509 *reverse;

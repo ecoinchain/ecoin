@@ -156,6 +156,7 @@ typedef struct X509_algor_st X509_ALGOR;
 typedef struct X509_crl_st X509_CRL;
 typedef struct x509_crl_method_st X509_CRL_METHOD;
 typedef struct x509_revoked_st X509_REVOKED;
+#undef X509_NAME
 typedef struct X509_name_st X509_NAME;
 typedef struct X509_pubkey_st X509_PUBKEY;
 typedef struct x509_store_st X509_STORE;

@@ -95,6 +95,9 @@
 #include <openssl/engine.h>
 #endif
 #include <openssl/ui.h>
+#undef OCSP_REQUEST
+#undef X509_NAME
+#undef OCSP_RESPONSE
 #include <openssl/ocsp.h>
 #include <openssl/err.h>
 #ifdef OPENSSL_FIPS

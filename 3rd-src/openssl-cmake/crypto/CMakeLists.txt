@@ -72,6 +72,7 @@ target_compile_definitions(crypto_static PUBLIC
 	-DOPENSSL_NO_WHIRLPOOL
 	-DOPENSSL_NO_RIPEMD
 	-DOPENSSL_NO_COMP
-	-DOPENSSL_NO_OCSP)
+	-DOPENSSL_NO_OCSP
+	-DWIN32_LEAN_AND_MEAN )
 
 target_include_directories(crypto_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../include/)

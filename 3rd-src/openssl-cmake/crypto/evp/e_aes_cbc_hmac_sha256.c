@@ -47,6 +47,8 @@
  * ====================================================================
  */
 
+#define _WINSOCKAPI_ 
+
 #include <openssl/opensslconf.h>
 
 #include <stdio.h>

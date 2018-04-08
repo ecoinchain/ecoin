@@ -109,8 +109,14 @@
  *
  */
 
+#define _WINSOCKAPI_ 
+
 #include <stdio.h>
 #include <openssl/objects.h>
+#undef OCSP_REQUEST
+#undef X509_NAME
+#undef OCSP_RESPONSE
+
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #ifndef OPENSSL_NO_EC
@@ -118,6 +124,10 @@
 # include <openssl/ec.h>
 #endif
 #endif
+#undef OCSP_REQUEST
+#undef X509_NAME
+#undef OCSP_RESPONSE
+
 #include <openssl/ocsp.h>
 #include <openssl/rand.h>
 #include "ssl_locl.h"
