@@ -228,6 +228,40 @@ mutex/mut_method.c
 mutex/mut_region.c
 mutex/mut_stat.c
 
+os_windows/ce_ctime.c
+os_windows/os_abs.c
+os_windows/os_clock.c
+os_windows/os_config.c
+os_windows/os_cpu.c
+os_windows/os_dir.c
+os_windows/os_errno.c
+os_windows/os_fid.c
+os_windows/os_flock.c
+os_windows/os_fsync.c
+os_windows/os_getenv.c
+os_windows/os_handle.c
+os_windows/os_map.c
+os_windows/os_mkdir.c
+os_windows/os_open.c
+os_windows/os_rename.c
+os_windows/os_rw.c
+os_windows/os_seek.c
+os_windows/os_stat.c
+os_windows/os_truncate.c
+os_windows/os_unlink.c
+os_windows/os_yield.c
+
+os/os_abort.c
+os/os_addrinfo.c
+os/os_alloc.c
+os/os_ctime.c
+os/os_pid.c
+os/os_root.c
+os/os_rpath.c
+os/os_stack.c
+os/os_tmpdir.c
+os/os_uid.c
+
 qam/qam.c
 qam/qam_auto.c
 qam/qam_conv.c
@@ -313,5 +347,7 @@ add_library(berkeleydb STATIC ${DB_PLATFORM_HEADERS} ${DB_PLATFORM_SRC} ${DB_SRC
 if(WIN32)
 
 target_include_directories(berkeleydb PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/build_windows )
+
+target_link_libraries(berkeleydb Ws2_32.lib)
 
 endif()
