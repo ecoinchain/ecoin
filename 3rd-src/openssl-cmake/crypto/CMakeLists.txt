@@ -41,6 +41,7 @@ file(GLOB SRCS
 	pkcs7/*.c
 	pkcs12/*.c
 	rand/*.c
+	rc2/*.c
 	rc4/*.c
 	rsa/*.c
 	seed/*.c
@@ -62,7 +63,6 @@ target_compile_definitions(crypto_static PUBLIC
 	-DOPENSSL_NO_ASM
 	-DOPENSSL_NO_ENGINE
 	-DOPENSSL_NO_RC1
-	-DOPENSSL_NO_RC2
 	-DOPENSSL_NO_RC3
 	-DOPENSSL_NO_MD1
 	-DOPENSSL_NO_MD2
