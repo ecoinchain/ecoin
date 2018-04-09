@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.0)
 project(rcoin)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -9,7 +10,7 @@ if (HAS_CXX14)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
 endif()
 
-option(ENABLE_QT_STATIC "link to static qt" OFF)
+option(ENABLE_QT_STATIC "link to static qt" ON)
 option(Boost_USE_STATIC_LIBS "use static Boost" ON)
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "1")
@@ -47,24 +48,16 @@ endif(MSVC)
 find_package(Threads)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
+find_package(Qt5LinguistTools REQUIRED)
 
-if(WIN32 AND MSVC AND ENABLE_QT_STATIC)
+if(MSVC AND ENABLE_QT_STATIC)
 	# For static Windows builds, we also need to pull in the Qt5 Platform
 	# support library, which is not exposed to CMake properly, unfortunately
-	GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)
+	GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)	
 	GET_FILENAME_COMPONENT(QT_LIB_DIR "${QT_LIB_DIR}" PATH)
-	FIND_LIBRARY(Qt5Platform_LIBRARIES_RELEASE Qt5PlatformSupport
-		HINTS "${QT_LIB_DIR}"
-	)
-	FIND_LIBRARY(Qt5Platform_LIBRARIES_DEBUG Qt5PlatformSupportd
-		HINTS "${QT_LIB_DIR}"
-	)
-	FIND_LIBRARY(Qt5QWindows_LIBRARIES_RELEASE qwindows
-		HINTS "${QT_LIB_DIR}/../plugins/platforms"
-	)
-	FIND_LIBRARY(Qt5QWindows_LIBRARIES_DEBUG qwindowsd
-		HINTS "${QT_LIB_DIR}/../plugins/platforms"
-	)
+
+	message(STATUS "using qt in ${QT_LIB_DIR}")
+
 	FIND_LIBRARY(Qt5QICO_LIBRARIES_RELEASE qico
 		HINTS "${QT_LIB_DIR}/../plugins/imageformats"
 	)
@@ -79,6 +72,13 @@ if(WIN32 AND MSVC AND ENABLE_QT_STATIC)
 		HINTS "${QT_LIB_DIR}"
 	)
 
+	FIND_LIBRARY(Qt5PNG_LIBRARIES_RELEASE qtlibpng
+		HINTS "${QT_LIB_DIR}"
+	)
+	FIND_LIBRARY(Qt5PNG_LIBRARIES_DEBUG qtlibpngd
+		HINTS "${QT_LIB_DIR}"
+	)
+
 	FIND_LIBRARY(Qt5FT_LIBRARIES_RELEASE qtfreetype
 		HINTS "${QT_LIB_DIR}"
 	)
@@ -86,10 +86,10 @@ if(WIN32 AND MSVC AND ENABLE_QT_STATIC)
 		HINTS "${QT_LIB_DIR}"
 	)
 
-	FIND_LIBRARY(Qt5PCRE_LIBRARIES_RELEASE qtpcre
+	FIND_LIBRARY(Qt5PCRE_LIBRARIES_RELEASE qtpcre2
 		HINTS "${QT_LIB_DIR}"
 	)
-	FIND_LIBRARY(Qt5PCRE_LIBRARIES_DEBUG qtpcred
+	FIND_LIBRARY(Qt5PCRE_LIBRARIES_DEBUG qtpcre2d
 		HINTS "${QT_LIB_DIR}"
 	)
 
@@ -99,6 +99,9 @@ if(WIN32 AND MSVC AND ENABLE_QT_STATIC)
 	if (Qt5HB_LIBRARIES_RELEASE)
 		SET(Qt5HB_LIBRARIES optimized ${Qt5HB_LIBRARIES_RELEASE} debug ${Qt5HB_LIBRARIES_DEBUG})
 	endif()
+	if (Qt5PNG_LIBRARIES_RELEASE)
+		SET(Qt5PNG_LIBRARIES optimized ${Qt5PNG_LIBRARIES_RELEASE} debug ${Qt5PNG_LIBRARIES_DEBUG})
+	endif()
 	if (Qt5FT_LIBRARIES_RELEASE)
 		SET(Qt5FT_LIBRARIES optimized ${Qt5FT_LIBRARIES_RELEASE} debug ${Qt5FT_LIBRARIES_DEBUG})
 	endif()
@@ -106,11 +109,19 @@ if(WIN32 AND MSVC AND ENABLE_QT_STATIC)
 		SET(Qt5PCRE_LIBRARIES optimized ${Qt5PCRE_LIBRARIES_RELEASE} debug ${Qt5PCRE_LIBRARIES_DEBUG})
 	endif()
 	ADD_DEFINITIONS(-DSTATIC_QT5)
-	set(Qt5StaticExtra ${Qt5Platform_LIBRARIES} ${Qt5QWindows_LIBRARIES} ${Qt5QICO_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
-	link_libraries(${Qt5Platform_LIBRARIES} ${Qt5QWindows_LIBRARIES} ${Qt5QICO_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
+	set(Qt5StaticExtra ${Qt5QICO_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
+	link_libraries(${Qt5QICO_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 endif()
 
 add_subdirectory(3rd-src/openssl-cmake)
+
+if(WIN32)
+	add_definitions(-DBOOST_ALL_STATIC_LINK -DBOOST_AUTO_LINK_NOMANGLE)
+	add_definitions(-DBOOST_THREAD_USE_LIB)
+	add_definitions(-DBOOST_FILESYSTEM_STATIC_LINK)
+	add_definitions(-DWIN32_LEAN_AND_MEAN)
+	add_definitions(-DNOMINMAX)
+endif()
 
 link_directories(${QT_LIB_DIR})
 add_subdirectory(3rd-src/boost)
@@ -125,5 +136,7 @@ set(DISABLE_ASM 1)
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
 add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
+
+add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
 
 add_subdirectory(src)

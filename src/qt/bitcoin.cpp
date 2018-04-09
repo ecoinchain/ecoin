@@ -53,6 +53,10 @@
 #include <QTranslator>
 #include <QSslConfiguration>
 
+#ifdef _WIN32
+#define QT_QPA_PLATFORM_WINDOWS
+#endif
+
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
 #if QT_VERSION < 0x050000

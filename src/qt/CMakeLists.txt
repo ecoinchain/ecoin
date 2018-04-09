@@ -9,24 +9,37 @@ add_definitions(-DENABLE_WALLET)
 file(GLOB SRCS *.cpp qt/*.h)
 #file(GLOB UIS forms/*.ui)
 
-include_directories(.. ../../3rd-src/libsodium/src/libsodium/include/ ../../3rd-src/libsodium/src/libsodium/include/sodium)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/../)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/../../3rd-src/libsodium/src/libsodium/include/sodium)
 add_subdirectory(forms)
+add_subdirectory(locale)
 
 PROTOBUF_GENERATE_CPP(PROTO_PAYMENT_REQUEST_SRC PROTO_PAYMENT_REQUEST_HEADER paymentrequest.proto)
 
 #qt5_wrap_ui(UI_SRCS ${UIS})
-qt5_add_resources(RC_SRCS bitcoin.qrc)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+qt5_add_resources(RC_SRCS bitcoin.qrc bitcoin_locale.qrc)
 
 set(SRCS ${SRCS} ${UI_SRCS} ${PROTO_PAYMENT_REQUEST_SRC} ${PROTO_PAYMENT_REQUEST_HEADER})
 
 add_executable(rcoin-qt WIN32 ${SRCS} ${RC_SRCS})
 
+if(MSVC AND ENABLE_QT_STATIC)
+add_definitions(-DQT_STATICPLUGIN)
+endif()
+
 target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS})
 
-target_link_libraries(rcoin-qt rcoin-qt-uis Qt5::Widgets Qt5::Core Qt5::Network)
-target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc)
+target_link_libraries(rcoin-qt rcoin-qt-uis coincore wallet)
+target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Core Qt5::Network)
+target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc univalue leveldb)
+target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
+
+if(MSVC AND ENABLE_QT_STATIC)
+target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin)
+endif()
+
+if(WIN32)
+target_link_libraries(rcoin-qt Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib)
+endif()
 
 # target_link_libraries(tianya OPENS)
 
@@ -36,5 +49,3 @@ endif()
 
 install(TARGETS rcoin-qt RUNTIME DESTINATION bin)
 
-add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=1 -DCLIENT_VERSION_REVISION=0 -DCLIENT_VERSION_BUILD=0 -DCLIENT_VERSION_IS_RELEASE=FALSE -DCOPYRIGHT_YEAR=2018)
-add_definitions(-DPACKAGE_NAME="rcoin")
