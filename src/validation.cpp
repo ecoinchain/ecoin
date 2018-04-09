@@ -47,10 +47,6 @@
 #include <boost/algorithm/string/join.hpp>
 #include <boost/thread.hpp>
 
-#if defined(NDEBUG)
-# error "Bitcoin cannot be compiled without assertions."
-#endif
-
 #define MICRO 0.000001
 #define MILLI 0.001
 
