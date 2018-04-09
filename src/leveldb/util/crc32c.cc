@@ -270,14 +270,10 @@ static bool CanAccelerateCRC32C() {
   static const char kBufSize = sizeof(kTestCRCBuffer) - 1;
   static const uint32_t kTestCRCValue = 0xdcbc59fa;
 
-  return port::AcceleratedCRC32C(0, kTestCRCBuffer, kBufSize) == kTestCRCValue;
+  return false;
 }
 
 uint32_t Extend(uint32_t crc, const char* buf, size_t size) {
-  static bool accelerate = CanAccelerateCRC32C();
-  if (accelerate) {
-    return port::AcceleratedCRC32C(crc, buf, size);
-  }
 
   const uint8_t* p = reinterpret_cast<const uint8_t*>(buf);
   const uint8_t* e = p + size;

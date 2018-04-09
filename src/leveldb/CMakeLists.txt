@@ -1,4 +1,4 @@
-# Copyright 2017 The LevelDB Authors. All rights reserved.
+﻿# Copyright 2017 The LevelDB Authors. All rights reserved.
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file. See the AUTHORS file for names of contributors.
 
@@ -69,7 +69,7 @@ if(BUILD_SHARED_LIBS)
 endif(BUILD_SHARED_LIBS)
 
 # POSIX code is specified separately so we can leave it out in the future.
-add_library(leveldb_port OBJECT "")
+add_library(leveldb_port STATIC "")
 
 if(WIN32)
 
@@ -106,7 +106,7 @@ if(BUILD_SHARED_LIBS)
   set_property(TARGET leveldb_port PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif(BUILD_SHARED_LIBS)
 
-add_library(leveldb "")
+add_library(leveldb STATIC "")
 target_sources(leveldb
   PRIVATE
     "${PROJECT_SOURCE_DIR}/db/builder.cc"
@@ -166,7 +166,6 @@ target_sources(leveldb
     "${PROJECT_SOURCE_DIR}/util/comparator.cc"
     "${PROJECT_SOURCE_DIR}/util/crc32c.cc"
     "${PROJECT_SOURCE_DIR}/util/crc32c.h"
-    "${PROJECT_SOURCE_DIR}/util/env_posix.cc"
     "${PROJECT_SOURCE_DIR}/util/env.cc"
     "${PROJECT_SOURCE_DIR}/util/filter_policy.cc"
     "${PROJECT_SOURCE_DIR}/util/hash.cc"
@@ -178,7 +177,6 @@ target_sources(leveldb
     "${PROJECT_SOURCE_DIR}/util/posix_logger.h"
     "${PROJECT_SOURCE_DIR}/util/random.h"
     "${PROJECT_SOURCE_DIR}/util/status.cc"
-    $<TARGET_OBJECTS:leveldb_port>
 
   # Only CMake 3.3+ supports PUBLIC sources in targets exported by "install".
   $<$<VERSION_GREATER:CMAKE_VERSION,3.2>:PUBLIC>
@@ -210,6 +208,10 @@ target_include_directories(leveldb
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 if(WIN32)
+target_sources(leveldb
+PRIVATE
+    "${PROJECT_SOURCE_DIR}/util/env_win.cc"
+)
 target_compile_definitions(leveldb
   PRIVATE
     # Used by include/export.h when building shared libraries.
@@ -218,6 +220,10 @@ target_compile_definitions(leveldb
 	LEVELDB_PLATFORM_WINDOWS=1
 )
 else()
+target_sources(leveldb
+PRIVATE
+    "${PROJECT_SOURCE_DIR}/util/env_posix.cc"
+)
 target_compile_definitions(leveldb
   PRIVATE
     # Used by include/export.h when building shared libraries.
@@ -244,7 +250,13 @@ endif(HAVE_CLANG_THREAD_SAFETY)
 # TODO(costan): This is only needed for port_posix.
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(Threads REQUIRED)
-target_link_libraries(leveldb Threads::Threads)
+target_link_libraries(leveldb leveldb_port Threads::Threads)
+
+if(WIN32)
+
+target_link_libraries(leveldb Shlwapi.lib)
+
+endif()
 
 if(HAVE_CRC32C)
   target_link_libraries(leveldb crc32c)
