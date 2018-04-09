@@ -137,14 +137,14 @@ IF (NOT HAVE_AMD64_ASM_V)
 	${_SOURCES}
 	crypto_stream/salsa20/ref/salsa20_ref.c
 	crypto_stream/salsa20/stream_salsa20.c
+	crypto_stream/salsa20/xmm6int/salsa20_xmm6int-avx2.c
+	crypto_stream/salsa20/xmm6int/salsa20_xmm6int-sse2.c
 	)
 ELSE (NOT HAVE_AMD64_ASM_V)
     MESSAGE(STATUS "AMD64 ASM enabled")
     SET(_SOURCES
 	${_SOURCES}
 	crypto_stream/salsa20/xmm6/salsa20_xmm6.c
-	crypto_stream/salsa20/xmm6int/salsa20_xmm6int-avx2.c
-	crypto_stream/salsa20/xmm6int/salsa20_xmm6int-sse2.c
 	crypto_stream/salsa20/xmm6/salsa20_xmm6-asm.S
     )
 ENDIF (NOT HAVE_AMD64_ASM_V)
