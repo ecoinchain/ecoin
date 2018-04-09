@@ -13,10 +13,10 @@ endmacro(protobuf_extract)
 macro(protobuf_download VERSION_STRING PROTOBUF_ARCHIVE)
 
   set(PROTOBUF_ARCHIVE_URL
-    "http://mirrors.ustc.edu.cn/gentoo/distfiles/protobuf-${VERSION_STRING}.tar.gz")
+    "http://mirrors.ustc.edu.cn/gentoo/distfiles/protobuf-${VERSION_STRING}.tar.bz2")
 
   set(PROTOBUF_DOWNLOAD_PATH
-    "${PROJECT_BINARY_DIR}/protobuf-${VERSION_STRING}.tar.gz")
+    "${PROJECT_BINARY_DIR}/protobuf-${VERSION_STRING}.tar.bz2")
 
   if(EXISTS "${PROTOBUF_DOWNLOAD_PATH}")
     set(${PROTOBUF_ARCHIVE} "${PROTOBUF_DOWNLOAD_PATH}")
