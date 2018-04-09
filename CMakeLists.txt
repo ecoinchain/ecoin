@@ -20,13 +20,9 @@ if(MSVC)
 set (CMAKE_CONFIGURATION_TYPES "Release;Debug")
 set(CompilerFlags
         CMAKE_CXX_FLAGS
-        CMAKE_CXX_FLAGS_DEBUG
         CMAKE_CXX_FLAGS_RELEASE
-		CMAKE_CXX_FLAGS_MinSizeRel
         CMAKE_C_FLAGS
-        CMAKE_C_FLAGS_DEBUG
         CMAKE_C_FLAGS_RELEASE
-		CMAKE_C_FLAGS_MinSizeRel
    )
 
 foreach(CompilerFlag ${CompilerFlags})
@@ -122,6 +118,15 @@ if(MSVC AND ENABLE_QT_STATIC)
 		SET(Qt5PCRE_LIBRARIES optimized ${Qt5PCRE_LIBRARIES_RELEASE} debug ${Qt5PCRE_LIBRARIES_DEBUG})
 	endif()
 	ADD_DEFINITIONS(-DSTATIC_QT5)
+
+	set(AS optimized Qt5AccessibilitySupport debug Qt5AccessibilitySupportd)
+	set(EDS optimized Qt5EventDispatcherSupport debug Qt5EventDispatcherSupportd)
+	set(FDS optimized Qt5FontDatabaseSupport debug Qt5FontDatabaseSupportd)
+	set(FBS optimized Qt5FbSupport debug Qt5FbSupportd)
+	set(Bsp optimized Qt5Bootstrap debug Qt5Bootstrap)
+	set(TS optimized Qt5ThemeSupport debug Qt5ThemeSupportd)
+
+	set(QT_EXTRA_LIBS ${AS} ${EDS} ${FDS} ${FBS} ${Bsp} ${TS})
 	set(Qt5StaticExtra ${Qt5QICO_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 	link_libraries(${Qt5QICO_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 endif()

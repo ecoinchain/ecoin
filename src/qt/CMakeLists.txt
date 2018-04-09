@@ -29,7 +29,7 @@ endif()
 target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(rcoin-qt rcoin-qt-uis coincore wallet)
-target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg Qt5AccessibilitySupport Qt5EventDispatcherSupport Qt5FontDatabaseSupport Qt5FbSupport Qt5Bootstrap Qt5ThemeSupport)
+target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg ${QT_EXTRA_LIBS})
 target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc univalue leveldb)
 target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 
