@@ -31,7 +31,7 @@
 #ifndef STORAGE_LEVELDB_PORT_PORT_WIN_H_
 #define STORAGE_LEVELDB_PORT_PORT_WIN_H_
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && _MSC_VER < 1900
 #define snprintf _snprintf
 #define close _close
 #define fread_unlocked _fread_nolock
@@ -42,6 +42,8 @@
 #ifdef SNAPPY
 #include <snappy.h>
 #endif
+
+typedef long long ssize_t;
 
 namespace leveldb {
 namespace port {

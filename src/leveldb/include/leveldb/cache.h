@@ -19,19 +19,23 @@
 #define STORAGE_LEVELDB_INCLUDE_CACHE_H_
 
 #include <stdint.h>
+#include "leveldb/export.h"
 #include "leveldb/slice.h"
 
 namespace leveldb {
 
-class Cache;
+class LEVELDB_EXPORT Cache;
 
 // Create a new cache with a fixed size capacity.  This implementation
 // of Cache uses a least-recently-used eviction policy.
-extern Cache* NewLRUCache(size_t capacity);
+LEVELDB_EXPORT Cache* NewLRUCache(size_t capacity);
 
-class Cache {
+class LEVELDB_EXPORT Cache {
  public:
-  Cache() { }
+  Cache() = default;
+
+  Cache(const Cache&) = delete;
+  Cache& operator=(const Cache&) = delete;
 
   // Destroys all existing entries by calling the "deleter"
   // function that was passed to the constructor.
@@ -99,10 +103,6 @@ class Cache {
 
   struct Rep;
   Rep* rep_;
-
-  // No copying allowed
-  Cache(const Cache&);
-  void operator=(const Cache&);
 };
 
 }  // namespace leveldb

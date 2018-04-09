@@ -22,15 +22,21 @@
 #define STORAGE_LEVELDB_INCLUDE_WRITE_BATCH_H_
 
 #include <string>
+#include "leveldb/export.h"
 #include "leveldb/status.h"
 
 namespace leveldb {
 
 class Slice;
 
-class WriteBatch {
+class LEVELDB_EXPORT WriteBatch {
  public:
   WriteBatch();
+
+  // Intentionally copyable.
+  WriteBatch(const WriteBatch&) = default;
+  WriteBatch& operator =(const WriteBatch&) = default;
+
   ~WriteBatch();
 
   // Store the mapping "key->value" in the database.
@@ -41,6 +47,12 @@ class WriteBatch {
 
   // Clear all updates buffered in this batch.
   void Clear();
+
+  // The size of the database changes caused by this batch.
+  //
+  // This number is tied to implementation details, and may change across
+  // releases. It is intended for LevelDB usage metrics.
+  size_t ApproximateSize();
 
   // Support for iterating over the contents of a batch.
   class Handler {
@@ -55,8 +67,6 @@ class WriteBatch {
   friend class WriteBatchInternal;
 
   std::string rep_;  // See comment in write_batch.cc for the format of rep_
-
-  // Intentionally copyable
 };
 
 }  // namespace leveldb
