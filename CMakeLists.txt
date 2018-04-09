@@ -46,9 +46,22 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
 endif(MSVC)
 
 find_package(Threads)
-find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Network REQUIRED)
-find_package(Qt5LinguistTools REQUIRED)
+
+list(APPEND RCOIN_QT_COMPONENTS Core Network Gui Svg Widgets LinguistTools UiPlugin)
+
+if (WIN32)
+	list (APPEND RCOIN_QT_COMPONENTS WinExtras)
+endif(WIN32)
+if (APPLE)
+	list (APPEND RCOIN_QT_COMPONENTS objc)
+	list (APPEND RCOIN_QT_COMPONENTS MacExtras)
+endif (APPLE)
+
+find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
+
+if (WIN32)
+find_package(Qt5WinExtras REQUIRED)
+endif()
 
 if(MSVC AND ENABLE_QT_STATIC)
 	# For static Windows builds, we also need to pull in the Qt5 Platform

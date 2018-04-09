@@ -29,16 +29,16 @@ endif()
 target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(rcoin-qt rcoin-qt-uis coincore wallet)
-target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Core Qt5::Network)
+target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg Qt5AccessibilitySupport Qt5EventDispatcherSupport Qt5FontDatabaseSupport Qt5FbSupport Qt5Bootstrap Qt5ThemeSupport)
 target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc univalue leveldb)
 target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 
 if(MSVC AND ENABLE_QT_STATIC)
-target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin)
+target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin  Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin)
 endif()
 
 if(WIN32)
-target_link_libraries(rcoin-qt Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib)
+target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib Imm32.lib Dwmapi.lib)
 endif()
 
 # target_link_libraries(tianya OPENS)
