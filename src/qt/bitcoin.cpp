@@ -330,6 +330,13 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     pollShutdownTimer(0),
     returnValue(0)
 {
+	QPalette pal = this->palette();
+	pal.setColor(QPalette::Window, Qt::white);
+	this->setPalette(pal);
+// 	setStyleSheet(QStringLiteral("QMainWindow {\n"
+// 		" \n"
+// 		"background-color: rgb(240, 240, 240);\n"
+// 		"}"));
     setQuitOnLastWindowClosed(false);
 
     // UI per-platform customization
