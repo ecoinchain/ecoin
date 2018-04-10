@@ -14,33 +14,23 @@
    <string>Send Coins</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QPushButton#sendButton {
+   <string notr="true">#sendButton {
     border-style: solid;
-
-    border-radius : 3px;
+    border-radius: 3px;
 	border-width: 1px;
 	border-color: rgb(39, 152, 255);
 	background-color: rgb(39, 152, 255);
+padding : 6px;
 }
 
-QPushButton#clearButton {
+#addButton , #clearButton {
     border-style: solid;
     border-radius: 3px;
 	border-width: 1px;
 	border-color: rgb(39, 152, 255);
 	color: rgb(39, 152, 255);
 	background-color: white;
-}
-
-
-QPushButton#addButton {
-
-    border-style: solid;
-    border-radius: 3px;
-	border-width: 1px;
-	border-color: rgb(39, 152, 255);
-	color: rgb(39, 152, 255);
-	background-color: white;
+padding : 5px;
 }
 
 #buttonChooseFee{
@@ -642,7 +632,7 @@ QLabel {
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>95</height>
+        <height>85</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">

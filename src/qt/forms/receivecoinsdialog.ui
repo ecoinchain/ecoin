@@ -10,6 +10,14 @@
     <height>396</height>
    </rect>
   </property>
+  <property name="styleSheet">
+   <string notr="true">.QFrame {
+    border-radius: 10px;
+	background-color: rgb(248, 248, 248);
+    border-width: 0px;
+}
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
    <item>
     <widget class="QFrame" name="frame2">
@@ -20,10 +28,13 @@
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Sunken</enum>
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -111,7 +122,7 @@
              <string>&amp;Request payment</string>
             </property>
             <property name="icon">
-             <iconset resource="../bitcoin.qrc">
+             <iconset>
               <normaloff>:/icons/receiving_addresses</normaloff>:/icons/receiving_addresses</iconset>
             </property>
            </widget>
@@ -255,10 +266,13 @@
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
