@@ -8,7 +8,7 @@ add_definitions(-DENABLE_WALLET)
 
 add_definitions(-DCOPYRIGHT_HOLDERS="rcoin.com")
 
-file(GLOB SRCS *.cpp qt/*.h)
+file(GLOB SRCS *.cpp *.h widgets/*.cpp widgets/*.h)
 #file(GLOB UIS forms/*.ui)
 
 add_subdirectory(forms)
