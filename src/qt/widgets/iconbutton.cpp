@@ -26,14 +26,17 @@ void iconbutton::setActive(bool active)
 {
 	if (active)
 	{
-		setStyleSheet(QLatin1String("QFrame {\n"
+		setStyleSheet(QStringLiteral("QFrame#iconbutton {\n"
 			" \n"
-			"	background-color: rgb(255, 255, 255);\n"
+			"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(240, 240, 240, 255), stop:1 rgba(255, 255, 255, 255));\n"
 			"}"));
 	}
 	else
 	{
-		setStyleSheet(QLatin1String(""));
+		setStyleSheet(QStringLiteral("QFrame#iconbutton {\n"
+			" \n"
+			"background-color: rgb(240, 240, 240);\n"
+			"}"));
 	}
 }
 
