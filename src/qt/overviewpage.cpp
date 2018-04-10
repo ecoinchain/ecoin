@@ -122,6 +122,9 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     txdelegate(new TxViewDelegate(platformStyle, this))
 {
     ui->setupUi(this);
+	ui->frameBalance->setBackgroundImage(QIcon(":/icons/balance_bg"));
+	ui->framePending->setBackgroundImage(QIcon(":/icons/balance_bg"));
+	ui->WatchImmature->setBackgroundImage(QIcon(":/icons/balance_bg"));
 
     // use a SingleColorIcon for the "out of sync warning" icon
     QIcon icon = platformStyle->SingleColorIcon(":/icons/warning");

@@ -6,12 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>760</width>
-    <height>469</height>
+    <width>721</width>
+    <height>501</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <property name="topMargin">
@@ -46,14 +49,20 @@
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QFrame" name="frameBalance">
+           <widget class="QBackgroundImageFrame" name="frameBalance">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>70</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">QFrame#frameBalance {
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(75, 186, 255, 255), stop:1 rgba(74, 163, 255, 255));
@@ -150,13 +159,18 @@ border-radius: 5px;
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="framePending">
+           <widget class="QBackgroundImageFrame" name="framePending">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>70</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">QFrame#framePending{
 border-radius: 5px;
 background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(185, 188, 192, 255), stop:0.973958 rgba(153, 158, 163, 255), stop:1 rgba(74, 163, 255, 255))
 }
-
 </string>
             </property>
             <property name="frameShape">
@@ -225,6 +239,9 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
                <property name="toolTip">
                 <string>Unconfirmed transactions to watch-only addresses</string>
                </property>
+               <property name="autoFillBackground">
+                <bool>false</bool>
+               </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
                </property>
@@ -240,7 +257,13 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
            </widget>
           </item>
           <item>
-           <widget class="QFrame" name="WatchImmature">
+           <widget class="QBackgroundImageFrame" name="WatchImmature">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>70</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">QFrame#WatchImmature{
 border-radius: 5px;
@@ -331,6 +354,12 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
           </item>
           <item>
            <widget class="QFrame" name="frameTotal">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>70</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">QFrame#frameTotal {
 background-color: rgb(248, 248, 248);
@@ -441,7 +470,7 @@ border-radius: 5px;
        <item>
         <widget class="QFrame" name="frame_2">
          <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
+          <enum>QFrame::NoFrame</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
@@ -551,6 +580,14 @@ border-radius: 5px;
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QBackgroundImageFrame</class>
+   <extends>QFrame</extends>
+   <header>qt/widgets/qbackgroundimageframe.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../bitcoin.qrc"/>
  </resources>
