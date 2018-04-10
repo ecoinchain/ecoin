@@ -57,6 +57,7 @@
         <file alias="receiving_addresses_inactive">res/icons/receive_inactive.svg</file>
         <file alias="history_active">res/icons/history_active.svg</file>
         <file alias="history_inactive">res/icons/history_inactive.svg</file>
+        <file alias="balance_bg">res/icons/balance_bg.svg</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
