@@ -67,13 +67,6 @@ if(MSVC AND ENABLE_QT_STATIC)
 
 	message(STATUS "using qt in ${QT_LIB_DIR}")
 
-	FIND_LIBRARY(Qt5QICO_LIBRARIES_RELEASE qico
-		HINTS "${QT_LIB_DIR}/../plugins/imageformats"
-	)
-	FIND_LIBRARY(Qt5QICO_LIBRARIES_DEBUG qicod
-		HINTS "${QT_LIB_DIR}/../plugins/imageformats"
-	)
-
 	FIND_LIBRARY(Qt5HB_LIBRARIES_RELEASE qtharfbuzzng
 		HINTS "${QT_LIB_DIR}"
 	)
@@ -104,7 +97,6 @@ if(MSVC AND ENABLE_QT_STATIC)
 
 	SET(Qt5Platform_LIBRARIES optimized ${Qt5Platform_LIBRARIES_RELEASE} debug ${Qt5Platform_LIBRARIES_DEBUG})
 	SET(Qt5QWindows_LIBRARIES optimized ${Qt5QWindows_LIBRARIES_RELEASE} debug ${Qt5QWindows_LIBRARIES_DEBUG})
-	SET(Qt5QICO_LIBRARIES optimized ${Qt5QICO_LIBRARIES_RELEASE} debug ${Qt5QICO_LIBRARIES_DEBUG})
 	if (Qt5HB_LIBRARIES_RELEASE)
 		SET(Qt5HB_LIBRARIES optimized ${Qt5HB_LIBRARIES_RELEASE} debug ${Qt5HB_LIBRARIES_DEBUG})
 	endif()
@@ -127,8 +119,8 @@ if(MSVC AND ENABLE_QT_STATIC)
 	set(TS optimized Qt5ThemeSupport debug Qt5ThemeSupportd)
 
 	set(QT_EXTRA_LIBS ${AS} ${EDS} ${FDS} ${FBS} ${Bsp} ${TS})
-	set(Qt5StaticExtra ${Qt5QICO_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
-	link_libraries(${Qt5QICO_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
+	set(Qt5StaticExtra ${Qt5HB_LIBRARIES} ${Qt5PNG_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
+	link_libraries(${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 endif()
 
 add_subdirectory(3rd-src/openssl-cmake)

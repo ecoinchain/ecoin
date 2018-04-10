@@ -8,8 +8,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodium/include/sodium)
 
-add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=1 -DCLIENT_VERSION_REVISION=0 -DCLIENT_VERSION_BUILD=0 -DCLIENT_VERSION_IS_RELEASE=FALSE -DCOPYRIGHT_YEAR=2018)
-add_definitions(-DPACKAGE_NAME="rcoin" -DCOPYRIGHT_HOLDERS="rcoin.com" -DCOPYRIGHT_HOLDERS_SUBSTITUTION="rcoin")
+add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=16 -DCLIENT_VERSION_REVISION=99 -DCLIENT_VERSION_BUILD=0 -DCLIENT_VERSION_IS_RELEASE=FALSE -DCOPYRIGHT_YEAR=2018)
+add_definitions(-DPACKAGE_NAME="rcoin")
 
 add_definitions(-DENABLE_WALLET)
 
