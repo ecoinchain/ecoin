@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 30 30" style="enable-background:new 0 0 30 30;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:url(#fasong_1_);}
+</style>
+<title>fasong</title>
+<desc>Created with Sketch.</desc>
+<g id="Page-1">
+	<g id="概览展开" transform="translate(-154.000000, -35.000000)">
+		<g id="Group-3" transform="translate(0.000000, 20.000000)">
+			<g id="Group-4" transform="translate(154.000000, 15.000000)">
+				
+					<linearGradient id="fasong_1_" gradientUnits="userSpaceOnUse" x1="-42.0333" y1="74.5333" x2="-42.0333" y2="73.5333" gradientTransform="matrix(30 0 0 -30 1276 2236)">
+					<stop  offset="0" style="stop-color:#ADB1B4"/>
+					<stop  offset="1" style="stop-color:#878C92"/>
+				</linearGradient>
+				<path id="fasong" class="st0" d="M16,11.3l4.4,4.2c0.4,0.4,1,0.4,1.4,0c0.4-0.4,0.4-1,0-1.4l-6-5.7c-0.4-0.4-1-0.4-1.4,0L8.3,14
+					c-0.4,0.4-0.4,1,0,1.4c0.4,0.4,1,0.4,1.4,0l4.3-4V22c0,0.6,0.4,1,1,1s1-0.4,1-1V11.3z M15,30C6.7,30,0,23.3,0,15S6.7,0,15,0
+					s15,6.7,15,15S23.3,30,15,30z"/>
+			</g>
+		</g>
+	</g>
+</g>
+</svg>
