@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>186</width>
-    <height>80</height>
+    <width>89</width>
+    <height>74</height>
    </rect>
   </property>
   <property name="autoFillBackground">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -28,7 +28,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>0</height>
+       <height>12</height>
       </size>
      </property>
     </spacer>
@@ -62,6 +62,9 @@
      </item>
      <item>
       <widget class="QLabel" name="text">
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>text</string>
        </property>
@@ -77,7 +80,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>0</height>
+       <height>12</height>
       </size>
      </property>
     </spacer>
