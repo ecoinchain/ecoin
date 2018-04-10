@@ -13,6 +13,51 @@
   <property name="windowTitle">
    <string>Send Coins</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton#sendButton {
+    border-style: solid;
+
+    border-radius : 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+}
+
+QPushButton#clearButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	color: rgb(39, 152, 255);
+	background-color: white;
+}
+
+
+QPushButton#addButton {
+
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	color: rgb(39, 152, 255);
+	background-color: white;
+}
+
+#buttonChooseFee{
+    border-radius: 3px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(108, 112, 113);
+}
+
+#buttonChooseFee:hover { 
+background-color: rgb(151, 156, 161);
+}
+
+
+QLabel {
+	color: rgb(57, 60, 61);
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
    <property name="bottomMargin">
     <number>8</number>
@@ -597,7 +642,7 @@
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>81</height>
+        <height>95</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
@@ -651,11 +696,21 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true">.QFrame {
+background-color: rgb(248, 248, 248);
+  border-radius: 5px;
+}  
+</string>
+     </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QVBoxLayout" name="verticalLayoutFee1">
       <property name="spacing">
@@ -739,6 +794,12 @@
               </item>
               <item>
                <widget class="QLabel" name="labelFeeMinimized">
+                <property name="minimumSize">
+                 <size>
+                  <width>22</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -1160,6 +1221,13 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
        <property name="toolTip">
         <string>Confirm the send action</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	border-width: 0px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+}</string>
+       </property>
        <property name="text">
         <string>S&amp;end</string>
        </property>
@@ -1186,6 +1254,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
        <property name="toolTip">
         <string>Clear all fields of the form.</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(39, 152, 255);
+border-width: 1px;</string>
+       </property>
        <property name="text">
         <string>Clear &amp;All</string>
        </property>
@@ -1202,6 +1274,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
       <widget class="QPushButton" name="addButton">
        <property name="toolTip">
         <string>Send to multiple recipients at once</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(39, 152, 255);
+border-width: 1px;</string>
        </property>
        <property name="text">
         <string>Add &amp;Recipient</string>
