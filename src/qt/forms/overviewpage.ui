@@ -38,6 +38,7 @@ border-radius: 5px;
 QLabel {
 	color: rgb(57, 60, 61);
 }
+
 </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -72,6 +73,19 @@ QLabel {
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
         <widget class="QFrame" name="frame">
+         <property name="styleSheet">
+          <string notr="true">QFrame QLabel    {
+   font-family: HelveticaNeue-Medium;
+   color:  rgb(255, 255, 255);
+   font: 12pt;
+}
+
+#frameTotal QLabel {
+color: #393C3D;
+letter-spacing: 0.5px;
+line-height: 28px;
+}</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::NoFrame</enum>
          </property>
@@ -127,8 +141,11 @@ QLabel {
               <widget class="QLabel" name="labelBalance">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -152,8 +169,11 @@ QLabel {
               <widget class="QLabel" name="labelWatchAvailable">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -218,8 +238,11 @@ QLabel {
               <widget class="QLabel" name="labelUnconfirmed">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -243,8 +266,11 @@ QLabel {
               <widget class="QLabel" name="labelWatchPending">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -312,8 +338,11 @@ QLabel {
               <widget class="QLabel" name="labelImmature">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -337,8 +366,11 @@ QLabel {
               <widget class="QLabel" name="labelWatchImmature">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -403,8 +435,11 @@ QLabel {
               <widget class="QLabel" name="labelTotal">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
@@ -428,8 +463,11 @@ QLabel {
               <widget class="QLabel" name="labelWatchTotal">
                <property name="font">
                 <font>
-                 <weight>75</weight>
-                 <bold>true</bold>
+                 <family>HelveticaNeue-Medium</family>
+                 <pointsize>12</pointsize>
+                 <weight>50</weight>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
                <property name="cursor">
