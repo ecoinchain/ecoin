@@ -149,4 +149,6 @@ add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
 
 add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
 
+add_subdirectory(3rd-src/qrencode)
+
 add_subdirectory(src)
