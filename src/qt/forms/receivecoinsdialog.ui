@@ -382,63 +382,6 @@ QLabel {
         </attribute>
        </widget>
       </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QPushButton" name="showRequestButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Show the selected request (does the same as double clicking an entry)</string>
-          </property>
-          <property name="text">
-           <string>Show</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../bitcoin.qrc">
-            <normaloff>:/icons/edit</normaloff>:/icons/edit</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="removeRequestButton">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="toolTip">
-           <string>Remove the selected entries from the list</string>
-          </property>
-          <property name="text">
-           <string>Remove</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../bitcoin.qrc">
-            <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_2">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
      </layout>
     </widget>
    </item>
@@ -465,8 +408,6 @@ QLabel {
   <tabstop>receiveButton</tabstop>
   <tabstop>clearButton</tabstop>
   <tabstop>recentRequestsView</tabstop>
-  <tabstop>showRequestButton</tabstop>
-  <tabstop>removeRequestButton</tabstop>
  </tabstops>
  <resources>
   <include location="../bitcoin.qrc"/>

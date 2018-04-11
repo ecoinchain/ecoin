@@ -37,13 +37,13 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
     if (!_platformStyle->getImagesOnButtons()) {
         ui->clearButton->setIcon(QIcon());
         ui->receiveButton->setIcon(QIcon());
-        ui->showRequestButton->setIcon(QIcon());
-        ui->removeRequestButton->setIcon(QIcon());
+//        ui->showRequestButton->setIcon(QIcon());
+//        ui->removeRequestButton->setIcon(QIcon());
     } else {
         ui->clearButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
         ui->receiveButton->setIcon(_platformStyle->SingleColorIcon(":/icons/receiving_addresses"));
-        ui->showRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/edit"));
-        ui->removeRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
+ //       ui->showRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/edit"));
+ //       ui->removeRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
     }
 
     // context menu actions
@@ -198,8 +198,8 @@ void ReceiveCoinsDialog::recentRequestsView_selectionChanged(const QItemSelectio
 {
     // Enable Show/Remove buttons only if anything is selected.
     bool enable = !ui->recentRequestsView->selectionModel()->selectedRows().isEmpty();
-    ui->showRequestButton->setEnabled(enable);
-    ui->removeRequestButton->setEnabled(enable);
+//     ui->showRequestButton->setEnabled(enable);
+//     ui->removeRequestButton->setEnabled(enable);
 }
 
 void ReceiveCoinsDialog::on_showRequestButton_clicked()
