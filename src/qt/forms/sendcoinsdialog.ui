@@ -33,20 +33,27 @@ padding : 6px;
 padding : 5px;
 }
 
-#buttonChooseFee{
+#buttonChooseFee , #pushButtonCoinControl{
     border-radius: 3px;
 	border-color: rgb(39, 152, 255);
 	background-color: rgb(108, 112, 113);
 }
 
-#buttonChooseFee:hover { 
+#buttonChooseFee:hover , #pushButtonCoinControl:hover  { 
 background-color: rgb(151, 156, 161);
 }
 
 
 QLabel {
 	color: rgb(57, 60, 61);
-}</string>
+}
+
+
+QDialog &gt; .QFrame {
+background-color: rgb(248, 248, 248);
+  border-radius: 5px;
+}  
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
    <property name="bottomMargin">
@@ -138,6 +145,12 @@ QLabel {
           </property>
           <item>
            <widget class="QPushButton" name="pushButtonCoinControl">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -632,7 +645,7 @@ QLabel {
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>85</height>
+        <height>80</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
@@ -687,11 +700,7 @@ QLabel {
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">.QFrame {
-background-color: rgb(248, 248, 248);
-  border-radius: 5px;
-}  
-</string>
+      <string notr="true"/>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
@@ -763,7 +772,7 @@ background-color: rgb(248, 248, 248);
               <item>
                <widget class="QLabel" name="labelFeeHeadline">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -797,6 +806,18 @@ background-color: rgb(248, 248, 248);
               </item>
               <item>
                <widget class="QPushButton" name="buttonChooseFee">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>22</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Choose...</string>
                 </property>
