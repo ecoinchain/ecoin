@@ -11,4 +11,4 @@ qt5_add_translation(LOCALE_FILES ${QT_TRANS})
 
 set_source_files_properties(${LOCALE_FILES} PROPERTIES OUTPUT_LOCATION ${CMAKE_CURRENT_SOURCE_DIR})
 
-add_library(rcoin-qt-locale OBJECT ${LOCALE_FILES})
+add_library(rcoin-qt-locale OBJECT ${QT_TRANS} ${LOCALE_FILES})
