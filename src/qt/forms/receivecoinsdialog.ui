@@ -37,9 +37,20 @@ padding : 5px;
 padding : 5px;
 }
 
-QLabel {
+QLabel , QCheckBox {
 	color: rgb(57, 60, 61);
-}</string>
+    border : 0px solid ;
+   border-radius: 4px;
+padding : 2px;
+  
+}
+
+QLineEdit , QComboBox{
+	color: rgb(57, 60, 61);
+    border : 1px solid #E4E4E4 ;
+   border-radius: 4px;
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
    <item>
@@ -345,16 +356,110 @@ QLabel {
        <widget class="RecentRequestsView" name="recentRequestsView">
         <property name="palette">
          <palette>
-          <active/>
-          <inactive/>
-          <disabled/>
+          <active>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="Button">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Window">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>248</red>
+              <green>248</green>
+              <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
          </palette>
         </property>
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
         </property>
         <property name="styleSheet">
-         <string notr="true"/>
+         <string notr="true">
+QHeaderView::section {
+   background-color: rgb(242, 242, 242);
+    border: 0px;
+}
+
+QTableView {
+border-radius: 5px;
+	background-color: rgb(248, 248, 248);
+}
+</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>

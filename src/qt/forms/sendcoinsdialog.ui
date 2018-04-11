@@ -33,10 +33,11 @@ padding : 6px;
 padding : 5px;
 }
 
-#buttonChooseFee , #pushButtonCoinControl{
+#buttonChooseFee , #pushButtonCoinControl , #buttonMinimizeFee{
     border-radius: 3px;
 	border-color: rgb(39, 152, 255);
 	background-color: rgb(108, 112, 113);
+padding: 2.5px;
 }
 
 #buttonChooseFee:hover , #pushButtonCoinControl:hover  { 
@@ -44,10 +45,18 @@ background-color: rgb(151, 156, 161);
 }
 
 
-QLabel {
+QLabel , QCheckBox {
 	color: rgb(57, 60, 61);
+    border : 0px solid ;
+   border-radius: 4px;
+  
 }
 
+QLineEdit , QComboBox{
+	color: rgb(57, 60, 61);
+    border : 1px solid #E4E4E4 ;
+   border-radius: 4px;
+}
 
 QDialog &gt; .QFrame {
 background-color: rgb(248, 248, 248);
@@ -645,7 +654,7 @@ background-color: rgb(248, 248, 248);
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>80</height>
+        <height>92</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
@@ -815,7 +824,7 @@ background-color: rgb(248, 248, 248);
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>22</height>
+                  <height>0</height>
                  </size>
                 </property>
                 <property name="text">
