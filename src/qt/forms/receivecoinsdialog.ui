@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>396</height>
+    <width>764</width>
+    <height>463</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -16,7 +16,30 @@
 	background-color: rgb(248, 248, 248);
     border-width: 0px;
 }
-</string>
+
+
+#receiveButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+padding : 5px;
+}
+
+ #clearButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	color: rgb(39, 152, 255);
+	background-color: white;
+padding : 5px;
+}
+
+QLabel {
+	color: rgb(57, 60, 61);
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
    <item>
@@ -39,6 +62,18 @@
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
        <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
         <item row="5" column="0">
          <widget class="QLabel" name="label">
           <property name="toolTip">
@@ -73,6 +108,12 @@
         </item>
         <item row="4" column="2">
          <widget class="QLineEdit" name="reqLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="toolTip">
            <string>An optional label to associate with the new receiving address.</string>
           </property>
@@ -112,9 +153,15 @@
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
            <widget class="QPushButton" name="receiveButton">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="minimumSize">
              <size>
-              <width>150</width>
+              <width>140</width>
               <height>0</height>
              </size>
             </property>
@@ -130,10 +177,16 @@
           <item>
            <widget class="QPushButton" name="clearButton">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>16</height>
+             </size>
             </property>
             <property name="toolTip">
              <string>Clear all fields of the form.</string>
@@ -157,8 +210,8 @@
             </property>
             <property name="sizeHint" stdset="0">
              <size>
-              <width>40</width>
-              <height>20</height>
+              <width>0</width>
+              <height>0</height>
              </size>
             </property>
            </spacer>
@@ -289,9 +342,28 @@
        </widget>
       </item>
       <item>
-       <widget class="QTableView" name="recentRequestsView">
+       <widget class="RecentRequestsView" name="recentRequestsView">
+        <property name="palette">
+         <palette>
+          <active/>
+          <inactive/>
+          <disabled/>
+         </palette>
+        </property>
         <property name="contextMenuPolicy">
          <enum>Qt::CustomContextMenu</enum>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
         </property>
         <property name="tabKeyNavigation">
          <bool>false</bool>
@@ -299,6 +371,15 @@
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
+        <attribute name="horizontalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderHighlightSections">
+         <bool>false</bool>
+        </attribute>
        </widget>
       </item>
       <item>
@@ -369,6 +450,11 @@
    <extends>QLineEdit</extends>
    <header>qt/bitcoinamountfield.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>RecentRequestsView</class>
+   <extends>QTableView</extends>
+   <header>qt/widgets/recentrequestsview.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
