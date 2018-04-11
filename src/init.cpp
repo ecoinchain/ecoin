@@ -1640,10 +1640,10 @@ bool AppInitMain()
 
 #ifndef ENABLE_WALLET
     if (gArgs.GetBoolArg("-minetolocalwallet", false)) {
-        return InitError(_("RCoin was not built with wallet support. Set -minetolocalwallet=0 to use -mineraddress, or rebuild RCoin with wallet support."));
+        return InitError(_("Bitcoin was not built with wallet support. Set -minetolocalwallet=0 to use -mineraddress, or rebuild Bitcoin with wallet support."));
     }
     if (gArgs.GetArg("-mineraddress", "").empty() && gArgs.GetBoolArg("-gen", false)) {
-        return InitError(_("RCoin was not built with wallet support. Set -mineraddress, or rebuild RCoin with wallet support."));
+        return InitError(_("Bitcoin was not built with wallet support. Set -mineraddress, or rebuild Bitcoin with wallet support."));
     }
 #endif // !ENABLE_WALLET
 
