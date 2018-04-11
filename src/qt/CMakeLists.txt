@@ -4,7 +4,7 @@ set(CMAKE_AUTOMOC ON)
 
 cmake_policy(SET CMP0020 NEW)
 add_definitions(-DQT_NO_KEYWORDS)
-add_definitions(-DENABLE_WALLET)
+add_definitions(-DENABLE_WALLET -DUSE_QRCODE)
 
 add_definitions(-DCOPYRIGHT_HOLDERS="rcoin.com")
 
