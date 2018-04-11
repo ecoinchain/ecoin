@@ -43,7 +43,7 @@ QLabel {
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_5">
    <property name="topMargin">
-    <number>0</number>
+    <number>10</number>
    </property>
    <item>
     <widget class="QLabel" name="labelAlerts">
@@ -78,6 +78,8 @@ QLabel {
    font-family: HelveticaNeue-Medium;
    color:  rgb(255, 255, 255);
    font: 12pt;
+    margin : 2px;
+   padding: 2px;
 }
 
 #frameTotal QLabel {
@@ -93,6 +95,9 @@ line-height: 28px;
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="topMargin">
+           <number>0</number>
+          </property>
           <item>
            <widget class="QBackgroundImageFrame" name="frameBalance">
             <property name="minimumSize">
@@ -535,19 +540,6 @@ line-height: 28px;
              </widget>
             </item>
             <item>
-             <spacer name="horizontalSpacer">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>40</width>
-                <height>20</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
              <widget class="QPushButton" name="labelTransactionsStatus">
               <property name="enabled">
                <bool>true</bool>
@@ -571,7 +563,11 @@ line-height: 28px;
                <string notr="true">border-witdh : 0px;</string>
               </property>
               <property name="text">
-               <string>More</string>
+               <string notr="true"/>
+              </property>
+              <property name="icon">
+               <iconset resource="../bitcoin.qrc">
+                <normaloff>:/icons/warning</normaloff>:/icons/warning</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -583,6 +579,19 @@ line-height: 28px;
                <bool>true</bool>
               </property>
              </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
             </item>
            </layout>
           </item>
@@ -809,6 +818,8 @@ color: rgb(39, 152, 255);
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>
