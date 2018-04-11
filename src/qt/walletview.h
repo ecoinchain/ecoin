@@ -59,7 +59,6 @@ private:
     WalletModel *walletModel;
 
     OverviewPage *overviewPage;
-    QWidget *transactionsPage;
     ReceiveCoinsDialog *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
     AddressBookPage *usedSendingAddressesPage;

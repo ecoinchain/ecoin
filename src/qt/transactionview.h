@@ -27,6 +27,10 @@ class QSignalMapper;
 class QTableView;
 QT_END_NAMESPACE
 
+namespace Ui {
+	class TransactionView;
+}
+
 /** Widget showing the transaction list for a wallet, including a filter row.
     Using the filter row, the user can view or export a subset of the transactions.
   */
@@ -36,6 +40,7 @@ class TransactionView : public QWidget
 
 public:
     explicit TransactionView(const PlatformStyle *platformStyle, QWidget *parent = 0);
+	~TransactionView();
 
     void setModel(WalletModel *model);
 
@@ -61,29 +66,17 @@ public:
     };
 
 private:
+	Ui::TransactionView* ui;
     WalletModel *model;
     TransactionFilterProxy *transactionProxyModel;
-    QTableView *transactionView;
-
-    QComboBox *dateWidget;
-    QComboBox *typeWidget;
-    QComboBox *watchOnlyWidget;
-    QLineEdit *search_widget;
-    QLineEdit *amountWidget;
 
     QMenu *contextMenu;
     QSignalMapper *mapperThirdPartyTxUrls;
 
-    QFrame *dateRangeWidget;
-    QDateTimeEdit *dateFrom;
-    QDateTimeEdit *dateTo;
     QAction *abandonAction;
     QAction *bumpFeeAction;
 
-    QWidget *createDateRangeWidget();
-
     GUIUtil::TableViewLastColumnResizingFixer *columnResizingFixer;
-
     virtual void resizeEvent(QResizeEvent* event);
 
     bool eventFilter(QObject *obj, QEvent *event);
