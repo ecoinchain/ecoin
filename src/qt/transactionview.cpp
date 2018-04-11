@@ -84,15 +84,6 @@ TransactionView::TransactionView(const PlatformStyle *platformStyle, QWidget *pa
     prefix_typing_delay->setSingleShot(true);
     prefix_typing_delay->setInterval(input_filter_delay);
 
-    int width = ui->transactionView->verticalScrollBar()->sizeHint().width();
-    // Cover scroll bar width with spacing
-    if (platformStyle->getUseExtraSpacing()) {
-        ui->hlayout->addSpacing(width+2);
-    } else {
-		ui->hlayout->addSpacing(width);
-    }
-
-
 	ui->transactionView->installEventFilter(this);
 
     // Actions
@@ -187,15 +178,8 @@ void TransactionView::setModel(WalletModel *_model)
         ui->transactionView->setSelectionMode(QAbstractItemView::ExtendedSelection);
         ui->transactionView->setSortingEnabled(true);
         ui->transactionView->sortByColumn(TransactionTableModel::Date, Qt::DescendingOrder);
-        ui->transactionView->verticalHeader()->hide();
-
-		ui->transactionView->setColumnWidth(TransactionTableModel::Status, STATUS_COLUMN_WIDTH);
-        ui->transactionView->setColumnWidth(TransactionTableModel::Watchonly, WATCHONLY_COLUMN_WIDTH);
-        ui->transactionView->setColumnWidth(TransactionTableModel::Date, DATE_COLUMN_WIDTH);
-        ui->transactionView->setColumnWidth(TransactionTableModel::Type, TYPE_COLUMN_WIDTH);
-        ui->transactionView->setColumnWidth(TransactionTableModel::Amount, AMOUNT_MINIMUM_COLUMN_WIDTH);
-
-        columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(ui->transactionView, AMOUNT_MINIMUM_COLUMN_WIDTH, MINIMUM_COLUMN_WIDTH, this);
+    
+		columnResizingFixer = new GUIUtil::TableViewLastColumnResizingFixer(ui->transactionView, AMOUNT_MINIMUM_COLUMN_WIDTH, MINIMUM_COLUMN_WIDTH, this);
 
         if (_model->getOptionsModel())
         {
@@ -570,6 +554,8 @@ bool TransactionView::eventFilter(QObject *obj, QEvent *event)
 // show/hide column Watch-only
 void TransactionView::updateWatchOnlyColumn(bool fHaveWatchOnly)
 {
+	ui->transactionView->setColumnHidden(TransactionTableModel::Status, 1);
+
 	ui->watchOnlyWidget->setVisible(fHaveWatchOnly);
     ui->transactionView->setColumnHidden(TransactionTableModel::Watchonly, !fHaveWatchOnly);
 }
