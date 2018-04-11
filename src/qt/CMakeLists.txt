@@ -36,11 +36,11 @@ target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} 
 target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 
 if(MSVC AND ENABLE_QT_STATIC)
-target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin  Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin)
+target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin  Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin Qt5::QWindowsVistaStylePlugin)
 endif()
 
 if(WIN32)
-target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib Imm32.lib Dwmapi.lib)
+target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib Imm32.lib Dwmapi.lib UxTheme.lib)
 endif()
 
 # target_link_libraries(tianya OPENS)
