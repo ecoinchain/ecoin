@@ -68,6 +68,7 @@ public:
         Label = 1,
         Message = 2,
         Amount = 3,
+		Operation = 4,
         NUMBER_OF_COLUMNS
     };
 
