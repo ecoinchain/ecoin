@@ -10,6 +10,36 @@
     <height>597</height>
    </rect>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+padding : 6px;
+}
+
+QPushButton:hover { 
+background-color: rgb(151, 156, 161);
+}
+
+
+QLabel , QCheckBox {
+	color: rgb(57, 60, 61);
+    border : 0px solid ;
+   border-radius: 4px;
+  
+}
+
+QLineEdit , QComboBox{
+	color: rgb(57, 60, 61);
+    border : 1px solid #E4E4E4 ;
+   border-radius: 4px;
+}
+
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
     <widget class="QRImageWidget" name="lblQRCode">
