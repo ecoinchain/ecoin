@@ -14,25 +14,15 @@
 #include <QApplication>
 #include <QClipboard>
 
-SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *parent) :
-    QStackedWidget(parent),
+SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *parent)
+	: QFrame(parent),
     ui(new Ui::SendCoinsEntry),
     model(0),
     platformStyle(_platformStyle)
 {
     ui->setupUi(this);
 
-    ui->addressBookButton->setIcon(platformStyle->SingleColorIcon(":/icons/address-book"));
-    ui->pasteButton->setIcon(platformStyle->SingleColorIcon(":/icons/editpaste"));
-    ui->deleteButton->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-    ui->deleteButton_is->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-    ui->deleteButton_s->setIcon(platformStyle->SingleColorIcon(":/icons/remove"));
-
-    setCurrentWidget(ui->SendCoins);
-
-#if QT_VERSION >= 0x040700
-    ui->addAsLabel->setPlaceholderText(tr("Enter a label for this address to add it to your address book"));
-#endif
+	ui->stack->setCurrentWidget(ui->SendCoins);
 
     // normal bitcoin address field
     GUIUtil::setupAddressWidget(ui->payTo, this);
@@ -43,8 +33,6 @@ SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *par
     connect(ui->payAmount, SIGNAL(valueChanged()), this, SIGNAL(payAmountChanged()));
     connect(ui->checkboxSubtractFeeFromAmount, SIGNAL(toggled(bool)), this, SIGNAL(subtractFeeFromAmountChanged()));
     connect(ui->deleteButton, SIGNAL(clicked()), this, SLOT(deleteClicked()));
-    connect(ui->deleteButton_is, SIGNAL(clicked()), this, SLOT(deleteClicked()));
-    connect(ui->deleteButton_s, SIGNAL(clicked()), this, SLOT(deleteClicked()));
     connect(ui->useAvailableBalanceButton, SIGNAL(clicked()), this, SLOT(useAvailableBalanceClicked()));
 }
 
@@ -204,7 +192,7 @@ void SendCoinsEntry::setValue(const SendCoinsRecipient &value)
             ui->memoTextLabel_is->setText(recipient.message);
             ui->payAmount_is->setValue(recipient.amount);
             ui->payAmount_is->setReadOnly(true);
-            setCurrentWidget(ui->SendCoins_UnauthenticatedPaymentRequest);
+            ui->stack->setCurrentWidget(ui->SendCoins_UnauthenticatedPaymentRequest);
         }
         else // authenticated
         {
@@ -212,7 +200,7 @@ void SendCoinsEntry::setValue(const SendCoinsRecipient &value)
             ui->memoTextLabel_s->setText(recipient.message);
             ui->payAmount_s->setValue(recipient.amount);
             ui->payAmount_s->setReadOnly(true);
-            setCurrentWidget(ui->SendCoins_AuthenticatedPaymentRequest);
+			ui->stack->setCurrentWidget(ui->SendCoins_AuthenticatedPaymentRequest);
         }
     }
     else // normal payment
