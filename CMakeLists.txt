@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 cmake_minimum_required(VERSION 3.0)
 project(rcoin)
 
+SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(CheckCXXCompilerFlag)
