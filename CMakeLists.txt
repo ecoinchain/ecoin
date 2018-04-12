@@ -51,7 +51,6 @@ if (WIN32)
 	list (APPEND RCOIN_QT_COMPONENTS WinExtras)
 endif(WIN32)
 if (APPLE)
-	list (APPEND RCOIN_QT_COMPONENTS objc)
 	list (APPEND RCOIN_QT_COMPONENTS MacExtras)
 endif (APPLE)
 
