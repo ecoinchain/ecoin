@@ -89,7 +89,6 @@ private:
     QProgressBar *progressBar;
     QProgressDialog *progressDialog;
 
-    QMenuBar *appMenuBar;
     QAction *overviewAction;
     QAction *historyAction;
     QAction *quitAction;
@@ -127,10 +126,9 @@ private:
 
     /** Create the main UI actions. */
     void createActions();
-    /** Create the menu bar and sub-menus. */
-    void createMenuBar();
-    /** Create the toolbars */
-    void createToolBars();
+
+	/** Create the toolbars */
+    void createToolBars_and_Menus();
     /** Create system tray icon and notification */
     void createTrayIcon(const NetworkStyle *networkStyle);
     /** Create system tray menu (or setup the dock menu) */

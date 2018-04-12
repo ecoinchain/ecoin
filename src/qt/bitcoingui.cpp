@@ -52,6 +52,7 @@
 #include <QTimer>
 #include <QToolBar>
 #include <QVBoxLayout>
+#include <QPushButton>
 
 #if QT_VERSION < 0x050000
 #include <QTextDocument>
@@ -87,7 +88,6 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     progressBarLabel(0),
     progressBar(0),
     progressDialog(0),
-    appMenuBar(0),
     overviewAction(0),
     historyAction(0),
     quitAction(0),
@@ -174,11 +174,8 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     // Needs walletFrame to be initialized
     createActions();
 
-    // Create application menu bar
-    createMenuBar();
-
-    // Create the toolbars
-    createToolBars();
+    // Create application menu bar and toolbars
+    createToolBars_and_Menus();
 
     // Create system tray icon and notification
     createTrayIcon(networkStyle);
@@ -265,10 +262,6 @@ BitcoinGUI::~BitcoinGUI()
     settings.setValue("MainWindowGeometry", saveGeometry());
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
-#ifdef Q_OS_MAC
-    delete appMenuBar;
-    MacDockIconHandler::cleanup();
-#endif
 
     delete rpcConsole;
 }
@@ -405,56 +398,12 @@ void BitcoinGUI::createActions()
     new QShortcut(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_D), this, SLOT(showDebugWindow()));
 }
 
-void BitcoinGUI::createMenuBar()
+void BitcoinGUI::createToolBars_and_Menus()
 {
-#ifdef Q_OS_MAC
-    // Create a decoupled menu bar on Mac which stays even if the window is closed
-    appMenuBar = new QMenuBar();
-#else
-    // Get the main window's menu bar on other platforms
-    appMenuBar = menuBar();
-#endif
-
-    // Configure the menus
-    QMenu *file = appMenuBar->addMenu(tr("&File"));
-    if(walletFrame)
+	QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
+	
+	if (walletFrame)
     {
-        file->addAction(openAction);
-        file->addAction(backupWalletAction);
-        file->addAction(signMessageAction);
-        file->addAction(verifyMessageAction);
-        file->addSeparator();
-        file->addAction(usedSendingAddressesAction);
-        file->addAction(usedReceivingAddressesAction);
-        file->addSeparator();
-    }
-    file->addAction(quitAction);
-
-    QMenu *settings = appMenuBar->addMenu(tr("&Settings"));
-    if(walletFrame)
-    {
-        settings->addAction(encryptWalletAction);
-        settings->addAction(changePassphraseAction);
-        settings->addSeparator();
-    }
-    settings->addAction(optionsAction);
-
-    QMenu *help = appMenuBar->addMenu(tr("&Help"));
-    if(walletFrame)
-    {
-        help->addAction(openRPCConsoleAction);
-    }
-    help->addAction(showHelpMessageAction);
-    help->addSeparator();
-    help->addAction(aboutAction);
-    help->addAction(aboutQtAction);
-}
-
-void BitcoinGUI::createToolBars()
-{
-    if(walletFrame)
-    {
-        QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
         toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
         toolbar->setMovable(false);
         toolbar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -468,7 +417,72 @@ void BitcoinGUI::createToolBars()
 
 		//toolbar->setPalette(pal);
 		toolbar->setStyleSheet("QToolBar { padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
+
+		toolbar->addSeparator();
+
+		auto spacerwidget = new QWidget();
+		auto hl = new QHBoxLayout();
+		spacerwidget->setLayout(hl);
+		hl->addStretch(0);	
+		toolbar->addWidget(spacerwidget);
     }
+
+//	toolbar->layout()->addItem()
+
+	// Create a decoupled menu bar on Mac which stays even if the window is closed
+	auto appMenuBar = toolbar;
+
+	// Configure the menus
+	auto filebutton = new QPushButton(tr("&File"));
+
+	appMenuBar->addWidget(filebutton);
+
+	auto file = new QMenu(filebutton);
+	
+	filebutton->setMenu(file);
+
+	//	QMenu *file = appMenuBar->addMenu(tr("&File"));
+	if (walletFrame)
+	{
+		file->addAction(openAction);
+		file->addAction(backupWalletAction);
+		file->addAction(signMessageAction);
+		file->addAction(verifyMessageAction);
+		file->addSeparator();
+		file->addAction(usedSendingAddressesAction);
+		file->addAction(usedReceivingAddressesAction);
+		file->addSeparator();
+	}
+	file->addAction(quitAction);
+
+	auto settingsbutton = new QPushButton(tr("&Settings"));
+	appMenuBar->addWidget(settingsbutton);
+
+	QMenu *settings = new QMenu(settingsbutton);
+
+	settingsbutton->setMenu(settings);
+
+	if (walletFrame)
+	{
+		settings->addAction(encryptWalletAction);
+		settings->addAction(changePassphraseAction);
+		settings->addSeparator();
+	}
+	settings->addAction(optionsAction);
+
+	auto helpbutton = new QPushButton(tr("&Help"));
+	appMenuBar->addWidget(helpbutton);
+	QMenu *help = new QMenu(helpbutton);
+	helpbutton->setMenu(help);
+	
+	if (walletFrame)
+	{
+		help->addAction(openRPCConsoleAction);
+	}
+	help->addAction(showHelpMessageAction);
+	help->addSeparator();
+	help->addAction(aboutAction);
+	help->addAction(aboutQtAction);
 }
 
 void BitcoinGUI::setClientModel(ClientModel *_clientModel)
