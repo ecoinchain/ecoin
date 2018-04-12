@@ -9,26 +9,24 @@ from test_framework.script import CScript, OP_HASH160, OP_CHECKSIG, hash160, OP_
 # python test/functional/feature_address.py valid 50 > src/test/data/key_io_valid.json
 
 # key types
-PUBKEY_ADDRESS = 122
+PUBKEY_ADDRESS = 60
 SCRIPT_ADDRESS = 13
 PUBKEY_ADDRESS_TEST = 111
 SCRIPT_ADDRESS_TEST = 196
 PRIVKEY = 128
 PRIVKEY_TEST = 239
 
-metadata_keys = ['isPrivkey', 'chain', 'addrType', 'isCompressed']
+metadata_keys = ['isPrivkey', 'chain', 'addrType']
 # templates for valid sequences
 templates = [
   # prefix, payload_size, suffix, metadata
   #                                  None = N/A
-  ((PUBKEY_ADDRESS,),      20, (),   (False, 'main', 'pubkey', None)),
-  ((SCRIPT_ADDRESS,),      20, (),   (False, 'main', 'script',  None)),
-  ((PUBKEY_ADDRESS_TEST,), 20, (),   (False, 'test',  'pubkey', None)),
-  ((SCRIPT_ADDRESS_TEST,), 20, (),   (False, 'test',  'script',  None)),
-  ((PRIVKEY,),             32, (),   (True,  'main', None,  False)),
-  ((PRIVKEY,),             32, (1,), (True,  'main', None,  True)),
-  ((PRIVKEY_TEST,),        32, (),   (True,  'test',  None,  False)),
-  ((PRIVKEY_TEST,),        32, (1,), (True,  'test',  None,  True))
+  ((PUBKEY_ADDRESS,),      20, (),   (False, 'main', 'pubkey')),
+  ((SCRIPT_ADDRESS,),      20, (),   (False, 'main', 'script')),
+  ((PUBKEY_ADDRESS_TEST,), 20, (),   (False, 'test',  'pubkey')),
+  ((SCRIPT_ADDRESS_TEST,), 20, (),   (False, 'test',  'script')),
+  ((PRIVKEY,),             64, (),   (True,  'main', None)),
+  ((PRIVKEY_TEST,),        64, (),   (True,  'test',  None)),
 ]
 
 def is_valid(v):

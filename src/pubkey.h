@@ -14,7 +14,12 @@
 #include <stdexcept>
 #include <vector>
 
-const unsigned int BIP32_EXTKEY_SIZE = 74;
+// 1 byte: depth: 0x00 for master nodes, 0x01 for level-1 derived keys, ....
+// 4 bytes: the fingerprint of the parent's key (0x00000000 if master key)
+// 4 bytes: child number
+// 32 bytes: the chain code
+// 32 bytes: the public key
+const unsigned int BIP32_EXT_PUBKEY_SIZE = 73;
 
 /** A reference to a CKey: the Hash160 of its serialized public key */
 class CKeyID : public uint160
@@ -31,60 +36,27 @@ class CPubKey
 {
 public:
     /**
-     * secp256k1:
+     * ed25519:
      */
-    static const unsigned int PUBLIC_KEY_SIZE             = 65;
-    static const unsigned int COMPRESSED_PUBLIC_KEY_SIZE  = 33;
-    static const unsigned int SIGNATURE_SIZE              = 72;
-    static const unsigned int COMPACT_SIGNATURE_SIZE      = 65;
-    /**
-     * see www.keylength.com
-     * script supports up to 75 for single byte push
-     */
-    static_assert(
-        PUBLIC_KEY_SIZE >= COMPRESSED_PUBLIC_KEY_SIZE,
-        "COMPRESSED_PUBLIC_KEY_SIZE is larger than PUBLIC_KEY_SIZE");
+    static const unsigned int PUBLIC_KEY_SIZE             = 32;
+    static const unsigned int SIGNATURE_SIZE              = 64;
 
 private:
 
-    /**
-     * Just store the serialized data.
-     * Its length can very cheaply be computed from the first byte.
-     */
     unsigned char vch[PUBLIC_KEY_SIZE];
-
-    //! Compute the length of a pubkey with a given first byte.
-    unsigned int static GetLen(unsigned char chHeader)
-    {
-        if (chHeader == 2 || chHeader == 3)
-            return COMPRESSED_PUBLIC_KEY_SIZE;
-        if (chHeader == 4 || chHeader == 6 || chHeader == 7)
-            return PUBLIC_KEY_SIZE;
-        return 0;
-    }
-
-    //! Set this key data to be invalid
-    void Invalidate()
-    {
-        vch[0] = 0xFF;
-    }
 
 public:
     //! Construct an invalid public key.
     CPubKey()
     {
-        Invalidate();
     }
 
     //! Initialize a public key using begin/end iterators to byte data.
     template <typename T>
     void Set(const T pbegin, const T pend)
     {
-        int len = pend == pbegin ? 0 : GetLen(pbegin[0]);
-        if (len && len == (pend - pbegin))
-            memcpy(vch, (unsigned char*)&pbegin[0], len);
-        else
-            Invalidate();
+        if (size_t(pend - pbegin) == PUBLIC_KEY_SIZE)
+            memcpy(vch, (unsigned char*)&pbegin[0], PUBLIC_KEY_SIZE);
     }
 
     //! Construct a public key using begin/end iterators to byte data.
@@ -101,7 +73,7 @@ public:
     }
 
     //! Simple read-only vector-like interface to the pubkey data.
-    unsigned int size() const { return GetLen(vch[0]); }
+    unsigned int size() const { return PUBLIC_KEY_SIZE; }
     const unsigned char* begin() const { return vch; }
     const unsigned char* end() const { return vch + size(); }
     const unsigned char& operator[](unsigned int pos) const { return vch[pos]; }
@@ -134,14 +106,13 @@ public:
     void Unserialize(Stream& s)
     {
         unsigned int len = ::ReadCompactSize(s);
-        if (len <= PUBLIC_KEY_SIZE) {
+        if (len == PUBLIC_KEY_SIZE) {
             s.read((char*)vch, len);
         } else {
             // invalid pubkey, skip available data
             char dummy;
             while (len--)
                 s.read(&dummy, 1);
-            Invalidate();
         }
     }
 
@@ -170,28 +141,15 @@ public:
     //! fully validate whether this is a valid public key (more expensive than IsValid())
     bool IsFullyValid() const;
 
-    //! Check whether this is a compressed public key.
-    bool IsCompressed() const
-    {
-        return size() == COMPRESSED_PUBLIC_KEY_SIZE;
-    }
-
     /**
-     * Verify a DER signature (~72 bytes).
+     * Verify a signature
      * If this public key is not fully valid, the return value will be false.
      */
     bool Verify(const uint256& hash, const std::vector<unsigned char>& vchSig) const;
 
-    /**
-     * Check whether a signature is normalized (lower-S).
-     */
-    static bool CheckLowS(const std::vector<unsigned char>& vchSig);
+    // ed25519的签名没有延展性问题，所以无需检测S
 
-    //! Recover a public key from a compact signature.
-    bool RecoverCompact(const uint256& hash, const std::vector<unsigned char>& vchSig);
-
-    //! Turn this public key into an uncompressed public key.
-    bool Decompress();
+    // ed25519没有ecdsa这种从签名恢复公钥的特性，所以删除RecoverCompact
 
     //! Derive BIP32 child pubkey.
     bool Derive(CPubKey& pubkeyChild, ChainCode &ccChild, unsigned int nChild, const ChainCode& cc) const;
@@ -213,21 +171,21 @@ struct CExtPubKey {
             a.pubkey == b.pubkey;
     }
 
-    void Encode(unsigned char code[BIP32_EXTKEY_SIZE]) const;
-    void Decode(const unsigned char code[BIP32_EXTKEY_SIZE]);
+    void Encode(unsigned char code[BIP32_EXT_PUBKEY_SIZE]) const;
+    void Decode(const unsigned char code[BIP32_EXT_PUBKEY_SIZE]);
     bool Derive(CExtPubKey& out, unsigned int nChild) const;
 
     void Serialize(CSizeComputer& s) const
     {
         // Optimized implementation for ::GetSerializeSize that avoids copying.
-        s.seek(BIP32_EXTKEY_SIZE + 1); // add one byte for the size (compact int)
+        s.seek(BIP32_EXT_PUBKEY_SIZE + 1); // add one byte for the size (compact int)
     }
     template <typename Stream>
     void Serialize(Stream& s) const
     {
-        unsigned int len = BIP32_EXTKEY_SIZE;
+        unsigned int len = BIP32_EXT_PUBKEY_SIZE;
         ::WriteCompactSize(s, len);
-        unsigned char code[BIP32_EXTKEY_SIZE];
+        unsigned char code[BIP32_EXT_PUBKEY_SIZE];
         Encode(code);
         s.write((const char *)&code[0], len);
     }
@@ -235,8 +193,8 @@ struct CExtPubKey {
     void Unserialize(Stream& s)
     {
         unsigned int len = ::ReadCompactSize(s);
-        unsigned char code[BIP32_EXTKEY_SIZE];
-        if (len != BIP32_EXTKEY_SIZE)
+        unsigned char code[BIP32_EXT_PUBKEY_SIZE];
+        if (len != BIP32_EXT_PUBKEY_SIZE)
             throw std::runtime_error("Invalid extended key size\n");
         s.read((char *)&code[0], len);
         Decode(code);

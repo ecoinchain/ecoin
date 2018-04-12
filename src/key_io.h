@@ -13,8 +13,8 @@
 
 #include <string>
 
-CKey DecodeSecret(const std::string& str);
-std::string EncodeSecret(const CKey& key);
+CKey DecodeKey(const std::string& str);
+std::string EncodeKey(const CKey& key);
 
 CExtKey DecodeExtKey(const std::string& str);
 std::string EncodeExtKey(const CExtKey& extkey);

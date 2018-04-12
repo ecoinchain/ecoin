@@ -152,7 +152,7 @@ void SignVerifyMessageDialog::on_signMessageButton_SM_clicked()
     ss << ui->messageIn_SM->document()->toPlainText().toStdString();
 
     std::vector<unsigned char> vchSig;
-    if (!key.SignCompact(ss.GetHash(), vchSig))
+    if (!key.Sign(ss.GetHash(), vchSig))
     {
         ui->statusLabel_SM->setStyleSheet("QLabel { color: red; }");
         ui->statusLabel_SM->setText(QString("<nobr>") + tr("Message signing failed.") + QString("</nobr>"));
@@ -195,16 +195,11 @@ void SignVerifyMessageDialog::on_addressBookButton_VM_clicked()
 
 void SignVerifyMessageDialog::on_verifyMessageButton_VM_clicked()
 {
-    CTxDestination destination = DecodeDestination(ui->addressIn_VM->text().toStdString());
-    if (!IsValidDestination(destination)) {
+    std::string strPubkey = ui->addressIn_VM->text().toStdString();
+    std::vector<unsigned char> bytePubkey = ParseHex(strPubkey);
+    if (bytePubkey.size() != CPubKey::PUBLIC_KEY_SIZE) {
         ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel_VM->setText(tr("The entered address is invalid.") + QString(" ") + tr("Please check the address and try again."));
-        return;
-    }
-    if (!boost::get<CKeyID>(&destination)) {
-        ui->addressIn_VM->setValid(false);
-        ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel_VM->setText(tr("The entered address does not refer to a key.") + QString(" ") + tr("Please check the address and try again."));
+        ui->statusLabel_VM->setText(tr("The entered pubkey is invalid.") + QString(" ") + tr("Please check the pubkey and try again."));
         return;
     }
 
@@ -224,17 +219,11 @@ void SignVerifyMessageDialog::on_verifyMessageButton_VM_clicked()
     ss << ui->messageIn_VM->document()->toPlainText().toStdString();
 
     CPubKey pubkey;
-    if (!pubkey.RecoverCompact(ss.GetHash(), vchSig))
-    {
-        ui->signatureIn_VM->setValid(false);
-        ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel_VM->setText(tr("The signature did not match the message digest.") + QString(" ") + tr("Please check the signature and try again."));
-        return;
-    }
+    pubkey.Set(bytePubkey.data(), bytePubkey.data() + bytePubkey.size());
 
-    if (!(CTxDestination(pubkey.GetID()) == destination)) {
+    if (!pubkey.Verify(ss.GetHash(), vchSig)) {
         ui->statusLabel_VM->setStyleSheet("QLabel { color: red; }");
-        ui->statusLabel_VM->setText(QString("<nobr>") + tr("Message verification failed.") + QString("</nobr>"));
+        ui->statusLabel_VM->setText(tr("The signature could not match pubkey and message.") + QString(" ") + tr("Please try again."));
         return;
     }
 

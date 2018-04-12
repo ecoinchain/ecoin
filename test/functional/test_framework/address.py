@@ -30,7 +30,8 @@ def byte_to_base58(b, version):
 
 def keyhash_to_p2pkh(hash, main = False):
     assert (len(hash) == 20)
-    version = 122 if main else 111
+    print(bytes_to_hex_str(hash))
+    version = 60 if main else 111
     return byte_to_base58(hash, version)
 
 def scripthash_to_p2sh(hash, main = False):
@@ -75,7 +76,7 @@ def script_to_p2sh_p2wsh(script, main = False):
 def check_key(key):
     if (type(key) is str):
         key = hex_str_to_bytes(key) # Assuming this is hex string
-    if (type(key) is bytes and (len(key) == 33 or len(key) == 65)):
+    if ((type(key) is bytes or type(key) is bytearray) and (len(key) == 32)):
         return key
     assert(False)
 

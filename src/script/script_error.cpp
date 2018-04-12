@@ -53,8 +53,6 @@ const char* ScriptErrorString(const ScriptError serror)
             return "Locktime requirement not satisfied";
         case SCRIPT_ERR_SIG_HASHTYPE:
             return "Signature hash type missing or not understood";
-        case SCRIPT_ERR_SIG_DER:
-            return "Non-canonical DER signature";
         case SCRIPT_ERR_MINIMALDATA:
             return "Data push larger than necessary";
         case SCRIPT_ERR_SIG_PUSHONLY:

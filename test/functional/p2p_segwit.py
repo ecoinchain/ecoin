@@ -1680,7 +1680,7 @@ class SegWitTest(BitcoinTestFramework):
         key.set_secretbytes(b"9")
         key.set_compressed(False)
         pubkey = CPubKey(key.get_pubkey())
-        assert_equal(len(pubkey), 65) # This should be an uncompressed pubkey
+        assert_equal(len(pubkey), 32) # This should be an uncompressed pubkey
 
         assert(len(self.utxo) > 0)
         utxo = self.utxo.pop(0)

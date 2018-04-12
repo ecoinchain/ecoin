@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(multisig_verify)
     s.clear();
     s << OP_0 << OP_1;
     BOOST_CHECK(!VerifyScript(s, a_or_b, nullptr, flags, MutableTransactionSignatureChecker(&txTo[1], 0, amount), &err));
-    BOOST_CHECK_MESSAGE(err == SCRIPT_ERR_SIG_DER, ScriptErrorString(err));
+    BOOST_CHECK_MESSAGE(err == SCRIPT_ERR_EVAL_FALSE, ScriptErrorString(err));
 
 
     for (int i = 0; i < 4; i++)
