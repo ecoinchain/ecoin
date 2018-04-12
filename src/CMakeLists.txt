@@ -1,5 +1,5 @@
 
-add_subdirectory(leveldb)
+add_subdirectory(leveldb EXCLUDE_FROM_ALL)
 
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
