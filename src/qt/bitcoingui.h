@@ -31,6 +31,7 @@ class WalletModel;
 class HelpMessageDialog;
 class ModalOverlay;
 class IconedAction;
+class menubar;
 QT_BEGIN_NAMESPACE
 class QAction;
 class QProgressBar;
@@ -110,6 +111,8 @@ private:
     QAction *openRPCConsoleAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
+
+	menubar *appMenuBar;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;

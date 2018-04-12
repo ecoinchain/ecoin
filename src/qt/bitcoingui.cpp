@@ -18,6 +18,8 @@
 #include <qt/platformstyle.h>
 #include <qt/rpcconsole.h>
 #include <qt/utilitydialog.h>
+#include "qt/widgets/menubar.h"
+#include "qt/widgets/iconedaction.h"
 
 #ifdef ENABLE_WALLET
 #include <qt/walletframe.h>
@@ -35,7 +37,6 @@
 
 #include <iostream>
 
-#include "widgets/iconedaction.h"
 #include <QApplication>
 #include <QDateTime>
 #include <QDesktopWidget>
@@ -436,16 +437,12 @@ void BitcoinGUI::createToolBars_and_Menus()
 //	toolbar->layout()->addItem()
 
 	// Create a decoupled menu bar on Mac which stays even if the window is closed
-	auto appMenuBar = toolbar;
-
-	// Configure the menus
-	auto filebutton = new QPushButton(tr("&File"));
-
-	appMenuBar->addWidget(filebutton);
+	appMenuBar = new menubar(this);
+	toolbar->addWidget(appMenuBar);
 
 	auto file = new QMenu();
 	
-	filebutton->setMenu(file);
+	appMenuBar->setfileMenu(file);
 
 	//	QMenu *file = appMenuBar->addMenu(tr("&File"));
 	if (walletFrame)
@@ -461,12 +458,8 @@ void BitcoinGUI::createToolBars_and_Menus()
 	}
 	file->addAction(quitAction);
 
-	auto settingsbutton = new QPushButton(tr("&Settings"));
-	appMenuBar->addWidget(settingsbutton);
-
 	QMenu *settings = new QMenu();
-
-	settingsbutton->setMenu(settings);
+	appMenuBar->setsettingMenu(settings);
 
 	if (walletFrame)
 	{
@@ -476,10 +469,8 @@ void BitcoinGUI::createToolBars_and_Menus()
 	}
 	settings->addAction(optionsAction);
 
-	auto helpbutton = new QPushButton(tr("&Help"));
-	appMenuBar->addWidget(helpbutton);
 	QMenu *help = new QMenu();
-	helpbutton->setMenu(help);
+	appMenuBar->setHelpMenu(help);
 	
 	if (walletFrame)
 	{
