@@ -44,7 +44,7 @@ static int consttime_equal(const unsigned char *x, const unsigned char *y) {
     return !r;
 }
 
-int ED25519_DECLSPEC ed25519_verify_pubkey(const unsigned char *public_key) {
+int ed25519_verify_pubkey(const unsigned char *public_key) {
     ge_p3 A;
     if (ge_frombytes_negate_vartime(&A, public_key) != 0) {
         return 0;
