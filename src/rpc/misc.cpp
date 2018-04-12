@@ -42,7 +42,7 @@ UniValue validateaddress(const JSONRPCRequest& request)
             "DEPRECATION WARNING: Parts of this command have been deprecated and moved to getaddressinfo. Clients must\n"
             "transition to using getaddressinfo to access this information before upgrading to v0.18. The following deprecated\n"
             "fields have moved to getaddressinfo and will only be shown here with -deprecatedrpc=validateaddress: ismine, iswatchonly,\n"
-            "script, hex, pubkeys, sigsrequired, pubkey, addresses, embedded, iscompressed, account, timestamp, hdkeypath, kdmasterkeyid.\n"
+            "script, hex, pubkeys, sigsrequired, pubkey, addresses, embedded, account, timestamp, hdkeypath, kdmasterkeyid.\n"
             "\nArguments:\n"
             "1. \"address\"                    (string, required) The bitcoin address to validate\n"
             "\nResult:\n"
@@ -149,10 +149,10 @@ UniValue verifymessage(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 3)
         throw std::runtime_error(
-            "verifymessage \"address\" \"signature\" \"message\"\n"
+            "verifymessage \"pubkey\" \"signature\" \"message\"\n"
             "\nVerify a signed message\n"
             "\nArguments:\n"
-            "1. \"address\"         (string, required) The bitcoin address to use for the signature.\n"
+            "1. \"pubkey\"         (string, required) The bitcoin pubkey in hex encoding to use for the signature.\n"
             "2. \"signature\"       (string, required) The signature provided by the signer in base 64 encoding (see signmessage).\n"
             "3. \"message\"         (string, required) The message that was signed.\n"
             "\nResult:\n"
@@ -170,18 +170,13 @@ UniValue verifymessage(const JSONRPCRequest& request)
 
     LOCK(cs_main);
 
-    std::string strAddress  = request.params[0].get_str();
+    std::string strPubkey  = request.params[0].get_str();
     std::string strSign     = request.params[1].get_str();
     std::string strMessage  = request.params[2].get_str();
 
-    CTxDestination destination = DecodeDestination(strAddress);
-    if (!IsValidDestination(destination)) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "Invalid address");
-    }
-
-    const CKeyID *keyID = boost::get<CKeyID>(&destination);
-    if (!keyID) {
-        throw JSONRPCError(RPC_TYPE_ERROR, "Address does not refer to key");
+    std::vector<unsigned char> bytePubkey = ParseHex(strPubkey);
+    if (bytePubkey.size() != CPubKey::PUBLIC_KEY_SIZE) {
+        throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid pubkey size");
     }
 
     bool fInvalid = false;
@@ -195,10 +190,9 @@ UniValue verifymessage(const JSONRPCRequest& request)
     ss << strMessage;
 
     CPubKey pubkey;
-    if (!pubkey.RecoverCompact(ss.GetHash(), vchSig))
-        return false;
+    pubkey.Set(bytePubkey.data(), bytePubkey.data() + bytePubkey.size());
 
-    return (pubkey.GetID() == *keyID);
+    return pubkey.Verify(ss.GetHash(), vchSig);
 }
 
 UniValue signmessagewithprivkey(const JSONRPCRequest& request)
@@ -224,7 +218,7 @@ UniValue signmessagewithprivkey(const JSONRPCRequest& request)
     std::string strPrivkey = request.params[0].get_str();
     std::string strMessage = request.params[1].get_str();
 
-    CKey key = DecodeSecret(strPrivkey);
+    CKey key = DecodeKey(strPrivkey);
     if (!key.IsValid()) {
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Invalid private key");
     }
@@ -234,7 +228,7 @@ UniValue signmessagewithprivkey(const JSONRPCRequest& request)
     ss << strMessage;
 
     std::vector<unsigned char> vchSig;
-    if (!key.SignCompact(ss.GetHash(), vchSig))
+    if (!key.Sign(ss.GetHash(), vchSig))
         throw JSONRPCError(RPC_INVALID_ADDRESS_OR_KEY, "Sign failed");
 
     return EncodeBase64(vchSig.data(), vchSig.size());

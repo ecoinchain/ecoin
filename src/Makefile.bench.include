@@ -44,6 +44,7 @@ bench_bench_bitcoin_LDADD = \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
   $(LIBSECP256K1) \
+  $(LIBED25519) \
   $(LIBUNIVALUE) \
   $(LIBEQUIHASH_LIBS)
 

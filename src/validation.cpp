@@ -1141,7 +1141,7 @@ CAmount GetBlockSubsidy(int nHeight, const Consensus::Params& consensusParams)
     if (halvings >= 64)
         return 0;
 
-    CAmount nSubsidy = 50 * COIN;
+    CAmount nSubsidy = INITIAL_SUBSIDY;
     // Subsidy is cut in half every 210,000 blocks which will occur approximately every 4 years.
     nSubsidy >>= halvings;
     return nSubsidy;
@@ -1733,10 +1733,6 @@ static unsigned int GetBlockScriptFlags(const CBlockIndex* pindex, const Consens
     // Start enforcing P2SH (BIP16)
     // 直接激活bip16
     flags |= SCRIPT_VERIFY_P2SH;
-
-    // Start enforcing the DERSIG (BIP66) rule
-    // 直接激活bip66
-    flags |= SCRIPT_VERIFY_DERSIG;
 
     // Start enforcing CHECKLOCKTIMEVERIFY (BIP65) rule
     // 直接激活bip65

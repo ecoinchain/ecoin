@@ -310,9 +310,6 @@ static void MutateTxAddOutPubKey(CMutableTransaction& tx, const std::string& str
     }
 
     if (bSegWit) {
-        if (!pubkey.IsCompressed()) {
-            throw std::runtime_error("Uncompressed pubkeys are not useable for SegWit outputs");
-        }
         // Call GetScriptForWitness() to build a P2WSH scriptPubKey
         scriptPubKey = GetScriptForWitness(scriptPubKey);
     }
@@ -378,11 +375,6 @@ static void MutateTxAddOutMultiSig(CMutableTransaction& tx, const std::string& s
     CScript scriptPubKey = GetScriptForMultisig(required, pubkeys);
 
     if (bSegWit) {
-        for (CPubKey& pubkey : pubkeys) {
-            if (!pubkey.IsCompressed()) {
-                throw std::runtime_error("Uncompressed pubkeys are not useable for SegWit outputs");
-            }
-        }
         // Call GetScriptForWitness() to build a P2WSH scriptPubKey
         scriptPubKey = GetScriptForWitness(scriptPubKey);
     }
@@ -563,7 +555,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
     for (unsigned int kidx = 0; kidx < keysObj.size(); kidx++) {
         if (!keysObj[kidx].isStr())
             throw std::runtime_error("privatekey not a std::string");
-        CKey key = DecodeSecret(keysObj[kidx].getValStr());
+        CKey key = DecodeKey(keysObj[kidx].getValStr());
         if (!key.IsValid()) {
             throw std::runtime_error("privatekey not valid");
         }

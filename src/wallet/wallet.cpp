@@ -4222,7 +4222,7 @@ const std::string& FormatOutputType(OutputType type)
 
 void CWallet::LearnRelatedScripts(const CPubKey& key, OutputType type)
 {
-    if (key.IsCompressed() && (type == OUTPUT_TYPE_P2SH_SEGWIT || type == OUTPUT_TYPE_BECH32)) {
+    if (type == OUTPUT_TYPE_P2SH_SEGWIT || type == OUTPUT_TYPE_BECH32) {
         CTxDestination witdest = WitnessV0KeyHash(key.GetID());
         CScript witprog = GetScriptForDestination(witdest);
         // Make sure the resulting program is solvable.
@@ -4243,7 +4243,6 @@ CTxDestination GetDestinationForKey(const CPubKey& key, OutputType type)
     case OUTPUT_TYPE_LEGACY: return key.GetID();
     case OUTPUT_TYPE_P2SH_SEGWIT:
     case OUTPUT_TYPE_BECH32: {
-        if (!key.IsCompressed()) return key.GetID();
         CTxDestination witdest = WitnessV0KeyHash(key.GetID());
         CScript witprog = GetScriptForDestination(witdest);
         if (type == OUTPUT_TYPE_P2SH_SEGWIT) {
@@ -4259,13 +4258,9 @@ CTxDestination GetDestinationForKey(const CPubKey& key, OutputType type)
 std::vector<CTxDestination> GetAllDestinationsForKey(const CPubKey& key)
 {
     CKeyID keyid = key.GetID();
-    if (key.IsCompressed()) {
-        CTxDestination segwit = WitnessV0KeyHash(keyid);
-        CTxDestination p2sh = CScriptID(GetScriptForDestination(segwit));
-        return std::vector<CTxDestination>{std::move(keyid), std::move(p2sh), std::move(segwit)};
-    } else {
-        return std::vector<CTxDestination>{std::move(keyid)};
-    }
+    CTxDestination segwit = WitnessV0KeyHash(keyid);
+    CTxDestination p2sh = CScriptID(GetScriptForDestination(segwit));
+    return std::vector<CTxDestination>{std::move(keyid), std::move(p2sh), std::move(segwit)};
 }
 
 CTxDestination CWallet::AddAndGetDestinationForScript(const CScript& script, OutputType type)

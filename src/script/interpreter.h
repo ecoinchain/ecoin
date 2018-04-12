@@ -44,13 +44,6 @@ enum
     // (not used or intended as a consensus rule).
     SCRIPT_VERIFY_STRICTENC = (1U << 1),
 
-    // Passing a non-strict-DER signature to a checksig operation causes script failure (BIP62 rule 1)
-    SCRIPT_VERIFY_DERSIG    = (1U << 2),
-
-    // Passing a non-strict-DER signature or one with S > order/2 to a checksig operation causes script failure
-    // (BIP62 rule 5).
-    SCRIPT_VERIFY_LOW_S     = (1U << 3),
-
     // verify dummy stack item consumed by CHECKMULTISIG is of zero-length (BIP62 rule 7).
     SCRIPT_VERIFY_NULLDUMMY = (1U << 4),
 

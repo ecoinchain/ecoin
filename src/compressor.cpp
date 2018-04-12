@@ -32,15 +32,10 @@ bool CScriptCompressor::IsToScriptID(CScriptID &hash) const
 
 bool CScriptCompressor::IsToPubKey(CPubKey &pubkey) const
 {
-    if (script.size() == 35 && script[0] == 33 && script[34] == OP_CHECKSIG
-                            && (script[1] == 0x02 || script[1] == 0x03)) {
-        pubkey.Set(&script[1], &script[34]);
+    // pubkey长度固定在32
+    if (script.size() == CPubKey::PUBLIC_KEY_SIZE + 2 && script[0] == CPubKey::PUBLIC_KEY_SIZE && script[CPubKey::PUBLIC_KEY_SIZE + 1] == OP_CHECKSIG) {
+        pubkey.Set(&script[1], &script[CPubKey::PUBLIC_KEY_SIZE + 1]);
         return true;
-    }
-    if (script.size() == 67 && script[0] == 65 && script[66] == OP_CHECKSIG
-                            && script[1] == 0x04) {
-        pubkey.Set(&script[1], &script[66]);
-        return pubkey.IsFullyValid(); // if not fully valid, a case that would not be compressible
     }
     return false;
 }
@@ -63,15 +58,10 @@ bool CScriptCompressor::Compress(std::vector<unsigned char> &out) const
     }
     CPubKey pubkey;
     if (IsToPubKey(pubkey)) {
-        out.resize(33);
-        memcpy(&out[1], &pubkey[1], 32);
-        if (pubkey[0] == 0x02 || pubkey[0] == 0x03) {
-            out[0] = pubkey[0];
-            return true;
-        } else if (pubkey[0] == 0x04) {
-            out[0] = 0x04 | (pubkey[64] & 0x01);
-            return true;
-        }
+        out.resize(CPubKey::PUBLIC_KEY_SIZE + 1);
+        out[0] = 0x02;
+        memcpy(&out[1], &pubkey[0], CPubKey::PUBLIC_KEY_SIZE);
+        return true;
     }
     return false;
 }
@@ -80,8 +70,8 @@ unsigned int CScriptCompressor::GetSpecialSize(unsigned int nSize) const
 {
     if (nSize == 0 || nSize == 1)
         return 20;
-    if (nSize == 2 || nSize == 3 || nSize == 4 || nSize == 5)
-        return 32;
+    if (nSize == 2)
+        return CPubKey::PUBLIC_KEY_SIZE;
     return 0;
 }
 
@@ -105,26 +95,10 @@ bool CScriptCompressor::Decompress(unsigned int nSize, const std::vector<unsigne
         script[22] = OP_EQUAL;
         return true;
     case 0x02:
-    case 0x03:
-        script.resize(35);
-        script[0] = 33;
-        script[1] = nSize;
-        memcpy(&script[2], in.data(), 32);
-        script[34] = OP_CHECKSIG;
-        return true;
-    case 0x04:
-    case 0x05:
-        unsigned char vch[33] = {};
-        vch[0] = nSize - 2;
-        memcpy(&vch[1], in.data(), 32);
-        CPubKey pubkey(&vch[0], &vch[33]);
-        if (!pubkey.Decompress())
-            return false;
-        assert(pubkey.size() == 65);
-        script.resize(67);
-        script[0] = 65;
-        memcpy(&script[1], pubkey.begin(), 65);
-        script[66] = OP_CHECKSIG;
+        script.resize(CPubKey::PUBLIC_KEY_SIZE + 2);
+        script[0] = CPubKey::PUBLIC_KEY_SIZE;
+        memcpy(&script[1], in.data(), CPubKey::PUBLIC_KEY_SIZE);
+        script[CPubKey::PUBLIC_KEY_SIZE + 1] = OP_CHECKSIG;
         return true;
     }
     return false;

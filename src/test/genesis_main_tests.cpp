@@ -14,6 +14,7 @@
 #include <uint256.h>
 #include <util.h>
 #include <utilstrencodings.h>
+#include <amount.h>
 
 #include <test/test_bitcoin.h>
 
@@ -21,19 +22,19 @@
 
 #include <boost/test/unit_test.hpp>
 
-struct GenesisTestingSetup : public BasicTestingSetup {
-    GenesisTestingSetup() : BasicTestingSetup(CBaseChainParams::MAIN) {}
+struct GenesisMainTestingSetup : public BasicTestingSetup {
+    GenesisMainTestingSetup() : BasicTestingSetup(CBaseChainParams::MAIN) {}
 };
 
-BOOST_FIXTURE_TEST_SUITE(genesis_main_tests, GenesisTestingSetup)
+BOOST_FIXTURE_TEST_SUITE(genesis_main_tests, GenesisMainTestingSetup)
 
 BOOST_AUTO_TEST_CASE(GenesisMain)
 {
     CBlock genesis = CChainParams::CreateGenesisBlock(
-            1231006505,
+            1523757600,
             uint256S("0x0"),
             ParseHex(""),
-            0x1f07ffff, 1, 8000000 * COIN);
+            0x1f07ffff, 1, GENESIS_MONEY);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 
@@ -73,6 +74,7 @@ printf("n = %d, k = %d\n", n, k);
                     [&pblock](std::vector<unsigned char> soln) {
                 printf("soln = %s\n", HexStr(soln).c_str());        
                 pblock->nSolution = soln;
+                printf("blockHash = %s\n", pblock->GetHash().ToString().c_str());
                 return CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus());
             };
             bool found = EhBasicSolveUncancellable(n, k, curr_state, validBlock);

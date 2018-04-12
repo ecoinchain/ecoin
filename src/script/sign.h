@@ -51,7 +51,7 @@ public:
     MutableTransactionSignatureCreator(const CKeyStore* keystoreIn, const CMutableTransaction* txToIn, unsigned int nInIn, const CAmount& amountIn, int nHashTypeIn) : TransactionSignatureCreator(keystoreIn, &tx, nInIn, amountIn, nHashTypeIn), tx(*txToIn) {}
 };
 
-/** A signature creator that just produces 72-byte empty signatures. */
+/** A signature creator that just produces empty signatures. */
 class DummySignatureCreator : public BaseSignatureCreator {
 public:
     explicit DummySignatureCreator(const CKeyStore* keystoreIn) : BaseSignatureCreator(keystoreIn) {}

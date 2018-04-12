@@ -23,10 +23,6 @@ bool TransactionSignatureCreator::CreateSig(std::vector<unsigned char>& vchSig, 
     if (!keystore->GetKey(address, key))
         return false;
 
-    // Signing with uncompressed keys is disabled in witness scripts
-    if (sigversion == SIGVERSION_WITNESS_V0 && !key.IsCompressed())
-        return false;
-
     uint256 hash = SignatureHash(scriptCode, *txTo, nIn, nHashType, amount, sigversion);
     if (!key.Sign(hash, vchSig))
         return false;
@@ -409,16 +405,10 @@ const BaseSignatureChecker& DummySignatureCreator::Checker() const
 bool DummySignatureCreator::CreateSig(std::vector<unsigned char>& vchSig, const CKeyID& keyid, const CScript& scriptCode, SigVersion sigversion) const
 {
     // Create a dummy signature that is a valid DER-encoding
-    vchSig.assign(72, '\000');
-    vchSig[0] = 0x30;
-    vchSig[1] = 69;
-    vchSig[2] = 0x02;
-    vchSig[3] = 33;
-    vchSig[4] = 0x01;
-    vchSig[4 + 33] = 0x02;
-    vchSig[5 + 33] = 32;
-    vchSig[6 + 33] = 0x01;
-    vchSig[6 + 33 + 32] = SIGHASH_ALL;
+    vchSig.assign(65, '\000');
+    vchSig[0] = 0x01;
+    vchSig[32] = 0x01;
+    vchSig[64] = SIGHASH_ALL;
     return true;
 }
 

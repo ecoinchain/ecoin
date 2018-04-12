@@ -14,6 +14,7 @@
 #include <uint256.h>
 #include <util.h>
 #include <utilstrencodings.h>
+#include <amount.h>
 
 #include <test/test_bitcoin.h>
 
@@ -21,11 +22,11 @@
 
 #include <boost/test/unit_test.hpp>
 
-struct GenesisTestingSetup : public BasicTestingSetup {
-    GenesisTestingSetup() : BasicTestingSetup(CBaseChainParams::REGTEST) {}
+struct GenesisRegTestingSetup : public BasicTestingSetup {
+    GenesisRegTestingSetup() : BasicTestingSetup(CBaseChainParams::REGTEST) {}
 };
 
-BOOST_FIXTURE_TEST_SUITE(genesis_reg_tests, GenesisTestingSetup)
+BOOST_FIXTURE_TEST_SUITE(genesis_reg_tests, GenesisRegTestingSetup)
 
 BOOST_AUTO_TEST_CASE(GenesisReg)
 {
@@ -33,7 +34,7 @@ BOOST_AUTO_TEST_CASE(GenesisReg)
             1296688602,
             uint256S("0x0"),
             ParseHex(""),
-            0x207fffff, 1, 8000000 * COIN);
+            0x207fffff, 1, GENESIS_MONEY);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 

@@ -2,18 +2,12 @@
 // Copyright (c) 2016 The Zcash developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
+#include <arith_uint256.h>
+#include <crypto/equihash.h>
+#include <test/test_bitcoin.h>
+#include <uint256.h>
 
-#if defined(HAVE_CONFIG_H)
-#include "config/bitcoin-config.h"
-#endif
-
-#include "arith_uint256.h"
-#include "crypto/sha256.h"
-#include "crypto/equihash.h"
-#include "test/test_bitcoin.h"
-#include "uint256.h"
-
-#include "sodium.h"
+#include <sodium.h>
 
 #include <sstream>
 #include <set>
