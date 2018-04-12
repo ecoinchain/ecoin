@@ -6,10 +6,7 @@ iconbutton::iconbutton(std::array<QIcon, 2> _icons, QString txt, QWidget * paren
 	, ui(new Ui::iconbutton)
 {
 	ui->setupUi(this);
-	ui->text->setText(txt);
-	
-	//setStyleSheet("");
-	mystyle = parent->palette();
+	ui->button->setText(txt);
 }
 
 iconbutton::~iconbutton()
@@ -19,7 +16,7 @@ iconbutton::~iconbutton()
 
 void iconbutton::setIcon(QIcon ico)
 {
-	ui->icon->setPixmap(ico.pixmap(ui->icon->size()));
+	ui->button->setIcon(ico);
 }
 
 void iconbutton::setActive(bool active)
@@ -40,7 +37,13 @@ void iconbutton::setActive(bool active)
 	}
 }
 
+void iconbutton::on_button_clicked(bool)
+{
+	Q_EMIT clicked();
+}
+
 void iconbutton::mousePressEvent(QMouseEvent *event)
 {
 	Q_EMIT clicked();
+	QFrame::mousePressEvent(event);
 }

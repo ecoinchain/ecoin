@@ -24,14 +24,13 @@ Q_SIGNALS:
 
 public Q_SLOTS:
 	void setActive(bool active);
-
+	void on_button_clicked(bool);
 
 protected:
 	virtual void mousePressEvent(QMouseEvent *event) override;
 
 private:
     Ui::iconbutton *ui;
-	QPalette mystyle;
 };
 
 #endif // ICONBUTTON_H

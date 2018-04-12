@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>89</width>
-    <height>74</height>
+    <width>130</width>
+    <height>54</height>
    </rect>
   </property>
   <property name="autoFillBackground">
@@ -20,6 +20,18 @@
    <enum>QFrame::NoFrame</enum>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
@@ -36,37 +48,23 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QLabel" name="icon">
-       <property name="minimumSize">
-        <size>
-         <width>40</width>
-         <height>40</height>
-        </size>
+      <widget class="QPushButton" name="button">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
+       <property name="styleSheet">
+        <string notr="true">QPushButton:pressed {
+	border : 0px;
+}</string>
        </property>
        <property name="text">
         <string/>
        </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="text">
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>text</string>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
