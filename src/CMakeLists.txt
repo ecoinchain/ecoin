@@ -3,6 +3,7 @@ add_subdirectory(leveldb)
 
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
+add_subdirectory(ed25519)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
@@ -156,7 +157,7 @@ add_library(coincore STATIC
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/include ${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/WIN32-Code/nmake)
 
-target_link_libraries(coincore concore_crypto secp256k1 event_extra_static event_core_static)
+target_link_libraries(coincore concore_crypto secp256k1 ed25519 event_extra_static event_core_static)
 
 add_subdirectory(wallet)
 add_subdirectory(qt)
