@@ -298,8 +298,8 @@ RES_ICONS = \
   qt/res/icons/transaction_abandoned.png \
   qt/res/icons/transaction_conflicted.png \
   qt/res/icons/tx_inout.png \
-  qt/res/icons/tx_input.png \
-  qt/res/icons/tx_output.png \
+  qt/res/icons/tx_input.svg \
+  qt/res/icons/tx_output.svg \
   qt/res/icons/tx_mined.svg \
   qt/res/icons/warning.png \
   qt/res/icons/verify.png
