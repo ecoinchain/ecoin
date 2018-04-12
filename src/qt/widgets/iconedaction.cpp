@@ -8,6 +8,21 @@ IconedAction::IconedAction(std::array<QIcon, 2> _icons, QString txt, QWidget * p
 	, text(txt)
 {
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(update_icon_when_state_changed(bool)));
+	//connect(this, SIGNAL(toggled(bool)), this, SLOT(stateChanged(bool)));
+}
+
+IconedAction::IconedAction(QIcon i, QString txt, QWidget* parent /*= nullptr*/)
+	: QWidgetAction(parent)
+	, icons({i, i})
+	, text(txt) 
+{
+}
+
+
+IconedAction::IconedAction(QString txt, QWidget* parent /*= nullptr*/)
+	: QWidgetAction(parent)
+	, text(txt)
+{
 }
 
 void IconedAction::setCheckable(bool checkable)
@@ -33,14 +48,26 @@ QWidget * IconedAction::createWidget(QWidget * parent)
 	return w;
 }
 
+void IconedAction::setIcon(const QIcon &icon)
+{
+	QAction::setIcon(icon);
+	for (auto w : this->createdWidgets())
+	{
+		dynamic_cast<iconbutton*>(w)->setIcon(icon);
+	}
+}
+
+void IconedAction::setStyleSheet(const QString& styleSheet)
+{
+	for (auto w : this->createdWidgets())
+	{
+		dynamic_cast<iconbutton*>(w)->setStyleSheet(styleSheet);
+	}
+}
+
 void IconedAction::update_icon_when_state_changed(bool checked)
 {
 	setIcon(icons[checked? 0 : 1]);
 
-	for (auto w : this->createdWidgets())
-	{
-		dynamic_cast<iconbutton*>(w)->setIcon(icons[checked ? 0 : 1]);
-		dynamic_cast<iconbutton*>(w)->setActive(checked);
-	}
-	
+	Q_EMIT stateChanged(checked);
 }

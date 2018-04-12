@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <functional>
 #include <qt/bitcoingui.h>
 
 #include <qt/bitcoinunits.h>
@@ -284,7 +285,7 @@ void BitcoinGUI::createActions()
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
 
-    sendCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/send"), sendCoinsAction->text(), this);
+    sendCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/send"), tr("&Send"), this);
     sendCoinsMenuAction->setStatusTip(sendCoinsAction->statusTip());
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
@@ -295,7 +296,7 @@ void BitcoinGUI::createActions()
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     tabGroup->addAction(receiveCoinsAction);
 
-    receiveCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/receiving_addresses"), receiveCoinsAction->text(), this);
+    receiveCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
     receiveCoinsMenuAction->setStatusTip(receiveCoinsAction->statusTip());
     receiveCoinsMenuAction->setToolTip(receiveCoinsMenuAction->statusTip());
 
@@ -305,6 +306,11 @@ void BitcoinGUI::createActions()
     historyAction->setCheckable(true);
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
+
+	connect(overviewAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, overviewAction, std::placeholders::_1));
+	connect(sendCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, sendCoinsAction, std::placeholders::_1));
+	connect(receiveCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, receiveCoinsAction, std::placeholders::_1));
+	connect(historyAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, historyAction, std::placeholders::_1));
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -437,7 +443,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 
 	appMenuBar->addWidget(filebutton);
 
-	auto file = new QMenu(filebutton);
+	auto file = new QMenu();
 	
 	filebutton->setMenu(file);
 
@@ -458,7 +464,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 	auto settingsbutton = new QPushButton(tr("&Settings"));
 	appMenuBar->addWidget(settingsbutton);
 
-	QMenu *settings = new QMenu(settingsbutton);
+	QMenu *settings = new QMenu();
 
 	settingsbutton->setMenu(settings);
 
@@ -472,7 +478,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 
 	auto helpbutton = new QPushButton(tr("&Help"));
 	appMenuBar->addWidget(helpbutton);
-	QMenu *help = new QMenu(helpbutton);
+	QMenu *help = new QMenu();
 	helpbutton->setMenu(help);
 	
 	if (walletFrame)
@@ -1175,6 +1181,24 @@ void BitcoinGUI::showModalOverlay()
 {
     if (modalOverlay && (progressBar->isVisible() || modalOverlay->isLayerVisible()))
         modalOverlay->toggleVisibility();
+}
+
+void BitcoinGUI::toolbartoggle_ui_style(IconedAction* sender, bool active)
+{
+	if (active)
+	{
+		sender->setStyleSheet(QStringLiteral("iconbutton {\n"
+			" \n"
+			"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(240, 240, 240, 255), stop:1 rgba(255, 255, 255, 255));\n"
+			"}"));
+	}
+	else
+	{
+		sender->setStyleSheet(QStringLiteral("iconbutton {\n"
+			" \n"
+			"background-color: rgb(240, 240, 240);\n"
+			"}"));
+	}
 }
 
 static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)

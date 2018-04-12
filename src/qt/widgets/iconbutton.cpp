@@ -19,24 +19,6 @@ void iconbutton::setIcon(QIcon ico)
 	ui->button->setIcon(ico);
 }
 
-void iconbutton::setActive(bool active)
-{
-	if (active)
-	{
-		setStyleSheet(QStringLiteral("QFrame#iconbutton {\n"
-			" \n"
-			"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(240, 240, 240, 255), stop:1 rgba(255, 255, 255, 255));\n"
-			"}"));
-	}
-	else
-	{
-		setStyleSheet(QStringLiteral("QFrame#iconbutton {\n"
-			" \n"
-			"background-color: rgb(240, 240, 240);\n"
-			"}"));
-	}
-}
-
 void iconbutton::on_button_clicked(bool)
 {
 	Q_EMIT clicked();

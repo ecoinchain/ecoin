@@ -23,7 +23,6 @@ Q_SIGNALS:
 	void clicked();
 
 public Q_SLOTS:
-	void setActive(bool active);
 	void on_button_clicked(bool);
 
 protected:

@@ -30,7 +30,7 @@ class WalletFrame;
 class WalletModel;
 class HelpMessageDialog;
 class ModalOverlay;
-
+class IconedAction;
 QT_BEGIN_NAMESPACE
 class QAction;
 class QProgressBar;
@@ -89,17 +89,17 @@ private:
     QProgressBar *progressBar;
     QProgressDialog *progressDialog;
 
-    QAction *overviewAction;
-    QAction *historyAction;
+	IconedAction *overviewAction;
+	IconedAction *historyAction;
     QAction *quitAction;
-    QAction *sendCoinsAction;
+	IconedAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
-    QAction *receiveCoinsAction;
+	IconedAction *receiveCoinsAction;
     QAction *receiveCoinsMenuAction;
     QAction *optionsAction;
     QAction *toggleHideAction;
@@ -239,6 +239,8 @@ private Q_SLOTS:
     void toggleNetworkActive();
 
     void showModalOverlay();
+
+	void toolbartoggle_ui_style(IconedAction* sender, bool);
 };
 
 class UnitDisplayStatusBarControl : public QLabel
