@@ -48,13 +48,13 @@ QPushButton:focus {
      <property name="sizeHint" stdset="0">
       <size>
        <width>5</width>
-       <height>1</height>
+       <height>0</height>
       </size>
      </property>
     </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="13,0,0,0,0,2">
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="13,0,0,0,0,0,2">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -111,16 +111,47 @@ QPushButton:focus {
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="quitButton">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>22</width>
+         <height>22</height>
+        </size>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
-       <property name="text">
-        <string>&amp;Quit</string>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    qproperty-icon: url(&quot; &quot;); /* empty image */
+    qproperty-iconSize: 24px 24px; /* space for the background image */
+    background-image: url(&quot;:/icons/quit&quot;);
+    background-repeat: no-repeat;
+    background-position: center; 
+ background-size:cover;
+}
+
+QPushButton:hover {
+ background-size:cover;
+    background-image: url(&quot;:/icons/colored_quit&quot;);
+    background-repeat: no-repeat;
+}</string>
        </property>
-       <property name="icon">
-        <iconset resource="../bitcoin.qrc">
-         <normaloff>:/icons/quit</normaloff>:/icons/quit</iconset>
+       <property name="text">
+        <string/>
        </property>
        <property name="flat">
         <bool>true</bool>
@@ -160,8 +191,6 @@ QPushButton:focus {
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../bitcoin.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

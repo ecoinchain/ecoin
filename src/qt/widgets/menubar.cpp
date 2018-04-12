@@ -27,3 +27,8 @@ void menubar::setHelpMenu(QMenu* m)
 {
 	ui->helpButton->setMenu(m);
 }
+
+void menubar::on_quitButton_clicked()
+{
+	Q_EMIT quitRequested();
+}

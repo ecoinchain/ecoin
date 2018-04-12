@@ -2,7 +2,6 @@
     <qresource prefix="/icons">
         <file alias="bitcoin">res/icons/bitcoin.png</file>
         <file alias="address-book">res/icons/address-book.png</file>
-        <file alias="quit">res/icons/quit.png</file>
         <file alias="connect_0">res/icons/connect0.png</file>
         <file alias="connect_1">res/icons/connect1.png</file>
         <file alias="connect_2">res/icons/connect2.png</file>
@@ -59,6 +58,8 @@
         <file alias="balance_bg">res/icons/balance_bg.svg</file>
         <file alias="remove">res/icons/fasong_dele.svg</file>
         <file alias="colored_remove">res/icons/fasong_dele1.svg</file>
+        <file alias="quit">res/icons/quit.svg</file>
+        <file alias="colored_quit">res/icons/colored_quit.svg</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>

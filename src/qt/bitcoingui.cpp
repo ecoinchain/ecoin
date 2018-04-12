@@ -480,6 +480,9 @@ void BitcoinGUI::createToolBars_and_Menus()
 	help->addSeparator();
 	help->addAction(aboutAction);
 	help->addAction(aboutQtAction);
+
+	connect(appMenuBar, SIGNAL(quitRequested()), qApp, SLOT(quit()));
+	connect(appMenuBar, SIGNAL(quitRequested()), rpcConsole, SLOT(hide()));
 }
 
 void BitcoinGUI::setClientModel(ClientModel *_clientModel)
