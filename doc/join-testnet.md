@@ -36,5 +36,6 @@ rpcport=18875
 
 * 启动程序
 ```bash
-/path/rcoin/src/bitcoind -datadir=/path/your datadir -daemon
+/path/rcoin/src/bitcoind -datadir=/path/your datadir -daemon -testnet
 ```
+* 设置bitcoin.conf

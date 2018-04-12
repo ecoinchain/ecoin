@@ -27,6 +27,8 @@
 #include <boost/test/unit_test.hpp>
 
 #include <univalue.h>
+#include <crypto/sha256.h>
+#include <crypto/sha3_256.h>
 
 // Uncomment if you want to output updated JSON tests.
 // #define UPDATE_JSON_TESTS
