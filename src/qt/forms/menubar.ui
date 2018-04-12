@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>397</width>
-    <height>38</height>
+    <width>219</width>
+    <height>45</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,9 @@
 }
 
 QPushButton {
-  border :: 0px;
-}
+	border : none;
+margin: 3px;
+   }
 
 QPushButton:focus {
 	outline: none;
@@ -72,6 +73,9 @@ QPushButton:focus {
      </item>
      <item>
       <widget class="QPushButton" name="fileButton">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="text">
         <string>&amp;File</string>
        </property>
@@ -82,6 +86,9 @@ QPushButton:focus {
      </item>
      <item>
       <widget class="QPushButton" name="settingsButton">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="text">
         <string>Se&amp;tting</string>
        </property>
@@ -92,6 +99,9 @@ QPushButton:focus {
      </item>
      <item>
       <widget class="QPushButton" name="helpButton">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="text">
         <string>&amp;Help</string>
        </property>
@@ -102,6 +112,9 @@ QPushButton:focus {
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_3">
+       <property name="contextMenuPolicy">
+        <enum>Qt::NoContextMenu</enum>
+       </property>
        <property name="text">
         <string>&amp;Quit</string>
        </property>
