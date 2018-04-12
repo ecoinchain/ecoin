@@ -45,11 +45,15 @@ padding : 2px;
   
 }
 
-QLineEdit , QComboBox{
+QLineEdit , BitcoinAmountField, QComboBox{
+    border-radius : 3px;
+    border-style: solid;
+    border-width: 1px;
 	color: rgb(57, 60, 61);
     border : 1px solid #E4E4E4 ;
    border-radius: 4px;
 }
+
 </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
