@@ -98,20 +98,24 @@ QT_FORMS_UI = \
   qt/forms/addressbookpage.ui \
   qt/forms/askpassphrasedialog.ui \
   qt/forms/coincontroldialog.ui \
+  qt/forms/debugwindow.ui \
   qt/forms/editaddressdialog.ui \
   qt/forms/helpmessagedialog.ui \
+  qt/forms/iconbutton.ui \
   qt/forms/intro.ui \
+  qt/forms/menubar.ui \
   qt/forms/modaloverlay.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
   qt/forms/receivecoinsdialog.ui \
   qt/forms/receiverequestdialog.ui \
-  qt/forms/debugwindow.ui \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
   qt/forms/signverifymessagedialog.ui \
-  qt/forms/transactiondescdialog.ui
+  qt/forms/transactiondescdialog.ui \
+  qt/forms/transactionview.ui
+
 
 QT_MOC_CPP = \
   qt/moc_addressbookpage.cpp \
@@ -159,7 +163,13 @@ QT_MOC_CPP = \
   qt/moc_utilitydialog.cpp \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
-  qt/moc_walletview.cpp
+  qt/moc_walletview.cpp \
+  qt/widgets/moc_iconbutton.cpp \
+  qt/widgets/moc_iconedaction.cpp\
+  qt/widgets/moc_menubar.cpp\
+  qt/widgets/moc_qbackgroundimageframe.cpp\
+  qt/widgets/moc_recentrequestsview.cpp \
+  qt/moc_recentrequestsdelegates.cpp 
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
@@ -235,7 +245,12 @@ BITCOIN_QT_H = \
   qt/walletmodel.h \
   qt/walletmodeltransaction.h \
   qt/walletview.h \
-  qt/winshutdownmonitor.h
+  qt/winshutdownmonitor.h \
+  qt/widgets/iconbutton.h \
+  qt/widgets/iconedaction.h\
+  qt/widgets/menubar.h\
+  qt/widgets/qbackgroundimageframe.h\
+  qt/widgets/recentrequestsview.h
 
 RES_ICONS = \
   qt/res/icons/add.png \
@@ -311,7 +326,13 @@ BITCOIN_QT_BASE_CPP = \
   qt/rpcconsole.cpp \
   qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
-  qt/utilitydialog.cpp
+  qt/utilitydialog.cpp \
+  qt/widgets/iconbutton.cpp \
+  qt/widgets/iconedaction.cpp\
+  qt/widgets/menubar.cpp\
+  qt/widgets/qbackgroundimageframe.cpp\
+  qt/widgets/recentrequestsview.cpp \
+  qt/recentrequestsdelegates.cpp 
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 
