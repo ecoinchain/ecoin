@@ -16,11 +16,12 @@ BOOST_FIXTURE_TEST_SUITE(main_tests, TestingSetup)
 static void TestBlockSubsidyHalvings(const Consensus::Params& consensusParams)
 {
     int maxHalvings = 64;
-    CAmount nInitialSubsidy = 50 * COIN;
+    CAmount nInitialSubsidy = INITIAL_SUBSIDY;
 
-    CAmount nPreviousSubsidy = nInitialSubsidy * 2; // for height == 0
-    BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy * 2);
-    for (int nHalvings = 0; nHalvings < maxHalvings; nHalvings++) {
+    // height = 1开始减半挖矿
+    CAmount nPreviousSubsidy = nInitialSubsidy; // for height == 1
+    BOOST_CHECK_EQUAL(nPreviousSubsidy, nInitialSubsidy);
+    for (int nHalvings = 1; nHalvings < maxHalvings; nHalvings++) {
         int nHeight = nHalvings * consensusParams.nSubsidyHalvingInterval;
         CAmount nSubsidy = GetBlockSubsidy(nHeight, consensusParams);
         BOOST_CHECK(nSubsidy <= nInitialSubsidy);
@@ -49,13 +50,19 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
 {
     const auto chainParams = CreateChainParams(CBaseChainParams::MAIN);
     CAmount nSum = 0;
-    for (int nHeight = 0; nHeight < 14000000; nHeight += 1000) {
+    CAmount nSubsidy = GetBlockSubsidy(0, chainParams->GetConsensus());
+    BOOST_CHECK(nSubsidy == GENESIS_MONEY);
+    nSum += nSubsidy;
+    BOOST_CHECK(MoneyRange(nSum));
+    // nHeight的步长必须得是consensus.nSubsidyHalvingInterval约数
+    for (int nHeight = 1; nHeight < 14000001; nHeight += 1000) {
         CAmount nSubsidy = GetBlockSubsidy(nHeight, chainParams->GetConsensus());
-        BOOST_CHECK(nSubsidy <= 50 * COIN);
+        BOOST_CHECK(nSubsidy <= INITIAL_SUBSIDY);
         nSum += nSubsidy * 1000;
         BOOST_CHECK(MoneyRange(nSum));
     }
-    BOOST_CHECK_EQUAL(nSum, 2099999997690000ULL);
+    // nSum需要根据主网参数调整
+    BOOST_CHECK_EQUAL(nSum, 999999997400000ULL);
 }
 
 bool ReturnFalse() { return false; }
