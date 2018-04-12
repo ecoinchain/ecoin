@@ -126,6 +126,7 @@ inline bool GetHeapProfile(void (*func)(void*, const char*, int), void* arg) {
   return false;
 }
 
+#ifndef LEVELDB_PLATFORM_POSIX_SSE
 inline uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf, size_t size) {
 #if HAVE_CRC32C
   return ::crc32c::Extend(crc, reinterpret_cast<const uint8_t*>(buf), size);
@@ -133,6 +134,9 @@ inline uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf, size_t size) {
   return 0;
 #endif  // HAVE_CRC32C
 }
+#else
+uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf, size_t size);
+#endif
 
 }  // namespace port
 }  // namespace leveldb
