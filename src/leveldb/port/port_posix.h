@@ -40,10 +40,12 @@
 #define PLATFORM_IS_LITTLE_ENDIAN (__BYTE_ORDER == __LITTLE_ENDIAN)
 #endif
 
+#ifndef LEVELDB_IS_BIG_ENDIAN
 #ifdef __BYTE_ORDER__ 
 #define LEVELDB_IS_BIG_ENDIAN (__BYTE_ORDER__==__ORDER_BIG_ENDIAN__)
 #else
 #define LEVELDB_IS_BIG_ENDIAN 0
+#endif
 #endif
 
 #if !HAVE_FDATASYNC
