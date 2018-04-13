@@ -28,11 +28,15 @@ if(MSVC AND ENABLE_QT_STATIC)
 add_definitions(-DQT_STATICPLUGIN)
 endif()
 
-target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS})
+if(APPLE)
+	add_definitions(-DQ_OS_MAC)
+endif()
+
+target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS} ${PROTOBUF_INCLUDE_DIR})
 
 target_link_libraries(rcoin-qt rcoin-qt-uis coincore wallet)
 target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg ${QT_EXTRA_LIBS})
-target_link_libraries(rcoin-qt libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc univalue leveldb qrencode)
+target_link_libraries(rcoin-qt libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
 target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 
 if(MSVC AND ENABLE_QT_STATIC)
@@ -41,6 +45,10 @@ endif()
 
 if(WIN32)
 target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib Imm32.lib Dwmapi.lib UxTheme.lib)
+endif()
+
+if(APPLE)
+	target_link_libraries(rcoin-qt "-framework CoreFoundation")
 endif()
 
 # target_link_libraries(tianya OPENS)

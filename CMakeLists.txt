@@ -52,6 +52,11 @@ if (WIN32)
 endif(WIN32)
 if (APPLE)
 	list (APPEND RCOIN_QT_COMPONENTS MacExtras)
+
+	find_library(ObjC objc)
+	find_library(CoreFoundation CoreFoundation)
+	find_library(IOKit IOKit)
+	link_libraries(${CoreFoundation} ${IOKit} ${ObjC})
 endif (APPLE)
 
 find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
@@ -139,7 +144,10 @@ else()
 find_package(Boost 1.55 COMPONENTS filesystem thread system date_time program_options REQUIRED)
 endif()
 
+IF(MSVC)
 add_subdirectory(3rd-src/protobuf)
+endif()
+
 find_package(Protobuf)
 
 set(DISABLE_SSP 1)
