@@ -13,6 +13,58 @@
   <property name="windowTitle">
    <string>Signatures - Sign / Verify a Message</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">SignVerifyMessageDialog {
+    background-color: #FFFFFF;
+}
+
+QTabWidget::tab-bar {
+    background-color: #F8F8F8;
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border: 0px;
+    background-color: #FFFFFF;
+
+}
+
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+QTabBar::tab {
+    border: 0px;
+   padding : 11px;
+}
+
+QTabBar::tab:selected {
+   border-style: solid;
+    background-color: #FFFFFF;
+    border-top-color: #2798FF;
+   border-top-width: 2px;
+}
+
+QPushButton {
+background: #FFFFF;
+border-radius: 3px;
+border: 1px solid #2798FF;
+border-radius: 3px;
+padding: 3px;
+}
+
+QLineEdit , QPlainTextEdit  {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 3px;
+}
+
+#signMessageButton_SM, #verifyMessageButton_VM
+{
+background: #2798FF;
+}
+
+</string>
+  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -27,6 +79,21 @@
        <string>&amp;Sign Message</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_SM">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
        <item>
         <widget class="QLabel" name="infoLabel_SM">
          <property name="text">
@@ -43,10 +110,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_1_SM">
          <property name="spacing">
-          <number>0</number>
+          <number>4</number>
          </property>
          <item>
           <widget class="QValidatedLineEdit" name="addressIn_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>The Bitcoin address to sign the message with</string>
            </property>
@@ -54,6 +127,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="addressBookButton_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Choose previously used address</string>
            </property>
@@ -74,6 +153,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="pasteButton_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Paste address from clipboard</string>
            </property>
@@ -107,7 +192,10 @@
           <string>Signature</string>
          </property>
          <property name="textFormat">
-          <enum>Qt::PlainText</enum>
+          <enum>Qt::AutoText</enum>
+         </property>
+         <property name="scaledContents">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -118,6 +206,12 @@
          </property>
          <item>
           <widget class="QLineEdit" name="signatureOut_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="font">
             <font>
              <italic>true</italic>
@@ -151,8 +245,17 @@
         <layout class="QHBoxLayout" name="horizontalLayout_3_SM">
          <item>
           <widget class="QPushButton" name="signMessageButton_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Sign the message to prove you own this Bitcoin address</string>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Sign &amp;Message</string>
@@ -164,10 +267,19 @@
            <property name="autoDefault">
             <bool>false</bool>
            </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="clearButton_SM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Reset all sign message fields</string>
            </property>
@@ -181,6 +293,9 @@
            <property name="autoDefault">
             <bool>false</bool>
            </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -191,7 +306,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>48</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -220,7 +335,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>48</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -234,6 +349,18 @@
        <string>&amp;Verify Message</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_VM">
+       <property name="leftMargin">
+        <number>10</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <property name="rightMargin">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>10</number>
+       </property>
        <item>
         <widget class="QLabel" name="infoLabel_VM">
          <property name="text">
@@ -253,10 +380,16 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_1_VM">
          <property name="spacing">
-          <number>0</number>
+          <number>4</number>
          </property>
          <item>
           <widget class="QValidatedLineEdit" name="addressIn_VM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>The Bitcoin address the message was signed with</string>
            </property>
@@ -264,6 +397,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="addressBookButton_VM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Choose previously used address</string>
            </property>
@@ -288,12 +427,25 @@
         <widget class="QPlainTextEdit" name="messageIn_VM"/>
        </item>
        <item>
-        <widget class="QValidatedLineEdit" name="signatureIn_VM"/>
+        <widget class="QValidatedLineEdit" name="signatureIn_VM">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2_VM">
          <item>
           <widget class="QPushButton" name="verifyMessageButton_VM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Verify the message to ensure it was signed with the specified Bitcoin address</string>
            </property>
@@ -311,6 +463,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="clearButton_VM">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Reset all verify message fields</string>
            </property>
@@ -334,7 +492,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>48</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
@@ -363,7 +521,7 @@
            <property name="sizeHint" stdset="0">
             <size>
              <width>40</width>
-             <height>48</height>
+             <height>0</height>
             </size>
            </property>
           </spacer>
