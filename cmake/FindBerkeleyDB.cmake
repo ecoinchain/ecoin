@@ -9,17 +9,18 @@
 # also defined, but not for general use are
 #  DB_LIBRARY, where to find the BerkeleyDB library.
 
-FIND_PATH(DB_INCLUDE_DIR db.h
+FIND_PATH(DB_INCLUDE_DIR db_cxx.h
+  /usr/local/opt/berkeley-db@4/include
   /usr/local/include/db4
   /usr/local/include
   /usr/include/db4
   /usr/include
   )
 
-SET(DB_NAMES ${DB_NAMES} db)
+SET(DB_NAMES ${DB_NAMES} db_cxx)
 FIND_LIBRARY(DB_LIBRARY
   NAMES ${DB_NAMES}
-  PATHS /usr/lib /usr/local/lib
+  PATHS /usr/local/opt/berkeley-db@4/lib/ /usr/lib /usr/local/lib
   )
 
 IF (DB_LIBRARY AND DB_INCLUDE_DIR)

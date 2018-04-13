@@ -131,8 +131,13 @@ if(WIN32)
 endif()
 
 link_directories(${QT_LIB_DIR})
+
+IF(MSVC)
 add_subdirectory(3rd-src/boost)
 include_directories(3rd-src/boost)
+else()
+find_package(Boost 1.55 COMPONENTS filesystem thread system date_time program_options REQUIRED)
+endif()
 
 add_subdirectory(3rd-src/protobuf)
 find_package(Protobuf)
@@ -154,4 +159,5 @@ add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
 
 add_subdirectory(3rd-src/qrencode)
 
+add_definitions(-DHAVE_DECL_STRNLEN=1)
 add_subdirectory(src)
