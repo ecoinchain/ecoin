@@ -14,9 +14,9 @@ add_definitions(-DPACKAGE_NAME="rcoin")
 
 add_definitions(-DENABLE_WALLET)
 
-link_libraries(libsodium-static berkeleydb ${OPENSSL_LIBRARIES} libprotoc univalue leveldb)
+link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} libprotoc univalue leveldb)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
 
 add_library(concore_crypto STATIC   crypto/aes.cpp 
   crypto/aes.h 

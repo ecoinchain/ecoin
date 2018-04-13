@@ -56,10 +56,6 @@ endif (APPLE)
 
 find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
 
-if (WIN32)
-find_package(Qt5WinExtras REQUIRED)
-endif()
-
 if(MSVC AND ENABLE_QT_STATIC)
 	# For static Windows builds, we also need to pull in the Qt5 Platform
 	# support library, which is not exposed to CMake properly, unfortunately
@@ -146,7 +142,13 @@ set(DISABLE_ASM 1)
 
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
-add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
+if(WIN32)
+	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
+	set(DB_LIBRARY berkeleydb)
+else()
+	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+	find_package(BerkeleyDB 4.8 REQUIRED)
+endif()
 
 add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
 
