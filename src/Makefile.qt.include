@@ -112,6 +112,7 @@ QT_FORMS_UI = \
   qt/forms/receiverequestdialog.ui \
   qt/forms/sendcoinsdialog.ui \
   qt/forms/sendcoinsentry.ui \
+  qt/forms/splashscreen.ui \
   qt/forms/signverifymessagedialog.ui \
   qt/forms/transactiondescdialog.ui \
   qt/forms/transactionview.ui
@@ -253,19 +254,21 @@ BITCOIN_QT_H = \
   qt/widgets/recentrequestsview.h
 
 RES_ICONS = \
+  qt/res/icons/about.svg \
+  qt/res/icons/about_qt.svg \
   qt/res/icons/add.png \
   qt/res/icons/address-book.png \
-  qt/res/icons/about.png \
-  qt/res/icons/about_qt.png \
+  qt/res/icons/balance_bg.svg \
+  qt/res/icons/bitcoin.icns \
   qt/res/icons/bitcoin.ico \
   qt/res/icons/bitcoin_testnet.ico \
-  qt/res/icons/bitcoin.png \
   qt/res/icons/chevron.png \
   qt/res/icons/clock1.png \
   qt/res/icons/clock2.png \
   qt/res/icons/clock3.png \
   qt/res/icons/clock4.png \
   qt/res/icons/clock5.png \
+  qt/res/icons/colored_quit.svg \
   qt/res/icons/configure.png \
   qt/res/icons/connect0.png \
   qt/res/icons/connect1.png \
@@ -273,37 +276,49 @@ RES_ICONS = \
   qt/res/icons/connect3.png \
   qt/res/icons/connect4.png \
   qt/res/icons/debugwindow.png \
+  qt/res/icons/ecoin.svg \
   qt/res/icons/edit.png \
   qt/res/icons/editcopy.png \
   qt/res/icons/editpaste.png \
   qt/res/icons/export.png \
-  qt/res/icons/eye.png \
+  qt/res/icons/eye.svg \
   qt/res/icons/eye_minus.png \
   qt/res/icons/eye_plus.png \
+  qt/res/icons/fasong_dele.svg \
+  qt/res/icons/fasong_dele1.svg \
   qt/res/icons/filesave.png \
   qt/res/icons/fontbigger.png \
   qt/res/icons/fontsmaller.png \
   qt/res/icons/hd_disabled.png \
   qt/res/icons/hd_enabled.png \
+  qt/res/icons/history_active.svg \
+  qt/res/icons/history_inactive.svg \
   qt/res/icons/info.png \
   qt/res/icons/key.png \
   qt/res/icons/lock_closed.png \
   qt/res/icons/lock_open.png \
   qt/res/icons/network_disabled.png \
   qt/res/icons/open.png \
+  qt/res/icons/overview_active.svg \
+  qt/res/icons/overview_inactive.svg \
   qt/res/icons/quit.svg \
-  qt/res/icons/colored_quit.svg \
+  qt/res/icons/receive_active.svg \
+  qt/res/icons/receive_inactive.svg \
+  qt/res/icons/send_active.svg \
+  qt/res/icons/send_inactive.svg \
   qt/res/icons/synced.png \
+  qt/res/icons/synced.svg \
   qt/res/icons/transaction0.png \
   qt/res/icons/transaction2.png \
   qt/res/icons/transaction_abandoned.png \
   qt/res/icons/transaction_conflicted.png \
   qt/res/icons/tx_inout.png \
   qt/res/icons/tx_input.svg \
-  qt/res/icons/tx_output.svg \
   qt/res/icons/tx_mined.svg \
-  qt/res/icons/warning.png \
-  qt/res/icons/verify.png
+  qt/res/icons/tx_output.svg \
+  qt/res/icons/verify.png \
+  qt/res/icons/warning.png
+
 
 BITCOIN_QT_BASE_CPP = \
   qt/bantablemodel.cpp \

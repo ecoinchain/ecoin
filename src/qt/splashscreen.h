@@ -11,6 +11,10 @@
 class CWallet;
 class NetworkStyle;
 
+namespace Ui {
+	class SplashScreen;
+}
+
 /** Class for the splashscreen with information of the running client.
  *
  * @note this is intentionally not a QSplashScreen. Bitcoin Core initialization
@@ -26,7 +30,6 @@ public:
     ~SplashScreen();
 
 protected:
-    void paintEvent(QPaintEvent *event);
     void closeEvent(QCloseEvent *event);
 
 public Q_SLOTS:
@@ -47,12 +50,9 @@ private:
     /** Connect wallet signals to splash screen */
     void ConnectWallet(CWallet*);
 
-    QPixmap pixmap;
-    QString curMessage;
-    QColor curColor;
-    int curAlignment;
-
     QList<CWallet*> connectedWallets;
+
+	Ui::SplashScreen* ui;
 };
 
 #endif // BITCOIN_QT_SPLASHSCREEN_H

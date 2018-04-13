@@ -7,8 +7,8 @@ IconedAction::IconedAction(std::array<QIcon, 2> _icons, QString txt, QWidget * p
 	, icons(_icons)
 	, text(txt)
 {
+	setIcon(icons[0]);
 	connect(this, SIGNAL(toggled(bool)), this, SLOT(update_icon_when_state_changed(bool)));
-	//connect(this, SIGNAL(toggled(bool)), this, SLOT(stateChanged(bool)));
 }
 
 IconedAction::IconedAction(QIcon i, QString txt, QWidget* parent /*= nullptr*/)
