@@ -34,6 +34,8 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle)
 {
 	ui->setupUi(this);
 
+	txt_platte = ui->curMessage->palette();
+
     // set reference point, paddings
     int paddingRight            = 50;
     int paddingTop              = 50;
@@ -136,9 +138,8 @@ void SplashScreen::unsubscribeFromCoreSignals()
 void SplashScreen::showMessage(const QString &message, int alignment, const QColor &color)
 {
     ui->curMessage->setText(message);
-	QPalette textPlate = this->palette();
-	textPlate.setColor(QPalette::WindowText, color);
-	ui->curMessage->setPalette(textPlate);
+	txt_platte.setColor(QPalette::WindowText, color);
+	ui->curMessage->setPalette(txt_platte);
 }
 
 void SplashScreen::closeEvent(QCloseEvent *event)
