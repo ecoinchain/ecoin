@@ -107,7 +107,19 @@ QComboBox::drop-down {
 QComboBox QAbstractItemView {
     border: 1px solid #f8f8f8;
     selection-background-color: #2798FF;
-}</string>
+}
+
+QCheckBox::indicator {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 4px;
+}
+
+QCheckBox::indicator::checked {
+    image: url(:/icons/add) 0 0 0 0 stretch stretch;
+}
+</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -116,7 +128,7 @@ QComboBox QAbstractItemView {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>4</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -125,8 +137,17 @@ QComboBox QAbstractItemView {
       <layout class="QVBoxLayout" name="verticalLayout_Main">
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Automatically start %1 after logging in to the system.</string>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
          </property>
          <property name="text">
           <string>&amp;Start %1 on system login</string>
