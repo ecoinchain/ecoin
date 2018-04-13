@@ -40,7 +40,7 @@ target_link_libraries(rcoin-qt libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIE
 target_link_libraries(rcoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 
 if(MSVC AND ENABLE_QT_STATIC)
-target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin  Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin Qt5::QWindowsVistaStylePlugin)
+target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin Qt5::QGifPlugin Qt5::QJpegPlugin Qt5::QTiffPlugin Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin Qt5::QWindowsVistaStylePlugin)
 endif()
 
 if(WIN32)
