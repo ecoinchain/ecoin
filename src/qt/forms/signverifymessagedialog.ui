@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>380</height>
+    <width>804</width>
+    <height>422</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,7 +25,6 @@ QTabWidget::tab-bar {
 QTabWidget::pane { /* The tab widget frame */
     border: 0px;
     background-color: #FFFFFF;
-
 }
 
 
@@ -58,12 +57,27 @@ border-radius: 3px;
 padding: 3px;
 }
 
-#signMessageButton_SM, #verifyMessageButton_VM
+QPushButton[flat=false] {
+border: 1px solid #BAC1C4;
+
+background: #BAC1C4;
+}
+
+QPushButton:pressed {
+color : blue;
+background : red;
+
+}
+
+#signMessageButton_SM:!pressed, #verifyMessageButton_VM:!pressed
 {
 background: #2798FF;
 }
 
-</string>
+
+QPushButton[flat=false]:pressed {
+background : blue;
+}</string>
   </property>
   <property name="modal">
    <bool>true</bool>
@@ -459,6 +473,9 @@ background: #2798FF;
            <property name="autoDefault">
             <bool>false</bool>
            </property>
+           <property name="flat">
+            <bool>true</bool>
+           </property>
           </widget>
          </item>
          <item>
@@ -481,6 +498,9 @@ background: #2798FF;
            </property>
            <property name="autoDefault">
             <bool>false</bool>
+           </property>
+           <property name="flat">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
