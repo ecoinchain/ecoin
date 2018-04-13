@@ -146,6 +146,7 @@ endif()
 
 IF(MSVC)
 add_subdirectory(3rd-src/protobuf)
+set(Protobuf_LIBRARY libprotobuf)
 endif()
 
 find_package(Protobuf)

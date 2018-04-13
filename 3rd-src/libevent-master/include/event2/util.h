@@ -65,6 +65,7 @@ extern "C" {
 #endif
 
 #ifdef _WIN32
+#include <windows.h>
 #include <winsock2.h>
 #ifdef EVENT__HAVE_GETADDRINFO
 /* for EAI_* definitions. */
@@ -205,7 +206,7 @@ extern "C" {
    @{
 */
 #define EV_SIZE_MAX SIZE_MAX
-#define EV_SSIZE_MAX INT64_MAX
+#define EV_SSIZE_MAX SSIZE_MAX
 
 #define EV_SSIZE_MIN ((-EV_SSIZE_MAX) - 1)
 /**@}*/
