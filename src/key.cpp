@@ -50,7 +50,7 @@ bool CKey::VerifyPubKey(const CPubKey& pubkey) const {
 }
 
 bool CKey::Load(const CPrivKey &privkey, const CPubKey &vchPubKey, bool fSkipCheck=false) {
-    memcmp(this->privkey.data(), privkey.data(), privkey.size());
+    this-privkey = privkey;
     fValid = true;
 
     if (fSkipCheck)
