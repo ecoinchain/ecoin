@@ -33,7 +33,7 @@
 
  */
 #include <event2/visibility.h>
-
+#include <limits.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -206,7 +206,7 @@ extern "C" {
    @{
 */
 #define EV_SIZE_MAX SIZE_MAX
-#define EV_SSIZE_MAX SSIZE_MAX
+#define EV_SSIZE_MAX INT_MAX
 
 #define EV_SSIZE_MIN ((-EV_SSIZE_MAX) - 1)
 /**@}*/
