@@ -106,7 +106,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
         <enum>Qt::NoContextMenu</enum>
        </property>
        <property name="text">
-        <string>Se&amp;tting</string>
+        <string>S&amp;etting</string>
        </property>
        <property name="flat">
         <bool>true</bool>

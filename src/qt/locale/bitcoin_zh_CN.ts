@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
     <name>AddressBookPage</name>
@@ -3821,22 +3823,26 @@
     <message>
         <location filename="../forms/menubar.ui" line="+14"/>
         <source>Form</source>
-        <translation type="unfinished">表单</translation>
+        <translation>表单</translation>
     </message>
     <message>
         <location line="+82"/>
         <source>&amp;File</source>
-        <translation type="unfinished">文件(&amp;F)</translation>
+        <translation>文件(&amp;F)</translation>
     </message>
     <message>
         <location line="+13"/>
+        <source>S&amp;etting</source>
+        <translation>设置(&amp;E)</translation>
+    </message>
+    <message>
         <source>Se&amp;tting</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">设置(&amp;T)</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">帮助(&amp;H)</translation>
+        <translation>帮助(&amp;H)</translation>
     </message>
 </context>
 </TS>
