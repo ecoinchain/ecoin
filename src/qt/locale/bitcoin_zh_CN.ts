@@ -3816,4 +3816,27 @@
         <translation>错误</translation>
     </message>
 </context>
+<context>
+    <name>menubar</name>
+    <message>
+        <location filename="../forms/menubar.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished">表单</translation>
+    </message>
+    <message>
+        <location line="+82"/>
+        <source>&amp;File</source>
+        <translation type="unfinished">文件(&amp;F)</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Se&amp;tting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Help</source>
+        <translation type="unfinished">帮助(&amp;H)</translation>
+    </message>
+</context>
 </TS>
