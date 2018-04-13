@@ -279,14 +279,14 @@ void BitcoinGUI::createActions()
     overviewAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_1));
     tabGroup->addAction(overviewAction);
 
-    sendCoinsAction = new IconedAction(platformStyle->ModedIcon(":/icons/send"), tr("&Send"), this);
+	sendCoinsAction = new IconedAction(platformStyle->ModedIcon(":/icons/send"), tr("&Send"), this);
     sendCoinsAction->setStatusTip(tr("Send coins to a Bitcoin address"));
     sendCoinsAction->setToolTip(sendCoinsAction->statusTip());
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
 
-    sendCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/send"), tr("&Send"), this);
+    sendCoinsMenuAction = new QAction(platformStyle->ModedIcon(":/icons/send"), tr("&Send"), this);
     sendCoinsMenuAction->setStatusTip(sendCoinsAction->statusTip());
     sendCoinsMenuAction->setToolTip(sendCoinsMenuAction->statusTip());
 
@@ -297,7 +297,7 @@ void BitcoinGUI::createActions()
     receiveCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_3));
     tabGroup->addAction(receiveCoinsAction);
 
-    receiveCoinsMenuAction = new IconedAction(platformStyle->ModedIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
+    receiveCoinsMenuAction = new QAction(platformStyle->ModedIcon(":/icons/receiving_addresses"), tr("&Receive"), this);
     receiveCoinsMenuAction->setStatusTip(receiveCoinsAction->statusTip());
     receiveCoinsMenuAction->setToolTip(receiveCoinsMenuAction->statusTip());
 
