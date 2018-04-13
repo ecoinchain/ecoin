@@ -1134,7 +1134,7 @@
     </message>
     </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Bitcoin Core</source>
         <translation>Bitcoin Core</translation>

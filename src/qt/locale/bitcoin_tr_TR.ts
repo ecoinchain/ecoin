@@ -456,7 +456,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Print this help message and exit</source>
         <translation>Bu yardım mesajını yazdır ve çıkış yap</translation>

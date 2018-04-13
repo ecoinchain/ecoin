@@ -178,6 +178,6 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     </context>
 </TS>

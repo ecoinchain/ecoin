@@ -922,14 +922,14 @@
     </message>
     </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Bitcoin Core</source>
         <translation>Bitcoin Core</translation>
     </message>
     <message>
         <source>Whitelisted peers cannot be DoS banned and their transactions are always relayed, even if they are already in the mempool, useful e.g. for a gateway</source>
-        <translation>rcoin-core</translation>
+        <translation>bitcoin-core</translation>
     </message>
     <message>
         <source>Information</source>

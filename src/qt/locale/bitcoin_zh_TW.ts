@@ -3112,7 +3112,7 @@
     </message>
 </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>選項:</translation>

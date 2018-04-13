@@ -746,7 +746,7 @@
     <name>WalletView</name>
     </context>
 <context>
-    <name>rcoin-core</name>
+    <name>bitcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Optiones:</translation>
