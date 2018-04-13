@@ -3,17 +3,16 @@
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 16 16" style="enable-background:new 0 0 16 16;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#238EF5;}
+	.st0{fill:#9B9B9B;}
 </style>
-<title>jie</title>
+<title>dakai</title>
 <desc>Created with Sketch.</desc>
 <g id="Page-1">
-	<g id="概览展开" transform="translate(-33.000000, -344.000000)">
+	<g id="概览展开" transform="translate(-33.000000, -179.000000)">
 		<g id="文件下拉" transform="translate(24.000000, 161.000000)">
 			<g id="Group-7" transform="translate(9.000000, 18.000000)">
-				<path id="jieshou" class="st0" d="M7.5,174.5l-2.2-2.2L4.6,173l3.4,3.4l3.4-3.4l-0.7-0.7l-2.2,2.2v-8.3h-1V174.5z M6,166
-					c-2.9,0.9-5,3.5-5,6.7c0,3.9,3.1,7,7,7s7-3.1,7-7c0-3.2-2.1-5.8-5-6.7l-0.3,1c2.5,0.8,4.2,3.1,4.2,5.7c0,3.3-2.7,6-6,6
-					s-6-2.7-6-6c0-2.7,1.8-5,4.3-5.8L6,166z"/>
+				<path id="dakai" class="st0" d="M4,3v3h8v-2H7.6L6.6,3H4z M13,5.9h2l-1,8H2l-1-8h2V2h4l1,0.9h5V5.9z M2.9,12.9h10.2l0.8-6H2.1
+					L2.9,12.9z"/>
 			</g>
 		</g>
 	</g>

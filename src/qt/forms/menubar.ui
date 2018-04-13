@@ -21,10 +21,26 @@
 QPushButton {
 	border : none;
 margin: 3px;
+ padding: 2px;
    }
 
 QPushButton:focus {
 	outline: none;
+}
+
+QPushButton::menu-indicator {
+    image: url(:/icons/down);
+    subcontrol-position: right center;
+    subcontrol-origin: padding;
+    left: 1px;
+}
+
+
+QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
+    image: url(:/icons/up);
+    subcontrol-position: right center;
+    subcontrol-origin: padding;
+    left: 1px;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
