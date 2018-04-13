@@ -2873,7 +2873,7 @@ Kérem a kulcsmondatban használjon &lt;b&gt; tíz vagy több véletlenszerű ka
     </message>
 </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>rcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Opciók

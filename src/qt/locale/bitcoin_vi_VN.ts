@@ -1201,7 +1201,7 @@ Ví của bạn chưa được mã hóa.</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>rcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Lựa chọn:</translation>

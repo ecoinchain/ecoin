@@ -1905,7 +1905,7 @@ Exportar los datos en la pestaña actual a un archivo</translation>
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>rcoin-core</name>
     <message>
         <source>Rcoin Core</source>
         <translation>Rcoin Core</translation>

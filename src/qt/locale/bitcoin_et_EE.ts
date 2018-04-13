@@ -762,7 +762,7 @@
     </message>
     </context>
 <context>
-    <name>bitcoin-core</name>
+    <name>rcoin-core</name>
     <message>
         <source>Options:</source>
         <translation>Valikud:</translation>
