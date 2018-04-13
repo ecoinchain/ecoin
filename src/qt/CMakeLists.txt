@@ -22,7 +22,7 @@ qt5_add_resources(RC_SRCS bitcoin.qrc bitcoin_locale.qrc)
 
 set(SRCS ${SRCS} ${UI_SRCS} ${PROTO_PAYMENT_REQUEST_SRC} ${PROTO_PAYMENT_REQUEST_HEADER})
 
-add_executable(rcoin-qt WIN32 ${SRCS} ${RC_SRCS})
+add_executable(rcoin-qt WIN32 ${SRCS} ${RC_SRCS} res/bitcoin-qt-res.rc)
 
 if(MSVC AND ENABLE_QT_STATIC)
 add_definitions(-DQT_STATICPLUGIN)
