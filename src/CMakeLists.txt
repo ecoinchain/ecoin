@@ -156,7 +156,11 @@ add_library(coincore STATIC
   
   )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/include ${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/WIN32-Code/nmake)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/include)
+
+if(WIN32)
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libevent-master/WIN32-Code/nmake)
+endif()
 
 target_link_libraries(coincore concore_crypto secp256k1 ed25519 event_extra_static event_core_static)
 
