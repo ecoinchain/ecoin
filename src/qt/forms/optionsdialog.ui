@@ -102,7 +102,12 @@ QComboBox::drop-down {
     border-top-right-radius: 3px; /* same radius as the QComboBox */
     border-bottom-right-radius: 3px;
 }
-</string>
+
+
+QComboBox QAbstractItemView {
+    border: 1px solid #f8f8f8;
+    selection-background-color: #2798FF;
+}</string>
   </property>
   <property name="modal">
    <bool>true</bool>
