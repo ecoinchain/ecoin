@@ -60,7 +60,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>RcoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>Sign &amp;message...</source>
         <translation>&amp;Зурвас хавсаргах...</translation>
@@ -126,7 +126,7 @@
         <translation>Оношилгоо ба засварын консолыг онгойлго</translation>
     </message>
     <message>
-        <source>Rcoin</source>
+        <source>Bitcoin</source>
         <translation>Биткойн</translation>
     </message>
     <message>
@@ -233,7 +233,7 @@
 <context>
     <name>Intro</name>
     <message>
-        <source>Rcoin</source>
+        <source>Bitcoin</source>
         <translation>Биткойн</translation>
     </message>
     <message>

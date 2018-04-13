@@ -12,7 +12,7 @@
     <name>BanTableModel</name>
     </context>
 <context>
-    <name>RcoinGUI</name>
+    <name>BitcoinGUI</name>
     <message>
         <source>Error</source>
         <translation>错误</translation>
@@ -111,8 +111,8 @@
         <translation>仅支付全额的%1</translation>
     </message>
     <message>
-        <source>Warning: Invalid Rcoin address</source>
-        <translation>警告：R币地址无效</translation>
+        <source>Warning: Invalid Bitcoin address</source>
+        <translation>警告：比特币地址无效</translation>
     </message>
     </context>
 <context>
