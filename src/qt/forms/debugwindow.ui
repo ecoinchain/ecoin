@@ -13,6 +13,71 @@
   <property name="windowTitle">
    <string>Debug window</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">SignVerifyMessageDialog {
+    background-color: #FFFFFF;
+}
+
+QTabWidget::tab-bar {
+    background-color: #F8F8F8;
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border: 0px;
+    background-color: #FFFFFF;
+}
+
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+QTabBar::tab {
+    border: 0px;
+   padding : 11px;
+}
+
+QTabBar::tab:selected {
+   border-style: solid;
+    background-color: #FFFFFF;
+    border-top-color: #2798FF;
+   border-top-width: 2px;
+}
+
+QPushButton {
+background: #FFFFF;
+border-radius: 3px;
+border: 1px solid #2798FF;
+border-radius: 3px;
+padding: 6px;
+}
+
+QLineEdit , QPlainTextEdit  {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 3px;
+}
+
+QPushButton[flat=false] {
+border: 1px solid #BAC1C4;
+
+background: #BAC1C4;
+}
+
+QPushButton:pressed {
+color : blue;
+background : red;
+
+}
+
+#signMessageButton_SM:!pressed, #verifyMessageButton_VM:!pressed
+{
+background: #2798FF;
+}
+
+QPushButton:pressed {
+background : #F8F8F8;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QTabWidget" name="tabWidget">
@@ -368,6 +433,12 @@
          </item>
          <item>
           <widget class="QPushButton" name="openDebugLogfileButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="toolTip">
             <string>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</string>
            </property>
