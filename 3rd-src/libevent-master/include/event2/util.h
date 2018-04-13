@@ -113,89 +113,20 @@ extern "C" {
  *
  * @{
  */
-#ifdef EVENT__HAVE_UINT64_T
 #define ev_uint64_t uint64_t
 #define ev_int64_t int64_t
-#elif defined(_WIN32)
-#define ev_uint64_t unsigned __int64
-#define ev_int64_t signed __int64
-#elif EVENT__SIZEOF_LONG_LONG == 8
-#define ev_uint64_t unsigned long long
-#define ev_int64_t long long
-#elif EVENT__SIZEOF_LONG == 8
-#define ev_uint64_t unsigned long
-#define ev_int64_t long
-#elif defined(EVENT_IN_DOXYGEN_)
-#define ev_uint64_t ...
-#define ev_int64_t ...
-#else
-#error "No way to define ev_uint64_t"
-#endif
 
-#ifdef EVENT__HAVE_UINT32_T
 #define ev_uint32_t uint32_t
 #define ev_int32_t int32_t
-#elif defined(_WIN32)
-#define ev_uint32_t unsigned int
-#define ev_int32_t signed int
-#elif EVENT__SIZEOF_LONG == 4
-#define ev_uint32_t unsigned long
-#define ev_int32_t signed long
-#elif EVENT__SIZEOF_INT == 4
-#define ev_uint32_t unsigned int
-#define ev_int32_t signed int
-#elif defined(EVENT_IN_DOXYGEN_)
-#define ev_uint32_t ...
-#define ev_int32_t ...
-#else
-#error "No way to define ev_uint32_t"
-#endif
 
-#ifdef EVENT__HAVE_UINT16_T
 #define ev_uint16_t uint16_t
 #define ev_int16_t  int16_t
-#elif defined(_WIN32)
-#define ev_uint16_t unsigned short
-#define ev_int16_t  signed short
-#elif EVENT__SIZEOF_INT == 2
-#define ev_uint16_t unsigned int
-#define ev_int16_t  signed int
-#elif EVENT__SIZEOF_SHORT == 2
-#define ev_uint16_t unsigned short
-#define ev_int16_t  signed short
-#elif defined(EVENT_IN_DOXYGEN_)
-#define ev_uint16_t ...
-#define ev_int16_t ...
-#else
-#error "No way to define ev_uint16_t"
-#endif
 
-#ifdef EVENT__HAVE_UINT8_T
 #define ev_uint8_t uint8_t
 #define ev_int8_t int8_t
-#elif defined(EVENT_IN_DOXYGEN_)
-#define ev_uint8_t ...
-#define ev_int8_t ...
-#else
-#define ev_uint8_t unsigned char
-#define ev_int8_t signed char
-#endif
 
-#ifdef EVENT__HAVE_UINTPTR_T
 #define ev_uintptr_t uintptr_t
 #define ev_intptr_t intptr_t
-#elif EVENT__SIZEOF_VOID_P <= 4
-#define ev_uintptr_t ev_uint32_t
-#define ev_intptr_t ev_int32_t
-#elif EVENT__SIZEOF_VOID_P <= 8
-#define ev_uintptr_t ev_uint64_t
-#define ev_intptr_t ev_int64_t
-#elif defined(EVENT_IN_DOXYGEN_)
-#define ev_uintptr_t ...
-#define ev_intptr_t ...
-#else
-#error "No way to define ev_uintptr_t"
-#endif
 
 #ifdef EVENT__ssize_t
 #define ev_ssize_t EVENT__ssize_t
@@ -273,18 +204,8 @@ extern "C" {
 
    @{
 */
-#if EVENT__SIZEOF_SIZE_T == 8
-#define EV_SIZE_MAX EV_UINT64_MAX
-#define EV_SSIZE_MAX EV_INT64_MAX
-#elif EVENT__SIZEOF_SIZE_T == 4
-#define EV_SIZE_MAX EV_UINT32_MAX
-#define EV_SSIZE_MAX EV_INT32_MAX
-#elif defined(EVENT_IN_DOXYGEN_)
-#define EV_SIZE_MAX ...
-#define EV_SSIZE_MAX ...
-#else
-#error "No way to define SIZE_MAX"
-#endif
+#define EV_SIZE_MAX SIZE_MAX
+#define EV_SSIZE_MAX INT64_MAX
 
 #define EV_SSIZE_MIN ((-EV_SSIZE_MAX) - 1)
 /**@}*/
