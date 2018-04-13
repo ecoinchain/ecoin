@@ -258,7 +258,7 @@ libbitcoin_wallet_a_SOURCES = \
   $(BITCOIN_CORE_H)
 
 libed25519_a_CPPFLAGS = $(AM_CPPFLAGS)
-libed25519_a_CFLAGS = $(AM_CFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
+libed25519_a_CFLAGS = $(AM_CFLAGS) $(PIC_FLAGS)
 libed25519_a_SOURCES = \
   ed25519/add_scalar.c \
   ed25519/ed25519.h \
@@ -312,7 +312,7 @@ endif
 # consensus: shared between all executables that validate any consensus rules.
 libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
-libbitcoin_consensus_a_CFLAGS = $(AM_CFLAGS) $(PIE_FLAGS) $(PIC_FLAGS)
+libbitcoin_consensus_a_CFLAGS = $(AM_CFLAGS) $(PIC_FLAGS)
 libbitcoin_consensus_a_SOURCES = \
   amount.h \
   arith_uint256.cpp \

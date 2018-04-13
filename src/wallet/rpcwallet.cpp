@@ -3562,6 +3562,7 @@ UniValue setgenerate(const JSONRPCRequest& request)
     GenerateBitcoins(fGenerate, nGenProcLimit);
 #endif
 
+    gArgs.SoftSetBoolArg("-gen", fGenerate);
     return NullUniValue;
 }
 
