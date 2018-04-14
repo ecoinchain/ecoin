@@ -364,6 +364,10 @@
         <translation>验证消息(&amp;V)...</translation>
     </message>
     <message>
+        <source>Rcoin</source>
+        <translation>R币</translation>
+    </message>
+    <message>
         <source>Bitcoin</source>
         <translation>R币</translation>
     </message>
