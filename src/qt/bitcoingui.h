@@ -29,7 +29,7 @@ class UnitDisplayStatusBarControl;
 class WalletFrame;
 class WalletModel;
 class HelpMessageDialog;
-class ModalOverlay;
+class ChainSyncWarning;
 class IconedAction;
 class menubar;
 QT_BEGIN_NAMESPACE
@@ -119,7 +119,7 @@ private:
     Notificator *notificator;
     RPCConsole *rpcConsole;
     HelpMessageDialog *helpMessageDialog;
-    ModalOverlay *modalOverlay;
+    ChainSyncWarning *modalOverlay;
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
