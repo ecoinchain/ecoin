@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>385</height>
+    <width>688</width>
+    <height>435</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -89,7 +89,7 @@ QLabel { color: rgb(40,40,40);  }</string>
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="../bitcoin.qrc">
                  <normaloff>:/icons/warning</normaloff>
                  <disabledoff>:/icons/warning</disabledoff>:/icons/warning</iconset>
                </property>
@@ -348,11 +348,11 @@ QLabel { color: rgb(40,40,40);  }</string>
            </item>
            <item>
             <widget class="QPushButton" name="closeButton">
-             <property name="text">
-              <string>Hide</string>
-             </property>
              <property name="focusPolicy">
               <enum>Qt::StrongFocus</enum>
+             </property>
+             <property name="text">
+              <string>Hide</string>
              </property>
              <property name="default">
               <bool>true</bool>
@@ -377,6 +377,8 @@ QLabel { color: rgb(40,40,40);  }</string>
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>
