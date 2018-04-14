@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/icons">
-        <file alias="bitcoin">res/icons/ecoin.svg</file>
+        <file alias="about">res/icons/ecoin.svg</file>
         <file alias="address-book">res/icons/address-book.png</file>
         <file alias="connect_0">res/icons/connect0.png</file>
         <file alias="connect_1">res/icons/connect1.png</file>
@@ -36,7 +36,7 @@
         <file alias="debugwindow">res/icons/debugwindow.png</file>
         <file alias="open">res/icons/open.svg</file>
         <file alias="info">res/icons/info.png</file>
-        <file alias="about">res/icons/about.svg</file>
+        <file alias="bitcoin">res/icons/about.svg</file>
         <file alias="about_qt">res/icons/about_qt.svg</file>
         <file alias="verify">res/icons/verify.png</file>
         <file alias="warning">res/icons/warning.png</file>
