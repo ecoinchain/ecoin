@@ -5,6 +5,7 @@
 QBackgroundImageFrame::QBackgroundImageFrame(QWidget* parent /*= Q_NULLPTR*/, Qt::WindowFlags f /*= Qt::WindowFlags()*/)
 	: QFrame(parent, f)
 {
+	m_alignment = Qt::AlignLeft | Qt::AlignVCenter;
 }
 
 void QBackgroundImageFrame::setBackgroundImage(const QIcon& img)
@@ -18,6 +19,5 @@ void QBackgroundImageFrame::paintEvent(QPaintEvent *event)
 
 	QRect r;
 	r.setSize(size());
-	bgimg.paint(&painter, r, Qt::AlignLeft | Qt::AlignVCenter);
-//	this->paintEngine()
+	bgimg.paint(&painter, r, m_alignment);
 }
