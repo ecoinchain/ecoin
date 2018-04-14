@@ -109,6 +109,7 @@ QComboBox QAbstractItemView {
     selection-background-color: #2798FF;
 }
 
+/*
 QCheckBox::indicator {
 background: #FFFFFF;
 border: 1px solid #E4E4E4;
@@ -119,7 +120,8 @@ padding: 4px;
 QCheckBox::indicator::checked {
     image: url(:/icons/add) 0 0 0 0 stretch stretch;
 }
-</string>
+
+*/</string>
   </property>
   <property name="modal">
    <bool>true</bool>
