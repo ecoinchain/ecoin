@@ -6,7 +6,7 @@
 #define BITCOIN_QT_SPLASHSCREEN_H
 
 #include <functional>
-#include <QSplashScreen>
+#include "qt/widgets/qbackgroundimageframe.h"
 
 class CWallet;
 class NetworkStyle;
@@ -21,7 +21,7 @@ namespace Ui {
  * can take a long time, and in that case a progress window that cannot be
  * moved around and minimized has turned out to be frustrating to the user.
  */
-class SplashScreen : public QWidget
+class SplashScreen : public QBackgroundImageFrame
 {
     Q_OBJECT
 

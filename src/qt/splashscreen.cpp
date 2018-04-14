@@ -29,7 +29,7 @@
 #include "qt/forms/ui_splashscreen.h"
 
 SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle)
-	: QWidget(0, f)
+	: QBackgroundImageFrame(0, f)
 	, ui(new Ui::SplashScreen)
 {
 	ui->setupUi(this);
