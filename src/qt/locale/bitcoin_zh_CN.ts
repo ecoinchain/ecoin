@@ -1144,7 +1144,7 @@
     <message>
         <location line="+10"/>
         <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
-        <translation type="unfinished"></translation>
+        <translation>一开始的同步作业非常的耗费资源，并且可能会暴露出之前没被发现的电脑硬件问题。每次执行 %1 的时候都会继续先前未完成的下载。</translation>
     </message>
     <message>
         <location line="+10"/>
