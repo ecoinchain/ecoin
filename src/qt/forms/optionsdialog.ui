@@ -13,6 +13,116 @@
   <property name="windowTitle">
    <string>Options</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog {
+    background-color: #F8F8F8;
+}
+
+QTabWidget::tab-bar {
+    background-color: #F8F8F8;
+}
+
+QTabWidget::pane { /* The tab widget frame */
+    border: 0px;
+    background-color: #FFFFFF;
+}
+
+
+/* Style the tab using the tab sub-control. Note that
+    it reads QTabBar _not_ QTabWidget */
+QTabBar::tab {
+    border: 0px;
+   padding : 11px;
+}
+
+QTabBar::tab:selected {
+   border-style: solid;
+    background-color: #FFFFFF;
+    border-top-color: #2798FF;
+   border-top-width: 2px;
+}
+
+QPushButton {
+background: #FFFFF;
+border-radius: 3px;
+border: 1px solid #2798FF;
+border-radius: 3px;
+padding: 6px;
+}
+
+QLineEdit , QPlainTextEdit  {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 3px;
+}
+
+QPushButton[flat=false] {
+border: 1px solid #BAC1C4;
+
+background: #BAC1C4;
+}
+
+QPushButton:pressed {
+color : blue;
+background : red;
+
+}
+
+#signMessageButton_SM:!pressed, #verifyMessageButton_VM:!pressed
+{
+background: #2798FF;
+}
+
+QPushButton:pressed {
+background : #F8F8F8;
+}
+
+QComboBox {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 4px;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/down);
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    image: url(:/icons/up);
+}
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+
+    border-left-width: 0px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+
+QComboBox QAbstractItemView {
+    border: 1px solid #f8f8f8;
+    selection-background-color: #2798FF;
+}
+
+/*
+QCheckBox::indicator {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+padding: 4px;
+}
+
+QCheckBox::indicator::checked {
+    image: url(:/icons/add) 0 0 0 0 stretch stretch;
+}
+
+*/</string>
+  </property>
   <property name="modal">
    <bool>true</bool>
   </property>
@@ -29,8 +139,17 @@
       <layout class="QVBoxLayout" name="verticalLayout_Main">
        <item>
         <widget class="QCheckBox" name="bitcoinAtStartup">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="toolTip">
           <string>Automatically start %1 after logging in to the system.</string>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
          </property>
          <property name="text">
           <string>&amp;Start %1 on system login</string>
@@ -574,6 +693,9 @@
            <property name="toolTip">
             <string>The user interface language can be set here. This setting will take effect after restarting %1.</string>
            </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
           </widget>
          </item>
         </layout>
@@ -598,6 +720,19 @@
            <property name="toolTip">
             <string>Choose the default subdivision unit to show in the interface and when sending coins.</string>
            </property>
+           <property name="frame">
+            <bool>false</bool>
+           </property>
+           <item>
+            <property name="text">
+             <string>1</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>2</string>
+            </property>
+           </item>
           </widget>
          </item>
         </layout>

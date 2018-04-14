@@ -53,6 +53,7 @@ private:
     QList<CWallet*> connectedWallets;
 
 	Ui::SplashScreen* ui;
+	QPalette txt_platte;
 };
 
 #endif // BITCOIN_QT_SPLASHSCREEN_H

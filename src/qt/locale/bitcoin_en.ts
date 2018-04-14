@@ -4102,7 +4102,7 @@
     <message>
         <location line="-397"/>
         <source>Bitcoin Core</source>
-        <translation type="unfinished">Bitcoin Core</translation>
+        <translation type="unfinished">Rcoin Core</translation>
     </message>
     <message>
         <location line="+1"/>

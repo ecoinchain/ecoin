@@ -62,6 +62,30 @@ QDialog &gt; .QFrame {
 background-color: rgb(248, 248, 248);
   border-radius: 5px;
 }  
+
+QComboBox::down-arrow {
+    image: url(:/icons/down);
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    image: url(:/icons/up);
+}
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+
+    border-left-width: 0px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+}
 </string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
