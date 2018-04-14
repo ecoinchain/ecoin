@@ -34,6 +34,8 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle)
 {
 	ui->setupUi(this);
 
+	QBackgroundImageFrame::setAlignment(Qt::AlignCenter);
+
 	txt_platte = ui->curMessage->palette();
 
     // set reference point, paddings
