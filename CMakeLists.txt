@@ -43,6 +43,9 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
 
 endif(MSVC)
 
+include(cpacksettings.cmake)
+INCLUDE(CPack)
+
 find_package(Threads)
 
 list(APPEND RCOIN_QT_COMPONENTS Core Network Gui Svg Widgets LinguistTools UiPlugin)
