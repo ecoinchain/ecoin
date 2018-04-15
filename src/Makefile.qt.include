@@ -104,7 +104,7 @@ QT_FORMS_UI = \
   qt/forms/iconbutton.ui \
   qt/forms/intro.ui \
   qt/forms/menubar.ui \
-  qt/forms/modaloverlay.ui \
+  qt/forms/chainsyncwarning.ui \
   qt/forms/openuridialog.ui \
   qt/forms/optionsdialog.ui \
   qt/forms/overviewpage.ui \
@@ -137,7 +137,7 @@ QT_MOC_CPP = \
   qt/moc_intro.cpp \
   qt/moc_macdockiconhandler.cpp \
   qt/moc_macnotificationhandler.cpp \
-  qt/moc_modaloverlay.cpp \
+  qt/moc_ChainSyncWarning.cpp \
   qt/moc_notificator.cpp \
   qt/moc_openuridialog.cpp \
   qt/moc_optionsdialog.cpp \
@@ -213,7 +213,7 @@ BITCOIN_QT_H = \
   qt/intro.h \
   qt/macdockiconhandler.h \
   qt/macnotificationhandler.h \
-  qt/modaloverlay.h \
+  qt/ChainSyncWarning.h \
   qt/networkstyle.h \
   qt/notificator.h \
   qt/openuridialog.h \
@@ -332,7 +332,7 @@ BITCOIN_QT_BASE_CPP = \
   qt/csvmodelwriter.cpp \
   qt/guiutil.cpp \
   qt/intro.cpp \
-  qt/modaloverlay.cpp \
+  qt/ChainSyncWarning.cpp \
   qt/networkstyle.cpp \
   qt/notificator.cpp \
   qt/optionsdialog.cpp \
