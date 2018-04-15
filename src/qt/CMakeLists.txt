@@ -46,7 +46,7 @@ target_link_libraries(rcoin-qt Qt5::QWindowsIntegrationPlugin Qt5::QGifPlugin Qt
 endif()
 
 if(WIN32)
-target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib Winmm.lib Mincore.lib Imm32.lib Dwmapi.lib UxTheme.lib)
+target_link_libraries(rcoin-qt Qt5::WinExtras Crypt32.lib Iphlpapi.lib Netapi32.lib version.lib Userenv.lib Winmm.lib Imm32.lib Dwmapi.lib UxTheme.lib)
 endif()
 
 if(APPLE)
