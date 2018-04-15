@@ -50,6 +50,7 @@ public:
         SpendZeroConfChange,    // bool
         Listen,                 // bool
         OptionIDRowCount,
+		EnableMinner,			// bool
     };
 
     void Init(bool resetSettings = false);

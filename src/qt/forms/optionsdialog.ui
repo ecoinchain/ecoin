@@ -130,7 +130,7 @@ QCheckBox::indicator::checked {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -279,6 +279,13 @@ QCheckBox::indicator::checked {
             </property>
             <property name="text">
              <string>&amp;Spend unconfirmed change</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="enableMinner">
+            <property name="text">
+             <string>Enable Mining</string>
             </property>
            </widget>
           </item>
