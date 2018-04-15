@@ -28,6 +28,7 @@
 #include <wallet/feebumper.h>
 #include <wallet/wallet.h>
 #include <wallet/walletdb.h> // for BackupWallet
+#include <miner.h>
 
 #include <stdint.h>
 
