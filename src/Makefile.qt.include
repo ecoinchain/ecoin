@@ -170,6 +170,7 @@ QT_MOC_CPP = \
   qt/widgets/moc_menubar.cpp\
   qt/widgets/moc_qbackgroundimageframe.cpp\
   qt/widgets/moc_recentrequestsview.cpp \
+  qt/widgets/moc_modaloverlay.cpp \
   qt/moc_recentrequestsdelegates.cpp 
 
 BITCOIN_MM = \
@@ -251,7 +252,8 @@ BITCOIN_QT_H = \
   qt/widgets/iconedaction.h\
   qt/widgets/menubar.h\
   qt/widgets/qbackgroundimageframe.h\
-  qt/widgets/recentrequestsview.h
+  qt/widgets/recentrequestsview.h \
+  qt/widgets/modaloverlay.h
 
 RES_ICONS = \
   qt/res/icons/ \
@@ -350,6 +352,7 @@ BITCOIN_QT_BASE_CPP = \
   qt/widgets/menubar.cpp\
   qt/widgets/qbackgroundimageframe.cpp\
   qt/widgets/recentrequestsview.cpp \
+  qt/widgets/modaloverlay.cpp \
   qt/recentrequestsdelegates.cpp 
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
