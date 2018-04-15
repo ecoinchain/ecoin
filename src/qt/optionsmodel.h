@@ -76,6 +76,9 @@ public:
     void setRestartRequired(bool fRequired);
     bool isRestartRequired() const;
 
+Q_SIGNALS:
+	void generateChanged(bool);
+
 private:
     /* Qt-only settings */
     bool fHideTrayIcon;

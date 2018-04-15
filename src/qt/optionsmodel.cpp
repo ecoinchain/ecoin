@@ -6,7 +6,6 @@
 #include <config/bitcoin-config.h>
 #endif
 
-#include "miner.h"
 #include <qt/optionsmodel.h>
 
 #include <qt/bitcoinunits.h>
@@ -229,13 +228,6 @@ static void SetProxySetting(QSettings &settings, const QString &name, const Prox
     settings.setValue(name, ip_port.ip + ":" + ip_port.port);
 }
 
-#ifdef ENABLE_WALLET
-static CWallet *GetDefaultWallet()
-{
-	return  ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
-}
-#endif
-
 // read QSettings values and return them
 QVariant OptionsModel::data(const QModelIndex & index, int role) const
 {
@@ -398,20 +390,9 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
             }
             break;
 		case EnableMinner:
-#ifdef ENABLE_WALLET
-		{
-			CWallet * const pwallet = GetDefaultWallet();
-
-			if (!pwallet)
-				break;
-
-			GenerateBitcoins(value.toBool(), pwallet, std::thread::hardware_concurrency());
-		}
-#else
-			GenerateBitcoins(value.toBool(), std::thread::hardware_concurrency());
-#endif
 			settings.setValue("enableMinner", value);
 			gArgs.SoftSetBoolArg("-gen", value.toBool());
+			Q_EMIT generateChanged(value.toBool());
 			break;
 #endif
         case DisplayUnit:

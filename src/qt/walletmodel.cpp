@@ -59,6 +59,8 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
     pollTimer->start(MODEL_UPDATE_DELAY);
 
     subscribeToCoreSignals();
+
+	connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged()));
 }
 
 WalletModel::~WalletModel()
@@ -137,6 +139,16 @@ void WalletModel::pollBalanceChanged()
         if(transactionTableModel)
             transactionTableModel->updateConfirmations();
     }
+}
+
+
+void WalletModel::onGenerateChanged(bool fGenerate)
+{
+#ifdef ENABLE_WALLET
+	GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency());
+#else
+	GenerateBitcoins(fGenerate, std::thread::hardware_concurrency());
+#endif
 }
 
 void WalletModel::checkBalanceChanged()
