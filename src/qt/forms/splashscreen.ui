@@ -88,6 +88,9 @@ background: #00000000;
          <height>50</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">color: white;</string>
+       </property>
        <property name="text">
         <string>Loading...</string>
        </property>
