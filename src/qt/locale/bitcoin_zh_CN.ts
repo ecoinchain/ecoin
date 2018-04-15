@@ -755,9 +755,75 @@
         <translation type="vanished">发生严重错误。客户端无法安全地继续运行，即将退出。</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+529"/>
+        <location filename="../bitcoin.cpp" line="+530"/>
         <source>A fatal error occurred. %1 can no longer continue safely and will quit.</source>
         <translation>发生严重错误。%1 客户端无法安全地继续运行，即将退出。</translation>
+    </message>
+</context>
+<context>
+    <name>ChainSyncWarning</name>
+    <message>
+        <location filename="../forms/chainsyncwarning.ui" line="+14"/>
+        <source>Form</source>
+        <translation>表单</translation>
+    </message>
+    <message>
+        <location line="+119"/>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
+        <translation>近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
+        <translation>尝试使用受未可见交易影响的余额将不被网络接受。</translation>
+    </message>
+    <message>
+        <location line="+63"/>
+        <source>Number of blocks left</source>
+        <translation>剩余区块数量</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+26"/>
+        <location filename="../ChainSyncWarning.cpp" line="+140"/>
+        <source>Unknown...</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <location line="-13"/>
+        <source>Last block time</source>
+        <translation>上一数据块时间</translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Progress</source>
+        <translation>进度</translation>
+    </message>
+    <message>
+        <location line="+34"/>
+        <source>Progress increase per hour</source>
+        <translation>每小时进度增加</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location line="+20"/>
+        <source>calculating...</source>
+        <translation>正在计算</translation>
+    </message>
+    <message>
+        <location line="-7"/>
+        <source>Estimated time left until synced</source>
+        <translation>预计剩余同步时间</translation>
+    </message>
+    <message>
+        <location line="+40"/>
+        <source>Hide</source>
+        <translation>隐藏</translation>
+    </message>
+    <message>
+        <location filename="../ChainSyncWarning.cpp" line="-1"/>
+        <source>Unknown. Syncing Headers (%1)...</source>
+        <translation>未知状态。同步区块头(%1)...</translation>
     </message>
 </context>
 <context>
@@ -1222,67 +1288,52 @@
 <context>
     <name>ModalOverlay</name>
     <message>
-        <location filename="../forms/modaloverlay.ui" line="+14"/>
         <source>Form</source>
-        <translation>表单</translation>
+        <translation type="vanished">表单</translation>
     </message>
     <message>
-        <location line="+119"/>
         <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
+        <translation type="vanished">近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation>尝试使用受未可见交易影响的余额将不被网络接受。</translation>
+        <translation type="vanished">尝试使用受未可见交易影响的余额将不被网络接受。</translation>
     </message>
     <message>
-        <location line="+63"/>
         <source>Number of blocks left</source>
-        <translation>剩余区块数量</translation>
+        <translation type="vanished">剩余区块数量</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+26"/>
-        <location filename="../modaloverlay.cpp" line="+140"/>
         <source>Unknown...</source>
-        <translation>未知</translation>
+        <translation type="vanished">未知</translation>
     </message>
     <message>
-        <location line="-13"/>
         <source>Last block time</source>
-        <translation>上一数据块时间</translation>
+        <translation type="vanished">上一数据块时间</translation>
     </message>
     <message>
-        <location line="+26"/>
         <source>Progress</source>
-        <translation>进度</translation>
+        <translation type="vanished">进度</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>Progress increase per hour</source>
-        <translation>每小时进度增加</translation>
+        <translation type="vanished">每小时进度增加</translation>
     </message>
     <message>
-        <location line="+7"/>
-        <location line="+20"/>
         <source>calculating...</source>
-        <translation>正在计算</translation>
+        <translation type="vanished">正在计算</translation>
     </message>
     <message>
-        <location line="-7"/>
         <source>Estimated time left until synced</source>
-        <translation>预计剩余同步时间</translation>
+        <translation type="vanished">预计剩余同步时间</translation>
     </message>
     <message>
-        <location line="+37"/>
         <source>Hide</source>
-        <translation>隐藏</translation>
+        <translation type="vanished">隐藏</translation>
     </message>
     <message>
-        <location filename="../modaloverlay.cpp" line="-1"/>
         <source>Unknown. Syncing Headers (%1)...</source>
-        <translation>未知状态。同步区块头(%1)...</translation>
+        <translation type="vanished">未知状态。同步区块头(%1)...</translation>
     </message>
 </context>
 <context>
@@ -1351,7 +1402,7 @@
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="+168"/>
         <location line="+187"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
@@ -1420,7 +1471,7 @@
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
-        <location line="-85"/>
+        <location line="-92"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
@@ -1448,6 +1499,11 @@
         <location line="+3"/>
         <source>&amp;Spend unconfirmed change</source>
         <translation>使用未经确认的零钱(&amp;S)</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Enable Mining</source>
+        <translation>启用挖矿</translation>
     </message>
     <message>
         <location line="+30"/>
@@ -1583,12 +1639,12 @@
         <translation>选择R币单位。</translation>
     </message>
     <message>
-        <location line="-453"/>
+        <location line="-460"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
-        <location line="+662"/>
+        <location line="+669"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -1608,7 +1664,7 @@
         <translation>无</translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+73"/>
         <source>Confirm options reset</source>
         <translation>确认恢复缺省设置</translation>
     </message>
@@ -2038,7 +2094,7 @@
         <translation>%1 尚未安全退出</translation>
     </message>
     <message>
-        <location filename="../modaloverlay.cpp" line="-29"/>
+        <location filename="../ChainSyncWarning.cpp" line="-29"/>
         <source>unknown</source>
         <translation>未知</translation>
     </message>
@@ -3405,17 +3461,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>[测试网络]</translation>
     </message>
     <message>
-        <location filename="../forms/splashscreen.ui" line="+14"/>
+        <location filename="../forms/splashscreen.ui" line="+20"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
-        <location line="+81"/>
-        <source>RCoins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+56"/>
+        <location line="+75"/>
         <source>Loading...</source>
         <translation>载入中.....</translation>
     </message>
@@ -3895,7 +3946,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location filename="../forms/transactionview.ui" line="+21"/>
         <source>Form</source>
-        <translation type="unfinished">表单</translation>
+        <translation>表单</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -3910,7 +3961,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+23"/>
         <source>&amp;Export</source>
-        <translation type="unfinished">导出(&amp;E)</translation>
+        <translation>导出(&amp;E)</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -3921,7 +3972,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="-7"/>
         <source>To</source>
-        <translation type="unfinished">到</translation>
+        <translation>到</translation>
     </message>
     <message>
         <location filename="../transactionview.cpp" line="+18"/>
@@ -4067,7 +4118,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+291"/>
+        <location filename="../walletmodel.cpp" line="+311"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
