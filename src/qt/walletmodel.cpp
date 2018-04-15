@@ -61,7 +61,14 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
 
     subscribeToCoreSignals();
 
-	connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged()));
+	connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged(bool)));
+
+	QVariant enableminner = optionsModel->data(optionsModel->index(OptionsModel::EnableMinner, 0), Qt::EditRole);
+	if (enableminner.toBool())
+	{
+		onGenerateChanged(true);
+		gArgs.SoftSetBoolArg("-gen", true);
+	}
 }
 
 WalletModel::~WalletModel()

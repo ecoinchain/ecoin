@@ -49,8 +49,8 @@ public:
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
         Listen,                 // bool
-        OptionIDRowCount,
 		EnableMinner,			// bool
+		OptionIDRowCount,
     };
 
     void Init(bool resetSettings = false);
