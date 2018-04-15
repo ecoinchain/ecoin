@@ -392,8 +392,11 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 		case EnableMinner:
 			if (settings.value("enableMinner") != value) {
 				settings.setValue("enableMinner", value);
-				gArgs.SoftSetBoolArg("-gen", value.toBool());
-				Q_EMIT generateChanged(value.toBool());
+				if (value.toBool())
+				{
+					gArgs.SoftSetBoolArg("-gen", value.toBool());
+					Q_EMIT generateChanged(value.toBool());
+				}
 				if(value.toBool()==false)
 					setRestartRequired(true);
 			}
