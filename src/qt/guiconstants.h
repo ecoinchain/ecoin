@@ -57,6 +57,8 @@ static const int MAX_URI_LENGTH = 255;
 
 #define QAPP_COIN_NAMES "ECoins"
 
+#define QAPP_COIN_UNIT "ECO"
+
 #define QAPP_COIN_NAME_URI_SCHEME "ecoin:"
 #define QAPP_COIN_SCHEME_NAME "ecoin"
 
