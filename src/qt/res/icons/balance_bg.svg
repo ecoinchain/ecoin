@@ -3,20 +3,12 @@
 <svg version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 134 76" style="enable-background:new 0 0 134 76;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill-opacity:7.500000e-03;}
+	.st0{opacity:5.000000e-02;fill-rule:evenodd;clip-rule:evenodd;}
 </style>
 <title>Combined Shape</title>
 <desc>Created with Sketch.</desc>
-<g id="Rcoin">
-	<g id="概览-默认" transform="translate(-24.000000, -102.000000)">
-		<g id="Group-2" transform="translate(24.000000, 102.000000)">
-			<g id="Group-7" transform="translate(-7.000000, -31.000000)">
-				<path id="Combined-Shape" class="st0" d="M30.6,122.8l23.1-23.3l14.9,15l-23.1,23.3L30.6,122.8z M45.6,84.3l14.9-14.8l52.2,52
-					l-14.9,14.8L45.6,84.3z M104.2,86.1L119,71.2l22,22L126.2,108L104.2,86.1z M91.1,92.1L76.2,77.2l46.6-46.6l14.9,14.9L91.1,92.1z
-					 M37.7,47L22.9,61.8L5.6,44.5l14.8-14.8L37.7,47z M96.6,49L81.7,63.9L34.1,16.3L49,1.5L96.6,49z M92.3,0l14.8,14.8L88.4,33.6
-					L73.6,18.7L92.3,0z M0,92.2l51.8-51.6l15,14.9L15,107.1L0,92.2z"/>
-			</g>
-		</g>
-	</g>
-</g>
+<path class="st0" d="M49.6,11.7L1.3,59.8l14,13.9l48.3-48.1L49.6,11.7z M78.6,0l5.1,5.1L88.8,0H78.6z M71.8,0H44.1l33.3,33.3
+	l13.9-13.8L71.8,0z M20.3,1.5L6.5,15.3l16.1,16.1l13.8-13.8L20.3,1.5z M115.8,2.4L72.3,45.8l13.9,13.9l43.4-43.4L115.8,2.4z
+	 M112.2,40.2L98.4,54l20.5,20.5l13.8-13.8L112.2,40.2z M57.7,38.5L43.8,52.3L67.6,76h27.7L57.7,38.5z M51.4,66.5L41.9,76h18.8
+	L51.4,66.5z"/>
 </svg>
