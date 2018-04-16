@@ -134,10 +134,10 @@ static bool DecryptKey(const CKeyingMaterial& vMasterKey, const std::vector<unsi
     if(!DecryptSecret(vMasterKey, vchCryptedSecret, vchPubKey.GetHash(), vchSecret))
         return false;
 
-    if (vchSecret.size() != 32)
+    if (vchSecret.size() != CKey::PRIVATE_KEY_SIZE)
         return false;
 
-    key.Set(vchSecret.begin(), vchSecret.end(), vchPubKey.IsCompressed());
+    key.SetPrivKey(vchSecret.begin(), vchSecret.end());
     return key.VerifyPubKey(vchPubKey);
 }
 

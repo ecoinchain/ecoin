@@ -7,7 +7,7 @@
 
 #include <qt/walletmodel.h>
 
-#include <QStackedWidget>
+#include <QFrame>
 
 class WalletModel;
 class PlatformStyle;
@@ -21,7 +21,7 @@ namespace Ui {
  * Stacked widget, with different UIs for payment requests
  * with a strong payee identity.
  */
-class SendCoinsEntry : public QStackedWidget
+class SendCoinsEntry : public QFrame
 {
     Q_OBJECT
 

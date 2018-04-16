@@ -46,7 +46,7 @@ int RecentRequestsTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
 
-    return columns.length();
+    return columns.length() + 1;
 }
 
 QVariant RecentRequestsTableModel::data(const QModelIndex &index, int role) const
@@ -86,6 +86,8 @@ QVariant RecentRequestsTableModel::data(const QModelIndex &index, int role) cons
                 return BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount, false, BitcoinUnits::separatorNever);
             else
                 return BitcoinUnits::format(walletModel->getOptionsModel()->getDisplayUnit(), rec->recipient.amount);
+		case Operation:
+			break;			
         }
     }
     else if (role == Qt::TextAlignmentRole)
@@ -103,12 +105,16 @@ bool RecentRequestsTableModel::setData(const QModelIndex &index, const QVariant 
 
 QVariant RecentRequestsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if(orientation == Qt::Horizontal)
+    if(orientation == Qt::Horizontal && role == Qt::DisplayRole)
     {
-        if(role == Qt::DisplayRole && section < columns.size())
+        if(section < columns.size())
         {
             return columns[section];
-        }
+		}
+		else if (section == columns.size())
+		{
+			return tr("Action");
+		}
     }
     return QVariant();
 }

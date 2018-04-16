@@ -13,6 +13,81 @@
   <property name="windowTitle">
    <string>Send Coins</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#sendButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+padding : 6px;
+}
+
+#addButton , #clearButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	color: rgb(39, 152, 255);
+	background-color: white;
+padding : 5px;
+}
+
+#buttonChooseFee , #pushButtonCoinControl , #buttonMinimizeFee{
+    border-radius: 3px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(108, 112, 113);
+padding: 2.5px;
+}
+
+#buttonChooseFee:hover , #pushButtonCoinControl:hover  { 
+background-color: rgb(151, 156, 161);
+}
+
+
+QLabel , QCheckBox {
+	color: rgb(57, 60, 61);
+    border : 0px solid ;
+   border-radius: 4px;
+  
+}
+
+QLineEdit , QComboBox{
+	color: rgb(57, 60, 61);
+    border : 1px solid #E4E4E4 ;
+   border-radius: 4px;
+}
+
+QDialog &gt; .QFrame {
+background-color: rgb(248, 248, 248);
+  border-radius: 5px;
+}  
+
+QComboBox::down-arrow {
+    image: url(:/icons/down);
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    image: url(:/icons/up);
+}
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+
+    border-left-width: 0px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox {
+background: #FFFFFF;
+border: 1px solid #E4E4E4;
+border-radius: 3px;
+}
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,0,0">
    <property name="bottomMargin">
     <number>8</number>
@@ -103,6 +178,12 @@
           </property>
           <item>
            <widget class="QPushButton" name="pushButtonCoinControl">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="styleSheet">
              <string notr="true"/>
             </property>
@@ -579,6 +660,15 @@
    </item>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -588,7 +678,7 @@
         <x>0</x>
         <y>0</y>
         <width>830</width>
-        <height>104</height>
+        <height>92</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,1">
@@ -642,11 +732,17 @@
        <height>16777215</height>
       </size>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
      </property>
      <layout class="QVBoxLayout" name="verticalLayoutFee1">
       <property name="spacing">
@@ -709,7 +805,7 @@
               <item>
                <widget class="QLabel" name="labelFeeHeadline">
                 <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
@@ -730,6 +826,12 @@
               </item>
               <item>
                <widget class="QLabel" name="labelFeeMinimized">
+                <property name="minimumSize">
+                 <size>
+                  <width>22</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string/>
                 </property>
@@ -737,6 +839,18 @@
               </item>
               <item>
                <widget class="QPushButton" name="buttonChooseFee">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Choose...</string>
                 </property>
@@ -761,14 +875,14 @@
           </item>
           <item>
            <widget class="QLabel" name="fallbackFeeWarningLabel">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
             <property name="toolTip">
              <string>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</string>
-            </property>
-            <property name="font">
-            <font>
-                <weight>75</weight>
-                <bold>true</bold>
-            </font>
             </property>
             <property name="text">
              <string>Warning: Fee estimation is currently not possible.</string>
@@ -850,7 +964,7 @@
                    <property name="toolTip">
                     <string>Specify a custom fee per kB (1,000 bytes) of the transaction's virtual size.
 
-Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis per kB" for a transaction size of 500 bytes (half of 1 kB) would ultimately yield a fee of only 50 satoshis.</string>
+Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satoshis per kB&quot; for a transaction size of 500 bytes (half of 1 kB) would ultimately yield a fee of only 50 satoshis.</string>
                    </property>
                    <property name="text">
                     <string>per kilobyte</string>
@@ -1109,11 +1223,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
            </item>
            <item>
             <widget class="QCheckBox" name="optInRBF">
-             <property name="text">
-              <string>Enable Replace-By-Fee</string>
-             </property>
              <property name="toolTip">
               <string>With Replace-By-Fee (BIP-125) you can increase a transaction's fee after it is sent. Without this, a higher fee may be recommended to compensate for increased transaction delay risk.</string>
+             </property>
+             <property name="text">
+              <string>Enable Replace-By-Fee</string>
              </property>
             </widget>
            </item>
@@ -1151,11 +1265,18 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
        <property name="toolTip">
         <string>Confirm the send action</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+	border-width: 0px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+}</string>
+       </property>
        <property name="text">
         <string>S&amp;end</string>
        </property>
        <property name="icon">
-        <iconset resource="../bitcoin.qrc">
+        <iconset>
          <normaloff>:/icons/send</normaloff>:/icons/send</iconset>
        </property>
        <property name="autoDefault">
@@ -1177,6 +1298,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
        <property name="toolTip">
         <string>Clear all fields of the form.</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(39, 152, 255);
+border-width: 1px;</string>
+       </property>
        <property name="text">
         <string>Clear &amp;All</string>
        </property>
@@ -1193,6 +1318,10 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of "100 satoshis p
       <widget class="QPushButton" name="addButton">
        <property name="toolTip">
         <string>Send to multiple recipients at once</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">border-color: rgb(39, 152, 255);
+border-width: 1px;</string>
        </property>
        <property name="text">
         <string>Add &amp;Recipient</string>

@@ -41,6 +41,7 @@ endif
 if ENABLE_WALLET
 LIBBITCOIN_WALLET=libbitcoin_wallet.a
 endif
+LIBED25519=libed25519.a
 
 $(LIBSECP256K1): $(wildcard secp256k1/src/*) $(wildcard secp256k1/include/*)
 	$(AM_V_at)$(MAKE) $(AM_MAKEFLAGS) -C $(@D) $(@F)
@@ -55,7 +56,8 @@ EXTRA_LIBRARIES += \
   $(LIBBITCOIN_SERVER) \
   $(LIBBITCOIN_CLI) \
   $(LIBBITCOIN_WALLET) \
-  $(LIBBITCOIN_ZMQ)
+  $(LIBBITCOIN_ZMQ) \
+  $(LIBED25519)
 
 lib_LTLIBRARIES = $(LIBBITCOINCONSENSUS)
 
@@ -255,6 +257,27 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/walletutil.cpp \
   $(BITCOIN_CORE_H)
 
+libed25519_a_CPPFLAGS = $(AM_CPPFLAGS)
+libed25519_a_CFLAGS = $(AM_CFLAGS) $(PIC_FLAGS)
+libed25519_a_SOURCES = \
+  ed25519/add_scalar.c \
+  ed25519/ed25519.h \
+  ed25519/fe.c \
+  ed25519/fe.h \
+  ed25519/fixedint.h \
+  ed25519/ge.c \
+  ed25519/ge.h \
+  ed25519/key_exchange.c \
+  ed25519/keypair.c \
+  ed25519/precomp_data.h \
+  ed25519/sc.c \
+  ed25519/sc.h \
+  ed25519/seed.c \
+  ed25519/sha512.c \
+  ed25519/sha512.h \
+  ed25519/sign.c \
+  ed25519/verify.c
+
 # crypto primitives library
 crypto_libbitcoin_crypto_a_CPPFLAGS = $(AM_CPPFLAGS)
 crypto_libbitcoin_crypto_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
@@ -289,6 +312,7 @@ endif
 # consensus: shared between all executables that validate any consensus rules.
 libbitcoin_consensus_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
 libbitcoin_consensus_a_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
+libbitcoin_consensus_a_CFLAGS = $(AM_CFLAGS) $(PIC_FLAGS)
 libbitcoin_consensus_a_SOURCES = \
   amount.h \
   arith_uint256.cpp \
@@ -319,7 +343,9 @@ libbitcoin_consensus_a_SOURCES = \
   uint256.h \
   utilstrencodings.cpp \
   utilstrencodings.h \
-  version.h
+  version.h \
+  $(libed25519_a_SOURCES)  
+
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools
 libbitcoin_common_a_CPPFLAGS = $(AM_CPPFLAGS) $(BITCOIN_INCLUDES)
@@ -407,7 +433,8 @@ bitcoind_LDADD = \
   $(LIBLEVELDB) \
   $(LIBLEVELDB_SSE42) \
   $(LIBMEMENV) \
-  $(LIBSECP256K1)
+  $(LIBSECP256K1) \
+  $(LIBED25519)
 
 bitcoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS) $(SSL_LIBS) $(CRYPTO_LIBS) $(MINIUPNPC_LIBS) $(EVENT_PTHREADS_LIBS) $(EVENT_LIBS) $(ZMQ_LIBS) $(LIBEQUIHASH_LIBS)
 
@@ -447,6 +474,7 @@ bitcoin_tx_LDADD = \
   $(LIBBITCOIN_CONSENSUS) \
   $(LIBBITCOIN_CRYPTO) \
   $(LIBSECP256K1) \
+  $(LIBED25519) \
   $(LIBEQUIHASH_LIBS)
 
 bitcoin_tx_LDADD += $(BOOST_LIBS) $(CRYPTO_LIBS)

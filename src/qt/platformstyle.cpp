@@ -109,6 +109,17 @@ QIcon PlatformStyle::SingleColorIcon(const QString& filename) const
     return ColorizeIcon(filename, SingleColor());
 }
 
+PlatformStyle::modedicon PlatformStyle::ModedIcon(const QString & basefilename) const
+{
+	modedicon icons = {
+		QIcon(basefilename + "_active"),
+		QIcon(basefilename + "_inactive"),
+
+	};// (basefilename + "_active");
+
+	return icons;
+}
+
 QIcon PlatformStyle::SingleColorIcon(const QIcon& icon) const
 {
     if (!colorizeIcons)

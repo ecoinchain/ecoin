@@ -61,7 +61,7 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
         break;
     case TX_PUBKEY:
         keyID = CPubKey(vSolutions[0]).GetID();
-        if (sigversion != SIGVERSION_BASE && vSolutions[0].size() != 33) {
+        if (sigversion != SIGVERSION_BASE && vSolutions[0].size() != CPubKey::PUBLIC_KEY_SIZE) {
             isInvalid = true;
             return ISMINE_NO;
         }
@@ -83,13 +83,6 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
     }
     case TX_PUBKEYHASH:
         keyID = CKeyID(uint160(vSolutions[0]));
-        if (sigversion != SIGVERSION_BASE) {
-            CPubKey pubkey;
-            if (keystore.GetPubKey(keyID, pubkey) && !pubkey.IsCompressed()) {
-                isInvalid = true;
-                return ISMINE_NO;
-            }
-        }
         if (keystore.HaveKey(keyID))
             return ISMINE_SPENDABLE;
         break;
@@ -131,7 +124,7 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
         std::vector<valtype> keys(vSolutions.begin()+1, vSolutions.begin()+vSolutions.size()-1);
         if (sigversion != SIGVERSION_BASE) {
             for (size_t i = 0; i < keys.size(); i++) {
-                if (keys[i].size() != 33) {
+                if (keys[i].size() != CPubKey::PUBLIC_KEY_SIZE) {
                     isInvalid = true;
                     return ISMINE_NO;
                 }

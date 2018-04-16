@@ -28,6 +28,7 @@
 #include <wallet/feebumper.h>
 #include <wallet/wallet.h>
 #include <wallet/walletdb.h> // for BackupWallet
+#include <miner.h>
 
 #include <stdint.h>
 
@@ -59,6 +60,15 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
     pollTimer->start(MODEL_UPDATE_DELAY);
 
     subscribeToCoreSignals();
+
+	connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged(bool)));
+
+	QVariant enableminner = optionsModel->data(optionsModel->index(OptionsModel::EnableMinner, 0), Qt::EditRole);
+	if (enableminner.toBool())
+	{
+		onGenerateChanged(true);
+		gArgs.SoftSetBoolArg("-gen", true);
+	}
 }
 
 WalletModel::~WalletModel()
@@ -137,6 +147,16 @@ void WalletModel::pollBalanceChanged()
         if(transactionTableModel)
             transactionTableModel->updateConfirmations();
     }
+}
+
+
+void WalletModel::onGenerateChanged(bool fGenerate)
+{
+#ifdef ENABLE_WALLET
+	GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency());
+#else
+	GenerateBitcoins(fGenerate, std::thread::hardware_concurrency());
+#endif
 }
 
 void WalletModel::checkBalanceChanged()

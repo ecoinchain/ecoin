@@ -28,12 +28,10 @@ void CBasicKeyStore::ImplicitlyLearnRelatedKeyScripts(const CPubKey& pubkey)
     // "Implicitly" refers to fact that scripts are derived automatically from
     // existing keys, and are present in memory, even without being explicitly
     // loaded (e.g. from a file).
-    if (pubkey.IsCompressed()) {
-        CScript script = GetScriptForDestination(WitnessV0KeyHash(key_id));
-        // This does not use AddCScript, as it may be overridden.
-        CScriptID id(script);
-        mapScripts[id] = std::move(script);
-    }
+    CScript script = GetScriptForDestination(WitnessV0KeyHash(key_id));
+    // This does not use AddCScript, as it may be overridden.
+    CScriptID id(script);
+    mapScripts[id] = std::move(script);
 }
 
 bool CBasicKeyStore::GetPubKey(const CKeyID &address, CPubKey &vchPubKeyOut) const
@@ -131,7 +129,7 @@ static bool ExtractPubKey(const CScript &dest, CPubKey& pubKeyOut)
     CScript::const_iterator pc = dest.begin();
     opcodetype opcode;
     std::vector<unsigned char> vch;
-    if (!dest.GetOp(pc, opcode, vch) || vch.size() < 33 || vch.size() > 65)
+    if (!dest.GetOp(pc, opcode, vch) || vch.size() != CPubKey::PUBLIC_KEY_SIZE)
         return false;
     pubKeyOut = CPubKey(vch);
     if (!pubKeyOut.IsFullyValid())

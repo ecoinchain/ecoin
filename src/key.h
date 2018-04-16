@@ -14,7 +14,14 @@
 
 #include <stdexcept>
 #include <vector>
+#include <ed25519/ed25519.h>
 
+// 1 byte: depth: 0x00 for master nodes, 0x01 for level-1 derived keys, ....
+// 4 bytes: the fingerprint of the parent's key (0x00000000 if master key)
+// 4 bytes: child number
+// 32 bytes: the chain code
+// 64 bytes: private key
+const unsigned int BIP32_EXT_PRIVKEY_SIZE = 105;
 
 /**
  * secure_allocator is defined in allocators.h
@@ -28,72 +35,63 @@ class CKey
 {
 public:
     /**
-     * secp256k1:
+     * ed25519:
      */
-    static const unsigned int PRIVATE_KEY_SIZE            = 279;
-    static const unsigned int COMPRESSED_PRIVATE_KEY_SIZE = 214;
-    /**
-     * see www.keylength.com
-     * script supports up to 75 for single byte push
-     */
-    static_assert(
-        PRIVATE_KEY_SIZE >= COMPRESSED_PRIVATE_KEY_SIZE,
-        "COMPRESSED_PRIVATE_KEY_SIZE is larger than PRIVATE_KEY_SIZE");
+    static const unsigned int SEED_SIZE                   = 32;
+    static const unsigned int PRIVATE_KEY_SIZE            = 64;
 
 private:
     //! Whether this private key is valid. We check for correctness when modifying the key
     //! data, so fValid should always correspond to the actual state.
     bool fValid;
 
-    //! Whether the public key corresponding to this private key is (to be) compressed.
-    bool fCompressed;
-
-    //! The actual byte data
-    std::vector<unsigned char, secure_allocator<unsigned char> > keydata;
-
-    //! Check whether the 32-byte array pointed to by vch is valid keydata.
-    bool static Check(const unsigned char* vch);
+    CPrivKey privkey;
 
 public:
     //! Construct an invalid private key.
-    CKey() : fValid(false), fCompressed(false)
+    CKey() : fValid(false)
     {
-        // Important: vch must be 32 bytes in length to not break serialization
-        keydata.resize(32);
+        privkey.resize(PRIVATE_KEY_SIZE);
     }
 
     friend bool operator==(const CKey& a, const CKey& b)
     {
-        return a.fCompressed == b.fCompressed &&
-            a.size() == b.size() &&
-            memcmp(a.keydata.data(), b.keydata.data(), a.size()) == 0;
+        return a.size() == b.size() &&
+            memcmp(a.privkey.data(), b.privkey.data(), a.size()) == 0;
     }
 
     //! Initialize using begin and end iterators to byte data.
     template <typename T>
-    void Set(const T pbegin, const T pend, bool fCompressedIn)
+    void SetSeed(const T pbegin, const T pend)
     {
-        if (size_t(pend - pbegin) != keydata.size()) {
+        if (size_t(pend - pbegin) != SEED_SIZE) {
             fValid = false;
-        } else if (Check(&pbegin[0])) {
-            memcpy(keydata.data(), (unsigned char*)&pbegin[0], keydata.size());
-            fValid = true;
-            fCompressed = fCompressedIn;
         } else {
+            unsigned char seed[SEED_SIZE];
+            memcpy(seed, (unsigned char*)&pbegin[0], SEED_SIZE);
+            ed25519_create_privkey(privkey.data(), seed);
+            fValid = true;
+        }
+    }
+
+    template <typename T>
+    void SetPrivKey(const T pbegin, const T pend)
+    {
+        if (size_t(pend - pbegin) != PRIVATE_KEY_SIZE) {
             fValid = false;
+        } else {
+            memcpy(privkey.data(), (unsigned char*)&pbegin[0], PRIVATE_KEY_SIZE);
+            fValid = true;
         }
     }
 
     //! Simple read-only vector-like interface.
-    unsigned int size() const { return (fValid ? keydata.size() : 0); }
-    const unsigned char* begin() const { return keydata.data(); }
-    const unsigned char* end() const { return keydata.data() + size(); }
+    unsigned int size() const { return PRIVATE_KEY_SIZE; }
+    const unsigned char* begin() const { return privkey.data(); }
+    const unsigned char* end() const { return privkey.data() + size(); }
 
     //! Check whether this private key is valid.
     bool IsValid() const { return fValid; }
-
-    //! Check whether the public key corresponding to this private key is (to be) compressed.
-    bool IsCompressed() const { return fCompressed; }
 
     //! Generate a new private key using a cryptographic PRNG.
     void MakeNewKey(bool fCompressed);
@@ -116,14 +114,7 @@ public:
      */
     bool Sign(const uint256& hash, std::vector<unsigned char>& vchSig, uint32_t test_case = 0) const;
 
-    /**
-     * Create a compact signature (65 bytes), which allows reconstructing the used public key.
-     * The format is one header byte, followed by two times 32 bytes for the serialized r and s values.
-     * The header byte: 0x1B = first key with even y, 0x1C = first key with odd y,
-     *                  0x1D = second key with even y, 0x1E = second key with odd y,
-     *                  add 0x04 for compressed keys.
-     */
-    bool SignCompact(const uint256& hash, std::vector<unsigned char>& vchSig) const;
+    // ed25519没有ecdsa这种从签名恢复公钥的特性，所以删除SignCompact
 
     //! Derive BIP32 child key.
     bool Derive(CKey& keyChild, ChainCode &ccChild, unsigned int nChild, const ChainCode& cc) const;
@@ -154,17 +145,17 @@ struct CExtKey {
             a.key == b.key;
     }
 
-    void Encode(unsigned char code[BIP32_EXTKEY_SIZE]) const;
-    void Decode(const unsigned char code[BIP32_EXTKEY_SIZE]);
+    void Encode(unsigned char code[BIP32_EXT_PRIVKEY_SIZE]) const;
+    void Decode(const unsigned char code[BIP32_EXT_PRIVKEY_SIZE]);
     bool Derive(CExtKey& out, unsigned int nChild) const;
     CExtPubKey Neuter() const;
     void SetMaster(const unsigned char* seed, unsigned int nSeedLen);
     template <typename Stream>
     void Serialize(Stream& s) const
     {
-        unsigned int len = BIP32_EXTKEY_SIZE;
+        unsigned int len = BIP32_EXT_PRIVKEY_SIZE;
         ::WriteCompactSize(s, len);
-        unsigned char code[BIP32_EXTKEY_SIZE];
+        unsigned char code[BIP32_EXT_PRIVKEY_SIZE];
         Encode(code);
         s.write((const char *)&code[0], len);
     }
@@ -172,8 +163,8 @@ struct CExtKey {
     void Unserialize(Stream& s)
     {
         unsigned int len = ::ReadCompactSize(s);
-        unsigned char code[BIP32_EXTKEY_SIZE];
-        if (len != BIP32_EXTKEY_SIZE)
+        unsigned char code[BIP32_EXT_PRIVKEY_SIZE];
+        if (len != BIP32_EXT_PRIVKEY_SIZE)
             throw std::runtime_error("Invalid extended key size\n");
         s.read((char *)&code[0], len);
         Decode(code);

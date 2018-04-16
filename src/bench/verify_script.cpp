@@ -62,7 +62,7 @@ static void VerifyScriptBench(benchmark::State& state)
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1
         }
     };
-    key.Set(vchKey.begin(), vchKey.end(), false);
+    key.SetSeed(vchKey.begin(), vchKey.end());
     CPubKey pubkey = key.GetPubKey();
     uint160 pubkeyHash;
     CHash160().Write(pubkey.begin(), pubkey.size()).Finalize(pubkeyHash.begin());

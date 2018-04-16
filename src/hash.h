@@ -192,7 +192,7 @@ uint256 SerializeHash(const T& obj, int nType=SER_GETHASH, int nVersion=PROTOCOL
 
 unsigned int MurmurHash3(unsigned int nHashSeed, const std::vector<unsigned char>& vDataToHash);
 
-void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, unsigned char header, const unsigned char data[32], unsigned char output[64]);
+void BIP32Hash(const ChainCode &chainCode, unsigned int nChild, const unsigned char *data, size_t data_len, unsigned char output[64]);
 
 /** SipHash-2-4 */
 class CSipHasher

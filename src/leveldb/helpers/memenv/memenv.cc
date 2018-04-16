@@ -4,14 +4,18 @@
 
 #include "helpers/memenv/memenv.h"
 
+#include <string.h>
+
+#include <limits>
+#include <map>
+#include <string>
+#include <vector>
+
 #include "leveldb/env.h"
 #include "leveldb/status.h"
 #include "port/port.h"
+#include "port/thread_annotations.h"
 #include "util/mutexlock.h"
-#include <map>
-#include <string.h>
-#include <string>
-#include <vector>
 
 namespace leveldb {
 
@@ -62,7 +66,7 @@ class FileState {
       return Status::OK();
     }
 
-    assert(offset / kBlockSize <= SIZE_MAX);
+    assert(offset / kBlockSize <= std::numeric_limits<size_t>::max());
     size_t block = static_cast<size_t>(offset / kBlockSize);
     size_t block_offset = offset % kBlockSize;
 
@@ -135,7 +139,7 @@ class FileState {
   void operator=(const FileState&);
 
   port::Mutex refs_mutex_;
-  int refs_;  // Protected by refs_mutex_;
+  int refs_ GUARDED_BY(refs_mutex_);
 
   // The following fields are not protected by any mutex. They are only mutable
   // while the file is being written, and concurrent access is not allowed
@@ -176,7 +180,6 @@ class SequentialFileImpl : public SequentialFile {
     return Status::OK();
   }
 
-  virtual std::string GetName() const { return "[memenv]"; }
  private:
   FileState* file_;
   uint64_t pos_;
@@ -197,7 +200,6 @@ class RandomAccessFileImpl : public RandomAccessFile {
     return file_->Read(offset, n, result, scratch);
   }
 
-  virtual std::string GetName() const { return "[memenv]"; }
  private:
   FileState* file_;
 };
@@ -220,7 +222,6 @@ class WritableFileImpl : public WritableFile {
   virtual Status Flush() { return Status::OK(); }
   virtual Status Sync() { return Status::OK(); }
 
-  virtual std::string GetName() const { return "[memenv]"; }
  private:
   FileState* file_;
 };
@@ -315,7 +316,8 @@ class InMemoryEnv : public EnvWrapper {
     return Status::OK();
   }
 
-  void DeleteFileInternal(const std::string& fname) {
+  void DeleteFileInternal(const std::string& fname)
+      EXCLUSIVE_LOCKS_REQUIRED(mutex_) {
     if (file_map_.find(fname) == file_map_.end()) {
       return;
     }
@@ -389,7 +391,7 @@ class InMemoryEnv : public EnvWrapper {
   // Map from filenames to FileState objects, representing a simple file system.
   typedef std::map<std::string, FileState*> FileSystem;
   port::Mutex mutex_;
-  FileSystem file_map_;  // Protected by mutex_.
+  FileSystem file_map_ GUARDED_BY(mutex_);
 };
 
 }  // namespace

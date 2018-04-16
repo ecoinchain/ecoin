@@ -41,6 +41,7 @@
 
 #include <boost/thread.hpp>
 
+#include <QString>
 #include <QApplication>
 #include <QDebug>
 #include <QLibraryInfo>
@@ -52,25 +53,27 @@
 #include <QTranslator>
 #include <QSslConfiguration>
 
+#ifdef _WIN32
+#define QT_QPA_PLATFORM_WINDOWS
+#endif
+
 #if defined(QT_STATICPLUGIN)
 #include <QtPlugin>
-#if QT_VERSION < 0x050000
-Q_IMPORT_PLUGIN(qcncodecs)
-Q_IMPORT_PLUGIN(qjpcodecs)
-Q_IMPORT_PLUGIN(qtwcodecs)
-Q_IMPORT_PLUGIN(qkrcodecs)
-Q_IMPORT_PLUGIN(qtaccessiblewidgets)
-#else
-#if QT_VERSION < 0x050400
-Q_IMPORT_PLUGIN(AccessibleFactory)
-#endif
+
+Q_IMPORT_PLUGIN(QSvgIconPlugin)
+Q_IMPORT_PLUGIN(QICOPlugin)
+Q_IMPORT_PLUGIN(QSvgPlugin)
+Q_IMPORT_PLUGIN(QGifPlugin)
+Q_IMPORT_PLUGIN(QJpegPlugin)
+Q_IMPORT_PLUGIN(QTiffPlugin)
+
 #if defined(QT_QPA_PLATFORM_XCB)
 Q_IMPORT_PLUGIN(QXcbIntegrationPlugin);
 #elif defined(QT_QPA_PLATFORM_WINDOWS)
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+Q_IMPORT_PLUGIN(QWindowsVistaStylePlugin);
 #elif defined(QT_QPA_PLATFORM_COCOA)
 Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
-#endif
 #endif
 #endif
 
@@ -246,12 +249,12 @@ Q_SIGNALS:
 private:
     QThread *coreThread;
     OptionsModel *optionsModel;
-    ClientModel *clientModel;
-    BitcoinGUI *window;
+    std::unique_ptr<ClientModel> clientModel;
+    std::unique_ptr<BitcoinGUI> window;
     QTimer *pollShutdownTimer;
 #ifdef ENABLE_WALLET
-    PaymentServer* paymentServer;
-    WalletModel *walletModel;
+    std::unique_ptr<PaymentServer> paymentServer;
+    std::unique_ptr<WalletModel> walletModel;
 #endif
     int returnValue;
     const PlatformStyle *platformStyle;
@@ -328,15 +331,16 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     QApplication(argc, argv),
     coreThread(0),
     optionsModel(0),
-    clientModel(0),
-    window(0),
     pollShutdownTimer(0),
-#ifdef ENABLE_WALLET
-    paymentServer(0),
-    walletModel(0),
-#endif
     returnValue(0)
 {
+	QPalette pal = this->palette();
+	pal.setColor(QPalette::Window, Qt::white);
+	this->setPalette(pal);
+// 	setStyleSheet(QStringLiteral("QMainWindow {\n"
+// 		" \n"
+// 		"background-color: rgb(240, 240, 240);\n"
+// 		"}"));
     setQuitOnLastWindowClosed(false);
 
     // UI per-platform customization
@@ -360,12 +364,6 @@ BitcoinApplication::~BitcoinApplication()
         qDebug() << __func__ << ": Stopped thread";
     }
 
-    delete window;
-    window = 0;
-#ifdef ENABLE_WALLET
-    delete paymentServer;
-    paymentServer = 0;
-#endif
     delete optionsModel;
     optionsModel = 0;
     delete platformStyle;
@@ -375,7 +373,7 @@ BitcoinApplication::~BitcoinApplication()
 #ifdef ENABLE_WALLET
 void BitcoinApplication::createPaymentServer()
 {
-    paymentServer = new PaymentServer(this);
+    paymentServer.reset(new PaymentServer(this));
 }
 #endif
 
@@ -386,15 +384,16 @@ void BitcoinApplication::createOptionsModel(bool resetSettings)
 
 void BitcoinApplication::createWindow(const NetworkStyle *networkStyle)
 {
-    window = new BitcoinGUI(platformStyle, networkStyle, 0);
+    window.reset(new BitcoinGUI(platformStyle, networkStyle, 0));
 
-    pollShutdownTimer = new QTimer(window);
-    connect(pollShutdownTimer, SIGNAL(timeout()), window, SLOT(detectShutdown()));
+    pollShutdownTimer = new QTimer(window.get());
+    connect(pollShutdownTimer, SIGNAL(timeout()), window.get(), SLOT(detectShutdown()));
 }
 
 void BitcoinApplication::createSplashScreen(const NetworkStyle *networkStyle)
 {
     SplashScreen *splash = new SplashScreen(0, networkStyle);
+    splash->ensurePolished();
     // We don't hold a direct pointer to the splash screen after creation, but the splash
     // screen will take care of deleting itself when slotFinish happens.
     splash->show();
@@ -441,7 +440,7 @@ void BitcoinApplication::requestShutdown()
     // Show a simple window indicating shutdown status
     // Do this first as some of the steps may take some time below,
     // for example the RPC console may still be executing a command.
-    shutdownWindow.reset(ShutdownWindow::showShutdownWindow(window));
+    shutdownWindow.reset(ShutdownWindow::showShutdownWindow(window.get()));
 
     qDebug() << __func__ << ": Requesting shutdown";
     startThread();
@@ -451,11 +450,9 @@ void BitcoinApplication::requestShutdown()
 
 #ifdef ENABLE_WALLET
     window->removeAllWallets();
-    delete walletModel;
-    walletModel = 0;
+    walletModel.reset();
 #endif
-    delete clientModel;
-    clientModel = 0;
+    clientModel.reset();
 
     StartShutdown();
 
@@ -477,20 +474,20 @@ void BitcoinApplication::initializeResult(bool success)
         paymentServer->setOptionsModel(optionsModel);
 #endif
 
-        clientModel = new ClientModel(optionsModel);
-        window->setClientModel(clientModel);
+        clientModel.reset(new ClientModel(optionsModel));
+        window->setClientModel(clientModel.get());
 
 #ifdef ENABLE_WALLET
         // TODO: Expose secondary wallets
         if (!vpwallets.empty())
         {
-            walletModel = new WalletModel(platformStyle, vpwallets[0], optionsModel);
+            walletModel.reset(new WalletModel(platformStyle, vpwallets[0], optionsModel));
 
-            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel);
+            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
 
-            connect(walletModel, SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                             paymentServer, SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
+            connect(walletModel.get(), SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
+                             paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
         }
 #endif
 
@@ -503,22 +500,22 @@ void BitcoinApplication::initializeResult(bool success)
         {
             window->show();
         }
-        Q_EMIT splashFinished(window);
+        Q_EMIT splashFinished(window.get());
 
 #ifdef ENABLE_WALLET
         // Now that initialization/startup is done, process any command-line
         // bitcoin: URIs or payment requests:
-        connect(paymentServer, SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
-                         window, SLOT(handlePaymentRequest(SendCoinsRecipient)));
-        connect(window, SIGNAL(receivedURI(QString)),
-                         paymentServer, SLOT(handleURIOrFile(QString)));
-        connect(paymentServer, SIGNAL(message(QString,QString,unsigned int)),
-                         window, SLOT(message(QString,QString,unsigned int)));
-        QTimer::singleShot(100, paymentServer, SLOT(uiReady()));
+        connect(paymentServer.get(), SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
+                         window.get(), SLOT(handlePaymentRequest(SendCoinsRecipient)));
+        connect(window.get(), SIGNAL(receivedURI(QString)),
+                         paymentServer.get(), SLOT(handleURIOrFile(QString)));
+        connect(paymentServer.get(), SIGNAL(message(QString,QString,unsigned int)),
+                         window.get(), SLOT(message(QString,QString,unsigned int)));
+        QTimer::singleShot(100, paymentServer.get(), SLOT(uiReady()));
 #endif
         pollShutdownTimer->start(200);
     } else {
-        Q_EMIT splashFinished(window); // Make sure splash screen doesn't stick around during shutdown
+        Q_EMIT splashFinished(window.get()); // Make sure splash screen doesn't stick around during shutdown
         quit(); // Exit first main loop invocation
     }
 }
@@ -530,7 +527,7 @@ void BitcoinApplication::shutdownResult()
 
 void BitcoinApplication::handleRunawayException(const QString &message)
 {
-    QMessageBox::critical(0, "Runaway exception", BitcoinGUI::tr("A fatal error occurred. Bitcoin can no longer continue safely and will quit.") + QString("\n\n") + message);
+    QMessageBox::critical(0, "Runaway exception", BitcoinGUI::tr("A fatal error occurred. %1 can no longer continue safely and will quit.").arg(PACKAGE_NAME) + QString("\n\n") + message);
     ::exit(EXIT_FAILURE);
 }
 
@@ -569,7 +566,7 @@ int main(int argc, char *argv[])
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 #endif
 #if QT_VERSION >= 0x050600
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QGuiApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
 #endif
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);

@@ -22,6 +22,9 @@
 #include <QScrollBar>
 #include <QTextDocument>
 
+#include "recentrequestsdelegates.h"
+
+
 ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ReceiveCoinsDialog),
@@ -34,13 +37,13 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
     if (!_platformStyle->getImagesOnButtons()) {
         ui->clearButton->setIcon(QIcon());
         ui->receiveButton->setIcon(QIcon());
-        ui->showRequestButton->setIcon(QIcon());
-        ui->removeRequestButton->setIcon(QIcon());
+//        ui->showRequestButton->setIcon(QIcon());
+//        ui->removeRequestButton->setIcon(QIcon());
     } else {
         ui->clearButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
         ui->receiveButton->setIcon(_platformStyle->SingleColorIcon(":/icons/receiving_addresses"));
-        ui->showRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/edit"));
-        ui->removeRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
+ //       ui->showRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/edit"));
+ //       ui->removeRequestButton->setIcon(_platformStyle->SingleColorIcon(":/icons/remove"));
     }
 
     // context menu actions
@@ -58,7 +61,7 @@ ReceiveCoinsDialog::ReceiveCoinsDialog(const PlatformStyle *_platformStyle, QWid
 
     // context menu signals
     connect(ui->recentRequestsView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(showMenu(QPoint)));
-    connect(copyURIAction, SIGNAL(triggered()), this, SLOT(copyURI()));
+	connect(copyURIAction, SIGNAL(triggered()), this, SLOT(copyURI()));
     connect(copyLabelAction, SIGNAL(triggered()), this, SLOT(copyLabel()));
     connect(copyMessageAction, SIGNAL(triggered()), this, SLOT(copyMessage()));
     connect(copyAmountAction, SIGNAL(triggered()), this, SLOT(copyAmount()));
@@ -81,6 +84,7 @@ void ReceiveCoinsDialog::setModel(WalletModel *_model)
         tableView->verticalHeader()->hide();
         tableView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         tableView->setModel(_model->getRecentRequestsTableModel());
+		tableView->setItemDelegateForColumn(4, new RecentRequestsDelegates(this));
         tableView->setAlternatingRowColors(true);
         tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
         tableView->setSelectionMode(QAbstractItemView::ContiguousSelection);
@@ -171,13 +175,31 @@ void ReceiveCoinsDialog::on_recentRequestsView_doubleClicked(const QModelIndex &
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
+#include <QtDebug>
+void ReceiveCoinsDialog::on_recentRequestsView_CellClicked(const QModelIndex &index, QPoint clickpos)
+{
+	if (!model || !model->getRecentRequestsTableModel() || !ui->recentRequestsView->selectionModel())
+		return;
+
+	// compare pos, then delete or view the cell.
+	if (clickpos.x() < ui->recentRequestsView->visualRect(index).width()/2  - 2)
+	{
+		// click view
+		on_recentRequestsView_doubleClicked(index);
+	}
+	else if (clickpos.x() > ui->recentRequestsView->visualRect(index).width() / 2 + 5)
+	{
+		// click delete
+		model->getRecentRequestsTableModel()->removeRows(index.row(), 1, index.parent());
+	}
+}
 
 void ReceiveCoinsDialog::recentRequestsView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     // Enable Show/Remove buttons only if anything is selected.
     bool enable = !ui->recentRequestsView->selectionModel()->selectedRows().isEmpty();
-    ui->showRequestButton->setEnabled(enable);
-    ui->removeRequestButton->setEnabled(enable);
+//     ui->showRequestButton->setEnabled(enable);
+//     ui->removeRequestButton->setEnabled(enable);
 }
 
 void ReceiveCoinsDialog::on_showRequestButton_clicked()

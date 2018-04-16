@@ -5,6 +5,7 @@
 #ifndef BITCOIN_QT_PLATFORMSTYLE_H
 #define BITCOIN_QT_PLATFORMSTYLE_H
 
+#include <array>
 #include <QIcon>
 #include <QPixmap>
 #include <QString>
@@ -29,6 +30,10 @@ public:
 
     /** Colorize an icon (given filename) with the icon color */
     QIcon SingleColorIcon(const QString& filename) const;
+
+	using modedicon = std::array<QIcon, 2>;
+
+	modedicon ModedIcon(const QString& basefilename) const;
 
     /** Colorize an icon (given object) with the icon color */
     QIcon SingleColorIcon(const QIcon& icon) const;

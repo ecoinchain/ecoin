@@ -270,6 +270,9 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
 #ifdef ENABLE_WALLET
         case SpendZeroConfChange:
             return settings.value("bSpendZeroConfChange");
+		case EnableMinner:
+			return settings.value("enableMinner", false);
+			break;
 #endif
         case DisplayUnit:
             return nDisplayUnit;
@@ -386,6 +389,18 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 setRestartRequired(true);
             }
             break;
+		case EnableMinner:
+			if (settings.value("enableMinner") != value) {
+				settings.setValue("enableMinner", value);
+				if (value.toBool())
+				{
+					gArgs.SoftSetBoolArg("-gen", value.toBool());
+					Q_EMIT generateChanged(value.toBool());
+				}
+				if(value.toBool()==false)
+					setRestartRequired(true);
+			}
+			break;
 #endif
         case DisplayUnit:
             setDisplayUnit(value);

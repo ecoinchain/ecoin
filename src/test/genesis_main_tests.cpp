@@ -14,6 +14,7 @@
 #include <uint256.h>
 #include <util.h>
 #include <utilstrencodings.h>
+#include <amount.h>
 
 #include <test/test_bitcoin.h>
 
@@ -21,19 +22,22 @@
 
 #include <boost/test/unit_test.hpp>
 
-struct GenesisTestingSetup : public BasicTestingSetup {
-    GenesisTestingSetup() : BasicTestingSetup(CBaseChainParams::MAIN) {}
+struct GenesisMainTestingSetup : public BasicTestingSetup {
+    GenesisMainTestingSetup() : BasicTestingSetup(CBaseChainParams::MAIN) {}
 };
 
-BOOST_FIXTURE_TEST_SUITE(genesis_main_tests, GenesisTestingSetup)
+BOOST_FIXTURE_TEST_SUITE(genesis_main_tests, GenesisMainTestingSetup)
 
 BOOST_AUTO_TEST_CASE(GenesisMain)
 {
+    // 这样多个线程进行计算的时候genesis可以不同
+    int64_t nTime = 1523757600 + GetRand(28800);
+    printf("nTime = %lld\n", nTime);
     CBlock genesis = CChainParams::CreateGenesisBlock(
-            1231006505,
+            nTime,
             uint256S("0x0"),
             ParseHex(""),
-            0x1f07ffff, 1, 8000000 * COIN);
+            0x1f07ffff, 1, GENESIS_MONEY);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 
@@ -73,6 +77,7 @@ printf("n = %d, k = %d\n", n, k);
                     [&pblock](std::vector<unsigned char> soln) {
                 printf("soln = %s\n", HexStr(soln).c_str());        
                 pblock->nSolution = soln;
+                printf("blockHash = %s\n", pblock->GetHash().ToString().c_str());
                 return CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus());
             };
             bool found = EhBasicSolveUncancellable(n, k, curr_state, validBlock);
@@ -89,10 +94,10 @@ endloop:
 
     // pblock->nSolution = ParseHex("07c0fa1e314ca6a95c1d604a3a54858922c52e52984d05f496217068f35d90c8e5469b63");
     bool isValid;
-    printf("pblock soln = %s\n", HexStr(pblock->nSolution).c_str());
+    printf("nTime = %lld, pblock soln = %s\n", nTime, HexStr(pblock->nSolution).c_str());
     EhIsValidSolution(n, k, state, pblock->nSolution, isValid);
-    printf("isValid = %s\n", isValid ? "true" : "false");
-    printf("blockHash = %s\n", pblock->GetHash().ToString().c_str());
+    printf("nTime = %lld, isValid = %s\n", nTime, isValid ? "true" : "false");
+    printf("nTime = %lld, blockHash = %s\n", nTime, pblock->GetHash().ToString().c_str());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

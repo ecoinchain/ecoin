@@ -29,8 +29,9 @@ class UnitDisplayStatusBarControl;
 class WalletFrame;
 class WalletModel;
 class HelpMessageDialog;
-class ModalOverlay;
-
+class ChainSyncWarning;
+class IconedAction;
+class menubar;
 QT_BEGIN_NAMESPACE
 class QAction;
 class QProgressBar;
@@ -89,18 +90,17 @@ private:
     QProgressBar *progressBar;
     QProgressDialog *progressDialog;
 
-    QMenuBar *appMenuBar;
-    QAction *overviewAction;
-    QAction *historyAction;
+	IconedAction *overviewAction;
+	IconedAction *historyAction;
     QAction *quitAction;
-    QAction *sendCoinsAction;
+	IconedAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
-    QAction *receiveCoinsAction;
+	IconedAction *receiveCoinsAction;
     QAction *receiveCoinsMenuAction;
     QAction *optionsAction;
     QAction *toggleHideAction;
@@ -112,12 +112,14 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
 
+	menubar *appMenuBar;
+
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
     Notificator *notificator;
     RPCConsole *rpcConsole;
     HelpMessageDialog *helpMessageDialog;
-    ModalOverlay *modalOverlay;
+    ChainSyncWarning *modalOverlay;
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
@@ -127,10 +129,9 @@ private:
 
     /** Create the main UI actions. */
     void createActions();
-    /** Create the menu bar and sub-menus. */
-    void createMenuBar();
-    /** Create the toolbars */
-    void createToolBars();
+
+	/** Create the toolbars */
+    void createToolBars_and_Menus();
     /** Create system tray icon and notification */
     void createTrayIcon(const NetworkStyle *networkStyle);
     /** Create system tray menu (or setup the dock menu) */
@@ -241,6 +242,8 @@ private Q_SLOTS:
     void toggleNetworkActive();
 
     void showModalOverlay();
+
+	void toolbartoggle_ui_style(IconedAction* sender, bool);
 };
 
 class UnitDisplayStatusBarControl : public QLabel

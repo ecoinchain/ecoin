@@ -41,11 +41,9 @@ BOOST_AUTO_TEST_CASE(key_io_valid_parse)
         SelectParams(find_value(metadata, "chain").get_str());
         bool try_case_flip = find_value(metadata, "tryCaseFlip").isNull() ? false : find_value(metadata, "tryCaseFlip").get_bool();
         if (isPrivkey) {
-            bool isCompressed = find_value(metadata, "isCompressed").get_bool();
             // Must be valid private key
-            privkey = DecodeSecret(exp_base58string);
+            privkey = DecodeKey(exp_base58string);
             BOOST_CHECK_MESSAGE(privkey.IsValid(), "!IsValid:" + strTest);
-            BOOST_CHECK_MESSAGE(privkey.IsCompressed() == isCompressed, "compressed mismatch:" + strTest);
             BOOST_CHECK_MESSAGE(privkey.size() == exp_payload.size() && std::equal(privkey.begin(), privkey.end(), exp_payload.begin()), "key mismatch:" + strTest);
 
             // Private key must be invalid public key
@@ -74,7 +72,7 @@ BOOST_AUTO_TEST_CASE(key_io_valid_parse)
             }
 
             // Public key must be invalid private key
-            privkey = DecodeSecret(exp_base58string);
+            privkey = DecodeKey(exp_base58string);
             BOOST_CHECK_MESSAGE(!privkey.IsValid(), "IsValid pubkey as privkey:" + strTest);
         }
     }
@@ -99,11 +97,10 @@ BOOST_AUTO_TEST_CASE(key_io_valid_gen)
         bool isPrivkey = find_value(metadata, "isPrivkey").get_bool();
         SelectParams(find_value(metadata, "chain").get_str());
         if (isPrivkey) {
-            bool isCompressed = find_value(metadata, "isCompressed").get_bool();
             CKey key;
-            key.Set(exp_payload.begin(), exp_payload.end(), isCompressed);
+            key.SetPrivKey(exp_payload.begin(), exp_payload.end());
             assert(key.IsValid());
-            BOOST_CHECK_MESSAGE(EncodeSecret(key) == exp_base58string, "result mismatch: " + strTest);
+            BOOST_CHECK_MESSAGE(EncodeKey(key) == exp_base58string, "result mismatch: " + strTest);
         } else {
             CTxDestination dest;
             CScript exp_script(exp_payload.begin(), exp_payload.end());
@@ -140,7 +137,7 @@ BOOST_AUTO_TEST_CASE(key_io_invalid)
             SelectParams(chain);
             destination = DecodeDestination(exp_base58string);
             BOOST_CHECK_MESSAGE(!IsValidDestination(destination), "IsValid pubkey in mainnet:" + strTest);
-            privkey = DecodeSecret(exp_base58string);
+            privkey = DecodeKey(exp_base58string);
             BOOST_CHECK_MESSAGE(!privkey.IsValid(), "IsValid privkey in mainnet:" + strTest);
         }
     }
