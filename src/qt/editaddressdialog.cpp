@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "qt/guiconstants.h"
 #include <qt/editaddressdialog.h>
 #include <qt/forms/ui_editaddressdialog.h>
 
@@ -110,7 +111,7 @@ void EditAddressDialog::accept()
             break;
         case AddressTableModel::INVALID_ADDRESS:
             QMessageBox::warning(this, windowTitle(),
-                tr("The entered address \"%1\" is not a valid RCoin address.").arg(ui->addressEdit->text()),
+                tr("The entered address \"%1\" is not a valid %2 address.").arg(ui->addressEdit->text()).arg(tr(QAPP_COIN_NAME)),
                 QMessageBox::Ok, QMessageBox::Ok);
             break;
         case AddressTableModel::DUPLICATE_ADDRESS:

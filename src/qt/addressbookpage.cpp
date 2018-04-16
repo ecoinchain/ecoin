@@ -6,6 +6,7 @@
 #include <config/bitcoin-config.h>
 #endif
 
+#include "qt/guiconstants.h"
 #include <qt/addressbookpage.h>
 #include <qt/forms/ui_addressbookpage.h>
 
@@ -67,11 +68,11 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
     switch(tab)
     {
     case SendingTab:
-        ui->labelExplanation->setText(tr("These are your Rcoin addresses for sending payments. Always check the amount and the receiving address before sending coins."));
+        ui->labelExplanation->setText(tr("These are your %1 addresses for sending payments. Always check the amount and the receiving address before sending coins.").arg(tr(QAPP_COIN_NAME)));
         ui->deleteAddress->setVisible(true);
         break;
     case ReceivingTab:
-        ui->labelExplanation->setText(tr("These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction."));
+        ui->labelExplanation->setText(tr("These are your %1 addresses for receiving payments. It is recommended to use a new receiving address for each transaction.").arg(tr(QAPP_COIN_NAME)));
         ui->deleteAddress->setVisible(false);
         break;
     }
