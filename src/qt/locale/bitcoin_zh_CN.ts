@@ -54,7 +54,7 @@
         <translation>删除(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../addressbookpage.cpp" line="+50"/>
+        <location filename="../addressbookpage.cpp" line="+51"/>
         <source>Choose the address to send coins to</source>
         <translation>选择要付钱过去的地址</translation>
     </message>
@@ -87,14 +87,22 @@
         <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>These are your Rcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>这些是你要付款过去的R币地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
+        <translation type="vanished">这些是你要付款过去的R币地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
+    </message>
+    <message>
+        <source>These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>These are your %1 addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>这些是你要付款过去的%1地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
+        <source>These are your %1 addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>这些是你用来收款的%1地址。建议在每次交易时，都使用一个新的收款地址。</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -223,9 +231,18 @@
         <translation>确认钱包加密</translation>
     </message>
     <message>
-        <location line="+12"/>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your rcoins from being stolen by malware infecting your computer.</source>
+        <location line="+1"/>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR %1&lt;/b&gt;!</source>
+        <translation>警告: 如果把钱包加密后又忘记密码，你就会从此&lt;b&gt;失去其中所有的%1了&lt;/b&gt;！</translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your %2 from being stolen by malware infecting your computer.</source>
         <translation>%1 现在要关闭，以完成加密过程。请注意，加密钱包不能完全防止入侵你的电脑的恶意程序偷取钱币。</translation>
+    </message>
+    <message>
+        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your rcoins from being stolen by malware infecting your computer.</source>
+        <translation type="vanished">%1 现在要关闭，以完成加密过程。请注意，加密钱包不能完全防止入侵你的电脑的恶意程序偷取钱币。</translation>
     </message>
     <message>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
@@ -237,9 +254,8 @@
         <translation>你确定要把钱包加密吗？</translation>
     </message>
     <message>
-        <location line="+0"/>
         <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RCOINS&lt;/b&gt;!</source>
-        <translation>警告: 如果把钱包加密后又忘记密码，你就会从此&lt;b&gt;失去其中所有的R币了&lt;/b&gt;！</translation>
+        <translation type="vanished">警告: 如果把钱包加密后又忘记密码，你就会从此&lt;b&gt;失去其中所有的R币了&lt;/b&gt;！</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -325,7 +341,12 @@
         <translation>消息签名(&amp;M)...</translation>
     </message>
     <message>
-        <location line="+449"/>
+        <location line="+16"/>
+        <source>Open a %1 URI or payment request</source>
+        <translation>打开一个 %1 URI 或支付请求</translation>
+    </message>
+    <message>
+        <location line="+433"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
@@ -345,17 +366,15 @@
         <translation>显示钱包概况</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Send coins to a RCoin address</source>
-        <translation>向一个R币地址发送R币</translation>
+        <translation type="vanished">向一个R币地址发送R币</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Request payments (generates QR codes and rcoin: URIs)</source>
-        <translation>请求支付 (生成二维码和 rcoin: URI)</translation>
+        <translation type="vanished">请求支付 (生成二维码和 rcoin: URI)</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+28"/>
         <source>&amp;Transactions</source>
         <translation>交易记录(&amp;T)</translation>
     </message>
@@ -420,17 +439,15 @@
         <translation>更改密码(&amp;C)...</translation>
     </message>
     <message>
-        <location line="+3"/>
         <source>Sign messages with your Rcoin addresses to prove you own them</source>
-        <translation>用R币地址关联的私钥为消息签名，以证明您拥有这个R币地址</translation>
+        <translation type="vanished">用R币地址关联的私钥为消息签名，以证明您拥有这个R币地址</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified RCoin addresses</source>
-        <translation>校验消息，确保该消息是由指定的R币地址所有者签名的</translation>
+        <translation type="vanished">校验消息，确保该消息是由指定的R币地址所有者签名的</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+12"/>
         <source>&amp;Sending addresses...</source>
         <translation>正在发送地址(&amp;S)...</translation>
     </message>
@@ -445,17 +462,15 @@
         <translation>打开 &amp;URI...</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Open a rcoin: URI or payment request</source>
-        <translation>打开一个 rcoin: URI 或支付请求</translation>
+        <translation type="vanished">打开一个 rcoin: URI 或支付请求</translation>
     </message>
     <message>
-        <location line="+4"/>
         <source>Show the %1 help message to get a list with possible RCoin command-line options</source>
-        <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
+        <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+374"/>
+        <location line="+379"/>
         <source>Click to disable network activity.</source>
         <translation>点击禁用网络活动。</translation>
     </message>
@@ -500,7 +515,17 @@
         <translation>更改钱包加密口令</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+2"/>
+        <source>Sign messages with your %1 addresses to prove you own them</source>
+        <translation>用%1地址关联的私钥为消息签名，以证明您拥有这个%1地址</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Verify messages to ensure they were signed with specified %1 addresses</source>
+        <translation>校验消息，确保该消息是由指定的%1地址所有者签名的</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>&amp;Debug window</source>
         <translation>调试窗口(&amp;D)</translation>
     </message>
@@ -534,13 +559,23 @@
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-6"/>
+        <source>Send coins to a %1 address</source>
+        <translation>向一个%1地址发送%1</translation>
+    </message>
+    <message>
+        <location line="+10"/>
         <location line="+7"/>
         <source>&amp;Receive</source>
         <translation>接收(&amp;R)</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="-6"/>
+        <source>Request payments (generates QR codes and %1 URIs)</source>
+        <translation>请求支付 (生成二维码和 %1 URI)</translation>
+    </message>
+    <message>
+        <location line="+54"/>
         <source>&amp;Show / Hide</source>
         <translation>显示 / 隐藏(&amp;S)</translation>
     </message>
@@ -603,7 +638,17 @@
         <translation>命令行选项(&amp;C)</translation>
     </message>
     <message>
-        <location line="+436"/>
+        <location line="+2"/>
+        <source>Show the %1 help message to get a list with possible %1 command-line options</source>
+        <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
+    </message>
+    <message>
+        <location line="+374"/>
+        <source>%1 active connection(s) to network</source>
+        <translation>%1 条到网络的活动连接。</translation>
+    </message>
+    <message>
+        <location line="+60"/>
         <source>Indexing blocks on disk...</source>
         <translation>正在为数据块建立索引...</translation>
     </message>
@@ -657,14 +702,13 @@
         <translation>%1 客戶</translation>
     </message>
     <message numerus="yes">
-        <location line="+155"/>
         <source>%n active connection(s) to RCoin network</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>%n 条到 R币网络的活动连接。</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+72"/>
+        <location line="+227"/>
         <source>Connecting to peers...</source>
         <translation>正在连接到节点……</translation>
     </message>
@@ -681,12 +725,11 @@
         <translation>更新中...</translation>
     </message>
     <message>
-        <location line="+34"/>
         <source>RCoin</source>
-        <translation>R币</translation>
+        <translation type="vanished">R币</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+146"/>
         <source>Date: %1
 </source>
         <translation>日期: %1
@@ -1044,7 +1087,7 @@
         <translation>地址(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../editaddressdialog.cpp" line="+30"/>
+        <location filename="../editaddressdialog.cpp" line="+31"/>
         <source>New receiving address</source>
         <translation>新建收款地址</translation>
     </message>
@@ -1065,8 +1108,12 @@
     </message>
     <message>
         <location line="+72"/>
+        <source>The entered address &quot;%1&quot; is not a valid %2 address.</source>
+        <translation>输入的地址 %1 并不是有效的%2地址。</translation>
+    </message>
+    <message>
         <source>The entered address &quot;%1&quot; is not a valid RCoin address.</source>
-        <translation>输入的地址 %1 并不是有效的R币地址。</translation>
+        <translation type="vanished">输入的地址 %1 并不是有效的R币地址。</translation>
     </message>
     <message>
         <source>The entered address &quot;%1&quot; is not a valid Bitcoin address.</source>
@@ -1091,7 +1138,7 @@
 <context>
     <name>FreespaceChecker</name>
     <message>
-        <location filename="../intro.cpp" line="+76"/>
+        <location filename="../intro.cpp" line="+78"/>
         <source>A new data directory will be created.</source>
         <translation>一个新的数据目录将被创建。</translation>
     </message>
@@ -1232,12 +1279,11 @@
         <translation type="vanished">R币</translation>
     </message>
     <message>
-        <location filename="../intro.cpp" line="+20"/>
         <source>RCoin</source>
-        <translation>R币</translation>
+        <translation type="vanished">R币</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location filename="../intro.cpp" line="+26"/>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
         <translation>此目录中至少会保存 %1 GB 的数据，并且尺寸还会随着时间增长。</translation>
     </message>
@@ -1251,9 +1297,13 @@
         <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>%1 will download and store a copy of the RCoin block chain.</source>
-        <translation>%1 将会下载并存储R币区块链。</translation>
+        <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>%1 will download and store a copy of the %2 block chain.</source>
+        <translation>%1 将会下载并存储%2区块链。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1664,7 +1714,7 @@
         <translation>无</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+76"/>
         <source>Confirm options reset</source>
         <translation>确认恢复缺省设置</translation>
     </message>
@@ -1803,7 +1853,7 @@
 <context>
     <name>PaymentServer</name>
     <message>
-        <location filename="../paymentserver.cpp" line="+326"/>
+        <location filename="../paymentserver.cpp" line="+328"/>
         <location line="+214"/>
         <location line="+42"/>
         <location line="+111"/>
@@ -1818,12 +1868,11 @@
 一键支付”处理器</translation>
     </message>
     <message>
-        <location line="-398"/>
         <source>Cannot start rcoin: click-to-pay handler</source>
-        <translation>无法启动 rcoin 协议的“一键支付”处理器</translation>
+        <translation type="vanished">无法启动 rcoin 协议的“一键支付”处理器</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="-296"/>
         <location line="+13"/>
         <location line="+7"/>
         <source>URI handling</source>
@@ -1844,9 +1893,18 @@
         <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>URI cannot be parsed! This can be caused by an invalid RCoin address or malformed URI parameters.</source>
-        <translation>无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
+        <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
+    </message>
+    <message>
+        <location line="-115"/>
+        <source>Cannot start %1 click-to-pay handler</source>
+        <translation>无法启动 %1 协议的“一键支付”处理器</translation>
+    </message>
+    <message>
+        <location line="+123"/>
+        <source>URI cannot be parsed! This can be caused by an invalid %1 address or malformed URI parameters.</source>
+        <translation>无法解析 URI 地址！可能是因为%1地址无效，或是 URI 参数格式错误。</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1980,9 +2038,13 @@
         <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
     </message>
     <message>
-        <location filename="../guiutil.cpp" line="+133"/>
         <source>Enter a RCoin address (e.g. %1)</source>
-        <translation>请输入一个R币地址 (例如 %1)</translation>
+        <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
+    </message>
+    <message>
+        <location filename="../guiutil.cpp" line="+135"/>
+        <source>Enter a %2 address (e.g. %1)</source>
+        <translation>请输入一个%2地址 (例如 %1)</translation>
     </message>
     <message>
         <location line="+760"/>
@@ -2253,7 +2315,7 @@
     <message>
         <location line="+54"/>
         <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
-        <translation type="unfinished"></translation>
+        <translation>打开调试文件。如果文件很大可能需要数秒。</translation>
     </message>
     <message>
         <location line="+296"/>
@@ -2763,7 +2825,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+585"/>
+        <location filename="../sendcoinsdialog.cpp" line="+587"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
@@ -3096,8 +3158,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
+        <source>Warning: Invalid %1 address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Warning: Invalid RCoin address</source>
-        <translation>警告: R币地址无效</translation>
+        <translation type="vanished">警告: R币地址无效</translation>
     </message>
     <message>
         <source>Warning: Invalid Bitcoin address</source>
