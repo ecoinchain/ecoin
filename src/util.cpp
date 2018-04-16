@@ -576,13 +576,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\RCoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\RCoin
-    // Mac: ~/Library/Application Support/RCoin
-    // Unix: ~/.rcoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\ECoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\ECoin
+    // Mac: ~/Library/Application Support/ECoin
+    // Unix: ~/.ecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "RCoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "ECoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -592,10 +592,10 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/RCoin";
+    return pathRet / "Library/Application Support/ECoin";
 #else
     // Unix
-    return pathRet / ".rcoin";
+    return pathRet / ".ecoin";
 #endif
 #endif
 }
@@ -947,7 +947,7 @@ int GetNumCores()
 
 std::string CopyrightHolders(const std::string& strPrefix)
 {
-   return "rcoin";
+   return "ecoin";
 }
 
 // Obtain the application startup time (used for uptime calculation)
