@@ -29,10 +29,10 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>RCoin-Qt</string>
+  <string>ECoin-Qt</string>
   
   <key>CFBundleName</key>
-  <string>RCoin-Qt</string>
+  <string>ECoin-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>

@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
     nSum += nSubsidy;
     BOOST_CHECK(MoneyRange(nSum));
     // nHeight的步长必须得是consensus.nSubsidyHalvingInterval约数
-    for (int nHeight = 1; nHeight < 14000001; nHeight += 1000) {
+    for (int nHeight = 1; nHeight < 17000001; nHeight += 1000) {
         CAmount nSubsidy = GetBlockSubsidy(nHeight, chainParams->GetConsensus());
         BOOST_CHECK(nSubsidy <= INITIAL_SUBSIDY);
         nSum += nSubsidy * 1000;

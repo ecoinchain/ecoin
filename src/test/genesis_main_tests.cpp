@@ -31,13 +31,13 @@ BOOST_FIXTURE_TEST_SUITE(genesis_main_tests, GenesisMainTestingSetup)
 BOOST_AUTO_TEST_CASE(GenesisMain)
 {
     // 这样多个线程进行计算的时候genesis可以不同
-    int64_t nTime = 1523757600 + GetRand(28800);
+    int64_t nTime = 1523876400 + GetRand(17000);
     printf("nTime = %lld\n", nTime);
     CBlock genesis = CChainParams::CreateGenesisBlock(
             nTime,
             uint256S("0x0"),
             ParseHex(""),
-            0x1f07ffff, 1, GENESIS_MONEY);
+            0x1f7fffff, 1, GENESIS_MONEY);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 
