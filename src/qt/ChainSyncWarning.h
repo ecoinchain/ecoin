@@ -8,6 +8,8 @@
 #include <QDateTime>
 #include <QWidget>
 
+#include "qt/widgets/modaloverlay.h"
+
 //! The required delta of headers to the estimated number of available headers until we show the IBD progress
 static constexpr int HEADER_HEIGHT_DELTA_SYNC = 24;
 
@@ -16,7 +18,7 @@ namespace Ui {
 }
 
 /** Modal overlay to display information about the chain-sync state */
-class ChainSyncWarning : public QWidget
+class ChainSyncWarning : public ModalOverlay
 {
     Q_OBJECT
 
@@ -33,10 +35,6 @@ public Q_SLOTS:
     void showHide(bool hide = false, bool userRequested = false);
     void closeClicked();
     bool isLayerVisible() const { return layerIsVisible; }
-
-protected:
-    bool eventFilter(QObject * obj, QEvent * ev);
-    bool event(QEvent* ev);
 
 private:
     Ui::ChainSyncWarning *ui;

@@ -12,13 +12,13 @@
 #include <QResizeEvent>
 #include <QPropertyAnimation>
 
-ChainSyncWarning::ChainSyncWarning(QWidget *parent) :
-QWidget(parent),
-ui(new Ui::ChainSyncWarning),
-bestHeaderHeight(0),
-bestHeaderDate(QDateTime()),
-layerIsVisible(false),
-userClosed(false)
+ChainSyncWarning::ChainSyncWarning(QWidget *parent)
+	: ModalOverlay(parent)
+	, ui(new Ui::ChainSyncWarning)
+	, bestHeaderHeight(0)
+	, bestHeaderDate(QDateTime())
+	, layerIsVisible(false)
+	, userClosed(false)
 {
     ui->setupUi(this);
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(closeClicked()));
@@ -34,36 +34,6 @@ userClosed(false)
 ChainSyncWarning::~ChainSyncWarning()
 {
     delete ui;
-}
-
-bool ChainSyncWarning::eventFilter(QObject * obj, QEvent * ev) {
-    if (obj == parent()) {
-        if (ev->type() == QEvent::Resize) {
-            QResizeEvent * rev = static_cast<QResizeEvent*>(ev);
-            resize(rev->size());
-            if (!layerIsVisible)
-                setGeometry(0, height(), width(), height());
-
-        }
-        else if (ev->type() == QEvent::ChildAdded) {
-            raise();
-        }
-    }
-    return QWidget::eventFilter(obj, ev);
-}
-
-//! Tracks parent widget changes
-bool ChainSyncWarning::event(QEvent* ev) {
-    if (ev->type() == QEvent::ParentAboutToChange) {
-        if (parent()) parent()->removeEventFilter(this);
-    }
-    else if (ev->type() == QEvent::ParentChange) {
-        if (parent()) {
-            parent()->installEventFilter(this);
-            raise();
-        }
-    }
-    return QWidget::event(ev);
 }
 
 void ChainSyncWarning::setKnownBestHeight(int count, const QDateTime& blockDate)
