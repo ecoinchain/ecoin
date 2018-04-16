@@ -2,6 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "qt/guiconstants.h"
+
 #include <qt/guiutil.h>
 
 #include <qt/bitcoinaddressvalidator.h>
@@ -130,8 +132,8 @@ void setupAddressWidget(QValidatedLineEdit *widget, QWidget *parent)
 #if QT_VERSION >= 0x040700
     // We don't want translators to use own addresses in translations
     // and this is the only place, where this address is supplied.
-    widget->setPlaceholderText(QObject::tr("Enter a RCoin address (e.g. %1)").arg(
-        QString::fromStdString(DummyAddress(Params()))));
+    widget->setPlaceholderText(QObject::tr("Enter a %2 address (e.g. %1)").arg(
+        QString::fromStdString(DummyAddress(Params()))).arg(QAPP_COIN_NAME));
 #endif
     widget->setValidator(new BitcoinAddressEntryValidator(parent));
     widget->setCheckValidator(new BitcoinAddressCheckValidator(parent));
@@ -149,7 +151,7 @@ void setupAmountWidget(QLineEdit *widget, QWidget *parent)
 bool parseBitcoinURI(const QUrl &uri, SendCoinsRecipient *out)
 {
     // return if URI is not valid or is no bitcoin: URI
-    if(!uri.isValid() || uri.scheme() != QString("rcoin"))
+    if(!uri.isValid() || uri.scheme() != QString(QAPP_COIN_SCHEME_NAME))
         return false;
 
     SendCoinsRecipient rv;
@@ -213,9 +215,9 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
     //
     //    Cannot handle this later, because bitcoin:// will cause Qt to see the part after // as host,
     //    which will lower-case it (and thus invalidate the address).
-    if(uri.startsWith("rcoin://", Qt::CaseInsensitive))
+    if(uri.startsWith(QAPP_COIN_SCHEME_NAME "://", Qt::CaseInsensitive))
     {
-        uri.replace(0, 8, "rcoin:");
+        uri.replace(0, 8, QAPP_COIN_NAME_URI_SCHEME);
     }
     QUrl uriInstance(uri);
     return parseBitcoinURI(uriInstance, out);
@@ -223,7 +225,7 @@ bool parseBitcoinURI(QString uri, SendCoinsRecipient *out)
 
 QString formatBitcoinURI(const SendCoinsRecipient &info)
 {
-    QString ret = QString("rcoin:%1").arg(info.address);
+    QString ret = QString("%2:%1").arg(info.address).arg(QAPP_COIN_SCHEME_NAME);
     int paramCount = 0;
 
     if (info.amount)

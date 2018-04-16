@@ -9,8 +9,6 @@
 
 ModalOverlay::ModalOverlay(QWidget *parent)
 	: QWidget(parent)
-	, layerIsVisible(false)
-	, userClosed(false)
 {
     if (parent)
 	{
@@ -28,7 +26,7 @@ bool ModalOverlay::eventFilter(QObject * obj, QEvent * ev) {
         if (ev->type() == QEvent::Resize) {
             QResizeEvent * rev = static_cast<QResizeEvent*>(ev);
             resize(rev->size());
-            if (!layerIsVisible)
+			if (!isHidden())
                 setGeometry(0, height(), width(), height());
 
         }
@@ -51,36 +49,4 @@ bool ModalOverlay::event(QEvent* ev) {
         }
     }
     return QWidget::event(ev);
-}
-
-void ModalOverlay::toggleVisibility()
-{
-    showHide(layerIsVisible, true);
-    if (!layerIsVisible)
-        userClosed = true;
-}
-
-void ModalOverlay::showHide(bool hide, bool userRequested)
-{
-    if ( (layerIsVisible && !hide) || (!layerIsVisible && hide) || (!hide && userClosed && !userRequested))
-        return;
-
-    if (!isVisible() && !hide)
-        setVisible(true);
-
-    setGeometry(0, hide ? 0 : height(), width(), height());
-
-    QPropertyAnimation* animation = new QPropertyAnimation(this, "pos");
-    animation->setDuration(300);
-    animation->setStartValue(QPoint(0, hide ? 0 : this->height()));
-    animation->setEndValue(QPoint(0, hide ? this->height() : 0));
-    animation->setEasingCurve(QEasingCurve::OutQuad);
-    animation->start(QAbstractAnimation::DeleteWhenStopped);
-    layerIsVisible = !hide;
-}
-
-void ModalOverlay::closeClicked()
-{
-    showHide(true);
-    userClosed = true;
 }

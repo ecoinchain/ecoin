@@ -11,7 +11,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodi
 
 add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=16 -DCLIENT_VERSION_REVISION=99 -DCLIENT_VERSION_BUILD=0
         -DCLIENT_VERSION_IS_RELEASE=0 -DCOPYRIGHT_YEAR=2018)
-add_definitions(-DPACKAGE_NAME="rcoin")
+add_definitions(-DPACKAGE_NAME="ecoin")
 
 add_definitions(-DENABLE_WALLET)
 

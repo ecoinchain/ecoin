@@ -15,19 +15,7 @@ public:
     explicit ModalOverlay(QWidget *parent);
     ~ModalOverlay();
 
-public Q_SLOTS:
-
-    void toggleVisibility();
-    // will show or hide the modal layer
-    void showHide(bool hide = false, bool userRequested = false);
-    void closeClicked();
-    bool isLayerVisible() const { return layerIsVisible; }
-
 protected:
     bool eventFilter(QObject * obj, QEvent * ev);
     bool event(QEvent* ev);
-
-private:
-    bool layerIsVisible;
-    bool userClosed;
 };
