@@ -20,7 +20,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }
 
 QFrame#frameBalance {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(75, 186, 255, 255), stop:1 rgba(74, 163, 255, 255));
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #009ECF, stop:1 #00AFE5);
 
 border-radius: 5px;
 }
@@ -146,8 +146,8 @@ line-height: 28px;
               <widget class="QLabel" name="labelBalance">
                <property name="font">
                 <font>
-                 <family>HelveticaNeue-Medium</family>
-                 <pointsize>12</pointsize>
+                 <family>.SF NS Text</family>
+                 <pointsize>24</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -158,6 +158,9 @@ line-height: 28px;
                </property>
                <property name="toolTip">
                 <string>Your current spendable balance</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -243,8 +246,8 @@ line-height: 28px;
               <widget class="QLabel" name="labelUnconfirmed">
                <property name="font">
                 <font>
-                 <family>HelveticaNeue-Medium</family>
-                 <pointsize>12</pointsize>
+                 <family>.SF NS Text</family>
+                 <pointsize>24</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -255,6 +258,9 @@ line-height: 28px;
                </property>
                <property name="toolTip">
                 <string>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -343,8 +349,8 @@ line-height: 28px;
               <widget class="QLabel" name="labelImmature">
                <property name="font">
                 <font>
-                 <family>HelveticaNeue-Medium</family>
-                 <pointsize>12</pointsize>
+                 <family>.SF NS Text</family>
+                 <pointsize>24</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -355,6 +361,9 @@ line-height: 28px;
                </property>
                <property name="toolTip">
                 <string>Mined balance that has not yet matured</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -440,8 +449,8 @@ line-height: 28px;
               <widget class="QLabel" name="labelTotal">
                <property name="font">
                 <font>
-                 <family>HelveticaNeue-Medium</family>
-                 <pointsize>12</pointsize>
+                 <family>.SF NS Text</family>
+                 <pointsize>24</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -452,6 +461,9 @@ line-height: 28px;
                </property>
                <property name="toolTip">
                 <string>Your current total balance</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>

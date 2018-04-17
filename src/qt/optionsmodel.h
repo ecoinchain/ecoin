@@ -49,8 +49,8 @@ public:
         DatabaseCache,          // int
         SpendZeroConfChange,    // bool
         Listen,                 // bool
-        OptionIDRowCount,
 		EnableMinner,			// bool
+		OptionIDRowCount,
     };
 
     void Init(bool resetSettings = false);
@@ -75,6 +75,9 @@ public:
     /* Restart flag helper */
     void setRestartRequired(bool fRequired);
     bool isRestartRequired() const;
+
+Q_SIGNALS:
+	void generateChanged(bool);
 
 private:
     /* Qt-only settings */

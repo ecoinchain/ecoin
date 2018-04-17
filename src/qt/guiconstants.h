@@ -53,4 +53,13 @@ static const int MAX_URI_LENGTH = 255;
 #define QAPP_APP_NAME_DEFAULT "Rcoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Rcoin-Qt-testnet"
 
+#define QAPP_COIN_NAME "RCoin"
+
+#define QAPP_COIN_NAMES "RCoins"
+
+#define QAPP_COIN_UNIT "RCO"
+
+#define QAPP_COIN_NAME_URI_SCHEME "rcoin:"
+#define QAPP_COIN_SCHEME_NAME "rcoin"
+
 #endif // BITCOIN_QT_GUICONSTANTS_H

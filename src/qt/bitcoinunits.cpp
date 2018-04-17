@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "qt/guiconstants.h"
 #include <qt/bitcoinunits.h>
 
 #include <primitives/transaction.h>
@@ -40,9 +41,9 @@ QString BitcoinUnits::longName(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("RCO");
-    case mBTC: return QString("mRCO");
-    case uBTC: return QString::fromUtf8("µRCO (bits)");
+    case BTC: return QString(QAPP_COIN_UNIT);
+    case mBTC: return QString("m" QAPP_COIN_UNIT);
+    case uBTC: return QString::fromUtf8("µ" QAPP_COIN_UNIT " (bits)");
     default: return QString("???");
     }
 }
@@ -60,9 +61,9 @@ QString BitcoinUnits::description(int unit)
 {
     switch(unit)
     {
-    case BTC: return QString("Rcoins");
-    case mBTC: return QString("Milli-Rcoins (1 / 1" THIN_SP_UTF8 "000)");
-    case uBTC: return QString("Micro-Rcoins (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
+    case BTC: return QString(QAPP_COIN_NAMES);
+    case mBTC: return QString("Milli-" QAPP_COIN_NAMES " (1 / 1" THIN_SP_UTF8 "000)");
+    case uBTC: return QString("Micro-" QAPP_COIN_NAMES " (bits) (1 / 1" THIN_SP_UTF8 "000" THIN_SP_UTF8 "000)");
     default: return QString("???");
     }
 }
