@@ -7,6 +7,15 @@ iconbutton::iconbutton(std::array<QIcon, 2> _icons, QString txt, QWidget * paren
 {
 	ui->setupUi(this);
 	ui->button->setText(txt);
+
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = logicalDpiX() / 96.0;
+#endif
+
+	ui->button->setIconSize(QSize(24,24)* iconscale);
+	layout()->setContentsMargins(10 * iconscale, 10 * iconscale, 10 * iconscale, 10 * iconscale);
 }
 
 iconbutton::~iconbutton()
