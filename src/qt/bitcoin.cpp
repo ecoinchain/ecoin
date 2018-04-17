@@ -99,21 +99,6 @@ static std::string Translate(const char* psz)
     return QCoreApplication::translate("bitcoin-core", psz).toStdString();
 }
 
-static QString GetLangTerritory()
-{
-    QSettings settings;
-    // Get desired locale (e.g. "de_DE")
-    // 1) System default language
-    QString lang_territory = QLocale::system().name();
-    // 2) Language from QSettings
-    QString lang_territory_qsettings = settings.value("language", "").toString();
-    if(!lang_territory_qsettings.isEmpty())
-        lang_territory = lang_territory_qsettings;
-    // 3) -lang command line argument
-    lang_territory = QString::fromStdString(gArgs.GetArg("-lang", lang_territory.toStdString()));
-    return lang_territory;
-}
-
 /** Set up translations */
 static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTranslator, QTranslator &translatorBase, QTranslator &translator)
 {
@@ -125,7 +110,7 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
 
     // Get desired locale (e.g. "de_DE")
     // 1) System default language
-    QString lang_territory = GetLangTerritory();
+    QString lang_territory = GUIUtil::GetLangTerritory();
 
     // Convert to "de" only by truncating "_DE"
     QString lang = lang_territory;
@@ -592,7 +577,7 @@ int main(int argc, char *argv[])
     QApplication::setOrganizationName(QAPP_ORG_NAME);
     QApplication::setOrganizationDomain(QAPP_ORG_DOMAIN);
     QApplication::setApplicationName(QAPP_APP_NAME_DEFAULT);
-    GUIUtil::SubstituteFonts(GetLangTerritory());
+    GUIUtil::SubstituteFonts(GUIUtil::GetLangTerritory());
 
     /// 4. Initialization of translations, so that intro dialog is in user's language
     // Now that QSettings are accessible, initialize translations
