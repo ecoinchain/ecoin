@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>219</width>
-    <height>45</height>
+    <width>225</width>
+    <height>52</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,8 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
     subcontrol-position: right center;
     subcontrol-origin: padding;
     left: 1px;
-}</string>
+}
+</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
@@ -89,6 +90,11 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
      </item>
      <item>
       <widget class="QPushButton" name="fileButton">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
@@ -102,6 +108,11 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
      </item>
      <item>
       <widget class="QPushButton" name="settingsButton">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
@@ -115,6 +126,11 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
      </item>
      <item>
       <widget class="QPushButton" name="helpButton">
+       <property name="font">
+        <font>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
@@ -143,21 +159,20 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
        </property>
        <property name="minimumSize">
         <size>
-         <width>22</width>
-         <height>22</height>
+         <width>44</width>
+         <height>44</height>
         </size>
        </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton {
+        <string notr="true">QPushButton  {
     qproperty-icon: url(&quot; &quot;); /* empty image */
-    qproperty-iconSize: 24px 24px; /* space for the background image */
     background-image: url(&quot;:/icons/quit&quot;);
     background-repeat: no-repeat;
     background-position: center; 
- background-size:cover;
+    background-size:contain;
 }
 
 QPushButton:hover {

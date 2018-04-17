@@ -19,6 +19,9 @@ public:
 	void setfileMenu(QMenu*);
 	void setsettingMenu(QMenu*);
 	void setHelpMenu(QMenu*);
+
+	virtual bool eventFilter(QObject *watched, QEvent *event) override;
+
 Q_SIGNALS:
 	void quitRequested();
 private Q_SLOTS:
