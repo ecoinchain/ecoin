@@ -104,6 +104,9 @@ padding: 3px;
      </item>
      <item>
       <widget class="QPushButton" name="exportButton">
+       <property name="styleSheet">
+        <string notr="true">color: #ffffff;</string>
+       </property>
        <property name="text">
         <string>&amp;Export</string>
        </property>
