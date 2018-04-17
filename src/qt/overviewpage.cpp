@@ -35,18 +35,26 @@ public:
     inline void paint(QPainter *painter, const QStyleOptionViewItem &option,
                       const QModelIndex &index ) const
     {
-        painter->save();
+#ifdef Q_OS_MAC
+		double iconscale = 1.0;
+#else
+		double iconscale = painter->device()->logicalDpiX() / 96.0;
+#endif	
+		painter->save();
 
         QIcon icon = qvariant_cast<QIcon>(index.data(TransactionTableModel::RawDecorationRole));
         QRect mainRect = option.rect;
-        QRect decorationRect(mainRect.topLeft(), QSize(DECORATION_SIZE, DECORATION_SIZE));
-        int xspace = DECORATION_SIZE + 8;
-        int ypad = 6;
+		QRect decorationRect(mainRect.topLeft(), QSize(24, 24)*iconscale);
+
+		decorationRect.moveCenter(QRect(mainRect.topLeft(), QSize(DECORATION_SIZE, DECORATION_SIZE)*iconscale).center());
+
+		int xspace = (DECORATION_SIZE + 2 ) * iconscale;
+        int ypad = 6*iconscale;
         int halfheight = (mainRect.height() - 2*ypad)/2;
         QRect amountRect(mainRect.left() + xspace, mainRect.top()+ypad, mainRect.width() - xspace, halfheight);
         QRect addressRect(mainRect.left() + xspace, mainRect.top()+ypad+halfheight, mainRect.width() - xspace, halfheight);
-        icon = platformStyle->SingleColorIcon(icon);
-        icon.paint(painter, decorationRect);
+
+		icon.paint(painter, decorationRect);
 
         QDateTime date = index.data(TransactionTableModel::DateRole).toDateTime();
         QString address = index.data(Qt::DisplayRole).toString();
@@ -99,7 +107,12 @@ public:
 
     inline QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
     {
-        return QSize(DECORATION_SIZE, DECORATION_SIZE);
+#ifdef Q_OS_MAC
+		double iconscale = 1.0;
+#else
+		double iconscale = option.widget->logicalDpiX() / 96.0;
+#endif	
+		return QSize(DECORATION_SIZE, DECORATION_SIZE)*iconscale;
     }
 
     int unit;
@@ -132,10 +145,12 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->labelTransactionsStatus->setIcon(icon);
 //    ui->labelWalletStatus->setIcon(icon);
 
+	double iconscale = logicalDpiY() / 96.0;
+
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
-    ui->listTransactions->setIconSize(QSize(DECORATION_SIZE, DECORATION_SIZE));
-    ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2));
+    ui->listTransactions->setIconSize(QSize(16, 16) * iconscale);
+    ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2) * iconscale);
     ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
 
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
