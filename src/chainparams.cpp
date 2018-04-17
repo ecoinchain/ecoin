@@ -123,7 +123,7 @@ public:
         nEquihashN = N;
         nEquihashK = K;
 
-        // 网络部署时间跟genesis设置的时间不能超过1天
+        // 网络部署时间跟genesis设置的时间不能超过1天.
         genesis = CreateGenesisBlock(
             1523879995,
             uint256S("0x0000000000000000000000000000000000000000000000000000000000000001"),
