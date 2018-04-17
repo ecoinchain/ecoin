@@ -30,7 +30,7 @@ CBlock CChainParams::CreateGenesisBlock(const char* pszTimestamp, const CScript&
     txNew.nVersion = 1;
     txNew.vin.resize(1);
     txNew.vout.resize(1);
-    // bip34要求height放在coinbase输入脚本的首位
+    // bip34要求height放在coinbase输入脚本的首位.
     txNew.vin[0].scriptSig = CScript() << 0 << CScriptNum(4) << std::vector<unsigned char>((const unsigned char*)pszTimestamp, (const unsigned char*)pszTimestamp + strlen(pszTimestamp));
     txNew.vout[0].nValue = genesisReward;
     txNew.vout[0].scriptPubKey = genesisOutputScript;
@@ -103,7 +103,7 @@ public:
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        // todo 等到链成长到一定的长度再设置
+        // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //506067
 
         /**
@@ -148,8 +148,8 @@ public:
         // vSeeds.emplace_back("seed.bitcoin.jonasschnelli.ch"); // Jonas Schnelli, only supports x1, x5, x9, and xd
         // vSeeds.emplace_back("seed.btc.petertodd.org"); // Peter Todd, only supports x1, x5, x9, and xd
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60); // R为地址的第一个字母
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,13); // 6为地址的第一个字母
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60); // R为地址的第一个字母.
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,13); // 6为地址的第一个字母.
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x14, 0x03, 0x12, 0x42};
         base58Prefixes[EXT_SECRET_KEY] = {0x43, 0x5d, 0x8c, 0xb2};
@@ -163,14 +163,14 @@ public:
         fRequireStandard = true;
         fMineBlocksOnDemand = false;
 
-        // todo 区块链的检查点，等到链成长到一定程度再设置
+        // todo 区块链的检查点，等到链成长到一定程度再设置.
         checkpointData = {
             {
                 {0, uint256S("0006f2d547a5e2a1fd879e8be7be41be6336c9867ba2ff6f8d0ebf1c2787da69")},
             }
         };
 
-        // todo 区块链交易信息，等到链成长到一定程度再设置
+        // todo 区块链交易信息，等到链成长到一定程度再设置.
         chainTxData = ChainTxData{
             0,
             0,
@@ -202,11 +202,11 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
 
         // The best chain should have at least this much work.
-        // todo 后面等链变长之后需要修改
+        // todo 后面等链变长之后需要修改.
         consensus.nMinimumChainWork = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000");
 
         // By default assume that the signatures in ancestors of this block are valid.
-        // todo 等到链成长到一定的长度再设置
+        // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //1135275
 
         // 用可见的消息magic感觉更好点，rcot表示rcoin test net
@@ -221,7 +221,7 @@ public:
         nEquihashN = N;
         nEquihashK = K;
 
-        // 网络部署时间跟genesis设置的时间不能超过1天
+        // 网络部署时间跟genesis设置的时间不能超过1天.
         genesis = CreateGenesisBlock(
             1523498400,
             uint256S("0x000000000000000000000000000000000000000000000000000000000000000d"),
@@ -258,14 +258,14 @@ public:
         fMineBlocksOnDemand = false;
 
 
-        // todo 区块链的检查点，等到链成长到一定程度再设置
+        // todo 区块链的检查点，等到链成长到一定程度再设置.
         checkpointData = {
             {
                 {0, uint256S("01414ba30e700a0534b98aab8f2340339ce3a3f20649405e2fa7e2135315072d")},
             }
         };
 
-        // todo 区块链交易信息，等到链成长到一定程度再设置
+        // todo 区块链交易信息，等到链成长到一定程度再设置.
         chainTxData = ChainTxData{
             0,
             0,
