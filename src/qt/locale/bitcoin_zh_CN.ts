@@ -556,7 +556,7 @@
         <location line="+146"/>
         <location line="+7"/>
         <source>&amp;Send</source>
-        <translation>发送(&amp;S)</translation>
+        <translation>付款(&amp;S)</translation>
     </message>
     <message>
         <location line="-6"/>
@@ -567,7 +567,7 @@
         <location line="+10"/>
         <location line="+7"/>
         <source>&amp;Receive</source>
-        <translation>接收(&amp;R)</translation>
+        <translation>收款(&amp;R)</translation>
     </message>
     <message>
         <location line="-6"/>
