@@ -337,6 +337,8 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     if (!platformStyle) // Fall back to "other" if specified name not found
         platformStyle = PlatformStyle::instantiate("other");
     assert(platformStyle);
+
+	setFont(platformStyle->fontname());
 }
 
 BitcoinApplication::~BitcoinApplication()
