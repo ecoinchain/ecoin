@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>225</width>
-    <height>52</height>
+    <width>260</width>
+    <height>58</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,7 +52,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
     <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>0</number>
+    <number>5</number>
    </property>
    <property name="bottomMargin">
     <number>0</number>
@@ -73,7 +73,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout" stretch="13,0,0,0,0,0,2">
      <property name="spacing">
-      <number>3</number>
+      <number>8</number>
      </property>
      <item>
       <spacer name="horizontalSpacer">
@@ -92,7 +92,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
       <widget class="QPushButton" name="fileButton">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>12</pointsize>
         </font>
        </property>
        <property name="contextMenuPolicy">
@@ -110,7 +110,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
       <widget class="QPushButton" name="settingsButton">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>12</pointsize>
         </font>
        </property>
        <property name="contextMenuPolicy">
@@ -128,7 +128,7 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
       <widget class="QPushButton" name="helpButton">
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>12</pointsize>
         </font>
        </property>
        <property name="contextMenuPolicy">
@@ -162,6 +162,11 @@ QPushButton::menu-indicator:pressed, QPushButton::menu-indicator:open {
          <width>44</width>
          <height>44</height>
         </size>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>12</pointsize>
+        </font>
        </property>
        <property name="contextMenuPolicy">
         <enum>Qt::NoContextMenu</enum>
@@ -199,7 +204,7 @@ QPushButton:hover {
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>13</width>
+         <width>20</width>
          <height>20</height>
         </size>
        </property>
