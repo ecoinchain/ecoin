@@ -177,8 +177,8 @@ public:
             0
         };
 
-        /* disable fallback fee on mainnet */
-        m_fallback_fee_enabled = false;
+        /* 在链的初始阶段主网允许fallback fee*/
+        m_fallback_fee_enabled = true;
     }
 };
 
