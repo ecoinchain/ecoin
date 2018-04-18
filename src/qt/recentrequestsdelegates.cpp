@@ -33,8 +33,10 @@ void RecentRequestsDelegates::paint(QPainter *painter, const QStyleOptionViewIte
 	r1.setRight(option.rect.normalized().center().rx());
 	r2.setLeft(option.rect.normalized().center().rx());
 
+	QMargins m(12, 12, 12, 12);
+
 	painter->save();
-	action_icon_view.paint(painter, r1);
-	action_icon_delete.paint(painter, r2);
+	action_icon_view.paint(painter, r1.marginsRemoved(m));
+	action_icon_delete.paint(painter, r2.marginsRemoved(m));
 	painter->restore();
 }

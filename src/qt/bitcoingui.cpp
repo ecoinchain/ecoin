@@ -425,8 +425,6 @@ void BitcoinGUI::createToolBars_and_Menus()
 		//toolbar->setPalette(pal);
 		toolbar->setStyleSheet("QToolBar { padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
 
-		toolbar->addSeparator();
-
 		auto spacerwidget = new QWidget();
 		auto hl = new QHBoxLayout();
 		spacerwidget->setLayout(hl);

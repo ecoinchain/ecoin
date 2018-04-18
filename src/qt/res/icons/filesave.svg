@@ -5,14 +5,15 @@
 <style type="text/css">
 	.st0{fill:#9B9B9B;}
 </style>
-<title>dakai</title>
+<title>beifen</title>
 <desc>Created with Sketch.</desc>
 <g id="Page-1">
-	<g id="概览展开" transform="translate(-33.000000, -179.000000)">
+	<g id="概览展开" transform="translate(-33.000000, -213.000000)">
 		<g id="文件下拉" transform="translate(24.000000, 161.000000)">
 			<g id="Group-7" transform="translate(9.000000, 18.000000)">
-				<path id="dakai" class="st0" d="M33.7,26.5v22.7h60.6V34H61l-7.6-7.6H33.7z M101.9,48.4H117l-7.6,60.6H18.6L11,48.4h15.1V18.9
-					h30.3l7.6,6.8h37.9V48.4z M25.4,101.4h77.2l6.1-45.4H19.3L25.4,101.4z"/>
+				<path id="beifen" class="st0" d="M18.6,115.4v20.4h90.9v-21.2L89,60.1H39L18.6,115.4z M33.7,52.6h60.6l22.7,61.3v29.5H11v-29.5
+					L33.7,52.6z M26.1,113.1h75.7v-7.6H26.1V113.1z M41.3,98h45.4v-7.6H41.3V98z M48.9,82.9h30.3v-7.6H48.9V82.9z M79.1,120.7v7.6
+					h7.6v-7.6H79.1z M94.3,120.7v7.6h7.6v-7.6H94.3z"/>
 			</g>
 		</g>
 	</g>
