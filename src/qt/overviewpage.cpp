@@ -15,6 +15,7 @@
 #include <qt/transactiontablemodel.h>
 #include <qt/walletmodel.h>
 
+#include <QFontMetrics>
 #include <QAbstractItemDelegate>
 #include <QPainter>
 
@@ -162,7 +163,9 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(16, 16) * iconscale);
     ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2) * iconscale);
-    ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
+	
+	ui->listTransactions->setMinimumWidth(ui->listTransactions->fontMetrics().boundingRect(QString("7DnsD6GuTBNGZ3CEDC7tnU5piBvKKmTCwW")).width() + (DECORATION_SIZE + 2) * iconscale);
+	ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
 
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 
