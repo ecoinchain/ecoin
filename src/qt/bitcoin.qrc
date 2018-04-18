@@ -35,7 +35,7 @@
         <file alias="debugwindow">res/icons/debugwindow.svg</file>
         <file alias="open">res/icons/open.svg</file>
         <file alias="info">res/icons/info.png</file>
-        <file alias="bitcoin">res/icons/about.svg</file>
+        <file alias="about">res/icons/about.svg</file>
         <file alias="about_qt">res/icons/about_qt.svg</file>
         <file alias="verify">res/icons/verify.svg</file>
         <file alias="warning">res/icons/warning.png</file>
@@ -61,6 +61,7 @@
         <file alias="colored_quit">res/icons/colored_quit.svg</file>
         <file alias="down">res/icons/menu_indicator.svg</file>
         <file alias="up">res/icons/menu_indicator_open.svg</file>
+        <file alias="bitcoin">res/icons/bitcoin.svg</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
