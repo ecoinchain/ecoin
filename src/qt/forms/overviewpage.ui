@@ -20,7 +20,7 @@ background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgb
 }
 
 QFrame#frameBalance {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #009ECF, stop:1 #00AFE5);
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #4AA3FF, stop:1  #4BBAFF);
 
 border-radius: 5px;
 }
