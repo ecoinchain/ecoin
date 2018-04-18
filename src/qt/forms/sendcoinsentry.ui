@@ -342,15 +342,9 @@ border-radius: 3px;
         <widget class="BitcoinAmountField" name="payAmount">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-           <horstretch>0</horstretch>
+           <horstretch>1</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
          </property>
          <property name="styleSheet">
           <string notr="true">    border-radius : 3px;

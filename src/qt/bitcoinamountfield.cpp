@@ -194,10 +194,16 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     QWidget(parent),
     amount(0)
 {
-    amount = new AmountSpinBox(this);
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = logicalDpiX() / 96.0;
+#endif	
+	
+	amount = new AmountSpinBox(this);
     amount->setLocale(QLocale::c());
     amount->installEventFilter(this);
-    amount->setMaximumWidth(170);
+    amount->setMaximumWidth(250* iconscale);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->addWidget(amount);
