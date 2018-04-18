@@ -5,14 +5,15 @@
 <style type="text/css">
 	.st0{fill:#9B9B9B;}
 </style>
-<title>dakai</title>
+<title>qianming</title>
 <desc>Created with Sketch.</desc>
 <g id="Page-1">
-	<g id="概览展开" transform="translate(-33.000000, -179.000000)">
+	<g id="概览展开" transform="translate(-33.000000, -246.000000)">
 		<g id="文件下拉" transform="translate(24.000000, 161.000000)">
 			<g id="Group-7" transform="translate(9.000000, 18.000000)">
-				<path id="dakai" class="st0" d="M33.7,26.5v22.7h60.6V34H61l-7.6-7.6H33.7z M101.9,48.4H117l-7.6,60.6H18.6L11,48.4h15.1V18.9
-					h30.3l7.6,6.8h37.9V48.4z M25.4,101.4h77.2l6.1-45.4H19.3L25.4,101.4z"/>
+				<path id="qianming" class="st0" d="M108.2,174.8h8.8l-8.8,8.8V174.8z M108.2,174.8v-61.8h8.8v70.7H11V78.5h70.7v8.8H19.8v87.5
+					H108.2z M19.8,174.8v8.8l-8.8-8.8H19.8z M11,87.3l8.8-8.8v8.8H11z M19.8,78.5L11,87.3h8.8V78.5z M19.8,87.3v87.5h88.3v-61.8h8.8
+					v70.7H11V78.5h70.7v8.8H19.8z M110.8,80.3l6.2,6.2l-70.7,69.8l-6.2-6.2L110.8,80.3z"/>
 			</g>
 		</g>
 	</g>
