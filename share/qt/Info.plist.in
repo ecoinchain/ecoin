@@ -39,7 +39,6 @@
 
   <key>CFBundleIdentifier</key>
   <string>org.bitcoinfoundation.ECoin-Qt</string>
-
   <key>CFBundleURLTypes</key>
   <array>
     <dict>
