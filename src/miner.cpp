@@ -685,7 +685,7 @@ void static BitcoinMiner()
 
                 // Update nNonce and nTime
                 pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
-                UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
+		UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
             }
         }
     }

@@ -15,6 +15,7 @@
 #include <qt/transactiontablemodel.h>
 #include <qt/walletmodel.h>
 
+#include <QFontMetrics>
 #include <QAbstractItemDelegate>
 #include <QPainter>
 
@@ -89,7 +90,7 @@ public:
         }
         else
         {
-            foreground = option.palette.color(QPalette::Text);
+			foreground = QColor(0, 175, 229);
         }
         painter->setPen(foreground);
         QString amountText = BitcoinUnits::formatWithUnit(unit, amount, true, BitcoinUnits::separatorAlways);
@@ -97,10 +98,10 @@ public:
         {
             amountText = QString("[") + amountText + QString("]");
         }
-        painter->drawText(amountRect, Qt::AlignRight|Qt::AlignVCenter, amountText);
-
-        painter->setPen(option.palette.color(QPalette::Text));
-        painter->drawText(amountRect, Qt::AlignLeft|Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
+		painter->drawText(amountRect, Qt::AlignLeft | Qt::AlignVCenter, amountText);
+		
+        painter->setPen(QColor(186, 193, 196));
+		painter->drawText(amountRect, Qt::AlignRight | Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
 
         painter->restore();
     }
@@ -134,7 +135,13 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     currentWatchImmatureBalance(-1),
     txdelegate(new TxViewDelegate(platformStyle, this))
 {
-    ui->setupUi(this);
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = logicalDpiX() / 96.0;
+#endif	
+	
+	ui->setupUi(this);
 	ui->frameBalance->setBackgroundImage(QIcon(":/icons/balance_bg"));
 	ui->framePending->setBackgroundImage(QIcon(":/icons/balance_bg"));
 	ui->WatchImmature->setBackgroundImage(QIcon(":/icons/balance_bg"));
@@ -143,15 +150,22 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     QIcon icon = platformStyle->SingleColorIcon(":/icons/warning");
     icon.addPixmap(icon.pixmap(QSize(64,64), QIcon::Normal), QIcon::Disabled); // also set the disabled icon because we are using a disabled QPushButton to work around missing HiDPI support of QLabel (https://bugreports.qt.io/browse/QTBUG-42503)
     ui->labelTransactionsStatus->setIcon(icon);
-//    ui->labelWalletStatus->setIcon(icon);
 
-	double iconscale = logicalDpiY() / 96.0;
+	QMargins margins(20 * iconscale, 20 * iconscale, 20 * iconscale, 20 * iconscale);
+
+	ui->frameBalance->layout()->setContentsMargins(margins);
+	ui->framePending->layout()->setContentsMargins(margins);
+	ui->WatchImmature->layout()->setContentsMargins(margins);
+	ui->frameTotal->layout()->setContentsMargins(margins);
+
 
     // Recent transactions
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(16, 16) * iconscale);
     ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2) * iconscale);
-    ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
+	
+	ui->listTransactions->setMinimumWidth(ui->listTransactions->fontMetrics().boundingRect(QString("7DnsD6GuTBNGZ3CEDC7tnU5piBvKKmTCwW")).width() + (DECORATION_SIZE + 2) * iconscale);
+	ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
 
     connect(ui->listTransactions, SIGNAL(clicked(QModelIndex)), this, SLOT(handleTransactionClicked(QModelIndex)));
 

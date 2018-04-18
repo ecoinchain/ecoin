@@ -20,7 +20,8 @@
 	border-width: 1px;
 	border-color: rgb(39, 152, 255);
 	background-color: rgb(39, 152, 255);
-padding : 6px;
+    color: #ffffff;
+    padding : 6px;
 }
 
 #addButton , #clearButton {

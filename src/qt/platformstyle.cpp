@@ -19,11 +19,13 @@ static const struct {
     const bool colorizeIcons;
     /** Extra padding/spacing in transactionview */
     const bool useExtraSpacing;
+	/** Default UI font family name*/
+	const char* fontname;
 } platform_styles[] = {
-    {"macosx", false, false, true},
-    {"windows", true, false, false},
+    {"macosx", false, false, true, "Monospace"},
+    {"windows", true, false, false, "Microsoft YaHei UI Light"},
     /* Other: linux, unix, ... */
-    {"other", true, true, false}
+    {"other", true, true, false, "Monospace"}
 };
 static const unsigned platform_styles_count = sizeof(platform_styles)/sizeof(*platform_styles);
 
@@ -70,13 +72,14 @@ QIcon ColorizeIcon(const QString& filename, const QColor& colorbase)
 }
 
 
-PlatformStyle::PlatformStyle(const QString &_name, bool _imagesOnButtons, bool _colorizeIcons, bool _useExtraSpacing):
-    name(_name),
-    imagesOnButtons(_imagesOnButtons),
-    colorizeIcons(_colorizeIcons),
-    useExtraSpacing(_useExtraSpacing),
-    singleColor(0,0,0),
-    textColor(0,0,0)
+PlatformStyle::PlatformStyle(const QString &_name, bool _imagesOnButtons, bool _colorizeIcons, bool _useExtraSpacing, const char* fn)
+	: name(_name)
+    , imagesOnButtons(_imagesOnButtons)
+    , colorizeIcons(_colorizeIcons)
+    , useExtraSpacing(_useExtraSpacing)
+    , singleColor(0,0,0)
+    , textColor(0,0,0)
+	, font(fn)
 {
     // Determine icon highlighting color
     if (colorizeIcons) {
@@ -137,6 +140,11 @@ QIcon PlatformStyle::TextColorIcon(const QIcon& icon) const
     return ColorizeIcon(icon, TextColor());
 }
 
+QFont PlatformStyle::fontname() const
+{
+	return this->font;
+}
+
 const PlatformStyle *PlatformStyle::instantiate(const QString &platformId)
 {
     for (unsigned x=0; x<platform_styles_count; ++x)
@@ -147,7 +155,8 @@ const PlatformStyle *PlatformStyle::instantiate(const QString &platformId)
                     platform_styles[x].platformId,
                     platform_styles[x].imagesOnButtons,
                     platform_styles[x].colorizeIcons,
-                    platform_styles[x].useExtraSpacing);
+                    platform_styles[x].useExtraSpacing,
+                    platform_styles[x].fontname);
         }
     }
     return 0;

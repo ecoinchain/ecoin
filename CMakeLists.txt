@@ -44,6 +44,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
 endif(MSVC)
 
 include(cpacksettings.cmake)
+set(CPACK_DESKTOP_SHORTCUTS rcoin-qt)
 INCLUDE(CPack)
 
 find_package(Threads)

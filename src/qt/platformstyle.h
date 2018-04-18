@@ -9,6 +9,7 @@
 #include <QIcon>
 #include <QPixmap>
 #include <QString>
+#include <QFont>
 
 /* Coin network-specific GUI style information */
 class PlatformStyle
@@ -44,8 +45,10 @@ public:
     /** Colorize an icon (given object) with the text color */
     QIcon TextColorIcon(const QIcon& icon) const;
 
+	QFont fontname() const;
+
 private:
-    PlatformStyle(const QString &name, bool imagesOnButtons, bool colorizeIcons, bool useExtraSpacing);
+    PlatformStyle(const QString &name, bool imagesOnButtons, bool colorizeIcons, bool useExtraSpacing, const char* fn);
 
     QString name;
     bool imagesOnButtons;
@@ -53,6 +56,7 @@ private:
     bool useExtraSpacing;
     QColor singleColor;
     QColor textColor;
+	QFont font;
     /* ... more to come later */
 };
 

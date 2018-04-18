@@ -180,6 +180,9 @@ QLineEdit , BitcoinAmountField, QComboBox{
               <height>0</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">color : #ffffff;</string>
+            </property>
             <property name="text">
              <string>&amp;Request payment</string>
             </property>

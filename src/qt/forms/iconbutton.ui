@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>130</width>
-    <height>54</height>
+    <height>60</height>
    </rect>
   </property>
   <property name="autoFillBackground">
@@ -57,7 +57,7 @@
        </property>
        <property name="font">
         <font>
-         <pointsize>14</pointsize>
+         <pointsize>12</pointsize>
         </font>
        </property>
        <property name="styleSheet">

@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">#WatchImmature , #framePending{
 border-radius: 5px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(185, 188, 192, 255), stop:0.973958 rgba(153, 158, 163, 255), stop:1 rgba(74, 163, 255, 255))
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(185, 188, 192, 255), stop:1 rgba(153, 158, 163, 255))
 }
 
 QFrame#frameBalance {
@@ -122,6 +122,18 @@ line-height: 28px;
              <number>0</number>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>20</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>20</number>
+             </property>
              <item>
               <widget class="QLabel" name="labelBalanceText">
                <property name="text">
@@ -147,7 +159,7 @@ line-height: 28px;
                <property name="font">
                 <font>
                  <family>.SF NS Text</family>
-                 <pointsize>24</pointsize>
+                 <pointsize>20</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -160,7 +172,7 @@ line-height: 28px;
                 <string>Your current spendable balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -222,6 +234,18 @@ line-height: 28px;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>20</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>20</number>
+             </property>
              <item>
               <widget class="QLabel" name="labelPendingText">
                <property name="text">
@@ -247,7 +271,7 @@ line-height: 28px;
                <property name="font">
                 <font>
                  <family>.SF NS Text</family>
-                 <pointsize>24</pointsize>
+                 <pointsize>20</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -260,7 +284,7 @@ line-height: 28px;
                 <string>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -325,6 +349,18 @@ line-height: 28px;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>20</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>20</number>
+             </property>
              <item>
               <widget class="QLabel" name="labelImmatureText">
                <property name="text">
@@ -350,7 +386,7 @@ line-height: 28px;
                <property name="font">
                 <font>
                  <family>.SF NS Text</family>
-                 <pointsize>24</pointsize>
+                 <pointsize>20</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -363,7 +399,7 @@ line-height: 28px;
                 <string>Mined balance that has not yet matured</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -425,6 +461,18 @@ line-height: 28px;
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <property name="leftMargin">
+              <number>20</number>
+             </property>
+             <property name="topMargin">
+              <number>20</number>
+             </property>
+             <property name="rightMargin">
+              <number>20</number>
+             </property>
+             <property name="bottomMargin">
+              <number>20</number>
+             </property>
              <item>
               <widget class="QLabel" name="labelTotalText">
                <property name="text">
@@ -450,7 +498,7 @@ line-height: 28px;
                <property name="font">
                 <font>
                  <family>.SF NS Text</family>
-                 <pointsize>24</pointsize>
+                 <pointsize>20</pointsize>
                  <weight>50</weight>
                  <italic>false</italic>
                  <bold>false</bold>
@@ -463,7 +511,7 @@ line-height: 28px;
                 <string>Your current total balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
