@@ -36,13 +36,13 @@ padding : 5px;
 
 #buttonChooseFee , #pushButtonCoinControl , #buttonMinimizeFee{
     border-radius: 3px;
-	border-color: rgb(39, 152, 255);
-	background-color: rgb(108, 112, 113);
-padding: 2.5px;
+    padding: 2.5px;
+    color: rgb(39, 152, 255);
 }
 
-#buttonChooseFee:hover , #pushButtonCoinControl:hover  { 
-background-color: rgb(151, 156, 161);
+#buttonChooseFee:hover , #pushButtonCoinControl:hover , #buttonChooseFee:hover, #buttonMinimizeFee:hover { 
+background-color: #ffffffff;
+ border: 1px solid #2798ff;
 }
 
 
@@ -851,6 +851,9 @@ border-radius: 3px;
                   <width>0</width>
                   <height>0</height>
                  </size>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true"/>
                 </property>
                 <property name="text">
                  <string>Choose...</string>
