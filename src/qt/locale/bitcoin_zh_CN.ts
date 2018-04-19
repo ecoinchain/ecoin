@@ -1452,7 +1452,7 @@
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
-        <location line="+168"/>
+        <location line="+198"/>
         <location line="+187"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
@@ -1521,7 +1521,7 @@
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
-        <location line="-92"/>
+        <location line="-122"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
@@ -1556,7 +1556,22 @@
         <translation>启用挖矿</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+13"/>
+        <source>Use All CPU Power</source>
+        <translation>使用全部CPU</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use Half CPU Power</source>
+        <translation>只用一半的CPU</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use One CPU Power</source>
+        <translation>只使用一个CPU</translation>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>自动在路由器中打开R币端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
     </message>
@@ -1689,12 +1704,12 @@
         <translation>选择R币单位。</translation>
     </message>
     <message>
-        <location line="-460"/>
+        <location line="-490"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
-        <location line="+669"/>
+        <location line="+699"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -2013,7 +2028,7 @@
     <message>
         <location line="+0"/>
         <source>Ping</source>
-        <translation> </translation>
+        <translation>Ping</translation>
     </message>
     <message>
         <location line="+0"/>
