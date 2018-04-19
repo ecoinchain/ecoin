@@ -1452,7 +1452,7 @@
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
-        <location line="+168"/>
+        <location line="+198"/>
         <location line="+187"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
@@ -1521,7 +1521,7 @@
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
-        <location line="-92"/>
+        <location line="-122"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
@@ -1556,9 +1556,24 @@
         <translation>启用挖矿</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+13"/>
+        <source>Use All CPU Power</source>
+        <translation>使用全部CPU</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use Half CPU Power</source>
+        <translation>只用一半的CPU</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use One CPU Power</source>
+        <translation>只使用一个CPU</translation>
+    </message>
+    <message>
+        <location line="+33"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>自动在路由器中打开R币端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
+        <translation>自动在路由器中打开端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1578,7 +1593,7 @@
     <message>
         <location line="+7"/>
         <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
-        <translation>通过 SOCKS5 代理连接R币网络。</translation>
+        <translation>通过 SOCKS5 代理连接网络。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1626,7 +1641,7 @@
     <message>
         <location line="+25"/>
         <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
-        <translation>在 Tor 匿名网络下通过不同的 SOCKS5 代理连接R币网络</translation>
+        <translation>在 Tor 匿名网络下通过不同的 SOCKS5 代理连接网络</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1681,20 +1696,20 @@
     <message>
         <location line="+14"/>
         <source>&amp;Unit to show amounts in:</source>
-        <translation>R币金额单位(&amp;U)：</translation>
+        <translation>金额单位(&amp;U)：</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
-        <translation>选择R币单位。</translation>
+        <translation>选择货币单位。</translation>
     </message>
     <message>
-        <location line="-460"/>
+        <location line="-490"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
-        <location line="+669"/>
+        <location line="+699"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -1770,7 +1785,7 @@
     <message>
         <location line="+606"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>现在显示的消息可能是过期的。在连接上R币网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
+        <translation>现在显示的消息可能是过期的。在连接上网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -2013,7 +2028,7 @@
     <message>
         <location line="+0"/>
         <source>Ping</source>
-        <translation> </translation>
+        <translation>Ping</translation>
     </message>
     <message>
         <location line="+0"/>
@@ -2624,7 +2639,7 @@
         <location line="-3"/>
         <location line="+52"/>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>可在付款请求上备注一条信息，在打开付款请求时可以看到。注意：该消息不是通过R币网络传送。</translation>
+        <translation>可在付款请求上备注一条信息，在打开付款请求时可以看到。注意：该消息不会通过网络传送。</translation>
     </message>
     <message>
         <location line="-30"/>
@@ -3291,7 +3306,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="-1091"/>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
-        <translation>交易费将从发送总额中扣除。接收人将收到比您在金额框中输入的更少的R币。如果选中了多个收件人，交易费平分。</translation>
+        <translation>交易费将从发送总额中扣除。接收人将收到比您在金额框中输入的更少的钱。如果选中了多个收件人，交易费平分。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3321,7 +3336,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="-16"/>
         <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>bitcoin:URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过R币网络传输。</translation>
+        <translation>URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过网络传输。</translation>
     </message>
     <message>
         <location line="+588"/>
@@ -3378,7 +3393,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+21"/>
         <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
-        <translation>您可以用你的地址对消息/协议进行签名，以证明您可以接收发送到该地址的R币。注意不要对任何模棱两可或者随机的消息进行签名，以免遭受钓鱼式攻击。请确保消息内容准确的表达了您的真实意愿。</translation>
+        <translation>您可以用你的地址对消息/协议进行签名，以证明您可以接收发送到该地址的钱。注意不要对任何模棱两可或者随机的消息进行签名，以免遭受钓鱼式攻击。请确保消息内容准确的表达了您的真实意愿。</translation>
     </message>
     <message>
         <location line="+24"/>
@@ -3460,8 +3475,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+56"/>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>验证消息，确保消息是由指定的R币地址签名过的。</translation>
+        <source>Verify the message to ensure it was signed with the specified address</source>
+        <translation>验证消息，确保消息是由指定的地址签名过的。</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -3792,7 +3807,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+7"/>
         <source>Generated coins must mature %1 blocks before they can be spent. When you generated this block, it was broadcast to the network to be added to the block chain. If it fails to get into the chain, its state will change to &quot;not accepted&quot; and it won&apos;t be spendable. This may occasionally happen if another node generates a block within a few seconds of yours.</source>
-        <translation>生成的E币在可以使用前必须有 %1 个成熟的区块。当您生成了此区块后，它将被广播到网络中以加入区块链。如果它未成功进入区块链，其状态将变更为“不接受”并且不可使用。这可能偶尔会发生，如果另一个节点比你早几秒钟成功生成一个区块。</translation>
+       <translation>生成的E币在可以使用前必须有 %1 个成熟的区块。当您生成了此区块后，它将被广播到网络中以加入区块链。如果它未成功进入区块链，其状态将变更为“不接受”并且不可使用。这可能偶尔会发生，如果另一个节点比你早几秒钟成功生成一个区块。</translation>
     </message>
     <message>
         <location line="+8"/>

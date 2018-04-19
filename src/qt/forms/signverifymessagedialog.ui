@@ -461,7 +461,7 @@ background : #F8F8F8;
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Verify the message to ensure it was signed with the specified Bitcoin address</string>
+            <string>Verify the message to ensure it was signed with the specified address</string>
            </property>
            <property name="text">
             <string>Verify &amp;Message</string>

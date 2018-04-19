@@ -7,6 +7,7 @@
 
 #include <QDialog>
 #include <QValidator>
+#include <QButtonGroup>
 
 class OptionsModel;
 class QValidatedLineEdit;
@@ -59,6 +60,8 @@ private Q_SLOTS:
     /* query the networks, for which the default proxy is used */
     void updateDefaultProxyNets();
 
+	void on_enableMinner_toggled(bool checked);
+
 Q_SIGNALS:
     void proxyIpChecks(QValidatedLineEdit *pUiProxyIp, int nProxyPort);
 
@@ -66,6 +69,7 @@ private:
     Ui::OptionsDialog *ui;
     OptionsModel *model;
     QDataWidgetMapper *mapper;
+	QButtonGroup* optionGroup;
 };
 
 #endif // BITCOIN_QT_OPTIONSDIALOG_H

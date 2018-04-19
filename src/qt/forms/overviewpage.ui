@@ -172,7 +172,9 @@ line-height: 28px;
                 <string>Your current spendable balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">QLabel {
+font: 20pt &quot;.SF NS Text&quot;;
+}</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -284,7 +286,9 @@ line-height: 28px;
                 <string>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">QLabel {
+font: 20pt &quot;.SF NS Text&quot;;
+}</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -399,7 +403,9 @@ line-height: 28px;
                 <string>Mined balance that has not yet matured</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">QLabel {
+font: 20pt &quot;.SF NS Text&quot;;
+}</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>
@@ -511,7 +517,9 @@ line-height: 28px;
                 <string>Your current total balance</string>
                </property>
                <property name="styleSheet">
-                <string notr="true">font: 20pt &quot;.SF NS Text&quot;;</string>
+                <string notr="true">QLabel {
+font: 20pt &quot;.SF NS Text&quot;;
+}</string>
                </property>
                <property name="text">
                 <string notr="true">0.000 000 00 BTC</string>

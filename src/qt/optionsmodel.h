@@ -50,6 +50,7 @@ public:
         SpendZeroConfChange,    // bool
         Listen,                 // bool
 		EnableMinner,			// bool
+		MinnerCPUCount,			// int
 		OptionIDRowCount,
     };
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>560</width>
-    <height>440</height>
+    <width>662</width>
+    <height>544</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -283,10 +283,45 @@ QCheckBox::indicator::checked {
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="enableMinner">
-            <property name="text">
+           <widget class="QGroupBox" name="enableMinner">
+            <property name="title">
              <string>Enable Mining</string>
             </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>false</bool>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="allcpu">
+               <property name="text">
+                <string>Use All CPU Power</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="halfcpu">
+               <property name="text">
+                <string>Use Half CPU Power</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="onecpu">
+               <property name="text">
+                <string>Use One CPU Power</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
