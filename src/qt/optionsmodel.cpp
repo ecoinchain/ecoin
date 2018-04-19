@@ -405,7 +405,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 			}
 			break;
 		case MinnerCPUCount:
-			settings.setValue("enableMinner", value.toInt());
+			settings.setValue("MinnerCPUCount", value.toInt());
 			setRestartRequired(true);
 			break;
 #endif
