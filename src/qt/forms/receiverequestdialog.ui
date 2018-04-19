@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>531</height>
+    <width>464</width>
+    <height>452</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -41,51 +41,7 @@ QLineEdit , QComboBox{
 
 </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <item row="0" column="0">
-    <widget class="QRImageWidget" name="lblQRCode">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>320</height>
-      </size>
-     </property>
-     <property name="toolTip">
-      <string>QR Code</string>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="font">
-      <font>
-       <pointsize>10</pointsize>
-       <weight>75</weight>
-       <bold>true</bold>
-       <strikeout>false</strikeout>
-       <stylestrategy>PreferDefault</stylestrategy>
-      </font>
-     </property>
-     <property name="text">
-      <string>Payment information</string>
-     </property>
-    </widget>
-   </item>
+  <layout class="QGridLayout" name="gridLayout_2" rowstretch="1,0,0,0">
    <item row="2" column="0">
     <layout class="QGridLayout" name="gridLayout" columnstretch="0,1">
      <property name="leftMargin">
@@ -187,6 +143,22 @@ QLineEdit , QComboBox{
      </item>
     </layout>
    </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+       <strikeout>false</strikeout>
+       <stylestrategy>PreferDefault</stylestrategy>
+      </font>
+     </property>
+     <property name="text">
+      <string>Payment information</string>
+     </property>
+    </widget>
+   </item>
    <item row="3" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
@@ -252,6 +224,13 @@ QLineEdit , QComboBox{
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="btnCopyImage">
+       <property name="text">
+        <string>Copy Image</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -273,13 +252,64 @@ QLineEdit , QComboBox{
      </item>
     </layout>
    </item>
+   <item row="0" column="0">
+    <widget class="QWidget" name="QRCode" native="true">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="1,0">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QBackgroundImageFrame" name="qrimage">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>200</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lblQRCode">
+        <property name="text">
+         <string>QR CODE DISABBLED</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>QRImageWidget</class>
-   <extends>QLabel</extends>
-   <header>qt/receiverequestdialog.h</header>
+   <class>QBackgroundImageFrame</class>
+   <extends>QFrame</extends>
+   <header>qt/widgets/qbackgroundimageframe.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

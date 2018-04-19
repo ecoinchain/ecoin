@@ -6,6 +6,7 @@
 #define BITCOIN_QT_RECEIVEREQUESTDIALOG_H
 
 #include <qt/walletmodel.h>
+#include "qt/widgets/qbackgroundimageframe.h"
 
 #include <QDialog>
 #include <QImage>
@@ -59,13 +60,16 @@ public:
 private Q_SLOTS:
     void on_btnCopyURI_clicked();
     void on_btnCopyAddress_clicked();
+	void on_btnSaveAs_clicked();
+	void on_btnCopyImage_clicked();
 
-    void update();
+	void update();
 
 private:
     Ui::ReceiveRequestDialog *ui;
     OptionsModel *model;
     SendCoinsRecipient info;
+	QImage qrimage;
 };
 
 #endif // BITCOIN_QT_RECEIVEREQUESTDIALOG_H

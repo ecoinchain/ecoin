@@ -185,26 +185,21 @@ void ReceiveRequestDialog::update()
             }
             QRcode_free(code);
 
-            QImage qrAddrImage = QImage(QR_IMAGE_SIZE, QR_IMAGE_SIZE+20, QImage::Format_RGB32);
-            qrAddrImage.fill(0xffffff);
-            QPainter painter(&qrAddrImage);
+            qrimage = QImage(QR_IMAGE_SIZE, QR_IMAGE_SIZE+20, QImage::Format_RGB32);
+			qrimage.fill(0xffffff);
+            QPainter painter(&qrimage);
             painter.drawImage(0, 0, qrImage.scaled(QR_IMAGE_SIZE, QR_IMAGE_SIZE));
-            QFont font = GUIUtil::fixedPitchFont();
-            QRect paddedRect = qrAddrImage.rect();
 
-            // calculate ideal font size
-            qreal font_size = GUIUtil::calculateIdealFontSize(paddedRect.width() - 20, info.address, font);
-            font.setPointSizeF(font_size);
-
-            painter.setFont(font);
-            paddedRect.setHeight(QR_IMAGE_SIZE+12);
-            painter.drawText(paddedRect, Qt::AlignBottom|Qt::AlignCenter, info.address);
-            painter.end();
-
-            ui->lblQRCode->setPixmap(QPixmap::fromImage(qrAddrImage));
+			ui->qrimage->setBackgroundImage(QIcon(QPixmap::fromImage(qrimage)));
+			ui->qrimage->setAlignment(Qt::AlignCenter);
             ui->btnSaveAs->setEnabled(true);
+			ui->lblQRCode->hide();
         }
     }
+#else
+	ui->btnSaveAs->hide();
+	ui->btnCopyImage->hide();
+	ui->qrimage->hide();
 #endif
 }
 
@@ -216,4 +211,21 @@ void ReceiveRequestDialog::on_btnCopyURI_clicked()
 void ReceiveRequestDialog::on_btnCopyAddress_clicked()
 {
     GUIUtil::setClipboard(info.address);
+}
+
+void ReceiveRequestDialog::on_btnSaveAs_clicked()
+{
+	if (qrimage.isNull())
+		return;
+	QString fn = GUIUtil::getSaveFileName(this, tr("Save QR Code"), QString(), tr("PNG Image (*.png)"), nullptr);
+	if (!fn.isEmpty())
+	{
+		qrimage.save(fn);
+	}
+}
+
+void ReceiveRequestDialog::on_btnCopyImage_clicked()
+{
+	if (!qrimage.isNull())
+		QApplication::clipboard()->setImage(qrimage);
 }
