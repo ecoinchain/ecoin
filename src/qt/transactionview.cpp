@@ -205,6 +205,8 @@ void TransactionView::setModel(WalletModel *_model)
 
         // Watch-only signal
         connect(_model, SIGNAL(notifyWatchonlyChanged(bool)), this, SLOT(updateWatchOnlyColumn(bool)));
+
+		ui->transactionView->resizeColumnsToContents();
     }
 }
 
