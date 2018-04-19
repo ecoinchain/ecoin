@@ -69,7 +69,7 @@ private:
     Ui::OptionsDialog *ui;
     OptionsModel *model;
     QDataWidgetMapper *mapper;
-	QButtonGroup* optionGroup;
+	QButtonGroup optionGroup;
 };
 
 #endif // BITCOIN_QT_OPTIONSDIALOG_H
