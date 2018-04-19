@@ -2,6 +2,7 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include "qt/guiconstants.h"
 #include <qt/openuridialog.h>
 #include <qt/forms/ui_openuridialog.h>
 
@@ -16,7 +17,7 @@ OpenURIDialog::OpenURIDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 #if QT_VERSION >= 0x040700
-    ui->uriEdit->setPlaceholderText("bitcoin:");
+    ui->uriEdit->setPlaceholderText(QAPP_COIN_NAME_URI_SCHEME);
 #endif
 }
 

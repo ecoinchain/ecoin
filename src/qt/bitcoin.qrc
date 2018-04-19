@@ -34,7 +34,7 @@
         <file alias="filesave">res/icons/filesave.svg</file>
         <file alias="debugwindow">res/icons/debugwindow.svg</file>
         <file alias="open">res/icons/open.svg</file>
-        <file alias="info">res/icons/info.png</file>
+        <file alias="info">res/icons/info.svg</file>
         <file alias="about">res/icons/about.svg</file>
         <file alias="about_qt">res/icons/about_qt.svg</file>
         <file alias="verify">res/icons/verify.svg</file>
