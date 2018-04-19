@@ -177,6 +177,11 @@ void OptionsDialog::setModel(OptionsModel *_model)
 		_model->setData(_model->index(OptionsModel::MinnerCPUCount, 0), id, Qt::EditRole);
 		showRestartWarning(true);
 	}});
+
+	QVariant cpucount =_model->data(_model->index(OptionsModel::MinnerCPUCount, 0), Qt::EditRole);
+
+	if (optionGroup.button(cpucount.toInt()))
+		optionGroup.button(cpucount.toInt())->setChecked(true);
 }
 
 void OptionsDialog::setMapper()
