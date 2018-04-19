@@ -53,9 +53,9 @@ static const int MAX_URI_LENGTH = 255;
 #define QAPP_APP_NAME_DEFAULT "Ecoin-Qt"
 #define QAPP_APP_NAME_TESTNET "Ecoin-Qt-testnet"
 
-#define QAPP_COIN_NAME "ECoin"
+#define QAPP_COIN_NAME "Ecoin"
 
-#define QAPP_COIN_NAMES "ECoins"
+#define QAPP_COIN_NAMES "Ecoins"
 
 #define QAPP_COIN_UNIT "ECO"
 

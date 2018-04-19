@@ -135,20 +135,27 @@ void ReceiveRequestDialog::update()
     setWindowTitle(tr("Request payment to %1").arg(target));
 
     QString uri = GUIUtil::formatBitcoinURI(info);
-    ui->btnSaveAs->setEnabled(false);
-    QString html;
-    html += "<html><font face='verdana, arial, helvetica, sans-serif'>";
-    html += "<b>"+tr("Payment information")+"</b><br>";
-    html += "<b>"+tr("URI")+"</b>: ";
-    html += "<a href=\""+uri+"\">" + GUIUtil::HtmlEscape(uri) + "</a><br>";
-    html += "<b>"+tr("Address")+"</b>: " + GUIUtil::HtmlEscape(info.address) + "<br>";
-    if(info.amount)
-        html += "<b>"+tr("Amount")+"</b>: " + BitcoinUnits::formatHtmlWithUnit(model->getDisplayUnit(), info.amount) + "<br>";
-    if(!info.label.isEmpty())
-        html += "<b>"+tr("Label")+"</b>: " + GUIUtil::HtmlEscape(info.label) + "<br>";
-    if(!info.message.isEmpty())
-        html += "<b>"+tr("Message")+"</b>: " + GUIUtil::HtmlEscape(info.message) + "<br>";
-    ui->outUri->setText(html);
+
+	ui->label_URI->setText("<b><a href=\"" + uri + "\">" + GUIUtil::HtmlEscape(uri) + "</a></b>");
+	ui->label_Address->setText(GUIUtil::HtmlEscape(info.address));
+
+	ui->btnSaveAs->setEnabled(false);
+
+	if (info.amount) {
+		ui->label_Amount->setText("<b>" + BitcoinUnits::formatHtmlWithUnit(model->getDisplayUnit(), info.amount) + "</b>");
+	}
+	ui->label_Amount->setVisible(info.amount);
+	ui->label_amount->setVisible(info.amount);
+
+	if (!info.label.isEmpty())
+		ui->label_Label->setText("<b>" + GUIUtil::HtmlEscape(info.label) + "</b>");
+	ui->label_Label->setVisible(!info.label.isEmpty());
+	ui->label_label->setVisible(!info.label.isEmpty());
+
+	if (!info.message.isEmpty())
+		ui->label_Message->setText("<b>" + GUIUtil::HtmlEscape(info.message) + "</b>");
+	ui->label_Message->setVisible(!info.message.isEmpty());
+	ui->label_message->setVisible(!info.label.isEmpty());
 
 #ifdef USE_QRCODE
     ui->lblQRCode->setText("");
@@ -178,26 +185,21 @@ void ReceiveRequestDialog::update()
             }
             QRcode_free(code);
 
-            QImage qrAddrImage = QImage(QR_IMAGE_SIZE, QR_IMAGE_SIZE+20, QImage::Format_RGB32);
-            qrAddrImage.fill(0xffffff);
-            QPainter painter(&qrAddrImage);
+            qrimage = QImage(QR_IMAGE_SIZE, QR_IMAGE_SIZE+20, QImage::Format_RGB32);
+			qrimage.fill(0xffffff);
+            QPainter painter(&qrimage);
             painter.drawImage(0, 0, qrImage.scaled(QR_IMAGE_SIZE, QR_IMAGE_SIZE));
-            QFont font = GUIUtil::fixedPitchFont();
-            QRect paddedRect = qrAddrImage.rect();
 
-            // calculate ideal font size
-            qreal font_size = GUIUtil::calculateIdealFontSize(paddedRect.width() - 20, info.address, font);
-            font.setPointSizeF(font_size);
-
-            painter.setFont(font);
-            paddedRect.setHeight(QR_IMAGE_SIZE+12);
-            painter.drawText(paddedRect, Qt::AlignBottom|Qt::AlignCenter, info.address);
-            painter.end();
-
-            ui->lblQRCode->setPixmap(QPixmap::fromImage(qrAddrImage));
+			ui->qrimage->setBackgroundImage(QIcon(QPixmap::fromImage(qrimage)));
+			ui->qrimage->setAlignment(Qt::AlignCenter);
             ui->btnSaveAs->setEnabled(true);
+			ui->lblQRCode->hide();
         }
     }
+#else
+	ui->btnSaveAs->hide();
+	ui->btnCopyImage->hide();
+	ui->qrimage->hide();
 #endif
 }
 
@@ -209,4 +211,21 @@ void ReceiveRequestDialog::on_btnCopyURI_clicked()
 void ReceiveRequestDialog::on_btnCopyAddress_clicked()
 {
     GUIUtil::setClipboard(info.address);
+}
+
+void ReceiveRequestDialog::on_btnSaveAs_clicked()
+{
+	if (qrimage.isNull())
+		return;
+	QString fn = GUIUtil::getSaveFileName(this, tr("Save QR Code"), QString(), tr("PNG Image (*.png)"), nullptr);
+	if (!fn.isEmpty())
+	{
+		qrimage.save(fn);
+	}
+}
+
+void ReceiveRequestDialog::on_btnCopyImage_clicked()
+{
+	if (!qrimage.isNull())
+		QApplication::clipboard()->setImage(qrimage);
 }
