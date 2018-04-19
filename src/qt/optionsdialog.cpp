@@ -153,9 +153,9 @@ void OptionsDialog::setModel(OptionsModel *_model)
         updateDefaultProxyNets();
     }
 
-	optionGroup->addButton(ui->allcpu, 1);
-	optionGroup->addButton(ui->halfcpu, 2);
-	optionGroup->addButton(ui->onecpu, 3);
+	optionGroup.addButton(ui->allcpu, 1);
+	optionGroup.addButton(ui->halfcpu, 2);
+	optionGroup.addButton(ui->onecpu, 3);
 
 	/* warn when one of the following settings changes by user action (placed here so init via mapper doesn't trigger them) */
 
@@ -172,7 +172,7 @@ void OptionsDialog::setModel(OptionsModel *_model)
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
 
-	connect(optionGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
+	connect(&optionGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
 		[=](int id, bool checked) { if (checked) {
 		_model->setData(_model->index(OptionsModel::MinnerCPUCount, 0), id, Qt::EditRole);
 		showRestartWarning(true);
