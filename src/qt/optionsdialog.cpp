@@ -153,15 +153,16 @@ void OptionsDialog::setModel(OptionsModel *_model)
         updateDefaultProxyNets();
     }
 
-    /* warn when one of the following settings changes by user action (placed here so init via mapper doesn't trigger them) */
+	optionGroup->addButton(ui->allcpu, 1);
+	optionGroup->addButton(ui->halfcpu, 2);
+	optionGroup->addButton(ui->onecpu, 3);
+
+	/* warn when one of the following settings changes by user action (placed here so init via mapper doesn't trigger them) */
 
     /* Main */
     connect(ui->databaseCache, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
     connect(ui->threadsScriptVerif, SIGNAL(valueChanged(int)), this, SLOT(showRestartWarning()));
     /* Wallet */
-	connect(ui->enableMinner, &QAbstractButton::clicked, this, [this](bool enableminnig) {
-		if (!enableminnig) {showRestartWarning(true);}
-	});
     connect(ui->spendZeroConfChange, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
     /* Network */
     connect(ui->allowIncoming, SIGNAL(clicked(bool)), this, SLOT(showRestartWarning()));
@@ -170,6 +171,12 @@ void OptionsDialog::setModel(OptionsModel *_model)
     /* Display */
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
+
+	connect(optionGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
+		[=](int id, bool checked) { if (checked) {
+		_model->setData(_model->index(OptionsModel::MinnerCPUCount, 0), id, Qt::EditRole);
+		showRestartWarning(true);
+	}});
 }
 
 void OptionsDialog::setMapper()
@@ -331,6 +338,11 @@ void OptionsDialog::updateDefaultProxyNets()
     strProxy = proxy.proxy.ToStringIP() + ":" + proxy.proxy.ToStringPort();
     strDefaultProxyGUI = ui->proxyIp->text() + ":" + ui->proxyPort->text();
     (strProxy == strDefaultProxyGUI.toStdString()) ? ui->proxyReachTor->setChecked(true) : ui->proxyReachTor->setChecked(false);
+}
+
+void OptionsDialog::on_enableMinner_toggled(bool checked)
+{
+	if (!checked) { showRestartWarning(true); }
 }
 
 ProxyAddressValidator::ProxyAddressValidator(QObject *parent) :

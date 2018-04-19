@@ -152,10 +152,34 @@ void WalletModel::pollBalanceChanged()
 
 void WalletModel::onGenerateChanged(bool fGenerate)
 {
+	QVariant cpucount = this->optionsModel->data(optionsModel->index(OptionsModel::MinnerCPUCount, 0), Qt::EditRole);
+
 #ifdef ENABLE_WALLET
-	GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency());
+	if (cpucount.toInt() == 1)
+	{
+		GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency());
+	}
+	else if (cpucount.toInt() == 2)
+	{
+		GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency()/2);
+	}
+	else if (cpucount.toInt() == 3)
+	{
+		GenerateBitcoins(fGenerate, wallet, 1);
+	}
 #else
-	GenerateBitcoins(fGenerate, std::thread::hardware_concurrency());
+	if (cpucount.toInt() == 1)
+	{
+		GenerateBitcoins(fGenerate, std::thread::hardware_concurrency());
+}
+	else if (cpucount.toInt() == 2)
+	{
+		GenerateBitcoins(fGenerate, std::thread::hardware_concurrency() / 2);
+	}
+	else if (cpucount.toInt() == 3)
+	{
+		GenerateBitcoins(fGenerate, 1);
+	}
 #endif
 }
 

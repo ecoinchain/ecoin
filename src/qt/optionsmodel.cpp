@@ -273,6 +273,9 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
 		case EnableMinner:
 			return settings.value("enableMinner", false);
 			break;
+		case MinnerCPUCount:
+			return settings.value("MinnerCPUCount", 1);
+			break;
 #endif
         case DisplayUnit:
             return nDisplayUnit;
@@ -400,6 +403,10 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
 				if(value.toBool()==false)
 					setRestartRequired(true);
 			}
+			break;
+		case MinnerCPUCount:
+			settings.setValue("enableMinner", value.toInt());
+			setRestartRequired(true);
 			break;
 #endif
         case DisplayUnit:
