@@ -19,8 +19,8 @@ BEGIN
     BEGIN
         BLOCK "040904E4" // U.S. English - multilingual (hex)
         BEGIN
-            VALUE "CompanyName",        "ECoin"
-            VALUE "FileDescription",    PACKAGE_NAME " (GUI node for Rcoin)"
+            VALUE "CompanyName",        "Ecoin"
+            VALUE "FileDescription",    PACKAGE_NAME " (GUI node for Ecoin)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
             VALUE "InternalName",       "ecoin-qt"
             VALUE "LegalCopyright",     "ecoin developers"
