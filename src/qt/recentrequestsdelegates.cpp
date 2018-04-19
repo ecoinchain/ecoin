@@ -33,7 +33,14 @@ void RecentRequestsDelegates::paint(QPainter *painter, const QStyleOptionViewIte
 	r1.setRight(option.rect.normalized().center().rx());
 	r2.setLeft(option.rect.normalized().center().rx());
 
-	QMargins m(12, 12, 12, 12);
+	QMargins m(5, 5, 5, 5);
+
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = option.widget->logicalDpiX() / 96.0;
+#endif	
+	m *= iconscale;
 
 	painter->save();
 	action_icon_view.paint(painter, r1.marginsRemoved(m));
