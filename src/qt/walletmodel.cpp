@@ -161,9 +161,17 @@ void WalletModel::onGenerateChanged(bool fGenerate)
 	}
 	else if (cpucount.toInt() == 2)
 	{
-		GenerateBitcoins(fGenerate, wallet, std::thread::hardware_concurrency()/2);
+		GenerateBitcoins(fGenerate, wallet, std::max(1.0, std::thread::hardware_concurrency()*0.75));
 	}
 	else if (cpucount.toInt() == 3)
+	{
+		GenerateBitcoins(fGenerate, wallet, std::max(1u, std::thread::hardware_concurrency() / 2));
+	}
+	else if (cpucount.toInt() == 4)
+	{
+		GenerateBitcoins(fGenerate, wallet, std::max(1u, std::thread::hardware_concurrency() / 4));
+	}
+	else if (cpucount.toInt() == 5)
 	{
 		GenerateBitcoins(fGenerate, wallet, 1);
 	}
@@ -171,12 +179,20 @@ void WalletModel::onGenerateChanged(bool fGenerate)
 	if (cpucount.toInt() == 1)
 	{
 		GenerateBitcoins(fGenerate, std::thread::hardware_concurrency());
-}
+	}
 	else if (cpucount.toInt() == 2)
 	{
-		GenerateBitcoins(fGenerate, std::thread::hardware_concurrency() / 2);
+		GenerateBitcoins(fGenerate, std::max(1.0, std::thread::hardware_concurrency()*0.75));
 	}
 	else if (cpucount.toInt() == 3)
+	{
+		GenerateBitcoins(fGenerate, std::max(1u, std::thread::hardware_concurrency() / 2));
+	}
+	else if (cpucount.toInt() == 4)
+	{
+		GenerateBitcoins(fGenerate, std::max(1u, std::thread::hardware_concurrency() / 4));
+	}
+	else if (cpucount.toInt() == 5)
 	{
 		GenerateBitcoins(fGenerate, 1);
 	}
