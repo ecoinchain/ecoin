@@ -330,7 +330,7 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Send coins to a RCoin address</source>
+        <source>Send coins to a Rcoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -410,7 +410,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified RCoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -435,7 +435,7 @@
     </message>
     <message>
         <location line="+4"/>
-        <source>Show the %1 help message to get a list with possible RCoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -445,7 +445,7 @@
     </message>
     <message numerus="yes">
         <location line="+0"/>
-        <source>%n active connection(s) to RCoin network</source>
+        <source>%n active connection(s) to Rcoin network</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
@@ -653,7 +653,7 @@
     </message>
     <message>
         <location line="+34"/>
-        <source>RCoin</source>
+        <source>Rcoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1027,7 +1027,7 @@
     </message>
     <message>
         <location line="+72"/>
-        <source>The entered address &quot;%1&quot; is not a valid RCoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1201,12 +1201,12 @@
     </message>
     <message>
         <location line="-11"/>
-        <source>RCoin</source>
+        <source>Rcoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>%1 will download and store a copy of the RCoin block chain.</source>
+        <source>%1 will download and store a copy of the Rcoin block chain.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1740,7 +1740,7 @@
     </message>
     <message>
         <location line="+123"/>
-        <source>URI cannot be parsed! This can be caused by an invalid RCoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1872,7 +1872,7 @@
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+133"/>
-        <source>Enter a RCoin address (e.g. %1)</source>
+        <source>Enter a Rcoin address (e.g. %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2974,7 +2974,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
-        <source>Warning: Invalid RCoin address</source>
+        <source>Warning: Invalid Rcoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
