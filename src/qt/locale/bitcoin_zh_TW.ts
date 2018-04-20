@@ -360,7 +360,6 @@
         <translation>顯示錢包一般總覽</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location line="+7"/>
         <source>Send coins to a Ecoin address</source>
         <translation>付錢給一個 R币 位址</translation>
@@ -369,14 +368,6 @@
         <location line="+11"/>
         <source>Request payments (generates QR codes and ecoin: URIs)</source>
         <translation>要求付款(產生 QR Code 和 ecoin 付款協議的資源識別碼: URI)</translation>
-=======
-        <source>Send coins to a Rcoin address</source>
-        <translation type="vanished">付錢給一個 R币 位址</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and rcoin: URIs)</source>
-        <translation type="vanished">要求付款(產生 QR Code 和 rcoin 付款協議的資源識別碼: URI)</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
     </message>
     <message>
         <location line="+28"/>
