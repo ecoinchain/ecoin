@@ -305,12 +305,26 @@ QCheckBox::indicator::checked {
               </widget>
              </item>
              <item>
+              <widget class="QRadioButton" name="use3quartercpu">
+               <property name="text">
+                <string>Use 3/4 CPU Power</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QRadioButton" name="halfcpu">
                <property name="text">
                 <string>Use Half CPU Power</string>
                </property>
                <property name="checked">
                 <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="use1quartercpu">
+               <property name="text">
+                <string>Use 1/4 CPU Power</string>
                </property>
               </widget>
              </item>

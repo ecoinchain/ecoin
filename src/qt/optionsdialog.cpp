@@ -154,8 +154,10 @@ void OptionsDialog::setModel(OptionsModel *_model)
     }
 
 	optionGroup.addButton(ui->allcpu, 1);
-	optionGroup.addButton(ui->halfcpu, 2);
-	optionGroup.addButton(ui->onecpu, 3);
+	optionGroup.addButton(ui->use1quartercpu, 2);
+	optionGroup.addButton(ui->halfcpu, 3);
+	optionGroup.addButton(ui->use1quartercpu, 4);
+	optionGroup.addButton(ui->onecpu, 5);
 
 	/* warn when one of the following settings changes by user action (placed here so init via mapper doesn't trigger them) */
 
