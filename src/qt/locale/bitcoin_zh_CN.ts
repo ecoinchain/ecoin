@@ -807,9 +807,13 @@
         <translation>表单</translation>
     </message>
     <message>
-        <location line="+119"/>
         <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation>近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
+        <translation type="vanished">近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
+    </message>
+    <message>
+        <location line="+119"/>
+        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the network, as detailed below.</source>
+        <translation type="unfinished">近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与网络完全同步后更正。详情如下</translation>
     </message>
     <message>
         <location line="+19"/>
