@@ -1,6 +1,6 @@
-# ECoin
+# Ecoin
 
-ECoin is a new digit coin, compare to bitcoin ecoin has some significant differences included:
+Ecoin is a new digit coin, compare to bitcoin ecoin has some significant differences included:
 - Faster transaction confirm speed
 - 8MB block size
 - Equihash which is a ASIC-resistant GPU-minable PoW algorithm

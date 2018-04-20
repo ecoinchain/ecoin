@@ -576,13 +576,13 @@ void PrintExceptionContinue(const std::exception* pex, const char* pszThread)
 
 fs::path GetDefaultDataDir()
 {
-    // Windows < Vista: C:\Documents and Settings\Username\Application Data\ECoin
-    // Windows >= Vista: C:\Users\Username\AppData\Roaming\ECoin
-    // Mac: ~/Library/Application Support/ECoin
+    // Windows < Vista: C:\Documents and Settings\Username\Application Data\Ecoin
+    // Windows >= Vista: C:\Users\Username\AppData\Roaming\Ecoin
+    // Mac: ~/Library/Application Support/Ecoin
     // Unix: ~/.ecoin
 #ifdef WIN32
     // Windows
-    return GetSpecialFolderPath(CSIDL_APPDATA) / "ECoin";
+    return GetSpecialFolderPath(CSIDL_APPDATA) / "Ecoin";
 #else
     fs::path pathRet;
     char* pszHome = getenv("HOME");
@@ -592,7 +592,7 @@ fs::path GetDefaultDataDir()
         pathRet = fs::path(pszHome);
 #ifdef MAC_OSX
     // Mac
-    return pathRet / "Library/Application Support/ECoin";
+    return pathRet / "Library/Application Support/Ecoin";
 #else
     // Unix
     return pathRet / ".ecoin";
