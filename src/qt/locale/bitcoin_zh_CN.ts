@@ -725,10 +725,6 @@
         <translation>更新中...</translation>
     </message>
     <message>
-        <source>Rcoin</source>
-        <translation type="vanished">R币</translation>
-    </message>
-    <message>
         <location line="+146"/>
         <source>Date: %1
 </source>
@@ -1452,7 +1448,7 @@
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
-        <location line="+198"/>
+        <location line="+217"/>
         <location line="+187"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
@@ -1521,7 +1517,7 @@
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
-        <location line="-122"/>
+        <location line="-141"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
@@ -1556,14 +1552,24 @@
         <translation>启用挖矿</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+12"/>
         <source>Use All CPU Power</source>
         <translation>使用全部CPU</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Use 3/4 CPU Power</source>
+        <translation>使用 75% CPU</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Use Half CPU Power</source>
         <translation>只用一半的CPU</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Use 1/4 CPU Power</source>
+        <translation>使用 25% CPU</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -1704,12 +1710,12 @@
         <translation>选择货币单位。</translation>
     </message>
     <message>
-        <location line="-490"/>
+        <location line="-509"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
-        <location line="+699"/>
+        <location line="+718"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -1729,7 +1735,7 @@
         <translation>无</translation>
     </message>
     <message>
-        <location line="+76"/>
+        <location line="+90"/>
         <source>Confirm options reset</source>
         <translation>确认恢复缺省设置</translation>
     </message>
@@ -1783,7 +1789,7 @@
         <translation>表单</translation>
     </message>
     <message>
-        <location line="+606"/>
+        <location line="+614"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
         <translation>现在显示的消息可能是过期的。在连接上网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
     </message>
@@ -1792,7 +1798,7 @@
         <translation type="vanished">仅观察:</translation>
     </message>
     <message>
-        <location line="-480"/>
+        <location line="-488"/>
         <source>Available:</source>
         <translation>可使用的余额：</translation>
     </message>
@@ -1802,7 +1808,7 @@
         <translation>您当前可使用的余额</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+82"/>
         <source>Pending:</source>
         <translation>等待中的余额：</translation>
     </message>
@@ -1812,7 +1818,7 @@
         <translation>尚未确认的交易总额，未计入当前余额</translation>
     </message>
     <message>
-        <location line="+83"/>
+        <location line="+85"/>
         <source>Immature:</source>
         <translation>未成熟的：</translation>
     </message>
@@ -1826,7 +1832,7 @@
         <translation type="vanished">余额</translation>
     </message>
     <message>
-        <location line="+80"/>
+        <location line="+82"/>
         <source>Total:</source>
         <translation>总额：</translation>
     </message>
@@ -1836,7 +1842,7 @@
         <translation>您当前的总余额</translation>
     </message>
     <message>
-        <location line="-308"/>
+        <location line="-312"/>
         <source>Your current balance in watch-only addresses</source>
         <translation>您当前 观察地址(watch-only address)的余额 </translation>
     </message>
@@ -1845,22 +1851,22 @@
         <translation type="vanished">可使用：</translation>
     </message>
     <message>
-        <location line="+395"/>
+        <location line="+401"/>
         <source>Recent transactions</source>
         <translation>最近交易记录</translation>
     </message>
     <message>
-        <location line="-283"/>
+        <location line="-287"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation>观察地址(watch-only address)的未确认交易记录 </translation>
     </message>
     <message>
-        <location line="+115"/>
+        <location line="+117"/>
         <source>Mined balance in watch-only addresses that has not yet matured</source>
         <translation>观察地址(watch-only address)中尚未成熟(matured)的挖矿收入余额：</translation>
     </message>
     <message>
-        <location line="+112"/>
+        <location line="+114"/>
         <source>Current total balance in watch-only addresses</source>
         <translation>观察地址(watch-only address)中的当前总余额 </translation>
     </message>
@@ -4145,7 +4151,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>显示交易详情</translation>
     </message>
     <message>
-        <location line="+202"/>
+        <location line="+204"/>
         <source>Export Transaction History</source>
         <translation>导出交易历史</translation>
     </message>
@@ -4238,7 +4244,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+311"/>
+        <location filename="../walletmodel.cpp" line="+351"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
