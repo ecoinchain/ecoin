@@ -29,7 +29,7 @@
         <file alias="tx_output">res/icons/tx_output.svg</file>
         <file alias="tx_inout">res/icons/tx_inout.svg</file>
         <file alias="lock_closed">res/icons/lock_closed.svg</file>
-        <file alias="lock_open">res/icons/lock_open.png</file>
+        <file alias="lock_open">res/icons/lock_open.svg</file>
         <file alias="key">res/icons/key.svg</file>
         <file alias="filesave">res/icons/filesave.svg</file>
         <file alias="debugwindow">res/icons/debugwindow.svg</file>
@@ -39,8 +39,8 @@
         <file alias="about_qt">res/icons/about_qt.svg</file>
         <file alias="verify">res/icons/verify.svg</file>
         <file alias="warning">res/icons/warning.png</file>
-        <file alias="fontbigger">res/icons/fontbigger.png</file>
-        <file alias="fontsmaller">res/icons/fontsmaller.png</file>
+        <file alias="fontbigger">res/icons/fontbigger.svg</file>
+        <file alias="fontsmaller">res/icons/fontsmaller.svg</file>
         <file alias="prompticon">res/icons/prompticon.svg</file>
         <file alias="transaction_abandoned">res/icons/transaction_abandoned.svg</file>
         <file alias="hd_enabled">res/icons/hd_enabled.png</file>
