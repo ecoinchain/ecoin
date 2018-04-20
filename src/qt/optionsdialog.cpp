@@ -154,7 +154,7 @@ void OptionsDialog::setModel(OptionsModel *_model)
     }
 
 	optionGroup.addButton(ui->allcpu, 1);
-	optionGroup.addButton(ui->use1quartercpu, 2);
+	optionGroup.addButton(ui->use3quartercpu, 2);
 	optionGroup.addButton(ui->halfcpu, 3);
 	optionGroup.addButton(ui->use1quartercpu, 4);
 	optionGroup.addButton(ui->onecpu, 5);
