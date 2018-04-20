@@ -332,12 +332,12 @@
     <message>
         <location line="+4"/>
         <source>Show the %1 help message to get a list with possible %1 command-line options</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
         <location line="+372"/>
         <source>%1 active connection(s) to network</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 個運作中的網路連線</translation>
     </message>
     <message>
         <location line="+55"/>
@@ -360,14 +360,12 @@
         <translation>顯示錢包一般總覽</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>Send coins to a Ecoin address</source>
-        <translation>付錢給一個 R币 位址</translation>
+        <translation type="vanished">付錢給一個 R币 位址</translation>
     </message>
     <message>
-        <location line="+11"/>
         <source>Request payments (generates QR codes and ecoin: URIs)</source>
-        <translation>要求付款(產生 QR Code 和 ecoin 付款協議的資源識別碼: URI)</translation>
+        <translation type="vanished">要求付款(產生 QR Code 和 ecoin 付款協議的資源識別碼: URI)</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -435,23 +433,12 @@
         <translation>改變密碼...</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location line="+3"/>
         <source>Sign messages with your Ecoin addresses to prove you own them</source>
-        <translation>用 R币 位址簽署訊息來證明位址是你的</translation>
+        <translation type="vanished">用 E币 位址簽署訊息來證明位址是你的</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified Ecoin addresses</source>
-        <translation>驗證訊息是用來確定訊息是用指定的 R币 位址簽署的</translation>
-=======
-        <source>Sign messages with your Rcoin addresses to prove you own them</source>
-        <translation type="vanished">用 R币 位址簽署訊息來證明位址是你的</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
         <translation type="vanished">驗證訊息是用來確定訊息是用指定的 R币 位址簽署的</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
     </message>
     <message>
         <location line="+12"/>
@@ -469,23 +456,12 @@
         <translation>開啓 URI...</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location line="+1"/>
         <source>Open a ecoin: URI or payment request</source>
-        <translation>開啓 coin 協議的資源識別碼(URI)或付款要求</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Show the %1 help message to get a list with possible Ecoin command-line options</source>
-        <translation>顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
-=======
-        <source>Open a rcoin: URI or payment request</source>
         <translation type="vanished">開啓 coin 協議的資源識別碼(URI)或付款要求</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Ecoin command-line options</source>
         <translation type="vanished">顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
     </message>
     <message>
         <location line="+377"/>
@@ -493,14 +469,8 @@
         <translation>按一下就會不使用網路。</translation>
     </message>
     <message numerus="yes">
-<<<<<<< HEAD
-        <location line="+0"/>
         <source>%n active connection(s) to Ecoin network</source>
-        <translation>
-=======
-        <source>%n active connection(s) to Rcoin network</source>
         <translation type="vanished">
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
             <numerusform>%n 個運作中的網路連線</numerusform>
         </translation>
     </message>
@@ -541,12 +511,12 @@
     <message>
         <location line="+2"/>
         <source>Sign messages with your %1 addresses to prove you own them</source>
-        <translation type="unfinished"></translation>
+        <translation>用 %1 位址簽署訊息來證明位址是你的</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Verify messages to ensure they were signed with specified %1 addresses</source>
-        <translation type="unfinished"></translation>
+        <translation>驗證訊息是用來確定訊息是用指定的 %1 位址簽署的</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -581,7 +551,7 @@
     <message>
         <location line="-6"/>
         <source>Send coins to a %1 address</source>
-        <translation type="unfinished"></translation>
+        <translation>付錢給一個 %1 位址</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -592,7 +562,7 @@
     <message>
         <location line="-6"/>
         <source>Request payments (generates QR codes and %1 URIs)</source>
-        <translation type="unfinished"></translation>
+        <translation>要求付款(產生 QR Code 和 %1 付款協議的資源識別碼: URI)</translation>
     </message>
     <message>
         <location line="+54"/>
@@ -735,14 +705,8 @@
         <translation>正在趕進度...</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location line="+34"/>
         <source>Ecoin</source>
-        <translation>R币</translation>
-=======
-        <source>Rcoin</source>
-        <translation type="vanished">R币</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
+        <translation type="vanished">E幣</translation>
     </message>
     <message>
         <location line="+146"/>
@@ -1124,21 +1088,8 @@
     </message>
     <message>
         <location line="+72"/>
-<<<<<<< HEAD
-        <source>The entered address &quot;%1&quot; is not a valid Ecoin address.</source>
-        <translation>輸入的位址 %1 並不是有效的 R币 位址。</translation>
-=======
         <source>The entered address &quot;%1&quot; is not a valid %2 address.</source>
         <translation>輸入的位址 %1 並不是有效的 %2 位址。</translation>
-    </message>
-    <message>
-        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
-        <translation type="vanished">輸入的位址 %1 並不是有效的 R币 位址。</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
-    </message>
-    <message>
-        <source>The entered address &quot;%1&quot; is not a valid Bitcoin address.</source>
-        <translation type="vanished">輸入的位址 %1 並不是有效的 Bitcoin 位址。</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -1314,28 +1265,17 @@
         <translation type="vanished">%1 會下載 Bitcoin 區塊鏈並且儲存一份副本。</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location line="-11"/>
         <source>Ecoin</source>
-        <translation>R币</translation>
+        <translation type="vanished">E币</translation>
     </message>
     <message>
-        <location line="+19"/>
         <source>%1 will download and store a copy of the Ecoin block chain.</source>
-        <translation>%1 會下載區塊鏈並且儲存一份副本。</translation>
-=======
-        <source>Rcoin</source>
-        <translation type="vanished">R币</translation>
-    </message>
-    <message>
-        <source>%1 will download and store a copy of the Rcoin block chain.</source>
         <translation type="vanished">%1 會下載區塊鏈並且儲存一份副本。</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>%1 will download and store a copy of the %2 block chain.</source>
-        <translation type="unfinished"></translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
+        <translation>%1 會下載區塊鏈並且儲存一份副本。</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -1595,32 +1535,32 @@
     <message>
         <location line="+7"/>
         <source>Enable Mining</source>
-        <translation type="unfinished"></translation>
+        <translation>啟用挖礦</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Use All CPU Power</source>
-        <translation type="unfinished"></translation>
+        <translation>使用全部CPU</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Use 3/4 CPU Power</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 75% CPU</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Use Half CPU Power</source>
-        <translation type="unfinished"></translation>
+        <translation>使用一半CPU</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Use 1/4 CPU Power</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 25%CPU</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Use One CPU Power</source>
-        <translation type="unfinished"></translation>
+        <translation>使用一個CPU</translation>
     </message>
     <message>
         <location line="+33"/>
@@ -1945,33 +1885,22 @@
         <translation type="vanished">沒辦法解析 URI 位址！可能是因為 Bitcoin 位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location line="-115"/>
         <source>Cannot start ecoin: click-to-pay handler</source>
-        <translation>沒辦法啟動 ecoin 協議的「按就付」處理器</translation>
+        <translation type="vanished">沒辦法啟動 ecoin 協議的「按就付」處理器</translation>
     </message>
     <message>
-        <location line="+123"/>
         <source>URI cannot be parsed! This can be caused by an invalid Ecoin address or malformed URI parameters.</source>
-        <translation>沒辦法解析 URI 位址！可能是因為 R币 位址無效，或是 URI 參數格式錯誤。</translation>
-=======
-        <source>Cannot start rcoin: click-to-pay handler</source>
-        <translation type="vanished">沒辦法啟動 rcoin 協議的「按就付」處理器</translation>
-    </message>
-    <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
         <translation type="vanished">沒辦法解析 URI 位址！可能是因為 R币 位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
         <location line="-115"/>
         <source>Cannot start %1 click-to-pay handler</source>
-        <translation type="unfinished"></translation>
+        <translation>沒辦法啟動 %1 協議的「按就付」處理器</translation>
     </message>
     <message>
         <location line="+123"/>
         <source>URI cannot be parsed! This can be caused by an invalid %1 address or malformed URI parameters.</source>
-        <translation type="unfinished"></translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
+        <translation>沒辦法解析 URI 位址！可能是因為 %1 位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -2105,15 +2034,9 @@
         <translation type="vanished">輸入 Bitcoin 位址 (比如說 %1)</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <location filename="../guiutil.cpp" line="+133"/>
-        <source>Enter a Ecoin address (e.g. %1)</source>
-        <translation></translation>
-=======
         <location filename="../guiutil.cpp" line="+135"/>
         <source>Enter a %2 address (e.g. %1)</source>
-        <translation type="unfinished"></translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
+        <translation>輸入 %2 位址 (比如說 %1)</translation>
     </message>
     <message>
         <location line="+776"/>
@@ -2788,27 +2711,27 @@
     <message>
         <location filename="../forms/receiverequestdialog.ui" line="+72"/>
         <source>Label:</source>
-        <translation type="unfinished"></translation>
+        <translation>標簽:</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>URI:</source>
-        <translation type="unfinished">URI:</translation>
+        <translation>URI:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Address:</source>
-        <translation type="unfinished"></translation>
+        <translation>位址</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Message:</source>
-        <translation type="unfinished">訊息:</translation>
+        <translation>訊息:</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Amount:</source>
-        <translation type="unfinished">金額:</translation>
+        <translation>金額:</translation>
     </message>
     <message>
         <location line="+37"/>
@@ -2828,12 +2751,12 @@
     <message>
         <location line="+10"/>
         <source>Copy Image</source>
-        <translation type="unfinished"></translation>
+        <translation>複製圖片</translation>
     </message>
     <message>
         <location line="+66"/>
         <source>QR CODE DISABBLED</source>
-        <translation type="unfinished"></translation>
+        <translation>二維碼功能未啓用</translation>
     </message>
     <message>
         <location filename="../receiverequestdialog.cpp" line="+65"/>
@@ -2878,12 +2801,12 @@
     <message>
         <location line="+48"/>
         <source>Save QR Code</source>
-        <translation type="unfinished">儲存 QR Code</translation>
+        <translation>儲存 QR Code</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>PNG Image (*.png)</source>
-        <translation type="unfinished">PNG 圖檔(*.png)</translation>
+        <translation>PNG 圖檔(*.png)</translation>
     </message>
 </context>
 <context>
@@ -3266,17 +3189,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
-<<<<<<< HEAD
-        <source>Warning: Invalid Ecoin address</source>
-        <translation>警告: R幣 位址無效</translation>
-=======
         <source>Warning: Invalid %1 address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning: Invalid Rcoin address</source>
-        <translation type="vanished">警告: R幣 位址無效</translation>
->>>>>>> f7092e974254e13b43477bac6640e7211df3d94c
+        <source>Warning: Invalid Ecoin address</source>
+        <translation type="vanished">警告: 位址無效</translation>
     </message>
     <message>
         <source>Warning: Invalid Bitcoin address</source>
