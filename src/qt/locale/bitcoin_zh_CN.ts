@@ -87,11 +87,11 @@
         <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
     </message>
     <message>
-        <source>These are your Rcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Ecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation type="vanished">这些是你要付款过去的R币地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
     </message>
     <message>
-        <source>These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Ecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
     </message>
     <message>
@@ -366,12 +366,12 @@
         <translation>显示钱包概况</translation>
     </message>
     <message>
-        <source>Send coins to a Rcoin address</source>
+        <source>Send coins to a Ecoin address</source>
         <translation type="vanished">向一个R币地址发送R币</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and rcoin: URIs)</source>
-        <translation type="vanished">请求支付 (生成二维码和 rcoin: URI)</translation>
+        <source>Request payments (generates QR codes and ecoin: URIs)</source>
+        <translation type="vanished">请求支付 (生成二维码和 ecoin: URI)</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -439,11 +439,11 @@
         <translation>更改密码(&amp;C)...</translation>
     </message>
     <message>
-        <source>Sign messages with your Rcoin addresses to prove you own them</source>
+        <source>Sign messages with your Ecoin addresses to prove you own them</source>
         <translation type="vanished">用R币地址关联的私钥为消息签名，以证明您拥有这个R币地址</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Ecoin addresses</source>
         <translation type="vanished">校验消息，确保该消息是由指定的R币地址所有者签名的</translation>
     </message>
     <message>
@@ -462,11 +462,11 @@
         <translation>打开 &amp;URI...</translation>
     </message>
     <message>
-        <source>Open a rcoin: URI or payment request</source>
-        <translation type="vanished">打开一个 rcoin: URI 或支付请求</translation>
+        <source>Open a ecoin: URI or payment request</source>
+        <translation type="vanished">打开一个 ecoin: URI 或支付请求</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Ecoin command-line options</source>
         <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
@@ -540,7 +540,7 @@
         <translation>验证消息(&amp;V)...</translation>
     </message>
     <message>
-        <source>Rcoin</source>
+        <source>Ecoin</source>
         <translation type="vanished">R币</translation>
     </message>
     <message>
@@ -702,7 +702,7 @@
         <translation>%1 客戶</translation>
     </message>
     <message numerus="yes">
-        <source>%n active connection(s) to Rcoin network</source>
+        <source>%n active connection(s) to Ecoin network</source>
         <translation type="vanished">
             <numerusform>%n 条到 R币网络的活动连接。</numerusform>
         </translation>
@@ -1108,7 +1108,7 @@
         <translation>输入的地址 %1 并不是有效的%2地址。</translation>
     </message>
     <message>
-        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Ecoin address.</source>
         <translation type="vanished">输入的地址 %1 并不是有效的R币地址。</translation>
     </message>
     <message>
@@ -1275,7 +1275,7 @@
         <translation type="vanished">R币</translation>
     </message>
     <message>
-        <source>Rcoin</source>
+        <source>Ecoin</source>
         <translation type="vanished">R币</translation>
     </message>
     <message>
@@ -1293,7 +1293,7 @@
         <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
     </message>
     <message>
-        <source>%1 will download and store a copy of the Rcoin block chain.</source>
+        <source>%1 will download and store a copy of the Ecoin block chain.</source>
         <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
     </message>
     <message>
@@ -1889,8 +1889,8 @@
 一键支付”处理器</translation>
     </message>
     <message>
-        <source>Cannot start rcoin: click-to-pay handler</source>
-        <translation type="vanished">无法启动 rcoin 协议的“一键支付”处理器</translation>
+        <source>Cannot start ecoin: click-to-pay handler</source>
+        <translation type="vanished">无法启动 ecoin 协议的“一键支付”处理器</translation>
     </message>
     <message>
         <location line="-296"/>
@@ -1914,7 +1914,7 @@
         <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
     </message>
     <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Ecoin address or malformed URI parameters.</source>
         <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
     </message>
     <message>
@@ -2059,7 +2059,7 @@
         <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
     </message>
     <message>
-        <source>Enter a Rcoin address (e.g. %1)</source>
+        <source>Enter a Ecoin address (e.g. %1)</source>
         <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
     </message>
     <message>
@@ -3222,7 +3222,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning: Invalid Rcoin address</source>
+        <source>Warning: Invalid Ecoin address</source>
         <translation type="vanished">警告: R币地址无效</translation>
     </message>
     <message>
@@ -5054,7 +5054,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="-17"/>
-        <source>Rcoin Core</source>
+        <source>Ecoin Core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
