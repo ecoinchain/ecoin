@@ -29,16 +29,16 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>RCoin-Qt</string>
+  <string>Rcoin-Qt</string>
   
   <key>CFBundleName</key>
-  <string>RCoin-Qt</string>
+  <string>Rcoin-Qt</string>
 
   <key>LSHasLocalizedDisplayName</key>
   <true/>
 
   <key>CFBundleIdentifier</key>
-  <string>org.bitcoinfoundation.RCoin-Qt</string>
+  <string>org.bitcoinfoundation.Rcoin-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>

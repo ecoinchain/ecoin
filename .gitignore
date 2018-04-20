@@ -81,7 +81,7 @@ src/qt/bitcoin-qt.includes
 *.qm
 Makefile
 bitcoin-qt
-RCoin-Qt.app
+Rcoin-Qt.app
 background.tiff*
 
 # Unit-tests
@@ -118,3 +118,5 @@ libbitcoinconsensus.pc
 contrib/devtools/split-debug.sh
 *.db
 *.user
+
+.idea/

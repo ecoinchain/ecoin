@@ -1,6 +1,6 @@
-# RCoin
+# Rcoin
 
-RCoin is a new digit coin, compare to bitcoin rcoin has some significant differences included:
+Rcoin is a new digit coin, compare to bitcoin rcoin has some significant differences included:
 - 8MB block size
 - Equihash which is a ASIC-resistant GPU-minable PoW algorithm
 - Sha3 which can resist quantum attack

@@ -346,7 +346,7 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Send coins to a RCoin address</source>
+        <source>Send coins to a Rcoin address</source>
         <translation>付錢給一個 R币 位址</translation>
     </message>
     <message>
@@ -426,7 +426,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified RCoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
         <translation>驗證訊息是用來確定訊息是用指定的 R币 位址簽署的</translation>
     </message>
     <message>
@@ -451,7 +451,7 @@
     </message>
     <message>
         <location line="+4"/>
-        <source>Show the %1 help message to get a list with possible RCoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
         <translation>顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
@@ -461,7 +461,7 @@
     </message>
     <message numerus="yes">
         <location line="+0"/>
-        <source>%n active connection(s) to RCoin network</source>
+        <source>%n active connection(s) to Rcoin network</source>
         <translation>
             <numerusform>%n 個運作中的網路連線</numerusform>
         </translation>
@@ -678,7 +678,7 @@
     </message>
     <message>
         <location line="+34"/>
-        <source>RCoin</source>
+        <source>Rcoin</source>
         <translation>R币</translation>
     </message>
     <message>
@@ -995,7 +995,7 @@
     </message>
     <message>
         <location line="+72"/>
-        <source>The entered address &quot;%1&quot; is not a valid RCoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
         <translation>輸入的位址 %1 並不是有效的 R币 位址。</translation>
     </message>
     <message>
@@ -1177,12 +1177,12 @@
     </message>
     <message>
         <location line="-11"/>
-        <source>RCoin</source>
+        <source>Rcoin</source>
         <translation>R币</translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>%1 will download and store a copy of the RCoin block chain.</source>
+        <source>%1 will download and store a copy of the Rcoin block chain.</source>
         <translation>%1 會下載區塊鏈並且儲存一份副本。</translation>
     </message>
     <message>
@@ -1784,7 +1784,7 @@
     </message>
     <message>
         <location line="+123"/>
-        <source>URI cannot be parsed! This can be caused by an invalid RCoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
         <translation>沒辦法解析 URI 位址！可能是因為 R币 位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
@@ -1920,7 +1920,7 @@
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+133"/>
-        <source>Enter a RCoin address (e.g. %1)</source>
+        <source>Enter a Rcoin address (e.g. %1)</source>
         <translation></translation>
     </message>
     <message>
@@ -3035,7 +3035,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
-        <source>Warning: Invalid RCoin address</source>
+        <source>Warning: Invalid Rcoin address</source>
         <translation>警告: R幣 位址無效</translation>
     </message>
     <message>
