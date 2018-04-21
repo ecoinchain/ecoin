@@ -55,6 +55,7 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QMovie>
 
 #if QT_VERSION < 0x050000
 #include <QTextDocument>
@@ -198,6 +199,12 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
     unitDisplayControl = new UnitDisplayStatusBarControl(platformStyle);
     labelWalletEncryptionIcon = new QLabel();
     labelWalletHDStatusIcon = new QLabel();
+    labelWalletMinerStatusIcon = new QLabel();
+
+	labelWalletMinerStatusIcon->setMinimumSize(24, 24);
+
+	//labelWalletMinerStatusIcon->setText("WTF");
+
     connectionsControl = new GUIUtil::ClickableLabel();
     labelBlocksIcon = new GUIUtil::ClickableLabel();
     if(enableWallet)
@@ -207,6 +214,7 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         frameBlocksLayout->addStretch();
         frameBlocksLayout->addWidget(labelWalletEncryptionIcon);
         frameBlocksLayout->addWidget(labelWalletHDStatusIcon);
+        frameBlocksLayout->addWidget(labelWalletMinerStatusIcon);
     }
     frameBlocksLayout->addStretch();
     frameBlocksLayout->addWidget(connectionsControl);
@@ -408,7 +416,7 @@ void BitcoinGUI::createActions()
 void BitcoinGUI::createToolBars_and_Menus()
 {
 	QToolBar *toolbar = addToolBar(tr("Tabs toolbar"));
-	
+
 	if (walletFrame)
     {
         toolbar->setContextMenuPolicy(Qt::PreventContextMenu);
@@ -428,7 +436,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 		auto spacerwidget = new QWidget();
 		auto hl = new QHBoxLayout();
 		spacerwidget->setLayout(hl);
-		hl->addStretch(0);	
+		hl->addStretch(0);
 		toolbar->addWidget(spacerwidget);
     }
 
@@ -439,7 +447,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 	toolbar->addWidget(appMenuBar);
 
 	auto file = new QMenu();
-	
+
 	appMenuBar->setfileMenu(file);
 
 	//	QMenu *file = appMenuBar->addMenu(tr("&File"));
@@ -469,7 +477,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 
 	QMenu *help = new QMenu();
 	appMenuBar->setHelpMenu(help);
-	
+
 	if (walletFrame)
 	{
 		help->addAction(openRPCConsoleAction);
@@ -515,13 +523,13 @@ void BitcoinGUI::setClientModel(ClientModel *_clientModel)
         }
 #endif // ENABLE_WALLET
         unitDisplayControl->setOptionsModel(_clientModel->getOptionsModel());
-        
+
         OptionsModel* optionsModel = _clientModel->getOptionsModel();
         if(optionsModel)
         {
             // be aware of the tray icon disable state change reported by the OptionsModel object.
             connect(optionsModel,SIGNAL(hideTrayIconChanged(bool)),this,SLOT(setTrayIconVisible(bool)));
-        
+
             // initialize the disable state of the tray icon with the current value in the model.
             setTrayIconVisible(optionsModel->getHideTrayIcon());
         }
@@ -603,7 +611,7 @@ void BitcoinGUI::createTrayIcon(const NetworkStyle *networkStyle)
 
 void BitcoinGUI::createTrayIconMenu()
 {
-#ifndef Q_OS_MAC
+#if ! defined(Q_OS_MAC)
     // return if trayIcon is unset (only on non-Mac OSes)
     if (!trayIcon)
         return;
@@ -1013,6 +1021,15 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
     message((amount)<0 ? tr("Sent transaction") : tr("Incoming transaction"),
              msg, CClientUIInterface::MSG_INFORMATION);
 }
+
+bool BitcoinGUI::MinerStatusChanged(bool)
+{
+	auto minermovie = new QMovie(":/movies/wa.gif", QByteArray(), this);
+	labelWalletMinerStatusIcon->setMovie(minermovie);
+	labelWalletMinerStatusIcon->setToolTip(tr("mining"));
+	minermovie->start();
+}
+
 #endif // ENABLE_WALLET
 
 void BitcoinGUI::dragEnterEvent(QDragEnterEvent *event)
@@ -1064,7 +1081,7 @@ void BitcoinGUI::setHDStatus(int hdEnabled)
     labelWalletHDStatusIcon->setPixmap(platformStyle->SingleColorIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE,STATUSBAR_ICONSIZE));
     labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
 
-    // eventually disable the QLabel to set its opacity to 50% 
+    // eventually disable the QLabel to set its opacity to 50%
     labelWalletHDStatusIcon->setEnabled(hdEnabled);
 }
 

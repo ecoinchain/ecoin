@@ -254,6 +254,7 @@ private:
     void unsubscribeFromCoreSignals();
     void checkBalanceChanged();
 
+public:
 Q_SIGNALS:
     // Signal that balance in wallet changed
     void balanceChanged(const CAmount& balance, const CAmount& unconfirmedBalance, const CAmount& immatureBalance,
@@ -278,6 +279,8 @@ Q_SIGNALS:
 
     // Watch-only address added
     void notifyWatchonlyChanged(bool fHaveWatchonly);
+
+	void MinerStatusChanged(bool);
 
 public Q_SLOTS:
     /* Wallet status might have changed */

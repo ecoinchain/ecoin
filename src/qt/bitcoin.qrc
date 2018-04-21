@@ -100,6 +100,7 @@
         <file alias="spinner-033">res/movies/spinner-033.png</file>
         <file alias="spinner-034">res/movies/spinner-034.png</file>
         <file alias="spinner-035">res/movies/spinner-035.png</file>
+        <file alias="wa.gif">res/movies/wa.gif</file>
     </qresource>
     <qresource prefix="/image">
         <file alias="splash">res/splashscreen.svg</file>
