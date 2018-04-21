@@ -1027,6 +1027,8 @@ bool BitcoinGUI::MinerStatusChanged(bool)
 	auto minermovie = new QMovie(":/movies/wa.gif", QByteArray(), this);
 	labelWalletMinerStatusIcon->setMovie(minermovie);
 	labelWalletMinerStatusIcon->setToolTip(tr("mining"));
+	labelWalletMinerStatusIcon->setMargin(3);
+	trayIcon->setToolTip(tr("mining"));
 	minermovie->start();
 }
 
