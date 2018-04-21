@@ -68,7 +68,7 @@ find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
 if(MSVC AND ENABLE_QT_STATIC)
 	# For static Windows builds, we also need to pull in the Qt5 Platform
 	# support library, which is not exposed to CMake properly, unfortunately
-	GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)	
+	GET_TARGET_PROPERTY(QT_LIB_DIR "${Qt5Widgets_LIBRARIES}" LOCATION)
 	GET_FILENAME_COMPONENT(QT_LIB_DIR "${QT_LIB_DIR}" PATH)
 
 	message(STATUS "using qt in ${QT_LIB_DIR}")
@@ -168,7 +168,11 @@ else()
 	find_package(BerkeleyDB 4.8 REQUIRED)
 endif()
 
-add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
+if (WIN32)
+	add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
+else()
+	find_package(LIBEVENT)
+endif()
 
 add_subdirectory(3rd-src/qrencode)
 
