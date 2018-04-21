@@ -128,6 +128,22 @@ if (HAVE_DECL_LE64TOH)
 	add_definitions(-DHAVE_DECL_LE64TOH)
 endif()
 
+
+CHECK_SYMBOL_EXISTS(bswap_16 "byteswap.h" HAVE_DECL_BSWAP_16)
+if (HAVE_DECL_BSWAP_16)
+	add_definitions(-DHAVE_DECL_BSWAP_16)
+endif()
+
+CHECK_SYMBOL_EXISTS(bswap_32 "byteswap.h" HAVE_DECL_BSWAP_32)
+if (HAVE_DECL_BSWAP_32)
+	add_definitions(-DHAVE_DECL_BSWAP_32)
+endif()
+
+CHECK_SYMBOL_EXISTS(bswap_64 "byteswap.h" HAVE_DECL_BSWAP_64)
+if (HAVE_DECL_BSWAP_64)
+	add_definitions(-DHAVE_DECL_BSWAP_64)
+endif()
+
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
 add_subdirectory(ed25519)
