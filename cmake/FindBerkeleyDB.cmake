@@ -18,7 +18,7 @@ FIND_PATH(DB_INCLUDE_DIR db_cxx.h
   /usr/include
   )
 
-SET(DB_NAMES ${DB_NAMES} db_cxx)
+SET(DB_NAMES ${DB_NAMES} db_cxx-4.8 db_cxx)
 FIND_LIBRARY(DB_LIBRARY
   NAMES ${DB_NAMES}
   PATHS /usr/local/opt/berkeley-db@4/lib/ /usr/lib /usr/local/lib
