@@ -1024,9 +1024,16 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
 
 bool BitcoinGUI::MinerStatusChanged(bool)
 {
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = logicalDpiX() / 96.0;
+#endif
+
 	auto minermovie = new QMovie(":/movies/wa.gif", QByteArray(), this);
 	labelWalletMinerStatusIcon->setMovie(minermovie);
 	labelWalletMinerStatusIcon->setToolTip(tr("mining"));
+	minermovie->setScaledSize(QSize(18, 18) * iconscale);
 	labelWalletMinerStatusIcon->setMargin(3);
 	trayIcon->setToolTip(tr("mining"));
 	minermovie->start();
