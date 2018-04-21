@@ -13,6 +13,7 @@ FIND_PATH(DB_INCLUDE_DIR db_cxx.h
   /usr/local/opt/berkeley-db@4/include
   /usr/local/include/db4
   /usr/local/include
+  /usr/include/db4.8
   /usr/include/db4
   /usr/include
   )
