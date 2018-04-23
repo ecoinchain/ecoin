@@ -16,6 +16,8 @@ IconedAction::IconedAction(QIcon i, QString txt, QWidget* parent /*= nullptr*/)
 	, icons({i, i})
 	, text(txt) 
 {
+	setIcon(icons[0]);
+	connect(this, SIGNAL(toggled(bool)), this, SLOT(update_icon_when_state_changed(bool)));
 }
 
 
@@ -23,6 +25,7 @@ IconedAction::IconedAction(QString txt, QWidget* parent /*= nullptr*/)
 	: QWidgetAction(parent)
 	, text(txt)
 {
+	connect(this, SIGNAL(toggled(bool)), this, SLOT(update_icon_when_state_changed(bool)));
 }
 
 void IconedAction::setCheckable(bool checkable)
