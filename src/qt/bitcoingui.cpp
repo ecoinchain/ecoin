@@ -316,10 +316,26 @@ void BitcoinGUI::createActions()
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
 
+	usedSendingAddressesAction = new IconedAction(QIcon(":/icons/address-book"), tr("&Sending addresses..."), this);
+	usedSendingAddressesAction->setStatusTip(tr("Show the list of used sending addresses and labels"));
+	usedSendingAddressesAction->setToolTip(usedSendingAddressesAction->statusTip());
+	usedSendingAddressesAction->setCheckable(true);
+	usedSendingAddressesAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
+	tabGroup->addAction(usedSendingAddressesAction);
+
+	usedReceivingAddressesAction = new IconedAction(QIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
+	usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
+	usedReceivingAddressesAction->setToolTip(usedReceivingAddressesAction->statusTip());
+	usedReceivingAddressesAction->setCheckable(true);
+	usedReceivingAddressesAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
+	tabGroup->addAction(usedReceivingAddressesAction);
+
 	connect(overviewAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, overviewAction, std::placeholders::_1));
 	connect(sendCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, sendCoinsAction, std::placeholders::_1));
 	connect(receiveCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, receiveCoinsAction, std::placeholders::_1));
 	connect(historyAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, historyAction, std::placeholders::_1));
+	connect(usedSendingAddressesAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, usedSendingAddressesAction, std::placeholders::_1));
+	connect(usedReceivingAddressesAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, usedReceivingAddressesAction, std::placeholders::_1));
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -373,11 +389,6 @@ void BitcoinGUI::createActions()
     // initially disable the debug window menu item
     openRPCConsoleAction->setEnabled(false);
 
-    usedSendingAddressesAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Sending addresses..."), this);
-    usedSendingAddressesAction->setStatusTip(tr("Show the list of used sending addresses and labels"));
-    usedReceivingAddressesAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
-    usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
-
     openAction = new QAction(platformStyle->TextColorIcon(":/icons/open"), tr("Open &URI..."), this);
     openAction->setStatusTip(tr("Open a %1 URI or payment request").arg(QAPP_COIN_NAME_URI_SCHEME));
 
@@ -426,7 +437,10 @@ void BitcoinGUI::createToolBars_and_Menus()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
-        overviewAction->setChecked(true);
+		toolbar->addAction(usedSendingAddressesAction);
+		toolbar->addAction(usedReceivingAddressesAction);
+
+		overviewAction->setChecked(true);
 		QPalette pal = toolbar->palette();
 		//pal.setColor(QPalette::Window, QColor(240,240,240));
 

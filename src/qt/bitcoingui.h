@@ -96,16 +96,17 @@ private:
     QProgressDialog *progressDialog;
 
     IconedAction *overviewAction;
-    IconedAction *historyAction;
-    QAction *quitAction;
     IconedAction *sendCoinsAction;
-    QAction *sendCoinsMenuAction;
-    QAction *usedSendingAddressesAction;
-    QAction *usedReceivingAddressesAction;
+	IconedAction *receiveCoinsAction;
+	IconedAction *historyAction;
+	IconedAction *usedSendingAddressesAction;
+	IconedAction *usedReceivingAddressesAction;
+
+	QAction *quitAction;
+	QAction *sendCoinsMenuAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
-    IconedAction *receiveCoinsAction;
     QAction *receiveCoinsMenuAction;
     QAction *optionsAction;
     QAction *toggleHideAction;

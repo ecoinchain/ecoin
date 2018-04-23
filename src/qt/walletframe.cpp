@@ -182,9 +182,9 @@ void WalletFrame::unlockWallet()
 
 void WalletFrame::usedSendingAddresses()
 {
-    WalletView *walletView = currentWalletView();
-    if (walletView)
-        walletView->usedSendingAddresses();
+	QMap<QString, WalletView*>::const_iterator i;
+	for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+		i.value()->usedSendingAddresses();
 }
 
 void WalletFrame::usedReceivingAddresses()

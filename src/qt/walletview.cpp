@@ -43,13 +43,15 @@ WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
     receiveCoinsPage = new ReceiveCoinsDialog(platformStyle);
     sendCoinsPage = new SendCoinsDialog(platformStyle);
 
-    usedSendingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::SendingTab, this);
-    usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, this);
+    usedSendingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::SendingTab, nullptr);
+    usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, nullptr);
 
     addWidget(overviewPage);
     addWidget(transactionView);
     addWidget(receiveCoinsPage);
     addWidget(sendCoinsPage);
+	addWidget(usedSendingAddressesPage);
+	addWidget(usedReceivingAddressesPage);
 
     // Clicking on a transaction on the overview pre-selects the transaction on the transaction history page
     connect(overviewPage, SIGNAL(transactionClicked(QModelIndex)), transactionView, SLOT(focusTransaction(QModelIndex)));
@@ -276,19 +278,22 @@ void WalletView::usedSendingAddresses()
     if(!walletModel)
         return;
 
-    usedSendingAddressesPage->show();
-    usedSendingAddressesPage->raise();
-    usedSendingAddressesPage->activateWindow();
+	setCurrentWidget(usedSendingAddressesPage);
+
+//	usedSendingAddressesPage->show();
+//	usedSendingAddressesPage->raise();
+//	usedSendingAddressesPage->activateWindow();
 }
 
 void WalletView::usedReceivingAddresses()
 {
     if(!walletModel)
         return;
+	setCurrentWidget(usedReceivingAddressesPage);
 
-    usedReceivingAddressesPage->show();
-    usedReceivingAddressesPage->raise();
-    usedReceivingAddressesPage->activateWindow();
+//	usedReceivingAddressesPage->show();
+//	usedReceivingAddressesPage->raise();
+//	usedReceivingAddressesPage->activateWindow();
 }
 
 void WalletView::showProgress(const QString &title, int nProgress)
