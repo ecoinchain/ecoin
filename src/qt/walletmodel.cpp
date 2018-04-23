@@ -66,7 +66,7 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
 	QVariant enableminner = optionsModel->data(optionsModel->index(OptionsModel::EnableMinner, 0), Qt::EditRole);
 	if (enableminner.toBool())
 	{
-		onGenerateChanged(true);
+		QTimer::singleShot(10, [this](){onGenerateChanged(true);});
 		gArgs.SoftSetBoolArg("-gen", true);
 	}
 }
@@ -197,6 +197,8 @@ void WalletModel::onGenerateChanged(bool fGenerate)
 		GenerateBitcoins(fGenerate, 1);
 	}
 #endif
+
+	Q_EMIT MinerStatusChanged(fGenerate);
 }
 
 void WalletModel::checkBalanceChanged()

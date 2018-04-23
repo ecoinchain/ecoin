@@ -17,6 +17,9 @@
 #include <QMenu>
 #include <QPoint>
 #include <QSystemTrayIcon>
+#include <QScopedPointer> 
+#include <QScopedPointerDeleteLater>
+#include <QMovie>
 
 class ClientModel;
 class NetworkStyle;
@@ -81,26 +84,28 @@ private:
     ClientModel *clientModel;
     WalletFrame *walletFrame;
 
+	QScopedPointer<QMovie, QScopedPointerDeleteLater> animatedIcon;
     UnitDisplayStatusBarControl *unitDisplayControl;
     QLabel *labelWalletEncryptionIcon;
     QLabel *labelWalletHDStatusIcon;
+    QLabel *labelWalletMinerStatusIcon;
     QLabel *connectionsControl;
     QLabel *labelBlocksIcon;
     QLabel *progressBarLabel;
     QProgressBar *progressBar;
     QProgressDialog *progressDialog;
 
-	IconedAction *overviewAction;
-	IconedAction *historyAction;
+    IconedAction *overviewAction;
+    IconedAction *historyAction;
     QAction *quitAction;
-	IconedAction *sendCoinsAction;
+    IconedAction *sendCoinsAction;
     QAction *sendCoinsMenuAction;
     QAction *usedSendingAddressesAction;
     QAction *usedReceivingAddressesAction;
     QAction *signMessageAction;
     QAction *verifyMessageAction;
     QAction *aboutAction;
-	IconedAction *receiveCoinsAction;
+    IconedAction *receiveCoinsAction;
     QAction *receiveCoinsMenuAction;
     QAction *optionsAction;
     QAction *toggleHideAction;
@@ -112,7 +117,7 @@ private:
     QAction *openAction;
     QAction *showHelpMessageAction;
 
-	menubar *appMenuBar;
+    menubar *appMenuBar;
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
@@ -130,7 +135,7 @@ private:
     /** Create the main UI actions. */
     void createActions();
 
-	/** Create the toolbars */
+    /** Create the toolbars */
     void createToolBars_and_Menus();
     /** Create system tray icon and notification */
     void createTrayIcon(const NetworkStyle *networkStyle);
@@ -188,6 +193,9 @@ public Q_SLOTS:
 
     /** Show incoming transaction notification for new transactions. */
     void incomingTransaction(const QString& date, int unit, const CAmount& amount, const QString& type, const QString& address, const QString& label);
+
+	void MinerStatusChanged(bool);
+
 #endif // ENABLE_WALLET
 
 private Q_SLOTS:
@@ -234,7 +242,7 @@ private Q_SLOTS:
 
     /** Show progress dialog e.g. for verifychain */
     void showProgress(const QString &title, int nProgress);
-    
+
     /** When hideTrayIcon setting is changed in OptionsModel hide or show the icon accordingly. */
     void setTrayIconVisible(bool);
 

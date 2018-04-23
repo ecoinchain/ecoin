@@ -74,6 +74,8 @@ SET(_SOURCES
 	crypto_pwhash/scryptsalsa208sha256/sse/pwhash_scryptsalsa208sha256_sse.c
 	crypto_scalarmult/crypto_scalarmult.c
 	crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c
+	crypto_scalarmult/curve25519/ref10/x25519_ref10.c
+	crypto_scalarmult/curve25519/scalarmult_curve25519.c
 	crypto_secretbox/crypto_secretbox.c
 	crypto_secretbox/crypto_secretbox_easy.c
 	crypto_secretbox/xchacha20poly1305/secretbox_xchacha20poly1305.c
@@ -117,8 +119,6 @@ IF (NOT HAVE_TI_MODE_V )
     MESSAGE(STATUS "TI_MODE disabled")
     SET(_SOURCES
 	${_SOURCES}
-	crypto_scalarmult/curve25519/ref10/x25519_ref10.c
-	crypto_scalarmult/curve25519/scalarmult_curve25519.c
     )
 ELSE (NOT HAVE_TI_MODE_V)
     MESSAGE(STATUS "TI_MODE enabled")

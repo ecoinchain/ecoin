@@ -5,6 +5,8 @@
 #ifndef BITCOIN_QT_MACDOCKICONHANDLER_H
 #define BITCOIN_QT_MACDOCKICONHANDLER_H
 
+#ifdef Q_OS_MAC
+
 #include <QMainWindow>
 #include <QObject>
 
@@ -40,5 +42,7 @@ private:
     QMenu *m_dockMenu;
     QMainWindow *mainWindow;
 };
+
+#endif // Q_OS_MAC
 
 #endif // BITCOIN_QT_MACDOCKICONHANDLER_H

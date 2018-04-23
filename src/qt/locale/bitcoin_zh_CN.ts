@@ -336,7 +336,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+358"/>
+        <location filename="../bitcoingui.cpp" line="+366"/>
         <source>Sign &amp;message...</source>
         <translation>消息签名(&amp;M)...</translation>
     </message>
@@ -346,22 +346,22 @@
         <translation>打开一个 %1 URI 或支付请求</translation>
     </message>
     <message>
-        <location line="+431"/>
+        <location line="+443"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <location line="-530"/>
+        <location line="-542"/>
         <source>&amp;Overview</source>
         <translation>概况(&amp;O)</translation>
     </message>
     <message>
-        <location line="-137"/>
+        <location line="-144"/>
         <source>Node</source>
         <translation>节点</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+145"/>
         <source>Show general overview of wallet</source>
         <translation>显示钱包概况</translation>
     </message>
@@ -470,7 +470,7 @@
         <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+377"/>
+        <location line="+383"/>
         <source>Click to disable network activity.</source>
         <translation>点击禁用网络活动。</translation>
     </message>
@@ -496,7 +496,7 @@
         <translation>同步区块头 (%1%)...</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+43"/>
         <source>Reindexing blocks on disk...</source>
         <translation>正在为数据块重建索引...</translation>
     </message>
@@ -505,7 +505,7 @@
         <translation type="vanished">向一个R币地址发送R币</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-473"/>
         <source>Backup wallet to another location</source>
         <translation>备份钱包到其他文件夹</translation>
     </message>
@@ -548,12 +548,12 @@
         <translation type="vanished">R币</translation>
     </message>
     <message>
-        <location line="-224"/>
+        <location line="-231"/>
         <source>Wallet</source>
         <translation>钱包</translation>
     </message>
     <message>
-        <location line="+146"/>
+        <location line="+153"/>
         <location line="+7"/>
         <source>&amp;Send</source>
         <translation>付款(&amp;S)</translation>
@@ -643,12 +643,12 @@
         <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+372"/>
+        <location line="+378"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 条到网络的活动连接。</translation>
     </message>
     <message>
-        <location line="+60"/>
+        <location line="+66"/>
         <source>Indexing blocks on disk...</source>
         <translation>正在为数据块建立索引...</translation>
     </message>
@@ -697,7 +697,7 @@
         <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="-241"/>
+        <location line="-253"/>
         <source>%1 client</source>
         <translation>%1 客戶</translation>
     </message>
@@ -708,7 +708,7 @@
         </translation>
     </message>
     <message>
-        <location line="+227"/>
+        <location line="+239"/>
         <source>Connecting to peers...</source>
         <translation>正在连接到节点……</translation>
     </message>
@@ -770,7 +770,17 @@
         <translation>流入交易</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+14"/>
+        <source>mining</source>
+        <translation>挖矿中</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>%1 is mining</source>
+        <translation>%1 正在挖矿</translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
         <translation>HD密钥生成&lt;b&gt;启用&lt;/b&gt;</translation>
     </message>
@@ -780,7 +790,7 @@
         <translation>HD密钥生成&lt;b&gt;禁用&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+25"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
         <translation>钱包已被&lt;b&gt;加密&lt;/b&gt;，当前为&lt;b&gt;解锁&lt;/b&gt;状态</translation>
     </message>
@@ -794,7 +804,7 @@
         <translation type="vanished">发生严重错误。客户端无法安全地继续运行，即将退出。</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+517"/>
+        <location filename="../bitcoin.cpp" line="+520"/>
         <source>A fatal error occurred. %1 can no longer continue safely and will quit.</source>
         <translation>发生严重错误。%1 客户端无法安全地继续运行，即将退出。</translation>
     </message>
@@ -2749,7 +2759,7 @@
     <message>
         <location line="+27"/>
         <source>URI:</source>
-        <translation type="unfinished">URI: </translation>
+        <translation>URI:</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -3223,7 +3233,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+101"/>
         <source>Warning: Invalid %1 address</source>
-        <translation type="unfinished"></translation>
+        <translation>警告: %1 地址无效</translation>
     </message>
     <message>
         <source>Warning: Invalid Ecoin address</source>
@@ -4081,7 +4091,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+57"/>
         <source>Enter address, transaction id, or label to search</source>
-        <translation type="unfinished"></translation>
+        <translation>输入地址，交易id或者标签 开始搜索</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -4248,7 +4258,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+351"/>
+        <location filename="../walletmodel.cpp" line="+353"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>

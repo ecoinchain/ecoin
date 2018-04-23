@@ -321,6 +321,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
 {
 	QPalette pal = this->palette();
 	pal.setColor(QPalette::Window, Qt::white);
+	pal.setColor(QPalette::Foreground, Qt::black);
 	this->setPalette(pal);
 // 	setStyleSheet(QStringLiteral("QMainWindow {\n"
 // 		" \n"
@@ -470,11 +471,13 @@ void BitcoinApplication::initializeResult(bool success)
         {
             walletModel.reset(new WalletModel(platformStyle, vpwallets[0], optionsModel));
 
-            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
-            window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
-
             connect(walletModel.get(), SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
                              paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
+            connect(walletModel.get(), SIGNAL(MinerStatusChanged(bool)),
+                             window.get(), SLOT(MinerStatusChanged(bool)), Qt::QueuedConnection);
+
+			window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
+            window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
         }
 #endif
 
