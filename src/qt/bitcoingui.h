@@ -17,6 +17,9 @@
 #include <QMenu>
 #include <QPoint>
 #include <QSystemTrayIcon>
+#include <QScopedPointer> 
+#include <QScopedPointerDeleteLater>
+#include <QMovie>
 
 class ClientModel;
 class NetworkStyle;
@@ -81,6 +84,7 @@ private:
     ClientModel *clientModel;
     WalletFrame *walletFrame;
 
+	QScopedPointer<QMovie, QScopedPointerDeleteLater> animatedIcon;
     UnitDisplayStatusBarControl *unitDisplayControl;
     QLabel *labelWalletEncryptionIcon;
     QLabel *labelWalletHDStatusIcon;
