@@ -1022,7 +1022,7 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
              msg, CClientUIInterface::MSG_INFORMATION);
 }
 
-bool BitcoinGUI::MinerStatusChanged(bool)
+void BitcoinGUI::MinerStatusChanged(bool)
 {
 #ifdef Q_OS_MAC
 	double iconscale = 1.0;
