@@ -449,12 +449,12 @@
     <message>
         <location line="+12"/>
         <source>&amp;Sending addresses...</source>
-        <translation>正在发送地址(&amp;S)...</translation>
+        <translation>付款地址</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>&amp;Receiving addresses...</source>
-        <translation>正在接收地址(&amp;R)...</translation>
+        <translation>收款地址</translation>
     </message>
     <message>
         <location line="+3"/>
