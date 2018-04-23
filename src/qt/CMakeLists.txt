@@ -16,9 +16,11 @@ add_subdirectory(locale)
 
 PROTOBUF_GENERATE_CPP(PROTO_PAYMENT_REQUEST_SRC PROTO_PAYMENT_REQUEST_HEADER paymentrequest.proto)
 
+configure_file(bitcoin_locale.qrc bitcoin_locale.qrc COPYONLY)
+
 #qt5_wrap_ui(UI_SRCS ${UIS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-qt5_add_resources(RC_SRCS bitcoin.qrc bitcoin_locale.qrc)
+qt5_add_resources(RC_SRCS bitcoin.qrc  ${CMAKE_CURRENT_BINARY_DIR}/bitcoin_locale.qrc)
 
 set_property(SOURCE ${PROTO_PAYMENT_REQUEST_SRC} ${PROTO_PAYMENT_REQUEST_HEADER} ${RC_SRCS} PROPERTY SKIP_AUTOMOC ON)
 

@@ -3,6 +3,8 @@ cmake_policy(SET CMP0020 NEW)
 add_definitions(-DQT_NO_KEYWORDS)
 add_definitions(-DENABLE_WALLET)
 
+set(CMAKE_AUTOMOC OFF)
+
 file(GLOB QT_TRANS *.ts)
 
 include_directories(../..)
