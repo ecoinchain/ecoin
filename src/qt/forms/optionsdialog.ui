@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>662</width>
-    <height>544</height>
+    <width>665</width>
+    <height>536</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -109,6 +109,27 @@ QComboBox QAbstractItemView {
     selection-background-color: #2798FF;
 }
 
+#okButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	background-color: rgb(39, 152, 255);
+    color: #ffffff;
+    padding : 6px;
+}
+
+#cancelButton , #clearButton {
+    border-style: solid;
+    border-radius: 3px;
+	border-width: 1px;
+	border-color: rgb(39, 152, 255);
+	color: rgb(39, 152, 255);
+	background-color: white;
+padding : 5px;
+}
+
+
 /*
 QCheckBox::indicator {
 background: #FFFFFF;
@@ -130,7 +151,7 @@ QCheckBox::indicator::checked {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -881,8 +902,8 @@ QCheckBox::indicator::checked {
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_Buttons">
-     <item>
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,0,0,0">
+     <item row="0" column="0">
       <layout class="QVBoxLayout" name="verticalLayout_Buttons">
        <item>
         <widget class="QPushButton" name="openBitcoinConfButton">
@@ -912,100 +933,47 @@ QCheckBox::indicator::checked {
        </item>
       </layout>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_1">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>48</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="statusLabel">
+     <item row="1" column="2">
+      <widget class="QPushButton" name="okButton">
        <property name="minimumSize">
         <size>
-         <width>200</width>
+         <width>55</width>
          <height>0</height>
         </size>
        </property>
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
        <property name="text">
-        <string/>
+        <string>&amp;OK</string>
        </property>
-       <property name="textFormat">
-        <enum>Qt::PlainText</enum>
+       <property name="autoDefault">
+        <bool>false</bool>
        </property>
-       <property name="wordWrap">
+       <property name="default">
         <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
+     <item row="1" column="3">
+      <widget class="QPushButton" name="cancelButton">
+       <property name="minimumSize">
         <size>
-         <width>40</width>
-         <height>48</height>
+         <width>55</width>
+         <height>0</height>
         </size>
        </property>
-      </spacer>
+       <property name="text">
+        <string>&amp;Cancel</string>
+       </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
+      </widget>
      </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QPushButton" name="okButton">
-           <property name="text">
-            <string>&amp;OK</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-           <property name="default">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="cancelButton">
-           <property name="text">
-            <string>&amp;Cancel</string>
-           </property>
-           <property name="autoDefault">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+     <item row="0" column="1">
+      <widget class="QLabel" name="statusLabel">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
