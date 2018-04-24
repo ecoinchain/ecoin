@@ -30,7 +30,6 @@ def byte_to_base58(b, version):
 
 def keyhash_to_p2pkh(hash, main = False):
     assert (len(hash) == 20)
-    print(bytes_to_hex_str(hash))
     version = 60 if main else 111
     return byte_to_base58(hash, version)
 
