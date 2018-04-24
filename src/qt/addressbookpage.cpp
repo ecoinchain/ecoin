@@ -58,7 +58,8 @@ AddressBookPage::AddressBookPage(const PlatformStyle *platformStyle, Mode _mode,
         ui->exportButton->hide();
         break;
     case ForEditing:
-        switch(tab)
+		ui->closeButton_2->hide();
+		switch (tab)
         {
         case SendingTab: setWindowTitle(tr("Sending addresses")); break;
         case ReceivingTab: setWindowTitle(tr("Receiving addresses")); break;

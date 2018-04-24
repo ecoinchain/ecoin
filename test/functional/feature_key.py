@@ -9,6 +9,7 @@ import json
 import leveldb
 from multiprocessing import Queue
 import threading
+import plyvel
 
 def print_wif_address(secret):
 	k = CECKey()
@@ -78,12 +79,14 @@ class Consumer(threading.Thread):
 		self.db=db
 		self.num=num
 	def run(self):
+		wb = self.db.write_batch()
 		for i in range(self.num):
 			key_info = self.data.get()
 			address = key_info['address']
-			self.db.Put(address.encode('utf-8'), json.dumps(key_info).encode('utf-8'))
+			wb.put(address.encode('utf-8'), json.dumps(key_info).encode('utf-8'))
 			if (i > 0 and i % 100 == 0):
 				print("%s consume %d" % (self.getName(), i))
+		wb.write()
 		print("%s finished!" % self.getName())
 
 if __name__ == '__main__':
@@ -107,7 +110,7 @@ if __name__ == '__main__':
 		db_path = sys.argv[5]
 		num = int(sys.argv[6])
 		thread = int(sys.argv[7])
-		db = leveldb.LevelDB(db_path)
+		db = plyvel.DB(db_path, create_if_missing=True)
 		queue = Queue()
 		consumer = Consumer('Consumer', queue, db, num * thread)
 		consumer.start()
@@ -119,6 +122,7 @@ if __name__ == '__main__':
 		for producer in producers:
 			producer.join()
 		consumer.join()
+		db.close()
 		print('生成成功')
 	elif func == 'leveldb_show':
 		db_path = sys.argv[2]

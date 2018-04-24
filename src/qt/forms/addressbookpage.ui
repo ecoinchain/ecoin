@@ -41,8 +41,9 @@ QTabBar::tab:selected {
 
 QPushButton {
 background: #FFFFF;
+color: #000000;
 border-radius: 3px;
-border: 1px solid #2798FF;
+border: 1px solid #E4E4E4;
 border-radius: 3px;
 padding: 6px;
 }
@@ -55,9 +56,17 @@ padding: 3px;
 }
 
 QPushButton[flat=false] {
-border: 1px solid #BAC1C4;
+border: 1px solid rgb(39, 152, 255);
 
-background: #BAC1C4;
+background: #ffffff;
+color: rgb(39, 152, 255);
+
+}
+
+#exportButton {
+border: 1px solid rgb(39, 152, 255);
+color: #ffffff;
+background: rgb(39, 152, 255);
 }
 
 QPushButton:pressed {
@@ -222,7 +231,7 @@ border-radius: 5px;
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
-         <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+         <normaloff>:/icons/colored_remove</normaloff>:/icons/colored_remove</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>
