@@ -1,4 +1,4 @@
-from test_framework.address import key_to_p2pkh
+from test_framework.address import key_to_p2pkh, key_to_p2sh_p2wpkh
 from test_framework.key import CECKey
 import secrets
 import sys
@@ -7,6 +7,8 @@ from Crypto.Util.Padding import pad
 import scrypt
 import json
 import leveldb
+from multiprocessing import Queue
+import threading
 
 def print_wif_address(secret):
 	k = CECKey()
@@ -32,7 +34,7 @@ def single_key(wif_version, is_main, password):
 	k.set_secretbytes(seed)
 	pk = k.get_pubkey()
 	wif = k.get_wif(wif_version.to_bytes(1, 'big'))
-	address = key_to_p2pkh(pk, is_main)
+	address = key_to_p2sh_p2wpkh(pk, is_main)
 	iv = secrets.token_bytes(AES.block_size)
 	# 这里的salt, key的size以及n, p, r的值跟bitcoinj中的KeyCrypterScrypt定义一致
 	key = scrypt.hash(convert_to_byte_array(password.encode("utf-8")), salt, 16384, 8, 1, 32)
@@ -49,6 +51,40 @@ def single_key(wif_version, is_main, password):
 		'cipher': ciphertext.hex()
 	}
 	return key_info
+
+#生产者类
+class Producer(threading.Thread):
+	def __init__(self, name,queue,wif_version,is_main,password,num):
+		threading.Thread.__init__(self, name=name)
+		self.data=queue
+		self.wif_version=wif_version
+		self.is_main=is_main
+		self.password=password
+		self.num=num
+
+	def run(self):
+		for i in range(self.num):
+			key_info = single_key(self.wif_version, self.is_main, self.password)
+			self.data.put(key_info)
+			if (i > 0 and i % 100 == 0):
+				print("%s produce %d" % (self.getName(), i))
+		print("%s finished!" % self.getName())
+
+#消费者类
+class Consumer(threading.Thread):
+	def __init__(self,name,queue,db,num):
+		threading.Thread.__init__(self,name=name)
+		self.data=queue
+		self.db=db
+		self.num=num
+	def run(self):
+		for i in range(self.num):
+			key_info = self.data.get()
+			address = key_info['address']
+			self.db.Put(address.encode('utf-8'), json.dumps(key_info).encode('utf-8'))
+			if (i > 0 and i % 100 == 0):
+				print("%s consume %d" % (self.getName(), i))
+		print("%s finished!" % self.getName())
 
 if __name__ == '__main__':
 	func = sys.argv[1]
@@ -70,13 +106,19 @@ if __name__ == '__main__':
 		password = sys.argv[4]
 		db_path = sys.argv[5]
 		num = int(sys.argv[6])
+		thread = int(sys.argv[7])
 		db = leveldb.LevelDB(db_path)
-		for i in range(num):
-			key_info = single_key(wif_version, is_main, password)
-			address = key_info['address']
-			db.Put(address.encode('utf-8'), json.dumps(key_info).encode('utf-8'))
-			if (i % 1000 == 0):
-				print("i = %d", i)
+		queue = Queue()
+		consumer = Consumer('Consumer', queue, db, num * thread)
+		consumer.start()
+		producers = []
+		for i in range(thread):
+			producer = Producer('Producer-' + str(i), queue, wif_version, is_main, password, num)
+			producers.append(producer)
+			producer.start()
+		for producer in producers:
+			producer.join()
+		consumer.join()
 		print('生成成功')
 	elif func == 'leveldb_show':
 		db_path = sys.argv[2]
