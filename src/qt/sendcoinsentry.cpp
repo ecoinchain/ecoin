@@ -14,11 +14,14 @@
 #include <QApplication>
 #include <QClipboard>
 
+#include "qt/widgets/overlaydialogembeder.h"
+
+
 SendCoinsEntry::SendCoinsEntry(const PlatformStyle *_platformStyle, QWidget *parent)
-	: QFrame(parent),
-    ui(new Ui::SendCoinsEntry),
-    model(0),
-    platformStyle(_platformStyle)
+	: QFrame(parent)
+    , ui(new Ui::SendCoinsEntry)
+    , model(0)
+    , platformStyle(_platformStyle)
 {
     ui->setupUi(this);
 
@@ -47,15 +50,26 @@ void SendCoinsEntry::on_pasteButton_clicked()
     ui->payTo->setText(QApplication::clipboard()->text());
 }
 
+QWidget* TopLevelParentWidget(QWidget* widget)
+{
+	while (widget->parentWidget() != Q_NULLPTR) widget = widget->parentWidget();
+	return widget;
+}
+
 void SendCoinsEntry::on_addressBookButton_clicked()
 {
     if(!model)
         return;
-    AddressBookPage dlg(platformStyle, AddressBookPage::ForSelection, AddressBookPage::SendingTab, this);
-    dlg.setModel(model->getAddressTableModel());
-    if(dlg.exec())
+	auto dlg = new AddressBookPage(platformStyle, AddressBookPage::ForSelection, AddressBookPage::SendingTab, nullptr);
+
+	OverlayDialogEmbeder embeder(dlg, TopLevelParentWidget(this));
+	embeder.show();
+	dlg->show();
+
+    dlg->setModel(model->getAddressTableModel());
+    if(dlg->exec())
     {
-        ui->payTo->setText(dlg.getReturnValue());
+        ui->payTo->setText(dlg->getReturnValue());
         ui->payAmount->setFocus();
     }
 }

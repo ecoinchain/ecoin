@@ -165,13 +165,15 @@ QT_MOC_CPP = \
   qt/moc_walletframe.cpp \
   qt/moc_walletmodel.cpp \
   qt/moc_walletview.cpp \
+  qt/moc_recentrequestsdelegates.cpp \
   qt/widgets/moc_iconbutton.cpp \
   qt/widgets/moc_iconedaction.cpp\
   qt/widgets/moc_menubar.cpp\
   qt/widgets/moc_qbackgroundimageframe.cpp\
   qt/widgets/moc_recentrequestsview.cpp \
   qt/widgets/moc_modaloverlay.cpp \
-  qt/moc_recentrequestsdelegates.cpp 
+  qt/widgets/moc_greylay.cpp \
+  qt/widgets/moc_overlaydialogembeder.cpp
 
 BITCOIN_MM = \
   qt/macdockiconhandler.mm \
@@ -253,7 +255,9 @@ BITCOIN_QT_H = \
   qt/widgets/menubar.h\
   qt/widgets/qbackgroundimageframe.h\
   qt/widgets/recentrequestsview.h \
-  qt/widgets/modaloverlay.h
+  qt/widgets/modaloverlay.h \
+  qt/widgets/greylay.h \
+  qt/widgets/overlaydialogembeder.h
 
 RES_ICONS = qt/res/icons/about.svg 
 
@@ -280,13 +284,15 @@ BITCOIN_QT_BASE_CPP = \
   qt/splashscreen.cpp \
   qt/trafficgraphwidget.cpp \
   qt/utilitydialog.cpp \
+  qt/recentrequestsdelegates.cpp \
   qt/widgets/iconbutton.cpp \
   qt/widgets/iconedaction.cpp\
   qt/widgets/menubar.cpp\
   qt/widgets/qbackgroundimageframe.cpp\
   qt/widgets/recentrequestsview.cpp \
   qt/widgets/modaloverlay.cpp \
-  qt/recentrequestsdelegates.cpp 
+  qt/widgets/greylay.cpp \
+  qt/widgets/overlaydialogembeder.cpp 
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 

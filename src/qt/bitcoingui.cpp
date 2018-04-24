@@ -472,8 +472,8 @@ void BitcoinGUI::createToolBars_and_Menus()
 		file->addAction(signMessageAction);
 		file->addAction(verifyMessageAction);
 		file->addSeparator();
-		file->addAction(usedSendingAddressesAction);
-		file->addAction(usedReceivingAddressesAction);
+//		file->addAction(usedSendingAddressesAction);
+//		file->addAction(usedReceivingAddressesAction);
 		file->addSeparator();
 	}
 	file->addAction(quitAction);

@@ -74,18 +74,48 @@ background: #2798FF;
 
 QPushButton[flat=false]:pressed {
 background : #F8F8F8;
+}
+
+QDialog {
+background-color: rgb(255, 255, 255);
+border-radius: 3px;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="labelExplanation">
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>20</number>
      </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+     <property name="rightMargin">
+      <number>0</number>
      </property>
-    </widget>
+     <item>
+      <widget class="QLabel" name="labelExplanation">
+       <property name="textFormat">
+        <enum>Qt::PlainText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="closeButton_2">
+       <property name="styleSheet">
+        <string notr="true">border: 0px ;
+margin: 2px;</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset resource="../bitcoin.qrc">
+         <normaloff>:/icons/close</normaloff>:/icons/close</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <widget class="QTableView" name="tableView">
@@ -258,5 +288,22 @@ border-radius: 5px;
  <resources>
   <include location="../bitcoin.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>closeButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>AddressBookPage</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>736</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>189</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

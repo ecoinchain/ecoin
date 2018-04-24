@@ -1311,7 +1311,7 @@ border-width: 1px;</string>
        </property>
        <property name="icon">
         <iconset resource="../bitcoin.qrc">
-         <normaloff>:/icons/remove</normaloff>:/icons/remove</iconset>
+         <normaloff>:/icons/colored_remove</normaloff>:/icons/colored_remove</iconset>
        </property>
        <property name="autoDefault">
         <bool>false</bool>

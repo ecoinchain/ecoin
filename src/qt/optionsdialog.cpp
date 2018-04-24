@@ -174,16 +174,16 @@ void OptionsDialog::setModel(OptionsModel *_model)
     connect(ui->lang, SIGNAL(valueChanged()), this, SLOT(showRestartWarning()));
     connect(ui->thirdPartyTxUrls, SIGNAL(textChanged(const QString &)), this, SLOT(showRestartWarning()));
 
+	QVariant cpucount =_model->data(_model->index(OptionsModel::MinnerCPUCount, 0), Qt::EditRole);
+
+	if (optionGroup.button(cpucount.toInt()))
+		optionGroup.button(cpucount.toInt())->setChecked(true);
+
 	connect(&optionGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled),
 		[=](int id, bool checked) { if (checked) {
 		_model->setData(_model->index(OptionsModel::MinnerCPUCount, 0), id, Qt::EditRole);
 		showRestartWarning(true);
 	}});
-
-	QVariant cpucount =_model->data(_model->index(OptionsModel::MinnerCPUCount, 0), Qt::EditRole);
-
-	if (optionGroup.button(cpucount.toInt()))
-		optionGroup.button(cpucount.toInt())->setChecked(true);
 }
 
 void OptionsDialog::setMapper()

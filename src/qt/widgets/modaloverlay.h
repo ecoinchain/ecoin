@@ -15,6 +15,9 @@ public:
     explicit ModalOverlay(QWidget *parent);
     ~ModalOverlay();
 
+Q_SIGNALS:
+	void parentResized(QSize parent_newsize);
+
 protected:
     bool eventFilter(QObject * obj, QEvent * ev);
     bool event(QEvent* ev);
