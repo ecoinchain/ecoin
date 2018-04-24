@@ -1,6 +1,7 @@
-# Rcoin
+# Ecoin
 
-Rcoin is a new digit coin, compare to bitcoin rcoin has some significant differences included:
+Ecoin is a new digit coin, compare to bitcoin ecoin has some significant differences included:
+- Faster transaction confirm speed
 - 8MB block size
 - Equihash which is a ASIC-resistant GPU-minable PoW algorithm
 - Sha3 which can resist quantum attack
@@ -10,5 +11,5 @@ Rcoin is a new digit coin, compare to bitcoin rcoin has some significant differe
 
 ## Links
 
-* Website: http://rcoin.org
+* Website: http://ecoin.org
 * Trade: http://www.coinyee.com

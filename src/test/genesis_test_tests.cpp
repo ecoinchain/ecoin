@@ -31,10 +31,10 @@ BOOST_FIXTURE_TEST_SUITE(genesis_test_tests, GenesisTestTestingSetup)
 BOOST_AUTO_TEST_CASE(GenesisTest)
 {
     CBlock genesis = CChainParams::CreateGenesisBlock(
-            1523498400,
+            1523876400,
             uint256S("0x0"),
             ParseHex(""),
-            0x2007ffff, 1, GENESIS_MONEY);
+            0x207fffff, 1, GENESIS_MONEY);
     CBlock *pblock = &genesis;
     const CChainParams params = Params();
 

@@ -18,8 +18,8 @@
 
 static const std::string strSecret1 = "2HNAfKjA772BzgmxXGnpRy1ztaiyQuH3MKrZk28GrTS2JWdxXTExS54uieiMqguE4ysV65PFM3YeUdnFJc1k721NwuDJSZX";
 static const std::string strSecret2 = "2HEwNb5gwNuPzm4XszQ8vpeEFkF6jSPVUTWJPQuBfrk3buLZDA9grsSF3enDbhkoCeTutLkfEn5SS7p7APiL6DyTAZLKgpW";
-static const std::string addr1 = "RJj7jdh8R8gnwKV1u7C7A1cRC3N1qVLoqc";
-static const std::string addr2 = "RQfkRi4wFDqfthbyDswEKiGqCDUHCs3yXT";
+static const std::string addr1 = "ESbq9heMFGB8rcigEnCW4dGBCRQYeAdj8U";
+static const std::string addr2 = "EYYTqn2A5ML1ozqdZYwdEKvbCbWoz23Cyg";
 
 static const std::string strAddressBad = "1HV9Lc3sNHZxwj4Zk6fB38tEmBryq2cBiF";
 

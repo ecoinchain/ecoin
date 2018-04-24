@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 cmake_minimum_required(VERSION 3.0)
-project(rcoin)
+project(ecoin)
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
@@ -44,7 +44,7 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
 endif(MSVC)
 
 include(cpacksettings.cmake)
-set(CPACK_DESKTOP_SHORTCUTS rcoin-qt)
+set(CPACK_DESKTOP_SHORTCUTS ecoin-qt)
 INCLUDE(CPack)
 
 find_package(Threads)

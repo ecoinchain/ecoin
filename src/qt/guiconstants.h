@@ -48,18 +48,18 @@ static const int MAX_URI_LENGTH = 255;
 /* Number of frames in spinner animation */
 #define SPINNER_FRAMES 36
 
-#define QAPP_ORG_NAME "Rcoin"
-#define QAPP_ORG_DOMAIN "rcoin.org"
-#define QAPP_APP_NAME_DEFAULT "Rcoin-Qt"
-#define QAPP_APP_NAME_TESTNET "Rcoin-Qt-testnet"
+#define QAPP_ORG_NAME "Ecoin"
+#define QAPP_ORG_DOMAIN "ecoin.org"
+#define QAPP_APP_NAME_DEFAULT "Ecoin-Qt"
+#define QAPP_APP_NAME_TESTNET "Ecoin-Qt-testnet"
 
-#define QAPP_COIN_NAME "Rcoin"
+#define QAPP_COIN_NAME "Ecoin"
 
-#define QAPP_COIN_NAMES "Rcoins"
+#define QAPP_COIN_NAMES "Ecoins"
 
-#define QAPP_COIN_UNIT "RCO"
+#define QAPP_COIN_UNIT "ECO"
 
-#define QAPP_COIN_NAME_URI_SCHEME "rcoin:"
-#define QAPP_COIN_SCHEME_NAME "rcoin"
+#define QAPP_COIN_NAME_URI_SCHEME "ecoin:"
+#define QAPP_COIN_SCHEME_NAME "ecoin"
 
 #endif // BITCOIN_QT_GUICONSTANTS_H

@@ -2,12 +2,12 @@
 
 * 下载源码到本地目录
 ```bash
-git clone https://github.com/rcoinchain/rcoin.git
+git clone https://github.com/ecoinchain/ecoin.git
 ```
 
 * 编译源码
 
-如果是mac系统，请参考rcoin/doc目录下的build-osx.md，其它类似的操作系统对应的
+如果是mac系统，请参考ecoin/doc目录下的build-osx.md，其它类似的操作系统对应的
 build说明文档
 
 ```bash
@@ -28,5 +28,5 @@ rpcport=18875
 
 * 启动程序
 ```bash
-/path/rcoin/src/bitcoind -datadir=/path/your datadir/ -daemon -testnet
+/path/ecoin/src/bitcoind -datadir=/path/your datadir/ -daemon -testnet
 ```

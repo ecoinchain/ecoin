@@ -55,14 +55,14 @@ BOOST_AUTO_TEST_CASE(subsidy_limit_test)
     nSum += nSubsidy;
     BOOST_CHECK(MoneyRange(nSum));
     // nHeight的步长必须得是consensus.nSubsidyHalvingInterval约数
-    for (int nHeight = 1; nHeight < 14000001; nHeight += 1000) {
+    for (int nHeight = 1; nHeight < 68000001; nHeight += 200000) {
         CAmount nSubsidy = GetBlockSubsidy(nHeight, chainParams->GetConsensus());
         BOOST_CHECK(nSubsidy <= INITIAL_SUBSIDY);
-        nSum += nSubsidy * 1000;
+        nSum += nSubsidy * 200000;
         BOOST_CHECK(MoneyRange(nSum));
     }
     // nSum需要根据主网参数调整
-    BOOST_CHECK_EQUAL(nSum, 999999997400000ULL);
+    BOOST_CHECK_EQUAL(nSum, 37999999997000000ULL);
 }
 
 bool ReturnFalse() { return false; }

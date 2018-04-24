@@ -80,12 +80,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>These are your Rcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <source>These are your Ecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <source>These are your Ecoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -330,12 +330,12 @@
     </message>
     <message>
         <location line="+7"/>
-        <source>Send coins to a Rcoin address</source>
+        <source>Send coins to a Ecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+11"/>
-        <source>Request payments (generates QR codes and rcoin: URIs)</source>
+        <source>Request payments (generates QR codes and ecoin: URIs)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -405,12 +405,12 @@
     </message>
     <message>
         <location line="+3"/>
-        <source>Sign messages with your Rcoin addresses to prove you own them</source>
+        <source>Sign messages with your Ecoin addresses to prove you own them</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
+        <source>Verify messages to ensure they were signed with specified Ecoin addresses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -430,12 +430,12 @@
     </message>
     <message>
         <location line="+1"/>
-        <source>Open a rcoin: URI or payment request</source>
+        <source>Open a ecoin: URI or payment request</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
+        <source>Show the %1 help message to get a list with possible Ecoin command-line options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -445,7 +445,7 @@
     </message>
     <message numerus="yes">
         <location line="+0"/>
-        <source>%n active connection(s) to Rcoin network</source>
+        <source>%n active connection(s) to Ecoin network</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
@@ -653,7 +653,7 @@
     </message>
     <message>
         <location line="+34"/>
-        <source>Rcoin</source>
+        <source>Ecoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1027,7 +1027,7 @@
     </message>
     <message>
         <location line="+72"/>
-        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
+        <source>The entered address &quot;%1&quot; is not a valid Ecoin address.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1201,12 +1201,12 @@
     </message>
     <message>
         <location line="-11"/>
-        <source>Rcoin</source>
+        <source>Ecoin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+19"/>
-        <source>%1 will download and store a copy of the Rcoin block chain.</source>
+        <source>%1 will download and store a copy of the Ecoin block chain.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1735,12 +1735,12 @@
     </message>
     <message>
         <location line="-115"/>
-        <source>Cannot start rcoin: click-to-pay handler</source>
+        <source>Cannot start ecoin: click-to-pay handler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+123"/>
-        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
+        <source>URI cannot be parsed! This can be caused by an invalid Ecoin address or malformed URI parameters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1872,7 +1872,7 @@
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+133"/>
-        <source>Enter a Rcoin address (e.g. %1)</source>
+        <source>Enter a Ecoin address (e.g. %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2974,7 +2974,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+101"/>
-        <source>Warning: Invalid Rcoin address</source>
+        <source>Warning: Invalid Ecoin address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4156,7 +4156,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <source>Bitcoin Core</source>
-        <translation type="obsolete">Rcoin Core</translation>
+        <translation type="obsolete">Ecoin Core</translation>
     </message>
     <message>
         <location line="-396"/>
@@ -4995,7 +4995,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="-2"/>
-        <source>Rcoin Core</source>
+        <source>Ecoin Core</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -30,13 +30,12 @@ def byte_to_base58(b, version):
 
 def keyhash_to_p2pkh(hash, main = False):
     assert (len(hash) == 20)
-    print(bytes_to_hex_str(hash))
-    version = 60 if main else 111
+    version = 33 if main else 111
     return byte_to_base58(hash, version)
 
 def scripthash_to_p2sh(hash, main = False):
     assert (len(hash) == 20)
-    version = 13 if main else 196
+    version = 15 if main else 196
     return byte_to_base58(hash, version)
 
 def key_to_p2pkh(key, main = False):
@@ -58,7 +57,7 @@ def program_to_witness(version, program, main = False):
     assert 0 <= version <= 16
     assert 2 <= len(program) <= 40
     assert version > 0 or len(program) in [20, 32]
-    return segwit_addr.encode("rc" if main else "rcrt", version, program)
+    return segwit_addr.encode("ec" if main else "ecrt", version, program)
 
 def script_to_p2wsh(script, main = False):
     script = check_script(script)

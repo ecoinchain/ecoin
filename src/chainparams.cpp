@@ -1,4 +1,4 @@
-// Copyright (c) 2010 Satoshi Nakamoto
+﻿// Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -86,14 +86,14 @@ class CMainParams : public CChainParams {
 public:
     CMainParams() {
         strNetworkID = "main";
-        consensus.nSubsidyHalvingInterval = 200000;
-        consensus.powLimit = uint256S("0007ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.nSubsidyHalvingInterval = 2000000;
+        consensus.powLimit = uint256S("007fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 2 * 24 * 60 * 60; // two days
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = false;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 274; // 95% of nMinerConfirmationWindow
-        consensus.nMinerConfirmationWindow = 288; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 2736; // 95% of nMinerConfirmationWindow
+        consensus.nMinerConfirmationWindow = 2880; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -111,12 +111,12 @@ public:
          * The characters are rarely used upper ASCII, not valid as UTF-8, and produce
          * a large 32-bit integer with any alignment.
          */
-        // 用可见的消息magic感觉更好点，rcom表示rcoin main net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecom表示ecoin main net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x4d; // m
-        nDefaultPort = 8866;
+        nDefaultPort = 8877;
         nPruneAfterHeight = 100000;
         const size_t N = 200, K = 9;
         BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
@@ -125,13 +125,13 @@ public:
 
         // 网络部署时间跟genesis设置的时间不能超过1天.
         genesis = CreateGenesisBlock(
-            1524207262,
-            uint256S("0x000000000000000000000000000000000000000000000000000000000000000c"),
-            ParseHex("0005cef4edc3f604ab3022b971fc0cfe3ce076e98d01b660759606dbddc71451b37a69e71aeb86f7dc941b7e5994f32711d9a477128903d47ff9ba5abf60fe550cb3f13f29ec3d55a677d2065d6f279538def54b00e3ce5fd04a2055a30e82df8b76f2aea27bdc5b4710c428b91759f69b8f84b3b64dd8dd79211fff658a142c1a7ac40759f2b4510617a4d33205da8caf7b8b15b1ea7e432feac3ee9f07b2624f7b2e066bdf7a2a08e17fb00f07e891ee225791464188d623de1330a70f540b163bcc014e7d8251a93c63ec8cc76f46a0760cb8a152068da28c955c148c0a56e58a518b53c59b12df84764c7d3debf17ec359dd6f6d45d62039b9770afd462cac1b8bab5057534d2a26c6b5ebc1bfeb9631a635d3d4616831308233a64720b57124b61e3b4625a5a58c4e4d438ab5d744de2f75f3fa2451544529397789f8c4a6440d6b32c40d85390f95a84335c8a20123c075809fc8b52b2fa16678474c5982abeeb74e2063c216a4cf8ea9eed9f48104748ce560ba5d203e049397a23ca7bac5b955e5610379ee39c0e859d3113010e2a41e374b3dce2e2399ebcff4558ef5f65d9d0d451fe4e9a3aaf3d18a831e0bf8896b60841c92a52d5276ee565985d7958ba5ddf7fda161ec9a1bccf21faf17929f9d3cd9b29272bad0bc72b156db6bac2f30b54681056044ef570773c9c232ee12416e37829202c133e994c6f6d0958d01f391be28f57825b32a1751c906c68f605ef94a01666b5ad32a43320d5a1de1069049437bc96842ffb0b36abcafa04e0e1af284b22377e9fe468fe5f55684731c17e84c29e7337d6edd08e5ca91a75b3da37d61b1c5d8b7688d0b8730e7391ecef17ab1a82b338ddbd55f1d60d1272548ff56461b0822925a8cfade8c76b34ee77be244f255761d0a38405b07dca975e3734985e33b53676d92d7adc51701c39f7e9d17f79db90942b26bbf25f8ae786c31a601ee601a63dfcae3bbb524140bf9966506a37be3fd12f05c78b00a54d0cf72b4f99d463ceb2162fd2a9535bb1e9d3ea7349b4df6b80501c9aac6c18ef97a630214b9550847ca8fc25a316e3d9a8eb1a11277d5640f50831609d8f83d9c518418abe168512bae1eb763218b5ffc5e4951938dccd36ab32ae92196b436a18d5a95b3c9c2de698afa07ba2432dd66069f2dbe544704b04e19af1021e3fb3ec20d13611c90d89f887c7e0b56bd38edde1d4f0bba513b5b71e8a95f10f127b30892406e2842267a117ee4bf9246a611a0127701f21afdbb1376daf32dfd97429e183879f5c752dcd01208f2f99b310543ee96827a22b771dd6fbc39bf78ec11b57ce29dd89edbb7029282ebbfd1617c880f52d31675773f9433b317c1b112f2cbc4be0e04eaf53c041b773a0ad8d30b9bf8a572e5267687aa36aa9adad201f01f25dd2c93cde5e170360d76704ed4485a3dc30b757892543811cfeebb71faa397ead153ae36a2460779e2565f6844efa25bb1d43d575ec958de2c57a33a31874c50193429b8eb24390fc886766ce593c53d14e6dca03af66357d988a91f7dde4feee3fe99d9332cc64eeedbeb3601fcd0d3c3eb7d87cea45d15df1015be7910e30ec42116e80375fe7fdbe1b7a0f98fab17154ef2b9cb74b6d3bab22466d727ff4e23de14e3025d01c3279004a1d017521e052475dcdaca87ad1a2fdfdadbe7d918732cb6f3cdeac6299549bd4b225405d36325f7d98a8bc070a118526033e8d153c9ffd316b036f091300a999504446746c9b7e633de130b7218d9763675d02cdcd4bc5a3dcf5f3f5ecf99b8a78320106a613b8e5c35cde2f331f6e7a566880e575e8e1d5abef3cd5f73cefe5861ddaf59dfc1956eefcda3390b2b997d598c47dda576c145787f1744e09a3587"),
-            0x1f07ffff, 1, GENESIS_MONEY);
+            1524206068,
+            uint256S("0x0000000000000000000000000000000000000000000000000000000000000006"),
+            ParseHex("00c9c1cf397445d1bf72a2db19b821399cef9517e710b09ca26f091fbef2bfe25ecbf3948a451a7801ed0cd0e1cdd6782c37f26d6179a1df97a4e37456b83621a3e5df7f29a48fe26f128569ea4750b02338fe430b04eaec448dede3a46d95327e699b4185fef82505466a4615fb5895c7235ff7ce3c5ea3b3a8191fd9030fa307cbe2a16849f320d700db4ba45f49e19fb9e010b18da64aa1ee75f59253410d4886bb09fbfc482806c4788e5a678df5fb09c5355dd178deacda9e397a293b2b5b2e910a015663e3cc9c4cfae9e0d297e30c06dce1166274c1e3f43673f8234342dd41b30b2c1f13a56e3eebab4091631aa3d57a7f823f0bebde4aea08c902ca866de87bede803fb75f900568f72956e5421230e84535e8f671a98223827de0c91912af91038169d54571a3a0dd1ff9b63695328dbeb95ac3d71dc3670fc54a862767bb854a6cf556a93ff1682dc129d0196118ecc97f606e2d573880971f25dfbe957766e43ffe5a30832d4b3cccdeab893faf1a2f4961d3b9902a09789e78198828246a23488e0e9f0bfa9d0474403b74c12446a28ebedce67cf3c7655de2858d1623a03f0b8357593457f65abe224b77a1904e2f79c953d51d49bb21a6b6c7db330c851b4fe0bba14e3969d8b20078ba08a0c293ef7b753fcc6f15b4edfe7f9f5c827d5cd329e358eb3ee8fa4fd6d3d6825d51d7a02c10aa162958f17491adaf1d324e371c07d83603e120317a916557a53c6cda524826df2ee9dddfc80bcc03913122774d94673d648c5b330a7227c65840073af7b2c43ca81915ce9cb52d117b4124b5c9a84b874df74122d22b6609610c112bfb4f1f2330401e55374b297230f66659556e831227595beeceeb32dd4ab54ab5f334a4cb79a6f504b8f94958d95d575f18b2472d9cb37b2e2eb5d66a0393f882879114ade5f13381917fd01b28bd61313b079ac47dd3594e9ea3f68211c2cc90e76e2d35d70f5a9c10a234684508966be57d91e051c4fecc4398ece0df90155c7a0e6cc2dfcf6d5038f36dfe43103718dd1ceac53716cda69c1b49af422700ad555b8af1eb1677bc8b189c4940714b26b877e204984b55c2fe6fe4739d1f9963653966e6db63f396e2880cbac3996eb88d80ec2e59b65c119be827ca98a44db56d309173b4f7d7c958013c97ad3287cdc829f04cc2450fb1e2f2be209b0672d3f7e7901835443a929224281b1ebde519944473ca5f72d5e602a731a551b7eaf4f2c4bc68c9fb512842dec6fb2f6ca9d8a672397b1a88f170b47ad1472a7d8a49e65f286f3e7651691d210bf88fffff014719e9c2c6868a4ae500c691f334f735de8151f4730d3417d30f57dcb8af3f3d91cde8e9e9b9c52490a489453cde886b68f30dadc812fc88c4f8d65c883a4daa49c48fd8a8561586bb0b101dc0fdf6d9f369ba74e83e043ca44052488d905d10d4fcdc73906875bad06c4e640f0dbaf39bebee64f05146c80d0b442dfba1785218957e03d57f36d98ef1466f69aab506ae4e1c2326a02f45a3ac3a23bc40304daa15619eba685bc4a10db798bc1d8d6ec328d06726e648ecf2a3ed35a7a79e8fdf8049b2798ffe7e0162549814c498483c943f49e603fa7e527f231652d55e37e83c49c75677cca772d42ea256f186fbb94aa0332c6355649876f6fc6a55556bcec69e94ff048781e5312723ee5f0cb3dd5f6ff28524d95db5355be9a04607ae2de5baba15a73f10225faef60b1b7cf02f853f9fb3e9295967191627574d5451855e2287f7af50392e500751202d36ecc71e61f7c5a68af419d724707e8f04f21b225c5c881e13ddf392c9480e3dc0ecd0dfad68dbb0c88febe1956569d703d2aaf423a1d0b11e8ad3aeeb19819e76086f5b3dab75dce7effcdfe"),
+            0x1f7fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x00079b7c9f50b744473ca944667df7e791cdca969469d9af86ecde1ab597737d"));
-        assert(genesis.hashMerkleRoot == uint256S("0x83aa4396221b56f76352e72a20be936493b03c4c15f368e266613ee645f9256f"));
+        assert(consensus.hashGenesisBlock == uint256S("0x003f15eade9586446b8dae5ff3eca036c8829dd695aa891738f0972ab3c2c92c"));
+        assert(genesis.hashMerkleRoot == uint256S("0x031fcb90377f5fdae730e3689f36d032cbcc036c27a935bf56a08ed958da8b2e"));
 
         // Note that of those which support the service bits prefix, most only support a subset of
         // possible options.
@@ -146,13 +146,13 @@ public:
         // vSeeds.emplace_back("seed.bitcoin.jonasschnelli.ch"); // Jonas Schnelli, only supports x1, x5, x9, and xd
         // vSeeds.emplace_back("seed.btc.petertodd.org"); // Peter Todd, only supports x1, x5, x9, and xd
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60); // R为地址的第一个字母.
-        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,13); // 6为地址的第一个字母.
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,33); // E为地址的第一个字母.
+        base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,15); // 7为地址的第一个字母.
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,128);
         base58Prefixes[EXT_PUBLIC_KEY] = {0x14, 0x03, 0x12, 0x42};
         base58Prefixes[EXT_SECRET_KEY] = {0x43, 0x5d, 0x8c, 0xb2};
 
-        bech32_hrp = "rc";
+        bech32_hrp = "ec";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_main, pnSeed6_main + ARRAYLEN(pnSeed6_main));
 
@@ -164,7 +164,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置.
         checkpointData = {
             {
-                {0, uint256S("00079b7c9f50b744473ca944667df7e791cdca969469d9af86ecde1ab597737d")},
+                {0, uint256S("003f15eade9586446b8dae5ff3eca036c8829dd695aa891738f0972ab3c2c92c")},
             }
         };
 
@@ -187,14 +187,14 @@ class CTestNetParams : public CChainParams {
 public:
     CTestNetParams() {
         strNetworkID = "test";
-        consensus.nSubsidyHalvingInterval = 200000;
-        consensus.powLimit = uint256S("07ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+        consensus.nSubsidyHalvingInterval = 2000000;
+        consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
         consensus.nPowTargetTimespan = 2 * 24 * 60 * 60; // two days
-        consensus.nPowTargetSpacing = 10 * 60;
+        consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = false;
-        consensus.nRuleChangeActivationThreshold = 216; // 75% for testchains
-        consensus.nMinerConfirmationWindow = 288; // nPowTargetTimespan / nPowTargetSpacing
+        consensus.nRuleChangeActivationThreshold = 2160; // 75% for testchains
+        consensus.nMinerConfirmationWindow = 2880; // nPowTargetTimespan / nPowTargetSpacing
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
@@ -207,12 +207,12 @@ public:
         // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //1135275
 
-        // 用可见的消息magic感觉更好点，rcot表示rcoin test net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecot表示ecoin test net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x54; // t
-        nDefaultPort = 18866;
+        nDefaultPort = 18877;
         nPruneAfterHeight = 1000;
         const size_t N = 200, K = 9;  // Same as mainchain.
         BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
@@ -221,13 +221,13 @@ public:
 
         // 网络部署时间跟genesis设置的时间不能超过1天.
         genesis = CreateGenesisBlock(
-            1523498400,
-            uint256S("0x000000000000000000000000000000000000000000000000000000000000000d"),
-            ParseHex("004e8dfa09ca8fbf2fee30a9ba552bd438dd6eb20b01c186a994c7fd2161ae203e2063b8d53efa3afde6033f202f8b21c8afda6a33732de8ef75a82b0fe80022714a6b1e657c0b943024776dab1495f5ec1c4fd0086898d1fda17ab370b174eb8f48c8f2bc9078dd583a052ff6a97bb335ec9303a3e3f6da4518f4ac4ad81ae24acfd0d8756b849f92c01361a45add757d113347c287ab3515c8abcdef753b0371045e3ce875ca0c009e4f7da6d99739f008d73122f41c7a8dfad8027f07861a848c4b9db6c2ad33e04ed7fafd20add6017216bdd754ba072948697cc51334487b9164f7acd3ee46b722e1d39eaeb92a429522acd05a4ddcd03baf080f6fa3664cd3ca79a953142aa4760ef978bceec7b15d01c5a00d76907fc23b85d19b45be5259b5b5dfab18e7c9f9914cdc1b62a5d4916de72dd5b1ffdfbf4a5692e33a9d1bfa6513bb36e3bce76245e51fb11a8c04ae67f9e1c7f590bd88d0c8d7957378fbaca90a531649f3230507df97497b379d08e52ece6201f61aba0caacdf3e609a711b58b311460f16e385194a8ade5114e441a44a651a7a9f621255edba58d9719f0167326353bb3828f1f8fdf62ba611b6e33abd6421ed90932e65d0a51a8f3ff8d3543a42ccd5212543af2c86828a335690dda26736a32e614d0ec90670ec21d0d15423c7d1f789a48a6fb5576a17f3a6b79ec415b29850cc0c3ed78259cdb9905585426f738faa23fd5dfd6237182e2b86316492845a3dd2d4ab08b50739aec021e2b5189654e5ebba78ab3ad2dc268fcf768350b6124741f5eeada75412457e6adbfb5e86b4bde3f689b0ce9766f112b7f51827081d9b6a60ef9058a93cf83136f44c7558b6e72c7fe9278d8c26788a3d9b85a9825a9b2821da03f3f787319a0d67c75f27d84fc046034ddfeee2d732fb3f25767c945676e6f64d71b8a4701196def428373937a16782159567ff687ab37db2f1532454016e8fea9e2a943a1f6a0c5fd9b6c9aa36d2343c28bb55a54e1ec36b25dfbfd3114fc557adfc0272e2e46aa8ee76e8790384fa9655b3a3d9f9f573f0d307d104103adc22bbcb42d7450d8c2f5f95d0f050e08890648e281135d67f21306a74f68ec5cb88b8c15791e9f2948c880ee68f3f98d7f01c12e08bb7e4a2708edde338b560eef7892861379bc10c9197a3a2b0f8cd97f9e959257db829298fba7202a88ffb55c1312a0959f3e614d73caad71a09c2b8dded4c01e02ad3a45372ff3da26e9eae33951f55b03aa8407165435479bc71ec1a09a891c2fb697933d369ddf762f086c175db4f636a3afbbe9f4d25a71c14c8992a03b7d213a603695cfdc9f054e86659351c1fc899d2294433a22af6411c94f7cf4d4fb95c332cbdd4618b5f5dbb42e35527da50f964abc366465b5e6f70e9b4eb697b705a0dec234ee514bbcddf1aea1542d128801948740485032629b75ce97c074f566f5545f25ff48d5c56714e237883f474fe9da5003ab1d672305239778bc3d155d717ad5d21a72a2fbb29b7eb8059ccdb831103b0c4137acac463e45604b96a7e9e6c9a5fa107f30df20cf14c5e61a96a5a2e3176a515b41d25509fd0ac71f1f522789aec9f189b2252af9337c462bfef56c6142991afd1735dabdf23aaa99cb5b2cc3a589dde0000a7982c5ea53597fb44d0298a4ac9959a9731b8d1b0ecc90a7dc4bcf42a705b5bf77405e95d4e35f82410cd6bd3e36e57b7dc39c62e87b785729d406168a331ea6ca74e88fc5f70629146ed9645b3f2e5f7b3276105a82cec00a790ec6ea134574a5f4ed53dc6bec4a39cf0407e1502b16d2975480ed65be9593419c487f3fcc937436941ff7b0f554faa6f9b241e66416578148bcf427d29385de9cf12ab9c77db6b714b4ba44c6"),
-            0x2007ffff, 1, GENESIS_MONEY);
+            1523876400,
+            uint256S("0x0000000000000000000000000000000000000000000000000000000000000001"),
+            ParseHex("0046ebc0ca4a720fa622b1307cd81ab9014eaed69a0af0075b82242a9176bfe42a43419f51707d180f28307e9ee718e8c595be8b2468612c983aa3f8db893131a8976e7d92a133fcfc9649887eb5d9bbe2b1de36037514e40b43fe831e0e20ae087266b523bb0a32df076cf9df72df722dd45399397c5ce16285f83bd31d123c41106849536f30f3d1ab23136ca612053f98fb41ba9d4a36582c87f83e867ee341a0e1c42cf38c960323dd21c68309c4aa2d012f44411551ca537dc2c410ec75395fc71c0c935764f997fa0f89c137cf51961f77ce710e206741f178533bff2a5f35f017f673092d669df48f1e9c337de2b5458b4fc196208293c7860c8ad1717806032e51690b9f9fec7a038e753f4e1225b1c5aff1ce8465aedf46a87a5dd0c672837c7eb30cdad6357ed98c93b1f4713e9c9dfdbd108bf923052cd152dce65998d34a4e73083dedc9cde257b2f33a01893912be15a167e9a274ec3a7a2c65d2945b7e05210d156e6912e8e9c8c5c599f152d99ad983bfca4107f67c32bcdcfe93548f1212a790aa70d6bab47ce85c0c0b6720b5a77bbb569a31855a686b15c599f7d80230eeb09e19da4af12350d8c6670ac0663e2787227174158447351c9fc0ae590ff8e94bda48833da52c1f6b5255fa1643fdd23bc5dbe9d0cd6633a7d49ecf25654149868b5c59c4c285b970db39a2800efa9cf7093502731d1eeaf15b59a15771db8f38a960c563f079646ed098e2a95fb4f49869f1793896e2c43b0d0b10205b9127560a851fd0e40fb82cd5bd10f1ed8fc223857deb6d52dfeaef5ff2e7959d12b23188f941b80a2ce914882bdcf3edf56172309b07455fc1f770e70a7b6c778167d345f389c1a49aa92146da931ca3c828d582686bee3c11e872b341faa8160993a9dd38c64638065bd6a5a7eb4c70d470c7d04fea34f61c01bf00a59828d71d65b72f3353b87d230893827d7dcc9427e252ce03a1e5359d6e45d3f54bd88ee2fa387a250f9af08c6d8dadfe8f14143577a53d05201a2bd9b932c4f48d3df5010bf67be988356c37e6dbab56f4fd070d965850427c92997984683b38e29d81318dd1cb20b56ceed1d3ce6773d02283ebbd6c30d267bbfc3817b9e47c5b46a013d63d04793fd7118ad80c5a1d2f24fee2b065a840679a273361157766aa26ed72e8b803c6630ae9c9be1114c20184dbb293ad3a38d27608487b9f7ee830844ff6f6b497882709398662555ee437f77ce58e530403485284dc1d6947bac0481f040245b69f2b25a3a7d1779a65581a2dda5a16f458249b03ff6f6980c3077642e2e1ffc5c8a36968c8ade5c0173ac5a31f4c2949d226d6da21eb4cadf731f0f9f30d5d6081305d9b373e9603f4f7af66be2792fa4a85165e06f632dc1d8559b0216fa91b2a38f2ee6bebd004e44102a10b0e8b2c25928885728cf14be43e3e0a290e349863107f33c0f1a3beb3b028ab54d0df99fb0bbb68af430acf7c93a338f0abdf663ed388b941c94389cb6461a3714b96cd04e05cf982e3be0fff518705162babee503436f697e42cf8362dd608ccb452cd40697f382a548cfd679c29dd00e23fef38945d72170bf92e797344419f7875c6cd9236e655e9b7b329d82dd20e1d1a4cb3453b4fc61591dd172ec104ffec69078f2b7f24deb997358e16c0b4d19afde822940e890e35f5b878156e24d3ea32de34bca2a551d2fa1b6f2e9f0a15d30c67ff48f5092ac5e351aaccf6b8248e47edac4a2b63e44fa2a175bcd6f09331f2127ae1d80b8fb538dd0ec62b578190cf4cddbf150c8995174e1977de525cdc10e3c225b580956303e5acde5126771e0bdda48ed7ad2cc699625e7c67a80af7c8f9b15b3616ea6d766383d9c406f39edbbb1fe9d71cf086fe"),
+            0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x01414ba30e700a0534b98aab8f2340339ce3a3f20649405e2fa7e2135315072d"));
-        assert(genesis.hashMerkleRoot == uint256S("0x83aa4396221b56f76352e72a20be936493b03c4c15f368e266613ee645f9256f"));
+        assert(consensus.hashGenesisBlock == uint256S("0x09bf3167d39207977109a5864c4406cf5de8597f66ac520eafb92e93caf67b5a"));
+        assert(genesis.hashMerkleRoot == uint256S("0x031fcb90377f5fdae730e3689f36d032cbcc036c27a935bf56a08ed958da8b2e"));
 
         vFixedSeeds.clear();
         vSeeds.clear();
@@ -244,7 +244,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x12, 0x93, 0xff, 0x3a};
         base58Prefixes[EXT_SECRET_KEY] = {0x3e, 0x89, 0xde, 0x01};
 
-        bech32_hrp = "tr";
+        bech32_hrp = "te";
 
         vFixedSeeds = std::vector<SeedSpec6>(pnSeed6_test, pnSeed6_test + ARRAYLEN(pnSeed6_test));
 
@@ -257,7 +257,7 @@ public:
         // todo 区块链的检查点，等到链成长到一定程度再设置.
         checkpointData = {
             {
-                {0, uint256S("01414ba30e700a0534b98aab8f2340339ce3a3f20649405e2fa7e2135315072d")},
+                {0, uint256S("09bf3167d39207977109a5864c4406cf5de8597f66ac520eafb92e93caf67b5a")},
             }
         };
 
@@ -298,12 +298,12 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         consensus.defaultAssumeValid = uint256S("0x00");
 
-        // 用可见的消息magic感觉更好点，rcor表示rcoin reg net
-        pchMessageStart[0] = 0x52; // r
+        // 用可见的消息magic感觉更好点，ecor表示ecoin reg net
+        pchMessageStart[0] = 0x45; // e
         pchMessageStart[1] = 0x43; // c
         pchMessageStart[2] = 0x4f; // o
         pchMessageStart[3] = 0x52; // r
-        nDefaultPort = 18666;
+        nDefaultPort = 18777;
         nPruneAfterHeight = 1000;
         const size_t N = 48, K = 5;
         BOOST_STATIC_ASSERT(equihash_parameters_acceptable(N, K));
@@ -312,12 +312,12 @@ public:
 
         genesis = CreateGenesisBlock(
             1296688602,
-            uint256S("0x0000000000000000000000000000000000000000000000000000000000000005"),
-            ParseHex("00ea58f6f75d6e192723f9172ea79eee15320b08c98558ae5e47e0325a531b65f7561d2b"),
+            uint256S("0x0000000000000000000000000000000000000000000000000000000000000004"),
+            ParseHex("1620db1dd1869b8fe92f99dc5443dcc727ff299e189827275ee9f931529a36e37b8ce927"),
             0x207fffff, 1, GENESIS_MONEY);
         consensus.hashGenesisBlock = genesis.GetHash();
-        assert(consensus.hashGenesisBlock == uint256S("0x4130a5b7d7b9d532b5e006b7e1d557cbfd311fcd819289477135efba4368efb1"));
-        assert(genesis.hashMerkleRoot == uint256S("0x83aa4396221b56f76352e72a20be936493b03c4c15f368e266613ee645f9256f"));
+        assert(consensus.hashGenesisBlock == uint256S("0x34eb897a5f8e37c156c4170becc5993740003cbb3ce4a326ddd31701d3a749d0"));
+        assert(genesis.hashMerkleRoot == uint256S("0x031fcb90377f5fdae730e3689f36d032cbcc036c27a935bf56a08ed958da8b2e"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -329,7 +329,7 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("4130a5b7d7b9d532b5e006b7e1d557cbfd311fcd819289477135efba4368efb1")},
+                {0, uint256S("34eb897a5f8e37c156c4170becc5993740003cbb3ce4a326ddd31701d3a749d0")},
             }
         };
 
@@ -345,7 +345,7 @@ public:
         base58Prefixes[EXT_PUBLIC_KEY] = {0x12, 0x93, 0xff, 0x3a};
         base58Prefixes[EXT_SECRET_KEY] = {0x3e, 0x89, 0xde, 0x01};
 
-        bech32_hrp = "rcrt";
+        bech32_hrp = "ecrt";
 
         /* enable fallback fee on regtest */
         m_fallback_fee_enabled = true;
