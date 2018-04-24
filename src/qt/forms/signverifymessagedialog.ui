@@ -48,6 +48,7 @@ border-radius: 3px;
 border: 1px solid #2798FF;
 border-radius: 3px;
 padding: 3px;
+color: #2798FF;
 }
 
 QLineEdit , QPlainTextEdit  {
@@ -72,6 +73,7 @@ background : red;
 #signMessageButton_SM:!pressed, #verifyMessageButton_VM:!pressed
 {
 background: #2798FF;
+color: #ffffff;
 }
 
 
