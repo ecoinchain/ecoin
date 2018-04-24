@@ -36,8 +36,11 @@ public Q_SLOTS:
     void closeClicked();
     bool isLayerVisible() const { return layerIsVisible; }
 
+private Q_SLOTS:
+	void relocate_self(QSize);
+
 private:
-    Ui::ChainSyncWarning *ui;
+	Ui::ChainSyncWarning *ui;
     int bestHeaderHeight; //best known height (based on the headers)
     QDateTime bestHeaderDate;
     QVector<QPair<qint64, double> > blockProcessTime;

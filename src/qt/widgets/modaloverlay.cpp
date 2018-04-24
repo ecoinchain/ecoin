@@ -26,13 +26,12 @@ bool ModalOverlay::eventFilter(QObject * obj, QEvent * ev) {
         if (ev->type() == QEvent::Resize) {
             QResizeEvent * rev = static_cast<QResizeEvent*>(ev);
             resize(rev->size());
-			if (!isHidden())
-                setGeometry(0, height(), width(), height());
-
+			raise();
+			Q_EMIT parentResized(rev->size());
         }
         else if (ev->type() == QEvent::ChildAdded) {
-            raise();
-        }
+			raise();
+		}
     }
     return QWidget::eventFilter(obj, ev);
 }

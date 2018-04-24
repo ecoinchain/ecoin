@@ -22,13 +22,11 @@ ChainSyncWarning::ChainSyncWarning(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->closeButton, SIGNAL(clicked()), this, SLOT(closeClicked()));
-    if (parent) {
-        parent->installEventFilter(this);
-        raise();
-    }
-
+	connect(this, &ChainSyncWarning::parentResized, this, &ChainSyncWarning::relocate_self);
+	
     blockProcessTime.clear();
     setVisible(false);
+
 }
 
 ChainSyncWarning::~ChainSyncWarning()
@@ -141,4 +139,10 @@ void ChainSyncWarning::closeClicked()
 {
     showHide(true);
     userClosed = true;
+}
+
+void ChainSyncWarning::relocate_self(QSize parentsize)
+{
+	if (!isHidden())
+		setGeometry(0, parentsize.height(), width(), height());
 }

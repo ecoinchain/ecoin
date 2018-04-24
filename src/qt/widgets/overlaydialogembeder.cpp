@@ -16,6 +16,20 @@ OverlayDialogEmbeder::OverlayDialogEmbeder(QDialog* child , QWidget *parent)
 	this->setLayout(new QHBoxLayout);
 
 	this->layout()->addWidget(child);
+
+	if (parent) {
+		QSize parentsize = parent->size();
+		setGeometry(0, 0, parentsize.width(), parentsize.height());
+	}
+	QMargins marg(30,50,20,50);
+
+#ifdef Q_OS_MAC
+	double iconscale = 1.0;
+#else
+	double iconscale = logicalDpiX() / 96.0;
+#endif	
+
+	setContentsMargins(marg * iconscale);
 }
 
 OverlayDialogEmbeder::~OverlayDialogEmbeder()
