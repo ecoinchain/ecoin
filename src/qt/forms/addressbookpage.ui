@@ -74,6 +74,10 @@ background: #2798FF;
 
 QPushButton[flat=false]:pressed {
 background : #F8F8F8;
+}
+
+QDialog {
+background-color: rgb(255, 255, 255);
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
