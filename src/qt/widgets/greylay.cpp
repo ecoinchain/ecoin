@@ -21,5 +21,5 @@ Greylay::~Greylay()
 void Greylay::paintEvent(QPaintEvent *event)
 {
 	QPainter p(this);
-	p.fillRect(event->rect(), Qt::gray);
+	p.fillRect(event->rect(), QColor(57, 60, 61, 90));
 }
