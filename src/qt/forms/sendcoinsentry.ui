@@ -35,7 +35,13 @@ QLineEdit , BitcoinAmountField {
     border-style: solid;
     border-width: 1px;
 }
-</string>
+
+#useAvailableBalanceButton {
+	color : #ffffff;
+  
+	background-color: rgb(108, 112, 113);
+   padding: 2px;
+}</string>
   </property>
   <property name="lineWidth">
    <number>0</number>
