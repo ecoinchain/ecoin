@@ -143,6 +143,8 @@ void ChainSyncWarning::closeClicked()
 
 void ChainSyncWarning::relocate_self(QSize parentsize)
 {
-	if (!isHidden())
+	if (!layerIsVisible)
 		setGeometry(0, parentsize.height(), width(), height());
+	else
+		raise();
 }
