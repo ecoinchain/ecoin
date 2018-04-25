@@ -67,7 +67,7 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
 	if (enableminner.toBool())
 	{
 		QTimer::singleShot(10, [this](){onGenerateChanged(true);});
-		gArgs.SoftSetBoolArg("-gen", true);
+		gArgs.ForceSetArg("-gen", "1");
 	}
 }
 
