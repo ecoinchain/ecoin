@@ -40,7 +40,7 @@ QTabBar::tab:selected {
 }
 
 QPushButton {
-background: #FFFFF;
+background: #FFFFFF;
 color: #000000;
 border-radius: 3px;
 border: 1px solid #E4E4E4;

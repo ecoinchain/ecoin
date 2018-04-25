@@ -1057,12 +1057,15 @@ void BitcoinGUI::MinerStatusChanged(bool)
 #endif
 
 	animatedIcon.reset(new QMovie(":/movies/wa.gif"));
-	labelWalletMinerStatusIcon->setMovie(animatedIcon.data());
 	labelWalletMinerStatusIcon->setToolTip(tr("mining"));
 	animatedIcon->setScaledSize(QSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE) * iconscale);
 	labelWalletMinerStatusIcon->setMargin(1);
-	trayIcon->setToolTip(tr("%1 is mining").arg(QAPP_ORG_NAME));
+	labelWalletMinerStatusIcon->setMovie(animatedIcon.data());
 	animatedIcon->start();
+
+#ifndef Q_OS_MAC
+	trayIcon->setToolTip(tr("%1 is mining").arg(QAPP_ORG_NAME));
+#endif
 }
 
 #endif // ENABLE_WALLET
