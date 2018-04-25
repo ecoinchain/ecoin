@@ -236,6 +236,9 @@ background : #F8F8F8;
            <property name="readOnly">
             <bool>true</bool>
            </property>
+           <property name="placeholderText">
+            <string>Click &quot;Sign Message&quot; to generate signature</string>
+           </property>
           </widget>
          </item>
          <item>

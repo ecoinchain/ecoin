@@ -6,6 +6,8 @@
 #include <pow.h>
 
 #include <arith_uint256.h>
+
+#include <boost/multiprecision/cpp_int.hpp>
 #include <chain.h>
 #include <primitives/block.h>
 #include <uint256.h>
@@ -50,6 +52,51 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     return CalculateNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 }
 
+static boost::multiprecision::uint512_t decode_compact(uint32_t nCompact)
+{
+	/**
+	* The "compact" format is a representation of a whole
+	* number N using an unsigned 32bit number similar to a
+	* floating point format.
+	* The most significant 8 bits are the unsigned exponent of base 256.
+	* This exponent can be thought of as "number of bytes of N".
+	* The lower 23 bits are the mantissa.
+	* Bit number 24 (0x800000) represents the sign of N.
+	* N = (-1^sign) * mantissa * 256^(exponent-3)
+	*
+	* Satoshi's original implementation used BN_bn2mpi() and BN_mpi2bn().
+	* MPI uses the most significant bit of the first byte as sign.
+	* Thus 0x1234560000 is compact (0x05123456)
+	* and  0xc0de000000 is compact (0x0600c0de)
+	*
+	* Bitcoin only uses this "compact" format for encoding difficulty
+	* targets, which are unsigned 256bit quantities.  Thus, all the
+	* complexities of the sign bit and using base 256 are probably an
+	* implementation accident.
+	*/
+
+	boost::multiprecision::uint512_t result_big_number;
+
+	int nSize = nCompact >> 24;
+	uint32_t nWord = nCompact & 0x007fffff;
+	if (nSize <= 3) {
+		nWord >>= 8 * (3 - nSize);
+		result_big_number = nWord;
+	}
+	else {
+		result_big_number = nWord;
+		result_big_number  <<= 8 * (nSize - 3);
+	}
+
+	return result_big_number;
+}
+
+static boost::multiprecision::uint512_t UintToCpp512(const uint256 & n)
+{
+	std::string n_string = n.ToString();
+	return boost::multiprecision::uint512_t("0x" + n_string);
+}
+
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)
 {
     if (params.fPowNoRetargeting)
@@ -63,16 +110,22 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
         nActualTimespan = params.nPowTargetTimespan*4;
 
     // Retarget
-    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
-    arith_uint256 bnNew;
-    bnNew.SetCompact(pindexLast->nBits);
+    auto bnPowLimit = UintToCpp512(params.powLimit);
+//    arith_uint512 bnNew;
+	boost::multiprecision::uint512_t bnNew = decode_compact(pindexLast->nBits);
+
+//	bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;
     bnNew /= params.nPowTargetTimespan;
 
     if (bnNew > bnPowLimit)
         bnNew = bnPowLimit;
 
-    return bnNew.GetCompact();
+	std::stringstream converted_stream;
+	converted_stream << std::hex << std::showbase << bnNew;
+
+	std::string converted_string = converted_stream.str();
+	return UintToArith256(uint256S(converted_string)).GetCompact();
 }
 
 bool CheckEquihashSolution(const CBlockHeader *pblock, const CChainParams& params)
