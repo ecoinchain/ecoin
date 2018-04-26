@@ -13,7 +13,6 @@
 class OverlayDialogEmbeder : public Greylay
 {
     Q_OBJECT
-
 public:
     explicit OverlayDialogEmbeder(QDialog* embed_child, QWidget *parent);
     ~OverlayDialogEmbeder();

@@ -12,6 +12,7 @@
 Greylay::Greylay(QWidget *parent)
 	: ModalOverlay(parent)
 {
+	m_greycolor = QColor(57, 60, 61, 90);
 }
 
 Greylay::~Greylay()
@@ -21,5 +22,5 @@ Greylay::~Greylay()
 void Greylay::paintEvent(QPaintEvent *event)
 {
 	QPainter p(this);
-	p.fillRect(event->rect(), QColor(57, 60, 61, 90));
+	p.fillRect(event->rect(), m_greycolor);
 }

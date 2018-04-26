@@ -55,14 +55,15 @@ public:
     void showOutOfSyncWarning(bool fShow);
 
 private:
+	QMargins AskPassphraseDialogMargin();
+
+private:
     ClientModel *clientModel;
     WalletModel *walletModel;
 
     OverviewPage *overviewPage;
     ReceiveCoinsDialog *receiveCoinsPage;
     SendCoinsDialog *sendCoinsPage;
-    AddressBookPage *usedSendingAddressesPage;
-    AddressBookPage *usedReceivingAddressesPage;
 
     TransactionView *transactionView;
 
