@@ -50,7 +50,7 @@ void SendCoinsEntry::on_pasteButton_clicked()
     ui->payTo->setText(QApplication::clipboard()->text());
 }
 
-QWidget* TopLevelParentWidget(QWidget* widget)
+static QWidget* TopLevelParentWidget(QWidget* widget)
 {
 	while (widget->parentWidget() != Q_NULLPTR) widget = widget->parentWidget();
 	return widget;

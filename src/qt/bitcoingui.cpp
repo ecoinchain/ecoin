@@ -316,26 +316,10 @@ void BitcoinGUI::createActions()
     historyAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_4));
     tabGroup->addAction(historyAction);
 
-	usedSendingAddressesAction = new IconedAction(QIcon(":/icons/address-book"), tr("&Sending addresses..."), this);
-	usedSendingAddressesAction->setStatusTip(tr("Show the list of used sending addresses and labels"));
-	usedSendingAddressesAction->setToolTip(usedSendingAddressesAction->statusTip());
-	usedSendingAddressesAction->setCheckable(true);
-	usedSendingAddressesAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_5));
-	tabGroup->addAction(usedSendingAddressesAction);
-
-	usedReceivingAddressesAction = new IconedAction(QIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
-	usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
-	usedReceivingAddressesAction->setToolTip(usedReceivingAddressesAction->statusTip());
-	usedReceivingAddressesAction->setCheckable(true);
-	usedReceivingAddressesAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_6));
-	tabGroup->addAction(usedReceivingAddressesAction);
-
 	connect(overviewAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, overviewAction, std::placeholders::_1));
 	connect(sendCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, sendCoinsAction, std::placeholders::_1));
 	connect(receiveCoinsAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, receiveCoinsAction, std::placeholders::_1));
 	connect(historyAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, historyAction, std::placeholders::_1));
-	connect(usedSendingAddressesAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, usedSendingAddressesAction, std::placeholders::_1));
-	connect(usedReceivingAddressesAction, &IconedAction::stateChanged, this, std::bind(&BitcoinGUI::toolbartoggle_ui_style, this, usedReceivingAddressesAction, std::placeholders::_1));
 
 #ifdef ENABLE_WALLET
     // These showNormalIfMinimized are needed because Send Coins and Receive Coins
@@ -396,7 +380,15 @@ void BitcoinGUI::createActions()
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible %1 command-line options").arg(tr(PACKAGE_NAME)).arg(QAPP_COIN_NAME));
 
-    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+	usedSendingAddressesAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Sending addresses..."), this);
+	usedSendingAddressesAction->setStatusTip(tr("Show the list of used sending addresses and labels"));
+	usedSendingAddressesAction->setToolTip(usedSendingAddressesAction->statusTip());
+
+	usedReceivingAddressesAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
+	usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
+	usedReceivingAddressesAction->setToolTip(usedReceivingAddressesAction->statusTip());
+	
+	connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -437,8 +429,6 @@ void BitcoinGUI::createToolBars_and_Menus()
         toolbar->addAction(sendCoinsAction);
         toolbar->addAction(receiveCoinsAction);
         toolbar->addAction(historyAction);
-		toolbar->addAction(usedSendingAddressesAction);
-		toolbar->addAction(usedReceivingAddressesAction);
 
 		overviewAction->setChecked(true);
 		QPalette pal = toolbar->palette();
@@ -472,8 +462,8 @@ void BitcoinGUI::createToolBars_and_Menus()
 		file->addAction(signMessageAction);
 		file->addAction(verifyMessageAction);
 		file->addSeparator();
-//		file->addAction(usedSendingAddressesAction);
-//		file->addAction(usedReceivingAddressesAction);
+		file->addAction(usedSendingAddressesAction);
+		file->addAction(usedReceivingAddressesAction);
 		file->addSeparator();
 	}
 	file->addAction(quitAction);

@@ -13,11 +13,16 @@ class Greylay : public ModalOverlay
 {
     Q_OBJECT
 
+	Q_PROPERTY(QColor greycolor READ greycolor WRITE setGreycolor)
+
 public:
     explicit Greylay(QWidget *parent);
     ~Greylay();
 
+	QColor greycolor() { return m_greycolor; }
+	void setGreycolor(QColor c) { m_greycolor = c; }
+
 protected:
 	virtual void paintEvent(QPaintEvent *event) override;
-
+	QColor m_greycolor;
 };

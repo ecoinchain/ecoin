@@ -99,8 +99,6 @@ private:
     IconedAction *sendCoinsAction;
 	IconedAction *receiveCoinsAction;
 	IconedAction *historyAction;
-	IconedAction *usedSendingAddressesAction;
-	IconedAction *usedReceivingAddressesAction;
 
 	QAction *quitAction;
 	QAction *sendCoinsMenuAction;
@@ -117,6 +115,8 @@ private:
     QAction *openRPCConsoleAction;
     QAction *openAction;
     QAction *showHelpMessageAction;
+	QAction *usedSendingAddressesAction;
+	QAction *usedReceivingAddressesAction;
 
     menubar *appMenuBar;
 
