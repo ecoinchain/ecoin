@@ -18,6 +18,7 @@
 #include <qt/platformstyle.h>
 #include <qt/rpcconsole.h>
 #include <qt/utilitydialog.h>
+#include <qt/intro.h>
 #include "qt/widgets/menubar.h"
 #include "qt/widgets/iconedaction.h"
 #include "qt/widgets/overlaydialogembeder.h"
@@ -339,8 +340,8 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
 #endif // ENABLE_WALLET
 
-    reInitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("ReInitialize"), this);
-    reInitAction->setStatusTip(tr("Quit and ReInitialize application"));
+    changeDatadirAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("ChangeDatadir"), this);
+    changeDatadirAction->setStatusTip(tr("Change the Data directory"));
 
     quitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setStatusTip(tr("Quit application"));
@@ -393,7 +394,7 @@ void BitcoinGUI::createActions()
 	usedReceivingAddressesAction->setToolTip(usedReceivingAddressesAction->statusTip());
 
 
-    connect(reInitAction, SIGNAL(triggered()), qApp, SLOT(reInit()));
+    connect(changeDatadirAction, SIGNAL(triggered()), this, SLOT(changeDatadir()));
     connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -471,6 +472,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 		file->addAction(usedSendingAddressesAction);
 		file->addAction(usedReceivingAddressesAction);
 		file->addSeparator();
+		file->addAction(changeDatadirAction);
 	}
 	file->addAction(quitAction);
 
@@ -1258,9 +1260,49 @@ void BitcoinGUI::toolbartoggle_ui_style(IconedAction* sender, bool active)
 	}
 }
 
-void BitcoinGUI::reInit()
+void BitcoinGUI::changeDatadir()
 {
-    
+	QSettings settings;
+	/* If data directory provided on command line, no need to look at settings
+	or show a picking dialog */
+	if(!gArgs.GetArg("-datadir", "").empty()){
+		QMessageBox::information(this, tr("Unable to change datadir"), tr("you have <b>-datadir</b> commandline option, there is no way to change datadir now."), QMessageBox::Ok, QMessageBox::Ok);
+		return;
+	}
+	
+	QString dataDir = settings.value("strDataDir", dataDir).toString();
+	/* let the user choose new one */
+	Intro intro;
+	intro.setDataDirectory(dataDir);
+	intro.setWindowIcon(QIcon(":/icons/bitcoin"));
+
+	while(true)
+	{
+		if(!intro.exec())
+		{
+			/* Cancel clicked */
+			return ;
+		}
+		dataDir = intro.getDataDirectory();
+		try {
+			if (TryCreateDirectories(GUIUtil::qstringToBoostPath(dataDir))) {
+				// If a new data directory has been created, make wallets subdirectory too
+				TryCreateDirectories(GUIUtil::qstringToBoostPath(dataDir) / "wallets");
+			}
+			break;
+		} catch (const fs::filesystem_error&) {
+			QMessageBox::critical(0, tr(PACKAGE_NAME),
+				tr("Error: Specified data directory \"%1\" cannot be created.").arg(dataDir));
+			/* fall through, back to choosing screen */
+		}
+	}
+
+	settings.setValue("strDataDir", dataDir);
+	settings.setValue("fReset", false);
+
+	QMessageBox::information(this, tr("Restart to Take Effect"), tr("%1 need to restart to take effect.").arg(QAPP_ORG_NAME), QMessageBox::Ok, QMessageBox::Ok);
+	quitAction->trigger();
+	return ;    
 }
 
 static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)

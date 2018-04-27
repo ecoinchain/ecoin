@@ -100,7 +100,7 @@ private:
 	IconedAction *receiveCoinsAction;
 	IconedAction *historyAction;
 
-    QAction *reInitAction;
+    QAction *changeDatadirAction;
 	QAction *quitAction;
 	QAction *sendCoinsMenuAction;
     QAction *signMessageAction;
@@ -255,7 +255,7 @@ private Q_SLOTS:
 
 	void toolbartoggle_ui_style(IconedAction* sender, bool);
     
-    void reInit();
+    void changeDatadir();
 };
 
 class UnitDisplayStatusBarControl : public QLabel
