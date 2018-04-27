@@ -256,7 +256,7 @@ void BitcoinAmountField::setValid(bool valid)
 
 bool BitcoinAmountField::eventFilter(QObject *object, QEvent *event)
 {
-    if (event->type() == QEvent::FocusIn)
+    if (event->type() == QEvent::FocusIn && object == this)
     {
         // Clear invalid flag on focus
         setValid(true);
