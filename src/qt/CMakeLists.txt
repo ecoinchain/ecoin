@@ -9,6 +9,11 @@ add_definitions(-DENABLE_WALLET -DUSE_QRCODE)
 add_definitions(-DCOPYRIGHT_HOLDERS="rcoin.com")
 
 file(GLOB SRCS *.cpp *.h widgets/*.cpp widgets/*.h)
+
+if (NOT APPLE)
+list(FILTER SRCS EXCLUDE REGEX macdockiconhandler.h)
+endif()
+
 #file(GLOB UIS forms/*.ui)
 
 add_subdirectory(forms)

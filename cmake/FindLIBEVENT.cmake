@@ -21,7 +21,7 @@ FIND_LIBRARY(EV_LIBRARY
   )
 
 FIND_LIBRARY(EV_LIBRARY_PTHREAD
-  NAMES event_pthreaads
+  NAMES event_pthreads
   PATHS /usr/lib /usr/local/lib
   )
 IF (EV_LIBRARY AND EV_INCLUDE_DIR)
