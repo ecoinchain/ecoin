@@ -4,7 +4,7 @@
 <context>
     <name>AddressBookPage</name>
     <message>
-        <location filename="../forms/addressbookpage.ui" line="+96"/>
+        <location filename="../forms/addressbookpage.ui" line="+135"/>
         <source>Right-click to edit address or label</source>
         <translation>右鍵點一下來修改位址或標記</translation>
     </message>
@@ -69,7 +69,7 @@
         <translation>選取</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+7"/>
         <source>Sending addresses</source>
         <translation>付款位址</translation>
     </message>
@@ -166,7 +166,7 @@
         <translation>密碼對話視窗</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location line="+68"/>
         <source>Enter passphrase</source>
         <translation>請輸入密碼</translation>
     </message>
@@ -336,12 +336,12 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+358"/>
+        <location filename="../bitcoingui.cpp" line="+371"/>
         <source>Sign &amp;message...</source>
         <translation>簽署訊息...</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+11"/>
         <source>Open a %1 URI or payment request</source>
         <translation>從 URI 或檔案開啟付款要求</translation>
     </message>
@@ -351,27 +351,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+372"/>
+        <location line="+392"/>
         <source>%1 active connection(s) to network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+61"/>
         <source>Synchronizing with network...</source>
         <translation>正在跟網路進行同步...</translation>
     </message>
     <message>
-        <location line="-530"/>
+        <location line="-554"/>
         <source>&amp;Overview</source>
         <translation>總覽</translation>
     </message>
     <message>
-        <location line="-137"/>
+        <location line="-144"/>
         <source>Node</source>
         <translation>節點</translation>
     </message>
     <message>
-        <location line="+138"/>
+        <location line="+145"/>
         <source>Show general overview of wallet</source>
         <translation>顯示錢包一般總覽</translation>
     </message>
@@ -395,6 +395,16 @@
     </message>
     <message>
         <location line="+28"/>
+        <source>ChangeDatadir</source>
+        <translation>更改數據路徑</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Change the Data directory</source>
+        <translation>更改數據路徑</translation>
+    </message>
+    <message>
+        <location line="+2"/>
         <source>E&amp;xit</source>
         <translation>結束</translation>
     </message>
@@ -449,6 +459,31 @@
         <translation>改變密碼...</translation>
     </message>
     <message>
+        <location line="+900"/>
+        <source>Unable to change datadir</source>
+        <translation>無法修改路徑</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>you have &lt;b&gt;-datadir&lt;/b&gt; commandline option, there is no way to change datadir now.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
+        <translation type="unfinished">錯誤: 無法新增指定的資料目錄: %1</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Restart to Take Effect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>%1 need to restart to take effect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Sign messages with your Rcoin addresses to prove you own them</source>
         <translation type="vanished">用 R币 位址簽署訊息來證明位址是你的</translation>
     </message>
@@ -457,17 +492,17 @@
         <translation type="vanished">驗證訊息是用來確定訊息是用指定的 R币 位址簽署的</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="-915"/>
         <source>&amp;Sending addresses...</source>
         <translation>付款位址...</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>&amp;Receiving addresses...</source>
         <translation>收款位址...</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="-11"/>
         <source>Open &amp;URI...</source>
         <translation>開啓 URI...</translation>
     </message>
@@ -480,7 +515,7 @@
         <translation type="vanished">顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
-        <location line="+377"/>
+        <location line="+397"/>
         <source>Click to disable network activity.</source>
         <translation>按一下就會不使用網路。</translation>
     </message>
@@ -506,7 +541,7 @@
         <translation>正在同步前導資料(%1%)中...</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+43"/>
         <source>Reindexing blocks on disk...</source>
         <translation>正在為磁碟裡的區塊重建索引...</translation>
     </message>
@@ -515,7 +550,7 @@
         <translation type="vanished">付錢給一個 Bitcoin 位址</translation>
     </message>
     <message>
-        <location line="-461"/>
+        <location line="-482"/>
         <source>Backup wallet to another location</source>
         <translation>把錢包備份到其它地方</translation>
     </message>
@@ -554,12 +589,12 @@
         <translation type="vanished">Bitcoin</translation>
     </message>
     <message>
-        <location line="-224"/>
+        <location line="-234"/>
         <source>Wallet</source>
         <translation>錢包</translation>
     </message>
     <message>
-        <location line="+146"/>
+        <location line="+153"/>
         <location line="+7"/>
         <source>&amp;Send</source>
         <translation>付款</translation>
@@ -581,7 +616,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="+57"/>
         <source>&amp;Show / Hide</source>
         <translation>顯示或隱藏</translation>
     </message>
@@ -616,7 +651,7 @@
         <translation type="vanished">說明</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+63"/>
         <source>Tabs toolbar</source>
         <translation>分頁工具列</translation>
     </message>
@@ -625,12 +660,12 @@
         <translation type="vanished">要求付款(產生 QR Code 和 bitcoin 付款協議的資源識別碼: URI)</translation>
     </message>
     <message>
-        <location line="-41"/>
+        <location line="-39"/>
         <source>Show the list of used sending addresses and labels</source>
         <translation>顯示已使用過的付款位址和標記的清單</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+4"/>
         <source>Show the list of used receiving addresses and labels</source>
         <translation>顯示已使用過的收款位址和標記的清單</translation>
     </message>
@@ -639,7 +674,7 @@
         <translation type="vanished">開啓 bitcoin 協議的資源識別碼(URI)或付款要求</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="-9"/>
         <source>&amp;Command-line options</source>
         <translation>命令列選項</translation>
     </message>
@@ -650,7 +685,7 @@
         </translation>
     </message>
     <message>
-        <location line="+434"/>
+        <location line="+460"/>
         <source>Indexing blocks on disk...</source>
         <translation>正在為磁碟裡的區塊建立索引...</translation>
     </message>
@@ -706,12 +741,12 @@
         <translation type="vanished">顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
-        <location line="-241"/>
+        <location line="-255"/>
         <source>%1 client</source>
         <translation>%1 客戶端軟體</translation>
     </message>
     <message>
-        <location line="+227"/>
+        <location line="+241"/>
         <source>Connecting to peers...</source>
         <translation>正在跟其他節點連線中...</translation>
     </message>
@@ -770,7 +805,17 @@
         <translation>收款交易</translation>
     </message>
     <message>
-        <location line="+52"/>
+        <location line="+13"/>
+        <source>mining</source>
+        <translation>挖礦中</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>%1 is mining</source>
+        <translation>%1 正在挖礦</translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
         <translation>產生 HD 金鑰&lt;b&gt;已經啟用&lt;/b&gt;</translation>
     </message>
@@ -780,7 +825,7 @@
         <translation>產生 HD 金鑰&lt;b&gt;已經停用&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+25"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;unlocked&lt;/b&gt;</source>
         <translation>錢包&lt;b&gt;已加密&lt;/b&gt;並且&lt;b&gt;解鎖中&lt;/b&gt;</translation>
     </message>
@@ -794,7 +839,7 @@
         <translation type="vanished">發生了致命的錯誤。Bitcoin 軟體沒辦法再繼續安全執行，只好結束。</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+517"/>
+        <location filename="../bitcoin.cpp" line="+520"/>
         <source>A fatal error occurred. %1 can no longer continue safely and will quit.</source>
         <translation>發生了致命的錯誤。%1 軟體沒辦法再繼續安全執行，只好結束。</translation>
     </message>
@@ -824,7 +869,7 @@
     <message>
         <location line="+7"/>
         <location line="+26"/>
-        <location filename="../ChainSyncWarning.cpp" line="+110"/>
+        <location filename="../ChainSyncWarning.cpp" line="+108"/>
         <source>Unknown...</source>
         <translation>不明...</translation>
     </message>
@@ -1063,7 +1108,7 @@
         <translation>編輯位址</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+49"/>
         <source>&amp;Label</source>
         <translation>標記</translation>
     </message>
@@ -1390,7 +1435,7 @@
         <translation>開啓 URI</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="+89"/>
         <source>Open payment request from URI or file</source>
         <translation>從 URI 或檔案開啟付款要求</translation>
     </message>
@@ -1418,7 +1463,7 @@
         <translation>選項</translation>
     </message>
     <message>
-        <location line="+123"/>
+        <location line="+144"/>
         <source>&amp;Main</source>
         <translation>主要</translation>
     </message>
@@ -1715,12 +1760,12 @@
         <translation>第三方交易網址連結</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+120"/>
         <source>&amp;OK</source>
         <translation>好</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+19"/>
         <source>&amp;Cancel</source>
         <translation>取消</translation>
     </message>
@@ -3248,7 +3293,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>SendCoinsEntry</name>
     <message>
-        <location filename="../forms/sendcoinsentry.ui" line="+336"/>
+        <location filename="../forms/sendcoinsentry.ui" line="+342"/>
         <location line="+482"/>
         <location line="+547"/>
         <source>A&amp;mount:</source>
@@ -3387,7 +3432,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>簽章 - 簽署或驗證訊息</translation>
     </message>
     <message>
-        <location line="+79"/>
+        <location line="+81"/>
         <source>&amp;Sign Message</source>
         <translation>簽署訊息</translation>
     </message>
@@ -3403,18 +3448,18 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+13"/>
-        <location line="+270"/>
+        <location line="+310"/>
         <source>Choose previously used address</source>
         <translation>選擇先前使用過的位址</translation>
     </message>
     <message>
-        <location line="-260"/>
-        <location line="+270"/>
+        <location line="-300"/>
+        <location line="+310"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location line="-254"/>
+        <location line="-294"/>
         <source>Paste address from clipboard</source>
         <translation>貼上剪貼簿裡的位址</translation>
     </message>
@@ -3434,12 +3479,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>簽章</translation>
     </message>
     <message>
-        <location line="+36"/>
+        <location line="+39"/>
         <source>Copy the current signature to the system clipboard</source>
         <translation>複製目前的簽章到系統剪貼簿</translation>
     </message>
     <message>
-        <location line="+27"/>
+        <location line="+47"/>
         <source>Sign the message to prove you own this Bitcoin address</source>
         <translation>簽署這個訊息來證明這個 Bitcoin 位址是你的</translation>
     </message>
@@ -3455,12 +3500,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+3"/>
-        <location line="+192"/>
+        <location line="+229"/>
         <source>Clear &amp;All</source>
         <translation>全部清掉</translation>
     </message>
     <message>
-        <location line="-130"/>
+        <location line="-150"/>
         <source>&amp;Verify Message</source>
         <translation>驗證訊息</translation>
     </message>
@@ -3475,7 +3520,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>簽署這個訊息的 Bitcoin 位址</translation>
     </message>
     <message>
-        <location line="+56"/>
+        <location line="+76"/>
         <source>Verify the message to ensure it was signed with the specified address</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3494,12 +3539,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>重設所有訊息驗證欄位</translation>
     </message>
     <message>
-        <location filename="../signverifymessagedialog.cpp" line="+41"/>
+        <location line="-312"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
         <translation>請按一下「簽署訊息」來產生簽章</translation>
     </message>
     <message>
-        <location line="+82"/>
+        <location filename="../signverifymessagedialog.cpp" line="+110"/>
         <source>The entered address is invalid.</source>
         <translation>輸入的位址無效。</translation>
     </message>
@@ -4231,7 +4276,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+147"/>
+        <location filename="../bitcoingui.cpp" line="+192"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>金額顯示單位。可以點選其他單位。</translation>
     </message>
@@ -4247,7 +4292,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+351"/>
+        <location filename="../walletmodel.cpp" line="+353"/>
         <source>Send Coins</source>
         <translation>付款</translation>
     </message>
@@ -4310,7 +4355,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="vanished">將目前分頁的資料匯出存成檔案</translation>
     </message>
     <message>
-        <location filename="../walletview.cpp" line="+238"/>
+        <location filename="../walletview.cpp" line="+264"/>
         <source>Backup Wallet</source>
         <translation>備份錢包</translation>
     </message>
