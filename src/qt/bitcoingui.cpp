@@ -20,6 +20,7 @@
 #include <qt/utilitydialog.h>
 #include "qt/widgets/menubar.h"
 #include "qt/widgets/iconedaction.h"
+#include "qt/widgets/overlaydialogembeder.h"
 
 #ifdef ENABLE_WALLET
 #include <qt/walletframe.h>
@@ -338,6 +339,9 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
 #endif // ENABLE_WALLET
 
+    reInitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("ReInitialize"), this);
+    reInitAction->setStatusTip(tr("Quit and ReInitialize application"));
+
     quitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setStatusTip(tr("Quit application"));
     quitAction->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Q));
@@ -387,8 +391,10 @@ void BitcoinGUI::createActions()
 	usedReceivingAddressesAction = new QAction(platformStyle->TextColorIcon(":/icons/address-book"), tr("&Receiving addresses..."), this);
 	usedReceivingAddressesAction->setStatusTip(tr("Show the list of used receiving addresses and labels"));
 	usedReceivingAddressesAction->setToolTip(usedReceivingAddressesAction->statusTip());
-	
-	connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+
+    connect(reInitAction, SIGNAL(triggered()), qApp, SLOT(reInit()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     connect(aboutAction, SIGNAL(triggered()), this, SLOT(aboutClicked()));
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(optionsAction, SIGNAL(triggered()), this, SLOT(optionsClicked()));
@@ -701,10 +707,12 @@ void BitcoinGUI::showHelpMessageClicked()
 #ifdef ENABLE_WALLET
 void BitcoinGUI::openClicked()
 {
-    OpenURIDialog dlg(this);
-    if(dlg.exec())
+    auto dlg =  new OpenURIDialog(this);
+    OverlayDialogEmbeder embeder(dlg, this);
+    embeder.show();
+    if(dlg->exec())
     {
-        Q_EMIT receivedURI(dlg.getURI());
+        Q_EMIT receivedURI(dlg->getURI());
     }
 }
 
@@ -1248,6 +1256,11 @@ void BitcoinGUI::toolbartoggle_ui_style(IconedAction* sender, bool active)
 			"background-color: rgb(240, 240, 240);\n"
 			"}"));
 	}
+}
+
+void BitcoinGUI::reInit()
+{
+    
 }
 
 static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)

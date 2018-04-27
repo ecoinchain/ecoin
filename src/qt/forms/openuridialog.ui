@@ -6,56 +6,152 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>564</width>
-    <height>109</height>
+    <width>728</width>
+    <height>305</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Open URI</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">#realframe {
+ 	background-color: rgb(255, 255, 255);
+      border-radius: 20px;
+
+}
+
+QPushButton {
+    border-radius: 3px;
+    padding: 2.5px;
+    color: rgb(39, 152, 255);
+   background-color: #ffffffff;
+}
+
+QPushButton:hover { 
+background-color: #ffffffff;
+ border: 1px solid #2798ff;
+}
+
+
+QLabel , QCheckBox {
+	color: rgb(57, 60, 61);
+    border : 0px solid ;
+   border-radius: 4px;  
+}
+
+QLineEdit , QComboBox{
+	color: rgb(57, 60, 61);
+    border : 1px solid #E4E4E4 ;
+   border-radius: 4px;
+}
+
+</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>33</number>
+   </property>
+   <property name="topMargin">
+    <number>33</number>
+   </property>
+   <property name="rightMargin">
+    <number>33</number>
+   </property>
+   <property name="bottomMargin">
+    <number>33</number>
+   </property>
    <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Open payment request from URI or file</string>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-    </widget>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>571</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>URI:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QValidatedLineEdit" name="uriEdit"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="selectFileButton">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="toolTip">
-        <string>Select payment request file</string>
-       </property>
-       <property name="text">
-        <string notr="true">…</string>
-       </property>
-       <property name="autoDefault">
-        <bool>false</bool>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <widget class="QWidget" name="realframe" native="true">
+     <property name="minimumSize">
+      <size>
+       <width>200</width>
+       <height>200</height>
+      </size>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>10</number>
+      </property>
+      <property name="leftMargin">
+       <number>22</number>
+      </property>
+      <property name="topMargin">
+       <number>22</number>
+      </property>
+      <property name="rightMargin">
+       <number>22</number>
+      </property>
+      <property name="bottomMargin">
+       <number>22</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Open payment request from URI or file</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>URI:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QValidatedLineEdit" name="uriEdit"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="selectFileButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="toolTip">
+           <string>Select payment request file</string>
+          </property>
+          <property name="text">
+           <string notr="true">…</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QDialogButtonBox" name="buttonBox">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="standardButtons">
+         <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -65,20 +161,10 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>40</height>
+       <height>571</height>
       </size>
      </property>
     </spacer>
-   </item>
-   <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

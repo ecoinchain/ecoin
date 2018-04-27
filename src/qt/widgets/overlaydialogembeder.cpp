@@ -8,14 +8,17 @@
 
 #include "./overlaydialogembeder.h"
 
-OverlayDialogEmbeder::OverlayDialogEmbeder(QDialog* child , QWidget *parent)
+OverlayDialogEmbeder::OverlayDialogEmbeder(QWidget* child , QWidget *parent)
 	: Greylay(parent)
 {
 	child->setParent(this);
+    
+    QVBoxLayout* l = new QVBoxLayout;
 
-	this->setLayout(new QHBoxLayout);
+	this->setLayout(l);
 
-	this->layout()->addWidget(child);
+	l->addWidget(child);
+    l->addSpacing(0);
 
 	if (parent) {
 		QSize parentsize = parent->size();
@@ -27,7 +30,7 @@ OverlayDialogEmbeder::OverlayDialogEmbeder(QDialog* child , QWidget *parent)
 	double iconscale = 1.0;
 #else
 	double iconscale = logicalDpiX() / 96.0;
-#endif	
+#endif
 
 	setContentsMargins(marg * iconscale);
 }
