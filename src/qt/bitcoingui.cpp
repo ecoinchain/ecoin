@@ -1270,15 +1270,24 @@ void BitcoinGUI::changeDatadir()
 		QMessageBox::information(this, tr("Unable to change datadir"), tr("you have <b>-datadir</b> commandline option, there is no way to change datadir now."), QMessageBox::Ok, QMessageBox::Ok);
 		return;
 	}
-	
-	QString dataDir = settings.value("strDataDir", dataDir).toString();
-	/* let the user choose new one */
-	Intro intro;
-	intro.setDataDirectory(dataDir);
-	intro.setWindowIcon(QIcon(":/icons/bitcoin"));
 
+	QString dataDir = Intro::getDefaultDataDirectory();
+
+	dataDir = settings.value("strDataDir", dataDir).toString();
+	/* let the user choose new one */
 	while(true)
 	{
+		auto intro_ptr = new Intro;
+		OverlayDialogEmbeder e(intro_ptr, this);
+		
+		Intro& intro = *intro_ptr;
+
+		intro.setDataDirectory(dataDir);
+		intro.setWindowIcon(QIcon(":/icons/bitcoin"));
+		intro.show();
+		e.show();
+		intro.hidefirst();
+		
 		if(!intro.exec())
 		{
 			/* Cancel clicked */

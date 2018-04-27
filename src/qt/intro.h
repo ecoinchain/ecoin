@@ -31,6 +31,8 @@ public:
 
     QString getDataDirectory();
     void setDataDirectory(const QString &dataDir);
+	
+	void hidefirst();
 
     /**
      * Determine data directory. Let the user choose if the current one doesn't exist.
