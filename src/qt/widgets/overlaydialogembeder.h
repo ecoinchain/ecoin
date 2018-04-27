@@ -5,7 +5,6 @@
 #pragma once
 
 #include <QWidget>
-#include <QDialog>
 
 #include "./greylay.h"
 
@@ -14,6 +13,6 @@ class OverlayDialogEmbeder : public Greylay
 {
     Q_OBJECT
 public:
-    explicit OverlayDialogEmbeder(QDialog* embed_child, QWidget *parent);
+    explicit OverlayDialogEmbeder(QWidget* embed_child, QWidget *parent);
     ~OverlayDialogEmbeder();
 };
