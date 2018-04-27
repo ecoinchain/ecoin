@@ -472,7 +472,6 @@ void BitcoinGUI::createToolBars_and_Menus()
 		file->addAction(usedSendingAddressesAction);
 		file->addAction(usedReceivingAddressesAction);
 		file->addSeparator();
-		file->addAction(changeDatadirAction);
 	}
 	file->addAction(quitAction);
 
@@ -486,6 +485,8 @@ void BitcoinGUI::createToolBars_and_Menus()
 		settings->addSeparator();
 	}
 	settings->addAction(optionsAction);
+	settings->addSeparator();
+	settings->addAction(changeDatadirAction);
 
 	QMenu *help = new QMenu();
 	appMenuBar->setHelpMenu(help);
