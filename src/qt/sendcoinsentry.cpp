@@ -63,10 +63,10 @@ void SendCoinsEntry::on_addressBookButton_clicked()
 	auto dlg = new AddressBookPage(platformStyle, AddressBookPage::ForSelection, AddressBookPage::SendingTab, nullptr);
 
 	OverlayDialogEmbeder embeder(dlg, TopLevelParentWidget(this));
+    dlg->setModel(model->getAddressTableModel());
 	embeder.show();
 	dlg->show();
 
-    dlg->setModel(model->getAddressTableModel());
     if(dlg->exec())
     {
         ui->payTo->setText(dlg->getReturnValue());
