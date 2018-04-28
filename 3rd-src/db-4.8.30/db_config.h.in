@@ -330,7 +330,7 @@
 #define HAVE_PTHREAD_SELF 1
 
 /* Define to 1 if you have the `pthread_yield' function. */
-#define HAVE_PTHREAD_YIELD 1
+#cmakedefine HAVE_PTHREAD_YIELD @HAVE_PTHREAD_YIELD@
 
 /* Define to 1 if you have the `pwrite' function. */
 #define HAVE_PWRITE 1

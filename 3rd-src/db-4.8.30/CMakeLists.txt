@@ -76,6 +76,7 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL FreeBSD)
 endif ()
 check_symbol_exists(O_DIRECT "fcntl.h" HAVE_O_DIRECT)
 check_symbol_exists(F_NOCACHE "fcntl.h" HAVE_F_NOCACHE)
+check_symbol_exists(pthread_yield "pthread.h" HAVE_PTHREAD_YIELD)
 
 
 CHECK_INCLUDE_FILE(dirent.h HAVE_DIRENT_H)
