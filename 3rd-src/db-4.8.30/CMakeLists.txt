@@ -423,3 +423,7 @@ target_include_directories(berkeleydb PUBLIC
 	${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/dbinc)
 
 endif()
+
+if (APPLE)
+target_link_libraries(berkeleydb -pthread)
+endif()
