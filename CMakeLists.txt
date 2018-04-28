@@ -52,7 +52,7 @@ INCLUDE(CPack)
 
 find_package(Threads)
 
-link_directories(${CMAKE_THREAD_LIBS_INIT})
+link_directories(${CMAKE_THREAD_LIBS_INITD})
 
 list(APPEND RCOIN_QT_COMPONENTS Core Network Gui Svg Widgets LinguistTools UiPlugin)
 
@@ -167,8 +167,13 @@ set(DISABLE_ASM 1)
 
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
-add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
-set(DB_LIBRARY berkeleydb)
+if(WIN32)
+	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
+	set(DB_LIBRARY berkeleydb)
+else()
+	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+	find_package(BerkeleyDB 4.8 REQUIRED)
+endif()
 
 if (WIN32)
 	add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)
