@@ -2,7 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 cmake_minimum_required(VERSION 3.0)
 project(rcoin)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
@@ -148,6 +149,7 @@ add_subdirectory(3rd-src/boost)
 include_directories(3rd-src/boost)
 else()
 find_package(Boost 1.55 COMPONENTS filesystem thread system date_time program_options REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 endif()
 
 IF(MSVC)
