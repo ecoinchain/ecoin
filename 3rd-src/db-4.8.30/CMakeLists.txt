@@ -408,7 +408,7 @@ txn/txn_util.c
 include_directories(.)
 
 add_library(berkeleydb STATIC ${DB_PLATFORM_HEADERS} ${DB_PLATFORM_SRC} ${DB_SRC})
-
+ 
 if(WIN32)
 
 target_include_directories(berkeleydb PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/build_windows )
@@ -416,6 +416,8 @@ target_include_directories(berkeleydb PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/build_w
 target_link_libraries(berkeleydb Ws2_32.lib)
 
 else()
+
+target_link_libraries(berkeleydb ${CMAKE_THREAD_LIBS_INIT})
 
 target_include_directories(berkeleydb PUBLIC
 	${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/dbinc)
