@@ -52,6 +52,8 @@ INCLUDE(CPack)
 
 find_package(Threads)
 
+link_directories(${CMAKE_THREAD_LIBS_INIT})
+
 list(APPEND RCOIN_QT_COMPONENTS Core Network Gui Svg Widgets LinguistTools UiPlugin)
 
 if (WIN32)
