@@ -1272,8 +1272,9 @@ void BitcoinGUI::changeDatadir()
 	settings.setValue("fReset", false);
 
 	QMessageBox::information(this, tr("Restart to Take Effect"), tr("%1 need to restart to take effect.").arg(QAPP_ORG_NAME), QMessageBox::Ok, QMessageBox::Ok);
+	QApplication::instance()->setProperty("dorestart", true);
 	quitAction->trigger();
-	return ;    
+	return;
 }
 
 static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
