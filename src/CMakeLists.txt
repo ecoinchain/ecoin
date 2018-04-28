@@ -160,7 +160,7 @@ add_definitions(-DENABLE_WALLET)
 
 link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/aes.h
