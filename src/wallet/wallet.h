@@ -1119,6 +1119,7 @@ public:
     void postInitProcess(CScheduler& scheduler);
 
     bool BackupWallet(const std::string& strDest);
+    bool restoreWallet(const std::string& strSource);
 
     /* Set the HD chain model (chain child index counters) */
     bool SetHDChain(const CHDChain& chain, bool memonly);

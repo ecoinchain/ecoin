@@ -4123,6 +4123,11 @@ bool CWallet::BackupWallet(const std::string& strDest)
     return dbw->Backup(strDest);
 }
 
+bool CWallet::restoreWallet(const std::string& strSource)
+{
+    return dbw->Restore(strSource);
+}
+
 CKeyPool::CKeyPool()
 {
     nTime = GetTime();
