@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 cmake_minimum_required(VERSION 3.0)
 project(rcoin)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -160,13 +162,8 @@ set(DISABLE_ASM 1)
 
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
-if(WIN32)
-	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
-	set(DB_LIBRARY berkeleydb)
-else()
-	list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-	find_package(BerkeleyDB 4.8 REQUIRED)
-endif()
+add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
+set(DB_LIBRARY berkeleydb)
 
 if (WIN32)
 	add_subdirectory(3rd-src/libevent-master EXCLUDE_FROM_ALL)

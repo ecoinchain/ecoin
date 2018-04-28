@@ -5,10 +5,15 @@
  *
  * $Id$
  */
+#define _GNU_SOURCE
 
 #include "db_config.h"
 
 #include "db_int.h"
+
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
 /*
  * __os_open --

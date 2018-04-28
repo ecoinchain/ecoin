@@ -50,7 +50,8 @@
 
 #include <stdarg.h>
 
-@cxx_have_stdheaders@
+#cmakedefine HAVE_CXX_STDHEADERS
+
 #ifdef HAVE_CXX_STDHEADERS
 #include <iostream>
 #include <exception>

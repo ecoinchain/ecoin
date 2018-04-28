@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.2)
 project(berkeleydb)
 
+include(CheckIncludeFile)
+include(CheckSymbolExists)
+
 find_package(Threads)
 
 if(WIN32)
@@ -40,8 +43,84 @@ os_windows/os_yield.c
 mutex/mut_win32.c
 
 repmgr/repmgr_windows.c
+)
+
+else()
+
+set(platform_header "#include <stdlib.h>")
+set(db_seq_decl "typedef int64_t db_seq_t;")
+set(db_threadid_t_decl "typedef pthread_t db_threadid_t;")
+set(int64_decl "typedef int64_t __int64;")
+
+set(HAVE_CXX_STDHEADERS 1)
+set(HAVE_64BIT_TYPES 1)
+set(DB_VERSION_UNIQUE_NAME "")
+set(DB_VERSION_MAJOR 4)
+set(DB_VERSION_MINOR 8)
+set(DB_VERSION_PATCH 30)
+set(DB_VERSION_STRING "\"4.8.30\"")
+
+set(SIZEOF_UNSIGNED_LONG_LONG 8)
+set(SIZEOF_UNSIGNED_LONG 8)
+set(SIZEOF_SIZE_T 8)
+set(SIZEOF_LONG_LONG 8)
+set(SIZEOF_LONG 8)
+set(SIZEOF_INT 4)
+set(SIZEOF_POINTER 8)
+
+set(HAVE_ATOMIC_X86_GCC_ASSEMBLY 1)
+
+CHECK_INCLUDE_FILE(dirent.h HAVE_DIRENT_H)
+CHECK_INCLUDE_FILE(dlfcn.h HAVE_DLFCN_H)
+CHECK_INCLUDE_FILE(sys/types.h HAVE_SYSTEM_INCLUDE_FILES)
+CHECK_INCLUDE_FILE(execinfo.h HAVE_EXECINFO_H)
+
+CHECK_SYMBOL_EXISTS(clock_gettime time.h HAVE_CLOCK_GETTIME)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/dbinc/)
+
+configure_file(db_config.h.in db_config.h)
+configure_file(clib_port.h.in clib_port.h)
+
+configure_file(dbinc/db_int.in db_int.h)
+configure_file(dbinc/db_cxx.in db_cxx.h)
+configure_file(dbinc/db.in dbinc/db.h)
+
+set(DB_PLATFORM_HEADERS
+	${CMAKE_CURRENT_BINARY_DIR}/db_config.h
+)
+
+
+set(DB_PLATFORM_SRC
+	os/os_rename.c
+	os/os_abs.c
+	os/os_getenv.c
+	os/os_map.c
+	os/os_mkdir.c
+	os/os_fid.c
+	os/os_dir.c
+	os/os_seek.c
+	os/os_errno.c
+	os/os_truncate.c
+	os/os_cpu.c
+	os/os_fsync.c
+	os/os_rw.c
+	os/os_open.c
+	os/os_handle.c
+	os/os_stat.c
+	os/os_clock.c
+	os/os_yield.c
+	os/os_config.c
+	os/os_unlink.c
+	os/os_flock.c
+	
+	mutex/mut_tas.c
+
+	repmgr/repmgr_posix.c
 
 )
+
 endif()
 
 set(DB_SRC
@@ -228,29 +307,6 @@ mutex/mut_method.c
 mutex/mut_region.c
 mutex/mut_stat.c
 
-os_windows/ce_ctime.c
-os_windows/os_abs.c
-os_windows/os_clock.c
-os_windows/os_config.c
-os_windows/os_cpu.c
-os_windows/os_dir.c
-os_windows/os_errno.c
-os_windows/os_fid.c
-os_windows/os_flock.c
-os_windows/os_fsync.c
-os_windows/os_getenv.c
-os_windows/os_handle.c
-os_windows/os_map.c
-os_windows/os_mkdir.c
-os_windows/os_open.c
-os_windows/os_rename.c
-os_windows/os_rw.c
-os_windows/os_seek.c
-os_windows/os_stat.c
-os_windows/os_truncate.c
-os_windows/os_unlink.c
-os_windows/os_yield.c
-
 os/os_abort.c
 os/os_addrinfo.c
 os/os_alloc.c
@@ -349,5 +405,10 @@ if(WIN32)
 target_include_directories(berkeleydb PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/build_windows )
 
 target_link_libraries(berkeleydb Ws2_32.lib)
+
+else()
+
+target_include_directories(berkeleydb PUBLIC
+	${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/dbinc)
 
 endif()
