@@ -197,7 +197,7 @@ void ReceiveCoinsDialog::on_recentRequestsView_CellClicked(const QModelIndex &in
 void ReceiveCoinsDialog::recentRequestsView_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected)
 {
     // Enable Show/Remove buttons only if anything is selected.
-    bool enable = !ui->recentRequestsView->selectionModel()->selectedRows().isEmpty();
+    //bool enable = !ui->recentRequestsView->selectionModel()->selectedRows().isEmpty();
 //     ui->showRequestButton->setEnabled(enable);
 //     ui->removeRequestButton->setEnabled(enable);
 }
