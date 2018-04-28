@@ -381,7 +381,7 @@
 #define HAVE_SHARED_LATCHES 1
 
 /* Define to 1 if shmctl/SHM_LOCK locks down shared memory segments. */
-#define HAVE_SHMCTL_SHM_LOCK 1
+#cmakedefine HAVE_SHMCTL_SHM_LOCK @HAVE_SHMCTL_SHM_LOCK@
 
 /* Define to 1 if you have the `shmget' function. */
 #define HAVE_SHMGET 1
