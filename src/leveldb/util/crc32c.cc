@@ -264,14 +264,11 @@ constexpr inline const uint8_t* RoundUp(const uint8_t* pointer) {
 
 // Determine if the CPU running this program can accelerate the CRC32C
 // calculation.
+#ifndef __APPLE__
 static bool CanAccelerateCRC32C() {
-  // port::AcceleretedCRC32C returns zero when unable to accelerate.
-  static const char kTestCRCBuffer[] = "TestCRCBuffer";
-  static const char kBufSize = sizeof(kTestCRCBuffer) - 1;
-  static const uint32_t kTestCRCValue = 0xdcbc59fa;
-
   return false;
 }
+#endif
 
 uint32_t Extend(uint32_t crc, const char* buf, size_t size) {
 
