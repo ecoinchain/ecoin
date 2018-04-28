@@ -301,7 +301,7 @@ void BitcoinGUI::createActions()
     connect(historyAction, SIGNAL(triggered()), this, SLOT(gotoHistoryPage()));
 #endif // ENABLE_WALLET
 
-    changeDatadirAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("ChangeDatadir"), this);
+    changeDatadirAction = new QAction(platformStyle->TextColorIcon(":/icons/changedatadir"), tr("ChangeDatadir"), this);
     changeDatadirAction->setStatusTip(tr("Change the Data directory"));
 
     quitAction = new QAction(platformStyle->TextColorIcon(":/icons/quit"), tr("E&xit"), this);
