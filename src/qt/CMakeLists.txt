@@ -10,7 +10,9 @@ add_definitions(-DCOPYRIGHT_HOLDERS="rcoin.com")
 
 file(GLOB SRCS *.cpp *.h widgets/*.cpp widgets/*.h)
 
-if (NOT APPLE)
+if (APPLE)
+list(APPEND SRCS macdockiconhandler.mm macnotificationhandler.mm)
+else()
 list(FILTER SRCS EXCLUDE REGEX macdockiconhandler.h)
 endif()
 
