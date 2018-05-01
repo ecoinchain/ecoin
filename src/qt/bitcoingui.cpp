@@ -403,7 +403,7 @@ void BitcoinGUI::createToolBars_and_Menus()
 		//pal.setColor(QPalette::Window, QColor(240,240,240));
 
 		//toolbar->setPalette(pal);
-		toolbar->setStyleSheet("QToolBar { padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
+		toolbar->setStyleSheet("QToolBar { color: #000000; padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
 
 		auto spacerwidget = new QWidget();
 		auto hl = new QHBoxLayout();
@@ -722,7 +722,7 @@ void BitcoinGUI::updateNetworkState()
 #else
 	double iconscale = logicalDpiX() / 96.0;
 #endif
-	
+
 	int count = clientModel->getNumConnections();
     QString icon;
     switch(count)
@@ -776,7 +776,7 @@ void BitcoinGUI::setNumBlocks(int count, const QDateTime& blockDate, double nVer
 #else
 	double iconscale = logicalDpiX() / 96.0;
 #endif
-	
+
 	if (modalOverlay)
     {
         if (header)
@@ -1083,7 +1083,7 @@ void BitcoinGUI::setHDStatus(int hdEnabled)
 #else
 	double iconscale = logicalDpiX() / 96.0;
 #endif
-	
+
 	labelWalletHDStatusIcon->setPixmap(platformStyle->SingleColorIcon(hdEnabled ? ":/icons/hd_enabled" : ":/icons/hd_disabled").pixmap(STATUSBAR_ICONSIZE*iconscale,STATUSBAR_ICONSIZE*iconscale));
     labelWalletHDStatusIcon->setToolTip(hdEnabled ? tr("HD key generation is <b>enabled</b>") : tr("HD key generation is <b>disabled</b>"));
 
@@ -1098,7 +1098,7 @@ void BitcoinGUI::setEncryptionStatus(int status)
 #else
 	double iconscale = logicalDpiX() / 96.0;
 #endif
-	
+
 	switch(status)
     {
     case WalletModel::Unencrypted:
@@ -1240,7 +1240,7 @@ void BitcoinGUI::changeDatadir()
 	{
 		auto intro_ptr = new Intro;
 		OverlayDialogEmbeder e(intro_ptr, this);
-		
+
 		Intro& intro = *intro_ptr;
 
 		intro.setDataDirectory(dataDir);
@@ -1248,7 +1248,7 @@ void BitcoinGUI::changeDatadir()
 		intro.show();
 		e.show();
 		intro.hidefirst();
-		
+
 		if(!intro.exec())
 		{
 			/* Cancel clicked */

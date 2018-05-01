@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>130</width>
-    <height>60</height>
+    <height>91</height>
    </rect>
   </property>
   <property name="autoFillBackground">
@@ -66,11 +66,12 @@
 }
 
   QPushButton:flat {
-      border: none; /* no border for a flat push button */
+   color: #000000;      border: none; /* no border for a flat push button */
   }
 
 QPushButton {
 	border : none;
+   color: #000000;
 }
 
 QPushButton:focus {

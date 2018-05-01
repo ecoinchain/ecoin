@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>463</height>
+    <width>1006</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="styleSheet">
@@ -52,6 +52,7 @@ QLineEdit , BitcoinAmountField, QComboBox{
 	color: rgb(57, 60, 61);
     border : 1px solid #E4E4E4 ;
    border-radius: 4px;
+	background-color: rgb(255, 255, 255);
 }
 
 </string>
@@ -370,12 +371,39 @@ QLineEdit , BitcoinAmountField, QComboBox{
         <property name="palette">
          <palette>
           <active>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>248</red>
               <green>248</green>
               <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Text">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="ButtonText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -399,12 +427,39 @@ QLineEdit , BitcoinAmountField, QComboBox{
            </colorrole>
           </active>
           <inactive>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>248</red>
               <green>248</green>
               <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Text">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="ButtonText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -428,12 +483,39 @@ QLineEdit , BitcoinAmountField, QComboBox{
            </colorrole>
           </inactive>
           <disabled>
+           <colorrole role="WindowText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
            <colorrole role="Button">
             <brush brushstyle="SolidPattern">
              <color alpha="255">
               <red>248</red>
               <green>248</green>
               <blue>248</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="Text">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
+             </color>
+            </brush>
+           </colorrole>
+           <colorrole role="ButtonText">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>0</red>
+              <green>0</green>
+              <blue>0</blue>
              </color>
             </brush>
            </colorrole>
@@ -466,11 +548,14 @@ QLineEdit , BitcoinAmountField, QComboBox{
 QHeaderView::section {
    background-color: rgb(242, 242, 242);
     border: 0px;
+color: #000000;
+
 }
 
 QTableView {
 border-radius: 5px;
 	background-color: rgb(248, 248, 248);
+color: #000000;
 }
 </string>
         </property>
