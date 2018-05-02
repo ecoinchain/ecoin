@@ -336,7 +336,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+371"/>
+        <location filename="../bitcoingui.cpp" line="+336"/>
         <source>Sign &amp;message...</source>
         <translation>消息签名(&amp;M)...</translation>
     </message>
@@ -346,12 +346,12 @@
         <translation>打开一个 %1 URI 或支付请求</translation>
     </message>
     <message>
-        <location line="+457"/>
+        <location line="+475"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <location line="-554"/>
+        <location line="-576"/>
         <source>&amp;Overview</source>
         <translation>概况(&amp;O)</translation>
     </message>
@@ -445,6 +445,16 @@
     </message>
     <message>
         <location line="+2"/>
+        <source>&amp;Restore Wallet...</source>
+        <translation type="unfinished">恢复钱包(&amp;R)...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Restore previesly backuped wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>&amp;Change Passphrase...</source>
         <translation>更改密码(&amp;C)...</translation>
     </message>
@@ -480,7 +490,7 @@
         <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+397"/>
+        <location line="+415"/>
         <source>Click to disable network activity.</source>
         <translation>点击禁用网络活动。</translation>
     </message>
@@ -515,12 +525,12 @@
         <translation type="vanished">向一个R币地址发送R币</translation>
     </message>
     <message>
-        <location line="-482"/>
+        <location line="-504"/>
         <source>Backup wallet to another location</source>
         <translation>备份钱包到其他文件夹</translation>
     </message>
     <message>
-        <location line="+2"/>
+        <location line="+6"/>
         <source>Change the passphrase used for wallet encryption</source>
         <translation>更改钱包加密口令</translation>
     </message>
@@ -558,7 +568,7 @@
         <translation type="vanished">R币</translation>
     </message>
     <message>
-        <location line="-234"/>
+        <location line="-238"/>
         <source>Wallet</source>
         <translation>钱包</translation>
     </message>
@@ -620,7 +630,7 @@
         <translation type="vanished">帮助(&amp;H)</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+67"/>
         <source>Tabs toolbar</source>
         <translation>分页工具栏</translation>
     </message>
@@ -653,7 +663,7 @@
         <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+392"/>
+        <location line="+410"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 条到网络的活动连接。</translation>
     </message>
@@ -707,7 +717,7 @@
         <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="-255"/>
+        <location line="-272"/>
         <source>%1 client</source>
         <translation>%1 客戶</translation>
     </message>
@@ -718,7 +728,7 @@
         </translation>
     </message>
     <message>
-        <location line="+241"/>
+        <location line="+258"/>
         <source>Connecting to peers...</source>
         <translation>正在连接到节点……</translation>
     </message>
@@ -820,7 +830,7 @@
         <translation>你在命令行上使用了 &lt;b&gt;-datadir&lt;/b&gt; 参数，所以没法修改数据路径</translation>
     </message>
     <message>
-        <location line="+26"/>
+        <location line="+35"/>
         <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
         <translation>错误：无法创建 指定的数据目录 &quot;%1&quot; </translation>
     </message>
@@ -1285,7 +1295,7 @@
         <translation>欢迎</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+107"/>
         <source>Welcome to %1.</source>
         <translation>欢迎使用 %1</translation>
     </message>
@@ -1356,7 +1366,7 @@
         <translation>钱包也会被保存在这个目录中。</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+79"/>
         <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
         <translation>错误：无法创建 指定的数据目录 &quot;%1&quot; </translation>
     </message>
@@ -2221,7 +2231,7 @@
         <translation>%1 GB</translation>
     </message>
     <message>
-        <location filename="../bitcoin.cpp" line="+178"/>
+        <location filename="../bitcoin.cpp" line="+175"/>
         <source>%1 didn&apos;t yet exit safely...</source>
         <translation>%1 尚未安全退出</translation>
     </message>
@@ -2234,7 +2244,7 @@
 <context>
     <name>QObject::QObject</name>
     <message>
-        <location filename="../bitcoin.cpp" line="-86"/>
+        <location filename="../bitcoin.cpp" line="-83"/>
         <source>Error: Specified data directory &quot;%1&quot; does not exist.</source>
         <translation>错误：指定的数据目录“%1”不存在。</translation>
     </message>
@@ -2676,7 +2686,7 @@
 <context>
     <name>ReceiveCoinsDialog</name>
     <message>
-        <location filename="../forms/receivecoinsdialog.ui" line="+98"/>
+        <location filename="../forms/receivecoinsdialog.ui" line="+99"/>
         <source>&amp;Amount:</source>
         <translation>总额(&amp;A)：</translation>
     </message>
@@ -3302,14 +3312,14 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>SendCoinsEntry</name>
     <message>
-        <location filename="../forms/sendcoinsentry.ui" line="+342"/>
+        <location filename="../forms/sendcoinsentry.ui" line="+515"/>
         <location line="+482"/>
         <location line="+547"/>
         <source>A&amp;mount:</source>
         <translation>金额(&amp;M)</translation>
     </message>
     <message>
-        <location line="-1232"/>
+        <location line="-1316"/>
         <source>Pay &amp;To:</source>
         <translation>付给(&amp;T)：</translation>
     </message>
@@ -3349,7 +3359,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>Alt+P</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+154"/>
         <source>Use available balance</source>
         <translation>使用全部余额</translation>
     </message>
@@ -3369,12 +3379,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>从金额中减去交易费(&amp;U)</translation>
     </message>
     <message>
-        <location line="-28"/>
+        <location line="-112"/>
         <source>Message:</source>
         <translation>消息：</translation>
     </message>
     <message>
-        <location line="+502"/>
+        <location line="+586"/>
         <source>This is an unauthenticated payment request.</source>
         <translation>这是一个未经验证的支付请求。</translation>
     </message>
@@ -3384,7 +3394,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>这是一个已经验证的支付请求。</translation>
     </message>
     <message>
-        <location line="-1035"/>
+        <location line="-1119"/>
         <source>Enter a label for this address to add it to the list of used addresses</source>
         <translation>请为此地址输入一个标签以将它加入用过的地址列表</translation>
     </message>
@@ -3394,7 +3404,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过网络传输。</translation>
     </message>
     <message>
-        <location line="+588"/>
+        <location line="+672"/>
         <location line="+507"/>
         <source>Pay To:</source>
         <translation>支付给:</translation>
@@ -3406,7 +3416,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>便条：</translation>
     </message>
     <message>
-        <location line="-1066"/>
+        <location line="-1150"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>为这个地址输入一个标签，以便将它添加到您的地址簿</translation>
     </message>
@@ -4277,7 +4287,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+48"/>
+        <location filename="../bitcoingui.cpp" line="+49"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>金额单位。单击选择别的单位。</translation>
     </message>
@@ -4298,7 +4308,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>发送</translation>
     </message>
     <message>
-        <location line="+384"/>
+        <location line="+389"/>
         <source>Increasing transaction fee failed</source>
         <translation>增加交易费失败</translation>
     </message>
@@ -4356,34 +4366,48 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="vanished">将当前标签页数据导出到文件</translation>
     </message>
     <message>
-        <location filename="../walletview.cpp" line="+264"/>
+        <location filename="../walletview.cpp" line="+266"/>
         <source>Backup Wallet</source>
         <translation>备份钱包</translation>
     </message>
     <message>
         <location line="+1"/>
+        <location line="+19"/>
         <source>Wallet Data (*.dat)</source>
         <translation>钱包文件(*.dat)</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location line="-13"/>
+        <location line="+19"/>
         <source>Backup Failed</source>
         <translation>备份失败</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-19"/>
+        <location line="+19"/>
         <source>There was an error trying to save the wallet data to %1.</source>
         <translation>尝试保存钱包数据至 %1 时发生了错误。</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-15"/>
+        <location line="+19"/>
         <source>Backup Successful</source>
         <translation>备份成功</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="-19"/>
         <source>The wallet data was successfully saved to %1.</source>
         <translation>钱包数据成功保存至 %1。</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>Restore Wallet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+11"/>
+        <source>The wallet data was successfully restored. restart to take effect</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5666,7 +5690,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>表单</translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+89"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
