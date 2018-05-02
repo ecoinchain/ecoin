@@ -52,6 +52,7 @@
 #include <QTimer>
 #include <QTranslator>
 #include <QSslConfiguration>
+#include <QProcess>
 
 #ifdef _WIN32
 #define QT_QPA_PLATFORM_WINDOWS
@@ -137,17 +138,6 @@ static void initTranslations(QTranslator &qtTranslatorBase, QTranslator &qtTrans
         QApplication::installTranslator(&translator);
 }
 
-/* qDebug() message handler --> debug.log */
-#if QT_VERSION < 0x050000
-void DebugMessageHandler(QtMsgType type, const char *msg)
-{
-    if (type == QtDebugMsg) {
-        LogPrint(BCLog::QT, "GUI: %s\n", msg);
-    } else {
-        LogPrintf("GUI: %s\n", msg);
-    }
-}
-#else
 void DebugMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString &msg)
 {
     Q_UNUSED(context);
@@ -157,7 +147,6 @@ void DebugMessageHandler(QtMsgType type, const QMessageLogContext& context, cons
         LogPrintf("GUI: %s\n", msg.toStdString());
     }
 }
-#endif
 
 /** Class encapsulating Bitcoin Core startup and shutdown.
  * Allows running startup and shutdown in a different thread from the UI thread.
@@ -191,6 +180,7 @@ private:
 class BitcoinApplication: public QApplication
 {
     Q_OBJECT
+    Q_PROPERTY(bool dorestart READ restart_requested WRITE request_restart)
 public:
     explicit BitcoinApplication(int &argc, char **argv);
     ~BitcoinApplication();
@@ -214,16 +204,25 @@ public:
     void requestShutdown();
 
     /// Get process return value
-    int getReturnValue() const { return returnValue; }
+    int getReturnValue() const {
+        return returnValue;
+    }
 
     /// Get window identifier of QMainWindow (BitcoinGUI)
     WId getMainWinId() const;
+
+    bool restart_requested() {
+        return m_should_restart;
+    }
 
 public Q_SLOTS:
     void initializeResult(bool success);
     void shutdownResult();
     /// Handle runaway exceptions. Shows a message box with the problem and quits the program.
     void handleRunawayException(const QString &message);
+    void request_restart(bool v=true) {
+        m_should_restart = v;
+    }
 
 Q_SIGNALS:
     void requestedInitialize();
@@ -246,6 +245,7 @@ private:
     std::unique_ptr<QWidget> shutdownWindow;
 
     void startThread();
+    bool m_should_restart = false;
 };
 
 #include <qt/bitcoin.moc>
@@ -319,10 +319,10 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
     pollShutdownTimer(0),
     returnValue(0)
 {
-	QPalette pal = this->palette();
-	pal.setColor(QPalette::Window, Qt::white);
-	pal.setColor(QPalette::Foreground, Qt::black);
-	this->setPalette(pal);
+    QPalette pal = this->palette();
+    pal.setColor(QPalette::Window, Qt::white);
+    pal.setColor(QPalette::Foreground, Qt::black);
+    this->setPalette(pal);
 // 	setStyleSheet(QStringLiteral("QMainWindow {\n"
 // 		" \n"
 // 		"background-color: rgb(240, 240, 240);\n"
@@ -339,7 +339,7 @@ BitcoinApplication::BitcoinApplication(int &argc, char **argv):
         platformStyle = PlatformStyle::instantiate("other");
     assert(platformStyle);
 
-	setFont(platformStyle->fontname());
+    setFont(platformStyle->fontname());
 }
 
 BitcoinApplication::~BitcoinApplication()
@@ -472,11 +472,11 @@ void BitcoinApplication::initializeResult(bool success)
             walletModel.reset(new WalletModel(platformStyle, vpwallets[0], optionsModel));
 
             connect(walletModel.get(), SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
-                             paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
+                    paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
             connect(walletModel.get(), SIGNAL(MinerStatusChanged(bool)),
-                             window.get(), SLOT(MinerStatusChanged(bool)), Qt::QueuedConnection);
+                    window.get(), SLOT(MinerStatusChanged(bool)), Qt::QueuedConnection);
 
-			window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
+            window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);
         }
 #endif
@@ -496,11 +496,11 @@ void BitcoinApplication::initializeResult(bool success)
         // Now that initialization/startup is done, process any command-line
         // bitcoin: URIs or payment requests:
         connect(paymentServer.get(), SIGNAL(receivedPaymentRequest(SendCoinsRecipient)),
-                         window.get(), SLOT(handlePaymentRequest(SendCoinsRecipient)));
+                window.get(), SLOT(handlePaymentRequest(SendCoinsRecipient)));
         connect(window.get(), SIGNAL(receivedURI(QString)),
-                         paymentServer.get(), SLOT(handleURIOrFile(QString)));
+                paymentServer.get(), SLOT(handleURIOrFile(QString)));
         connect(paymentServer.get(), SIGNAL(message(QString,QString,unsigned int)),
-                         window.get(), SLOT(message(QString,QString,unsigned int)));
+                window.get(), SLOT(message(QString,QString,unsigned int)));
         QTimer::singleShot(100, paymentServer.get(), SLOT(uiReady()));
 #endif
         pollShutdownTimer->start(200);
@@ -663,17 +663,14 @@ int main(int argc, char *argv[])
     /// 9. Main GUI initialization
     // Install global event filter that makes sure that long tooltips can be word-wrapped
     app.installEventFilter(new GUIUtil::ToolTipToRichTextFilter(TOOLTIP_WRAP_THRESHOLD, &app));
-#if QT_VERSION < 0x050000
-    // Install qDebug() message handler to route to debug.log
-    qInstallMsgHandler(DebugMessageHandler);
-#else
+
 #if defined(Q_OS_WIN)
     // Install global event filter for processing Windows session related Windows messages (WM_QUERYENDSESSION and WM_ENDSESSION)
     qApp->installNativeEventFilter(new WinShutdownMonitor());
 #endif
     // Install qDebug() message handler to route to debug.log
     qInstallMessageHandler(DebugMessageHandler);
-#endif
+
     // Allow parameter interaction before we create the options model
     app.parameterSetup();
     // Load GUI settings from QSettings
@@ -712,6 +709,10 @@ int main(int argc, char *argv[])
         PrintExceptionContinue(nullptr, "Runaway exception");
         app.handleRunawayException(QString::fromStdString(GetWarnings("gui")));
     }
+
+    if (app.restart_requested())
+        QProcess::startDetached(QApplication::applicationFilePath());
+
     return rv;
 }
 #endif // BITCOIN_QT_TEST

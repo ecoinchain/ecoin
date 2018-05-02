@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.0)
 cmake_minimum_required(VERSION 3.0)
 project(ecoin)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
+
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -49,6 +52,8 @@ INCLUDE(CPack)
 
 find_package(Threads)
 
+link_directories(${CMAKE_THREAD_LIBS_INITD})
+
 list(APPEND RCOIN_QT_COMPONENTS Core Network Gui Svg Widgets LinguistTools UiPlugin)
 
 if (WIN32)
@@ -60,7 +65,8 @@ if (APPLE)
 	find_library(ObjC objc)
 	find_library(CoreFoundation CoreFoundation)
 	find_library(IOKit IOKit)
-	link_libraries(${CoreFoundation} ${IOKit} ${ObjC})
+	FIND_LIBRARY(COCOA_LIBRARY Cocoa)
+	link_libraries(${CoreFoundation} ${IOKit} ${ObjC} ${COCOA_LIBRARY})
 endif (APPLE)
 
 find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
@@ -146,6 +152,7 @@ add_subdirectory(3rd-src/boost)
 include_directories(3rd-src/boost)
 else()
 find_package(Boost 1.55 COMPONENTS filesystem thread system date_time program_options REQUIRED)
+include_directories(${Boost_INCLUDE_DIR})
 endif()
 
 IF(MSVC)

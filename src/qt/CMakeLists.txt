@@ -10,7 +10,9 @@ add_definitions(-DCOPYRIGHT_HOLDERS="ecoin.com")
 
 file(GLOB SRCS *.cpp *.h widgets/*.cpp widgets/*.h)
 
-if (NOT APPLE)
+if (APPLE)
+list(APPEND SRCS macdockiconhandler.mm macnotificationhandler.mm)
+else()
 list(FILTER SRCS EXCLUDE REGEX macdockiconhandler.h)
 endif()
 
@@ -47,6 +49,8 @@ target_link_libraries(ecoin-qt ecoin-qt-uis coincore wallet)
 target_link_libraries(ecoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg ${QT_EXTRA_LIBS})
 target_link_libraries(ecoin-qt libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
 target_link_libraries(ecoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
+
+	target_link_libraries(rcoin-qt rcoin-qt-locale)
 
 if(MSVC AND ENABLE_QT_STATIC)
 target_link_libraries(ecoin-qt Qt5::QWindowsIntegrationPlugin Qt5::QGifPlugin Qt5::QJpegPlugin Qt5::QTiffPlugin Qt5::QSvgPlugin Qt5::QSvgIconPlugin Qt5::QICOPlugin Qt5::QWindowsVistaStylePlugin)

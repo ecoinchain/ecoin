@@ -39,12 +39,6 @@ SplashScreen::SplashScreen(Qt::WindowFlags f, const NetworkStyle *networkStyle)
 	txt_platte = ui->curMessage->palette();
 
     // set reference point, paddings
-    int paddingRight            = 50;
-    int paddingTop              = 50;
-    int titleVersionVSpace      = 17;
-    int titleCopyrightVSpace    = 40;
-
-    float fontFactor            = 1.0;
     float devicePixelRatio      = 1.0;
 #if QT_VERSION > 0x050100
     devicePixelRatio = static_cast<QGuiApplication*>(QCoreApplication::instance())->devicePixelRatio();

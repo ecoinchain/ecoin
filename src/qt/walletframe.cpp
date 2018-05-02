@@ -50,7 +50,7 @@ bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
     walletView->setWalletModel(walletModel);
     walletView->showOutOfSyncWarning(bOutOfSync);
 
-     /* TODO we should goto the currently selected page once dynamically adding wallets is supported */
+    /* TODO we should goto the currently selected page once dynamically adding wallets is supported */
     walletView->gotoOverviewPage();
     walletStack->addWidget(walletView);
     mapWalletViews[name] = walletView;
@@ -166,6 +166,13 @@ void WalletFrame::backupWallet()
         walletView->backupWallet();
 }
 
+void WalletFrame::restoreWallet()
+{
+    WalletView *walletView = currentWalletView();
+    if (walletView)
+        walletView->restoreWallet();
+}
+
 void WalletFrame::changePassphrase()
 {
     WalletView *walletView = currentWalletView();
@@ -182,9 +189,9 @@ void WalletFrame::unlockWallet()
 
 void WalletFrame::usedSendingAddresses()
 {
-	QMap<QString, WalletView*>::const_iterator i;
-	for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
-		i.value()->usedSendingAddresses();
+    QMap<QString, WalletView*>::const_iterator i;
+    for (i = mapWalletViews.constBegin(); i != mapWalletViews.constEnd(); ++i)
+        i.value()->usedSendingAddresses();
 }
 
 void WalletFrame::usedReceivingAddresses()

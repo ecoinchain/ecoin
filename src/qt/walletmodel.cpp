@@ -515,6 +515,11 @@ bool WalletModel::backupWallet(const QString &filename)
     return wallet->BackupWallet(filename.toLocal8Bit().data());
 }
 
+bool WalletModel::restoreWallet(const QString &filename)
+{
+   return wallet->restoreWallet(filename.toLocal8Bit().data());
+}
+
 // Handlers for core signals
 static void NotifyKeyStoreStatusChanged(WalletModel *walletmodel, CCryptoKeyStore *wallet)
 {

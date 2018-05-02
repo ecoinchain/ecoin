@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>329</width>
-    <height>58</height>
+    <width>358</width>
+    <height>81</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,6 +22,7 @@ QPushButton {
 	border : none;
 margin: 3px;
  padding: 2px;
+color: #000000;
    }
 
 QPushButton:focus {

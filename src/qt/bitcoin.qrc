@@ -63,6 +63,9 @@
         <file alias="up">res/icons/menu_indicator_open.svg</file>
         <file alias="bitcoin">res/icons/bitcoin.svg</file>
         <file alias="close">res/icons/close.svg</file>
+        <file>res/icons/bitcoin.ico</file>
+        <file alias="changedatadir">res/icons/changedatadir.svg</file>
+        <file alias="restore">res/icons/huifu.svg</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>

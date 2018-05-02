@@ -28,13 +28,15 @@
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QApplication>
 
 #include "qt/widgets/overlaydialogembeder.h"
 
+
 static QWidget* TopLevelParentWidget(QWidget* widget)
 {
-	while (widget->parentWidget() != Q_NULLPTR) widget = widget->parentWidget();
-	return widget;
+    while (widget->parentWidget() != Q_NULLPTR) widget = widget->parentWidget();
+    return widget;
 }
 
 WalletView::WalletView(const PlatformStyle *_platformStyle, QWidget *parent):
@@ -95,7 +97,7 @@ void WalletView::setBitcoinGUI(BitcoinGUI *gui)
         // Pass through transaction notifications
         connect(this, SIGNAL(incomingTransaction(QString,int,CAmount,QString,QString,QString)), gui, SLOT(incomingTransaction(QString,int,CAmount,QString,QString,QString)));
 
-        // Connect HD enabled state signal 
+        // Connect HD enabled state signal
         connect(this, SIGNAL(hdEnabledStatusChanged(int)), gui, SLOT(setHDStatus(int)));
     }
 }
@@ -222,12 +224,12 @@ void WalletView::showOutOfSyncWarning(bool fShow)
 QMargins WalletView::AskPassphraseDialogMargin()
 {
 #ifdef Q_OS_MAC
-	double guiscale = 1.0;
+    double guiscale = 1.0;
 #else
-	double guiscale = logicalDpiX() / 96.0;
-#endif	
+    double guiscale = logicalDpiX() / 96.0;
+#endif
 
-	return QMargins(50,150,50,250) * guiscale;
+    return QMargins(50,150,50,250) * guiscale;
 
 }
 
@@ -240,20 +242,20 @@ void WalletView::encryptWallet(bool status)
 {
     if(!walletModel)
         return;
-	auto dlg = new AskPassphraseDialog(status ? AskPassphraseDialog::Encrypt : AskPassphraseDialog::Decrypt, this);
+    auto dlg = new AskPassphraseDialog(status ? AskPassphraseDialog::Encrypt : AskPassphraseDialog::Decrypt, this);
 
-	OverlayDialogEmbeder embeder(dlg, TopLevelParentWidget(this));
+    OverlayDialogEmbeder embeder(dlg, TopLevelParentWidget(this));
 
-	embeder.setGreycolor(QColor(120,120,120,200));
+    embeder.setGreycolor(QColor(120,120,120,200));
 
-	embeder.setContentsMargins(AskPassphraseDialogMargin());
+    embeder.setContentsMargins(AskPassphraseDialogMargin());
 
-	dlg->setModel(walletModel);
-	
-	dlg->show();
-	embeder.show();
-	
-	dlg->exec();
+    dlg->setModel(walletModel);
+
+    dlg->show();
+    embeder.show();
+
+    dlg->exec();
 
     updateEncryptionStatus();
 }
@@ -261,33 +263,54 @@ void WalletView::encryptWallet(bool status)
 void WalletView::backupWallet()
 {
     QString filename = GUIUtil::getSaveFileName(this,
-        tr("Backup Wallet"), QString(),
-        tr("Wallet Data (*.dat)"), nullptr);
+                       tr("Backup Wallet"), QString(),
+                       tr("Wallet Data (*.dat)"), nullptr);
 
     if (filename.isEmpty())
         return;
 
     if (!walletModel->backupWallet(filename)) {
         Q_EMIT message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
-            CClientUIInterface::MSG_ERROR);
-        }
+                       CClientUIInterface::MSG_ERROR);
+    }
     else {
         Q_EMIT message(tr("Backup Successful"), tr("The wallet data was successfully saved to %1.").arg(filename),
-            CClientUIInterface::MSG_INFORMATION);
+                       CClientUIInterface::MSG_INFORMATION);
+    }
+}
+
+void WalletView::restoreWallet()
+{
+    QString filename = GUIUtil::getOpenFileName(this,
+                       tr("Restore Wallet"), QString(),
+                       tr("Wallet Data (*.dat)"), nullptr);
+
+    if (filename.isEmpty())
+        return;
+
+    if (!walletModel->restoreWallet(filename)) {
+        Q_EMIT message(tr("Backup Failed"), tr("There was an error trying to save the wallet data to %1.").arg(filename),
+                       CClientUIInterface::MSG_ERROR);
+    }
+    else {
+        Q_EMIT message(tr("Backup Successful"), tr("The wallet data was successfully restored. restart to take effect"),
+                       CClientUIInterface::MSG_INFORMATION);
+        QApplication::instance()->setProperty("dorestart", true);
+        QApplication::instance()->quit();
     }
 }
 
 void WalletView::changePassphrase()
 {
     auto dlg = new AskPassphraseDialog(AskPassphraseDialog::ChangePass, this);
-	OverlayDialogEmbeder e(dlg, TopLevelParentWidget(this));
-	e.setGreycolor(QColor(120, 120, 120, 200));
-	e.setContentsMargins(AskPassphraseDialogMargin());
+    OverlayDialogEmbeder e(dlg, TopLevelParentWidget(this));
+    e.setGreycolor(QColor(120, 120, 120, 200));
+    e.setContentsMargins(AskPassphraseDialogMargin());
 
-	dlg->setModel(walletModel);
+    dlg->setModel(walletModel);
 
-	dlg->show();
-	e.show();
+    dlg->show();
+    e.show();
 
     dlg->exec();
 }
@@ -299,16 +322,16 @@ void WalletView::unlockWallet()
     // Unlock wallet when requested by wallet model
     if (walletModel->getEncryptionStatus() == WalletModel::Locked)
     {
-		auto dlg = new AskPassphraseDialog(AskPassphraseDialog::Unlock, this);
-		OverlayDialogEmbeder e(dlg, TopLevelParentWidget(this));
-		e.setGreycolor(QColor(120, 120, 120, 200));
-		e.setContentsMargins(AskPassphraseDialogMargin());
+        auto dlg = new AskPassphraseDialog(AskPassphraseDialog::Unlock, this);
+        OverlayDialogEmbeder e(dlg, TopLevelParentWidget(this));
+        e.setGreycolor(QColor(120, 120, 120, 200));
+        e.setContentsMargins(AskPassphraseDialogMargin());
 
-		dlg->setModel(walletModel);
-		dlg->show();
-		e.show();
-		dlg->exec();
-	}
+        dlg->setModel(walletModel);
+        dlg->show();
+        e.show();
+        dlg->exec();
+    }
 }
 
 void WalletView::usedSendingAddresses()
@@ -316,30 +339,30 @@ void WalletView::usedSendingAddresses()
     if(!walletModel)
         return;
 
-	auto usedSendingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::SendingTab, nullptr);
-	//	setCurrentWidget(usedSendingAddressesPage);
-	usedSendingAddressesPage->setModel(walletModel ? walletModel->getAddressTableModel() : nullptr);
+    auto usedSendingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::SendingTab, nullptr);
+    //	setCurrentWidget(usedSendingAddressesPage);
+    usedSendingAddressesPage->setModel(walletModel ? walletModel->getAddressTableModel() : nullptr);
 
-	OverlayDialogEmbeder embeder(usedSendingAddressesPage, TopLevelParentWidget(this));
-	usedSendingAddressesPage->show();
-	embeder.show();
+    OverlayDialogEmbeder embeder(usedSendingAddressesPage, TopLevelParentWidget(this));
+    usedSendingAddressesPage->show();
+    embeder.show();
 
-	usedSendingAddressesPage->exec();
+    usedSendingAddressesPage->exec();
 }
 
 void WalletView::usedReceivingAddresses()
 {
     if(!walletModel)
         return;
-	auto usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, nullptr);
-	//	setCurrentWidget(usedSendingAddressesPage);
-	usedReceivingAddressesPage->setModel(walletModel ? walletModel->getAddressTableModel() : nullptr);
+    auto usedReceivingAddressesPage = new AddressBookPage(platformStyle, AddressBookPage::ForEditing, AddressBookPage::ReceivingTab, nullptr);
+    //	setCurrentWidget(usedSendingAddressesPage);
+    usedReceivingAddressesPage->setModel(walletModel ? walletModel->getAddressTableModel() : nullptr);
 
-	OverlayDialogEmbeder embeder(usedReceivingAddressesPage, TopLevelParentWidget(this));
-	usedReceivingAddressesPage->show();
-	embeder.show();
+    OverlayDialogEmbeder embeder(usedReceivingAddressesPage, TopLevelParentWidget(this));
+    usedReceivingAddressesPage->show();
+    embeder.show();
 
-	usedReceivingAddressesPage->exec();
+    usedReceivingAddressesPage->exec();
 }
 
 void WalletView::showProgress(const QString &title, int nProgress)

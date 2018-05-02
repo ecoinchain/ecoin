@@ -138,6 +138,10 @@ public:
      */
     bool Backup(const std::string& strDest);
 
+    /** restore the database from a file.
+     */
+    bool Restore(const std::string& strSource);
+
     /** Make sure all changes are flushed to disk.
      */
     void Flush(bool shutdown);

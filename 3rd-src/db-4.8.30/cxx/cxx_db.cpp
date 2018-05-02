@@ -6,6 +6,8 @@
  * $Id$
  */
 
+#include <atomic>
+
 #include "db_config.h"
 
 #include "db_int.h"

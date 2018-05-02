@@ -81,52 +81,53 @@ protected:
     bool eventFilter(QObject *object, QEvent *event);
 
 private:
-    ClientModel *clientModel;
-    WalletFrame *walletFrame;
+    ClientModel *clientModel = nullptr;
+    WalletFrame *walletFrame = nullptr;
 
 	QScopedPointer<QMovie, QScopedPointerDeleteLater> animatedIcon;
     UnitDisplayStatusBarControl *unitDisplayControl;
-    QLabel *labelWalletEncryptionIcon;
-    QLabel *labelWalletHDStatusIcon;
-    QLabel *labelWalletMinerStatusIcon;
-    QLabel *connectionsControl;
-    QLabel *labelBlocksIcon;
-    QLabel *progressBarLabel;
-    QProgressBar *progressBar;
-    QProgressDialog *progressDialog;
+    QLabel *labelWalletEncryptionIcon = nullptr;
+    QLabel *labelWalletHDStatusIcon = nullptr;
+    QLabel *labelWalletMinerStatusIcon = nullptr;
+    QLabel *connectionsControl = nullptr;
+    QLabel *labelBlocksIcon = nullptr;
+    QLabel *progressBarLabel = nullptr;
+    QProgressBar *progressBar = nullptr;
+    QProgressDialog *progressDialog = nullptr;
 
-    IconedAction *overviewAction;
-    IconedAction *sendCoinsAction;
-	IconedAction *receiveCoinsAction;
-	IconedAction *historyAction;
+    IconedAction *overviewAction = nullptr;
+    IconedAction *sendCoinsAction = nullptr;
+	IconedAction *receiveCoinsAction = nullptr;
+	IconedAction *historyAction = nullptr;
 
-    QAction *reInitAction;
-	QAction *quitAction;
-	QAction *sendCoinsMenuAction;
-    QAction *signMessageAction;
-    QAction *verifyMessageAction;
-    QAction *aboutAction;
-    QAction *receiveCoinsMenuAction;
-    QAction *optionsAction;
-    QAction *toggleHideAction;
-    QAction *encryptWalletAction;
-    QAction *backupWalletAction;
-    QAction *changePassphraseAction;
-    QAction *aboutQtAction;
-    QAction *openRPCConsoleAction;
-    QAction *openAction;
-    QAction *showHelpMessageAction;
-	QAction *usedSendingAddressesAction;
-	QAction *usedReceivingAddressesAction;
+    QAction *changeDatadirAction = nullptr;
+	QAction *quitAction = nullptr;
+	QAction *sendCoinsMenuAction = nullptr;
+    QAction *signMessageAction = nullptr;
+    QAction *verifyMessageAction = nullptr;
+    QAction *aboutAction = nullptr;
+    QAction *receiveCoinsMenuAction = nullptr;
+    QAction *optionsAction = nullptr;
+    QAction *toggleHideAction = nullptr;
+    QAction *encryptWalletAction = nullptr;
+    QAction *backupWalletAction = nullptr;
+	QAction *recoverWalletAction = nullptr;
+    QAction *changePassphraseAction = nullptr;
+    QAction *aboutQtAction = nullptr;
+    QAction *openRPCConsoleAction = nullptr;
+    QAction *openAction = nullptr;
+    QAction *showHelpMessageAction = nullptr;
+	QAction *usedSendingAddressesAction = nullptr;
+	QAction *usedReceivingAddressesAction  = nullptr;
 
-    menubar *appMenuBar;
+    menubar *appMenuBar = nullptr;
 
-    QSystemTrayIcon *trayIcon;
-    QMenu *trayIconMenu;
-    Notificator *notificator;
-    RPCConsole *rpcConsole;
-    HelpMessageDialog *helpMessageDialog;
-    ChainSyncWarning *modalOverlay;
+    QSystemTrayIcon *trayIcon = nullptr;
+    QMenu *trayIconMenu = nullptr;
+    Notificator *notificator = nullptr;
+    RPCConsole *rpcConsole = nullptr;
+    HelpMessageDialog *helpMessageDialog = nullptr;
+    ChainSyncWarning *modalOverlay = nullptr;
 
     /** Keep track of previous number of blocks, to detect progress */
     int prevBlocks;
@@ -187,6 +188,7 @@ public Q_SLOTS:
 
     /** Set the hd-enabled status as shown in the UI.
      @param[in] status            current hd enabled status
+    
      @see WalletModel::EncryptionStatus
      */
     void setHDStatus(int hdEnabled);
@@ -255,7 +257,7 @@ private Q_SLOTS:
 
 	void toolbartoggle_ui_style(IconedAction* sender, bool);
     
-    void reInit();
+    void changeDatadir();
 };
 
 class UnitDisplayStatusBarControl : public QLabel

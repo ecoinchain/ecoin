@@ -115,8 +115,8 @@ QIcon PlatformStyle::SingleColorIcon(const QString& filename) const
 PlatformStyle::modedicon PlatformStyle::ModedIcon(const QString & basefilename) const
 {
 	modedicon icons = {
-		QIcon(basefilename + "_active"),
-		QIcon(basefilename + "_inactive"),
+        {QIcon(basefilename + "_active"),
+            QIcon(basefilename + "_inactive")},
 
 	};// (basefilename + "_active");
 

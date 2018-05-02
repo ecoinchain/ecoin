@@ -168,6 +168,12 @@ QString Intro::getDataDirectory()
     return ui->dataDirectory->text();
 }
 
+void Intro::hidefirst()
+{
+	ui->welcomeLabel->hide();
+	ui->storageLabel->hide();
+}
+
 void Intro::setDataDirectory(const QString &dataDir)
 {
     ui->dataDirectory->setText(dataDir);

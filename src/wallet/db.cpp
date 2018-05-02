@@ -787,6 +787,47 @@ bool CWalletDBWrapper::Backup(const std::string& strDest)
     }
 }
 
+bool CWalletDBWrapper::Restore(const std::string& strSource)
+{
+    if (IsDummy()) {
+        return false;
+    }
+    while (true)
+    {
+        {
+            LOCK(cs_db);
+            if (!env->mapFileUseCount.count(strFile) || env->mapFileUseCount[strFile] == 0)
+            {
+                // Flush log data to the dat file
+                env->CloseDb(strFile);
+                env->CheckpointLSN(strFile);
+                env->mapFileUseCount.erase(strFile);
+
+                // Copy wallet file
+                fs::path pathSrc = strSource;
+                fs::path pathDest = GetWalletDir() / strFile;
+                if (fs::is_directory(pathDest))
+                    pathDest /= strFile;
+
+                try {
+                    if (fs::equivalent(pathSrc, pathDest)) {
+                        LogPrintf("cannot restore to wallet source file %s\n", pathDest.string());
+                        return false;
+                    }
+
+                    fs::copy_file(pathSrc, pathDest, fs::copy_option::overwrite_if_exists);
+                    LogPrintf("copied %s to %s\n", strFile, pathDest.string());
+                    return true;
+                } catch (const fs::filesystem_error& e) {
+                    LogPrintf("error copying %s to %s - %s\n", strFile, pathDest.string(), e.what());
+                    return false;
+                }
+            }
+        }
+        MilliSleep(100);
+    }
+}
+
 void CWalletDBWrapper::Flush(bool shutdown)
 {
     if (!IsDummy()) {
