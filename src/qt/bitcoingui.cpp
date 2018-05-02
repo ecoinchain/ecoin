@@ -405,9 +405,8 @@ void BitcoinGUI::createToolBars_and_Menus()
         overviewAction->setChecked(true);
         QPalette pal = toolbar->palette();
         //pal.setColor(QPalette::Window, QColor(240,240,240));
-
         //toolbar->setPalette(pal);
-        toolbar->setStyleSheet("QToolBar { padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
+        toolbar->setStyleSheet("QToolBar { color: #000000; padding: 0; padding : 0; margin : 0; background-color: rgb(240, 240, 240); border-bottom-color: rgba(255, 255, 255, 0); }");
 
         auto spacerwidget = new QWidget();
         auto hl = new QHBoxLayout();
@@ -729,6 +728,7 @@ void BitcoinGUI::updateNetworkState()
 #endif
 
     int count = clientModel->getNumConnections();
+
     QString icon;
     switch(count)
     {

@@ -108,6 +108,9 @@ public:
 
     /** Banlist did change. */
     boost::signals2::signal<void (void)> BannedListChanged;
+
+    /** Miner state changed. */
+    boost::signals2::signal<void (bool)> MinerStatusChanged;
 };
 
 /** Show warning message **/
