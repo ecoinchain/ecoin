@@ -1248,9 +1248,13 @@ void BitcoinGUI::changeDatadir()
     QSettings settings;
     /* If data directory provided on command line, no need to look at settings
     or show a picking dialog */
-    if(!gArgs.GetArg("-datadir", "").empty()) {
-        QMessageBox::information(this, tr("Unable to change datadir"), tr("you have <b>-datadir</b> commandline option, there is no way to change datadir now."), QMessageBox::Ok, QMessageBox::Ok);
-        return;
+    for (auto args : QApplication::arguments())
+    {
+        if (args == "-datadir")
+        {
+            QMessageBox::information(this, tr("Unable to change datadir"), tr("you have <b>-datadir</b> commandline option, there is no way to change datadir now."), QMessageBox::Ok, QMessageBox::Ok);
+            return;
+        }
     }
 
     QString dataDir = Intro::getDefaultDataDirectory();
