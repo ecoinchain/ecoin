@@ -1,4 +1,4 @@
-#ifndef BITCOIN_QT_CALLBACK_H
+﻿#ifndef BITCOIN_QT_CALLBACK_H
 #define BITCOIN_QT_CALLBACK_H
 
 #include <QObject>

@@ -1,4 +1,4 @@
-#ifndef ICONBUTTON_H
+﻿#ifndef ICONBUTTON_H
 #define ICONBUTTON_H
 
 #include <array>

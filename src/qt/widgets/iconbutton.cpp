@@ -1,4 +1,4 @@
-#include "iconbutton.h"
+﻿#include "iconbutton.h"
 #include "qt/forms/ui_iconbutton.h"
 
 iconbutton::iconbutton(std::array<QIcon, 2> _icons, QString txt, QWidget * parent)
