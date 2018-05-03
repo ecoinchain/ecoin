@@ -163,6 +163,45 @@ link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LI
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
 
+
+#### older slower
+option(USE_CPU_TROMP "USE CPU_TROMP" ON)
+option(USE_CUDA_TROMP "USE CUDA_TROMP" OFF)
+#### faster
+option(USE_CPU_XENONCAT "USE CPU_XENONCAT" ON)
+option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
+
+if (USE_CPU_TROMP)
+    add_subdirectory(cpu_tromp)
+endif()
+if (USE_CPU_XENONCAT)
+    add_subdirectory(cpu_xenoncat)
+endif()
+if (USE_CUDA_TROMP)
+    add_subdirectory(cuda_tromp)
+endif()
+if (USE_CUDA_DJEZO)
+    add_subdirectory(cuda_djezo)
+endif()
+
+## Add solvers here
+if (USE_CPU_TROMP)
+    add_definitions(-DUSE_CPU_TROMP)
+    message("-- USE_CPU_TROMP DEFINED")
+endif()
+if (USE_CPU_XENONCAT)
+    add_definitions(-DUSE_CPU_XENONCAT)
+    message("-- USE_CPU_XENONCAT DEFINED")
+endif()
+if (USE_CUDA_TROMP)
+    add_definitions(-DUSE_CUDA_TROMP)
+    message("-- USE_CUDA_TROMP DEFINED")
+endif()
+if (USE_CUDA_DJEZO)
+    add_definitions(-DUSE_CUDA_DJEZO)
+    message("-- USE_CUDA_DJEZO DEFINED")
+endif()
+
 add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/aes.h
   crypto/chacha20.h
@@ -260,7 +299,9 @@ add_library(coincore STATIC
 
   rpc/client.cpp
 
-    addrdb.cpp
+  MinerFactory.cpp
+  
+  addrdb.cpp
   addrman.cpp
   bloom.cpp
   blockencodings.cpp
@@ -311,6 +352,22 @@ if(WIN32)
 	target_link_libraries(coincore event_extra_static event_core_static)
 else()
 	target_link_libraries(coincore ${EV_LIBRARIES})
+endif()
+
+if (USE_CPU_XENONCAT)
+    target_link_libraries(coincore cpu_xenoncat)
+endif()
+
+# link libs
+if (USE_CPU_TROMP)
+    target_link_libraries(coincore cpu_tromp)
+endif()
+
+if (USE_CUDA_TROMP)
+    target_link_libraries(coincore cuda_tromp)
+endif()
+if (USE_CUDA_DJEZO)
+    target_link_libraries(coincore cuda_djezo)
 endif()
 
 add_subdirectory(wallet)
