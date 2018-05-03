@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2012-2017 The Bitcoin Core developers
+// Copyright (c) 2012-2017 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -166,7 +166,7 @@ bool CBloomFilter::IsRelevantAndUpdate(const CTransaction& tx)
                 {
                     txnouttype type;
                     std::vector<std::vector<unsigned char> > vSolutions;
-                    if (Solver(txout.scriptPubKey, type, vSolutions) &&
+                    if (ScriptSolver(txout.scriptPubKey, type, vSolutions) &&
                             (type == TX_PUBKEY || type == TX_MULTISIG))
                         insert(COutPoint(hash, i));
                 }

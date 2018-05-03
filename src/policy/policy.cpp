@@ -57,7 +57,7 @@ bool IsDust(const CTxOut& txout, const CFeeRate& dustRelayFeeIn)
 bool IsStandard(const CScript& scriptPubKey, txnouttype& whichType, const bool witnessEnabled)
 {
     std::vector<std::vector<unsigned char> > vSolutions;
-    if (!Solver(scriptPubKey, whichType, vSolutions))
+    if (!ScriptSolver(scriptPubKey, whichType, vSolutions))
         return false;
 
     if (whichType == TX_MULTISIG)
@@ -172,7 +172,7 @@ bool AreInputsStandard(const CTransaction& tx, const CCoinsViewCache& mapInputs)
         txnouttype whichType;
         // get the scriptPubKey corresponding to this input:
         const CScript& prevScript = prev.scriptPubKey;
-        if (!Solver(prevScript, whichType, vSolutions))
+        if (!ScriptSolver(prevScript, whichType, vSolutions))
             return false;
 
         if (whichType == TX_SCRIPTHASH)

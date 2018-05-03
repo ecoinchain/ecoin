@@ -67,7 +67,7 @@ static bool SignStep(const BaseSignatureCreator& creator, const CScript& scriptP
     ret.clear();
 
     std::vector<valtype> vSolutions;
-    if (!Solver(scriptPubKey, whichTypeRet, vSolutions))
+    if (!ScriptSolver(scriptPubKey, whichTypeRet, vSolutions))
         return false;
 
     CKeyID keyID;
@@ -334,7 +334,7 @@ static Stacks CombineSignatures(const CScript& scriptPubKey, const BaseSignature
 
             txnouttype txType2;
             std::vector<std::vector<unsigned char> > vSolutions2;
-            Solver(pubKey2, txType2, vSolutions2);
+            ScriptSolver(pubKey2, txType2, vSolutions2);
             sigs1.script.pop_back();
             sigs2.script.pop_back();
             Stacks result = CombineSignatures(pubKey2, checker, txType2, vSolutions2, sigs1, sigs2, sigversion);
@@ -354,7 +354,7 @@ static Stacks CombineSignatures(const CScript& scriptPubKey, const BaseSignature
             CScript pubKey2(sigs1.witness.back().begin(), sigs1.witness.back().end());
             txnouttype txType2;
             std::vector<valtype> vSolutions2;
-            Solver(pubKey2, txType2, vSolutions2);
+            ScriptSolver(pubKey2, txType2, vSolutions2);
             sigs1.witness.pop_back();
             sigs1.script = sigs1.witness;
             sigs1.witness.clear();
@@ -377,7 +377,7 @@ SignatureData CombineSignatures(const CScript& scriptPubKey, const BaseSignature
 {
     txnouttype txType;
     std::vector<std::vector<unsigned char> > vSolutions;
-    Solver(scriptPubKey, txType, vSolutions);
+    ScriptSolver(scriptPubKey, txType, vSolutions);
 
     return CombineSignatures(scriptPubKey, checker, txType, vSolutions, Stacks(scriptSig1), Stacks(scriptSig2), SIGVERSION_BASE).Output();
 }

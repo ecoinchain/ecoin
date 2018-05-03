@@ -35,7 +35,7 @@ const char* GetTxnOutputType(txnouttype t)
     return nullptr;
 }
 
-bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet)
+bool ScriptSolver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet)
 {
     // Templates
     static std::multimap<txnouttype, CScript> mTemplates;
@@ -184,7 +184,7 @@ bool ExtractDestination(const CScript& scriptPubKey, CTxDestination& addressRet)
 {
     std::vector<valtype> vSolutions;
     txnouttype whichType;
-    if (!Solver(scriptPubKey, whichType, vSolutions))
+    if (!ScriptSolver(scriptPubKey, whichType, vSolutions))
         return false;
 
     if (whichType == TX_PUBKEY)
@@ -232,7 +232,7 @@ bool ExtractDestinations(const CScript& scriptPubKey, txnouttype& typeRet, std::
     addressRet.clear();
     typeRet = TX_NONSTANDARD;
     std::vector<valtype> vSolutions;
-    if (!Solver(scriptPubKey, typeRet, vSolutions))
+    if (!ScriptSolver(scriptPubKey, typeRet, vSolutions))
         return false;
     if (typeRet == TX_NULL_DATA){
         // This is data, not addresses
@@ -346,7 +346,7 @@ CScript GetScriptForWitness(const CScript& redeemscript)
 
     txnouttype typ;
     std::vector<std::vector<unsigned char> > vSolutions;
-    if (Solver(redeemscript, typ, vSolutions)) {
+    if (ScriptSolver(redeemscript, typ, vSolutions)) {
         if (typ == TX_PUBKEY) {
             return GetScriptForDestination(WitnessV0KeyHash(Hash160(vSolutions[0].begin(), vSolutions[0].end())));
         } else if (typ == TX_PUBKEYHASH) {

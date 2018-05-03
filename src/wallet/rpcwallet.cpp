@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2010 Satoshi Nakamoto
+// Copyright (c) 2010 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -3706,7 +3706,7 @@ public:
         // Always present: script type and redeemscript
         txnouttype which_type;
         std::vector<std::vector<unsigned char>> solutions_data;
-        Solver(subscript, which_type, solutions_data);
+        ScriptSolver(subscript, which_type, solutions_data);
         obj.pushKV("script", GetTxnOutputType(which_type));
         obj.pushKV("hex", HexStr(subscript.begin(), subscript.end()));
 

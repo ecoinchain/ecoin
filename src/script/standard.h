@@ -138,7 +138,7 @@ const char* GetTxnOutputType(txnouttype t);
  * @param[out]  vSolutionsRet  Vector of parsed pubkeys and hashes
  * @return                     True if script matches standard template
  */
-bool Solver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet);
+bool ScriptSolver(const CScript& scriptPubKey, txnouttype& typeRet, std::vector<std::vector<unsigned char> >& vSolutionsRet);
 
 /**
  * Parse a standard scriptPubKey for the destination address. Assigns result to
@@ -186,3 +186,4 @@ CScript GetScriptForMultisig(int nRequired, const std::vector<CPubKey>& keys);
 CScript GetScriptForWitness(const CScript& redeemscript);
 
 #endif // BITCOIN_SCRIPT_STANDARD_H
+
