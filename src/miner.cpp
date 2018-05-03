@@ -678,7 +678,7 @@ void static BitcoinMiner()
                 boost::this_thread::interruption_point();
                 if (pblock->nNonce == uint256S("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"))
                     break;
-                if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
+                if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 6)
                     break;
                 if (pindexPrev != chainActive.Tip())
                     break;
