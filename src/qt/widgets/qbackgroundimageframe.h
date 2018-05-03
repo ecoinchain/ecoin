@@ -1,8 +1,12 @@
 ﻿
 #pragma once
 
+#ifndef Q_BG_IMG_FRAME_HPP
+#define Q_BG_IMG_FRAME_HPP
+
 #include <QIcon>
 #include <QFrame>
+
 
 class QBackgroundImageFrame : public QFrame
 {
@@ -26,3 +30,5 @@ private:
 	QIcon bgimg;
 	Qt::Alignment m_alignment;
 };
+
+#endif

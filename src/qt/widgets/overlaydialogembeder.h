@@ -4,9 +4,12 @@
 
 #pragma once
 
+#ifndef OVERLAY_DIALOG_EMBEDER_HPP
+#define OVERLAY_DIALOG_EMBEDER_HPP
+
 #include <QWidget>
 
-#include "./greylay.h"
+#include "qt/widgets/greylay.h"
 
 /** Modal overlay to display information about the chain-sync state */
 class OverlayDialogEmbeder : public Greylay
@@ -16,3 +19,5 @@ public:
     explicit OverlayDialogEmbeder(QWidget* embed_child, QWidget *parent);
     ~OverlayDialogEmbeder();
 };
+
+#endif
