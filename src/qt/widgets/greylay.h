@@ -4,9 +4,12 @@
 
 #pragma once
 
+#ifndef __GRAY_LAY_HPP
+#define __GRAY_LAY_HPP
+
 #include <QWidget>
 
-#include "./modaloverlay.h"
+#include "qt/widgets/modaloverlay.h"
 
 /** Modal overlay to display information about the chain-sync state */
 class Greylay : public ModalOverlay
@@ -26,3 +29,5 @@ protected:
 	virtual void paintEvent(QPaintEvent *event) override;
 	QColor m_greycolor;
 };
+
+#endif

@@ -7,7 +7,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 
-#include "./greylay.h"
+#include "qt/widgets/greylay.h"
 
 Greylay::Greylay(QWidget *parent)
 	: ModalOverlay(parent)

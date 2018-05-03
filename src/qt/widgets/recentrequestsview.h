@@ -1,5 +1,8 @@
 ﻿#pragma once
 
+#ifndef RECENTREQUREST_VIEW_HPP
+#define RECENTREQUREST_VIEW_HPP
+
 #include <QObject>
 #include <QTableView>
 
@@ -19,3 +22,5 @@ protected:
 	virtual void mousePressEvent(QMouseEvent *event) override;
 
 };
+
+#endif

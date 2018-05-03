@@ -4,6 +4,9 @@
 
 #pragma once
 
+#ifndef MODAL_OVERLAY_HPP
+#define MODAL_OVERLAY_HPP
+
 #include <QWidget>
 
 /** Modal overlay to display information about the chain-sync state */
@@ -22,3 +25,5 @@ protected:
     bool eventFilter(QObject * obj, QEvent * ev);
     bool event(QEvent* ev);
 };
+
+#endif
