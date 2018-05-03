@@ -1,4 +1,4 @@
-#ifndef ICONEDACTION_H
+﻿#ifndef ICONEDACTION_H
 #define ICONEDACTION_H
 
 #include <array>

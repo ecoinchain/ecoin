@@ -1,4 +1,4 @@
-#include <rpc/safemode.h>
+﻿#include <rpc/safemode.h>
 
 #include <rpc/protocol.h>
 #include <util.h>

@@ -1,4 +1,4 @@
-#ifndef BITCOIN_CHAINPARAMSSEEDS_H
+﻿#ifndef BITCOIN_CHAINPARAMSSEEDS_H
 #define BITCOIN_CHAINPARAMSSEEDS_H
 /**
  * List of fixed seed nodes for the bitcoin network

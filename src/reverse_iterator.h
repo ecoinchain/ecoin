@@ -1,4 +1,4 @@
-// Taken from https://gist.github.com/arvidsson/7231973
+﻿// Taken from https://gist.github.com/arvidsson/7231973
 
 #ifndef BITCOIN_REVERSE_ITERATOR_H
 #define BITCOIN_REVERSE_ITERATOR_H
