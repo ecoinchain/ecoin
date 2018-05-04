@@ -1,7 +1,4 @@
 
-add_subdirectory(leveldb EXCLUDE_FROM_ALL)
-
-
 include(CheckIncludeFile)
 
 include(CheckSymbolExists)
@@ -144,46 +141,6 @@ if (HAVE_DECL_BSWAP_64)
 	add_definitions(-DHAVE_DECL_BSWAP_64)
 endif()
 
-add_subdirectory(univalue)
-add_subdirectory(secp256k1)
-add_subdirectory(ed25519)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodium/include/sodium)
-
-add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=17
-	-DCLIENT_VERSION_REVISION=1 -DCLIENT_VERSION_BUILD=0
-        -DCLIENT_VERSION_IS_RELEASE=1 -DCOPYRIGHT_YEAR=2018)
-add_definitions(-DPACKAGE_NAME="rcoin")
-
-add_definitions(-DENABLE_WALLET)
-
-link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
-
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
-
-
-#### older slower
-option(USE_CPU_TROMP "USE CPU_TROMP" ON)
-option(USE_CUDA_TROMP "USE CUDA_TROMP" OFF)
-#### faster
-option(USE_CPU_XENONCAT "USE CPU_XENONCAT" ON)
-option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
-
-if (USE_CPU_TROMP)
-    add_subdirectory(cpu_tromp)
-endif()
-if (USE_CPU_XENONCAT)
-    add_subdirectory(cpu_xenoncat)
-endif()
-if (USE_CUDA_TROMP)
-    add_subdirectory(cuda_tromp)
-endif()
-if (USE_CUDA_DJEZO)
-    add_subdirectory(cuda_djezo)
-endif()
-
 ## Add solvers here
 if (USE_CPU_TROMP)
     add_definitions(-DUSE_CPU_TROMP)
@@ -201,6 +158,37 @@ if (USE_CUDA_DJEZO)
     add_definitions(-DUSE_CUDA_DJEZO)
     message("-- USE_CUDA_DJEZO DEFINED")
 endif()
+
+if (USE_CPU_TROMP)
+    add_subdirectory(cpu_tromp)
+endif()
+if (USE_CPU_XENONCAT)
+    add_subdirectory(cpu_xenoncat)
+endif()
+if (USE_CUDA_TROMP)
+    add_subdirectory(cuda_tromp)
+endif()
+
+add_subdirectory(leveldb EXCLUDE_FROM_ALL)
+add_subdirectory(univalue)
+add_subdirectory(secp256k1)
+add_subdirectory(ed25519)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodium/include/sodium)
+
+add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=17
+	-DCLIENT_VERSION_REVISION=1 -DCLIENT_VERSION_BUILD=0
+        -DCLIENT_VERSION_IS_RELEASE=1 -DCOPYRIGHT_YEAR=2018)
+
+add_definitions(-DENABLE_WALLET)
+
+link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
+
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
+
+add_definitions(-DPACKAGE_NAME="rcoin")
 
 add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/aes.h

@@ -1,25 +1,27 @@
 cmake_minimum_required(VERSION 3.0)
-cmake_minimum_required(VERSION 3.0)
 project(rcoin)
+cmake_policy(SET CMP0058 NEW)
+include(CheckCXXCompilerFlag)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag(-std=c++14 HAS_CXX14)
-if (HAS_CXX14)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
-endif()
 
 option(ENABLE_QT_STATIC "link to static qt" ON)
 option(Boost_USE_STATIC_LIBS "use static Boost" ON)
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "1")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
+
+#### older slower
+option(USE_CPU_TROMP "USE CPU_TROMP" ON)
+#### faster
+set(USE_CPU_XENONCAT OFF)
+option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
+
+if (USE_CUDA_DJEZO)
+    add_subdirectory(src/cuda_djezo)
+endif()
 
 if(MSVC)
 set (CMAKE_CONFIGURATION_TYPES "Release;Debug")
@@ -43,7 +45,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG}  /ignore:4099 /NODEFAULTLIB:libcmt.lib ")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
-
+else()
+check_cxx_compiler_flag(-std=c++14 HAS_CXX14)
+if (HAS_CXX14)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
+endif()
 endif(MSVC)
 
 include(cpacksettings.cmake)
