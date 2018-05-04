@@ -109,9 +109,11 @@ _cpuid(unsigned int cpu_info[4U], const unsigned int cpu_info_type)
 #endif
 }
 
-static int
-_sodium_runtime_intel_cpu_features(CPUFeatures * const cpu_features)
+#include <stdio.h>
+
+int _sodium_runtime_intel_cpu_features(CPUFeatures * const cpu_features)
 {
+	printf("hello\n");
     unsigned int cpu_info[4];
     unsigned int id;
 
@@ -215,7 +217,17 @@ _sodium_runtime_get_cpu_features(void)
     ret &= _sodium_runtime_arm_cpu_features(&_cpu_features);
     ret &= _sodium_runtime_intel_cpu_features(&_cpu_features);
     _cpu_features.initialized = 1;
-
+#ifdef __GNUC__
+	_cpu_features.has_avx = __builtin_cpu_supports("avx");
+	_cpu_features.has_avx2 = __builtin_cpu_supports("avx2");
+	_cpu_features.has_avx512f = __builtin_cpu_supports("avx512f");
+	_cpu_features.has_aesni = __builtin_cpu_supports("aes");
+	_cpu_features.has_pclmul = __builtin_cpu_supports("pclmul");
+	_cpu_features.has_sse41 = __builtin_cpu_supports("sse4.1");
+	_cpu_features.has_ssse3 = __builtin_cpu_supports("ssse3");
+	_cpu_features.has_sse3 = __builtin_cpu_supports("sse3");
+	_cpu_features.has_sse2 = __builtin_cpu_supports("sse2");
+#endif
     return ret;
 }
 
