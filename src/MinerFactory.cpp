@@ -13,7 +13,8 @@ MinerFactory::~MinerFactory()
 }
 
 std::vector<ISolver *> MinerFactory::GenerateSolvers(int cpu_threads, int cuda_count, int* cuda_en, int* cuda_b, int* cuda_t,
-	int opencl_count, int opencl_platf, int* opencl_en, int* opencl_t) {
+	int opencl_count, int opencl_platf, int* opencl_en, int* opencl_t)
+{
 	std::vector<ISolver *> solversPointers;
 
 	for (int i = 0; i < cuda_count; ++i) {

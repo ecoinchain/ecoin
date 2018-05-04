@@ -2033,7 +2033,8 @@ __host__ eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::eq_cuda_context(int id)
 	if (cudaMalloc((void**)&device_eq, sizeof(equi<RB, SM>)) != cudaSuccess)
 		throw std::runtime_error("CUDA: failed to alloc memory");
 
-	solutions = (scontainerreal*)malloc(sizeof(scontainerreal));
+	cudaHostAlloc(&solutions, sizeof(scontainerreal), cudaHostAllocDefault);
+//	solutions = (scontainerreal*)malloc(sizeof(scontainerreal));
 }
 
 
@@ -2072,7 +2073,8 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	digit_3<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
 
-	if (cancelf()) return false;
+	if (cancelf())
+		return false;
 
 	digit_4<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
 
@@ -2123,7 +2125,7 @@ template <u32 RB, u32 SM, u32 SSM, u32 THREADS, typename PACKER>
 __host__ eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::~eq_cuda_context()
 {
 	if (solutions)
-		free(solutions);
+		cudaFreeHost(solutions);
 
 	cudaFree(device_eq);
 
