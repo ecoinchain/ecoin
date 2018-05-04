@@ -153,7 +153,9 @@ class EhSolverCancelledException : public std::exception
     }
 };
 
+#ifndef __CUDACC__
 inline constexpr size_t max(const size_t A, const size_t B) { return A > B ? A : B; }
+#endif
 
 inline constexpr size_t equihash_solution_size(unsigned int N, unsigned int K) {
     return (1 << K)*(N/(K+1)+1)/8;
