@@ -1908,18 +1908,18 @@ std::mutex dev_init;
 int dev_init_done[8] = { 0 };
 
 
-__host__ int compu32(const void *pa, const void *pb)
+__host__ int compu32_callback(const void *pa, const void *pb)
 {
 	uint32_t a = *(uint32_t *)pa, b = *(uint32_t *)pb;
 	return a<b ? -1 : a == b ? 0 : +1;
 }
 
 
-__host__ bool duped(uint32_t* prf)
+__host__ bool duped_host_api(uint32_t* prf)
 {
 	uint32_t sortprf[512];
 	memcpy(sortprf, prf, sizeof(uint32_t) * 512);
-	qsort(sortprf, 512, sizeof(uint32_t), &compu32);
+	qsort(sortprf, 512, sizeof(uint32_t), &compu32_callback);
 	for (uint32_t i = 1; i<512; i++)
 		if (sortprf[i] <= sortprf[i - 1])
 			return true;
@@ -2095,7 +2095,7 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 	for (u32 s = 0; (s < solutions->nsols) && (s < MAXREALSOLS); s++)
 	{
 		// remove dups on CPU (dup removal on GPU is not fully exact and can pass on some invalid solutions)
-		if (duped(solutions->sols[s])) continue;
+		if (duped_host_api(solutions->sols[s])) continue;
 
 		// perform sort of pairs
 		for (uint32_t level = 0; level < 9; level++)
