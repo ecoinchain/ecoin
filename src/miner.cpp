@@ -607,20 +607,16 @@ void static BitcoinMiner(ISolver *solver)
                 CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
                 ss << I;
 
-                char *tequihash_header = (char *)&ss[0];
+                const char *tequihash_header = ss.data();
                 unsigned int tequihash_header_len = ss.size();
 
-                std::function<bool(const std::vector<uint32_t>&, size_t, const unsigned char*)> solutionFound =
-#ifdef ENABLE_WALLET
-                    [&pblock, &pwallet, &reservekey, &m_cs, &cancelSolver, &chainparams]
-#else
-                    [&pblock, &m_cs, &cancelSolver, &chainparams]
-#endif
-                    (const std::vector<uint32_t>& index_vector, size_t cbitlen, const unsigned char* compressed_sol)
+                std::function<bool(const std::vector<uint32_t>&, size_t, const unsigned char*)>
+                solutionFound = [&](const std::vector<uint32_t>& index_vector, size_t cbitlen, const unsigned char* compressed_sol)
                 {
                     // Write the solution to the hash and compute the result.
 					if (compressed_sol)
 					{
+						pblock->nSolution.resize(1344);
 						pblock->nSolution = std::vector<unsigned char>(1344);
 						for (size_t i = 0; i < cbitlen; ++i)
 							pblock->nSolution[i] = compressed_sol[i];
@@ -631,7 +627,7 @@ void static BitcoinMiner(ISolver *solver)
 					//                    pblock->nNonce = bNonce;
 
                     if (!CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
-                        return false;
+                        //return false;
                     }
 
                     // Found a solution
@@ -639,11 +635,14 @@ void static BitcoinMiner(ISolver *solver)
                     arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
                     LogPrintf("BitcoinMiner:\n");
                     LogPrintf("Proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
+					
+					bool ProcessBlockFoundRet;
 #ifdef ENABLE_WALLET
-                    if (ProcessBlockFound(pblock, *pwallet, reservekey)) {
+					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);                    
 #else
-                    if (ProcessBlockFound(pblock)) {
+					ProcessBlockFoundRet = ProcessBlockFound(pblock);
 #endif
+					if (ProcessBlockFoundRet) {
                         // Ignore chain updates caused by us
                         std::lock_guard<std::mutex> lock {m_cs};
                         cancelSolver = false;
@@ -696,6 +695,8 @@ void static BitcoinMiner(ISolver *solver)
                 pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
                 UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
             }
+
+            cancelSolver = false;
         }
     }
     catch (const boost::thread_interrupted&)
@@ -710,6 +711,7 @@ void static BitcoinMiner(ISolver *solver)
         LogPrintf("BitcoinMiner runtime error: %s\n", e.what());
         return;
     }
+    solver->stop();
     c.disconnect();
 }
 
@@ -795,19 +797,31 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
     if (nThreads == 0 || !fGenerate)
         return;
-	
+
 	detect_AVX_and_AVX2();
+	
+	int use_gpu = 1;
 
 	auto _MinerFactory = new MinerFactory(use_avx || use_avx2, 1, 1);
 			
-	auto solver = _MinerFactory->GenerateSolvers(nThreads, 0, 0, 0, 0, 0, 0, 0, 0);
+	auto solver = _MinerFactory->GenerateSolvers(nThreads, use_gpu, 0, 0, 0, 0, 0, 0, 0);
+	
+	auto solver_idx = 0;
+	if (use_gpu)
+	{
+#ifdef ENABLE_WALLET
+        minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet, solver[solver_idx++]));
+#else
+        minerThreads->create_thread(&BitcoinMiner, solver[solver_idx++]);
+#endif
+	}
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++) {
 #ifdef ENABLE_WALLET
-        minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet, solver[i]));
+        minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet, solver[solver_idx++]));
 #else
-        minerThreads->create_thread(&BitcoinMiner, solver[i]);
+        minerThreads->create_thread(&BitcoinMiner, solver[solver_idx++]);
 #endif
     }
 }
