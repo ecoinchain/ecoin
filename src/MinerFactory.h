@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "AvailableSolvers.h"
 
 class MinerFactory
@@ -11,13 +12,11 @@ public:
 
 	~MinerFactory();
 
-	std::vector<ISolver *> GenerateSolvers(int cpu_threads, int cuda_count, int* cuda_en, int* cuda_b, int* cuda_t,
+	std::vector<std::unique_ptr<ISolver>> GenerateSolvers(int cpu_threads, int cuda_count, int* cuda_en, int* cuda_b, int* cuda_t,
 		int opencl_count, int opencl_platf, int* opencl_en, int* opencl_t);
 	void ClearAllSolvers();
 
 private:
-	std::vector<ISolver *> _solvers;
-
 	bool _use_xenoncat = true;
 	bool _use_cuda_djezo = true;
 	bool _use_silentarmy = true;

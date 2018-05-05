@@ -1,15 +1,15 @@
-project(cuda_djezo)
 set(EXECUTABLE cuda_djezo)
-
 set(AUTOMOC OFF)
 set(AUTOUIC OFF)
 set(AUTORCC OFF)
+
+cmake_policy(SET CMP0058 OLD)
 
 option(ENABLE_CUDA "Enable the cuda build" ON)
 
 # depending on gcc version
 # ;-std=c++11 => Ubuntu 14.04 check gcc versions
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-std=c++11)
+#set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-std=c++11)
 
 file(GLOB SRC_LIST
     cuda_djezo.cpp
@@ -19,12 +19,12 @@ file(GLOB HEADERS
     eqcuda.hpp
     )
 
+
 set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-D_FORCE_INLINES;--disable-warnings;--ptxas-options=-v;-Xptxas=-dlcm=ca;-Xptxas=-dscm=cs; -O3)
-set(nvcc_flags -m64;--std;c++11)
 
-find_package(CUDA REQUIRED)
-set(nvcc_flags -m64;--std;c++11)
+set(CUDA_NVCC_COMPILE_DEFINITIONS [==[@CUDA_NVCC_COMPILE_DEFINITIONS@]==])
 
+FIND_PACKAGE(CUDA REQUIRED)
 if(COMPUTE AND (COMPUTE GREATER 0))
         LIST(APPEND CUDA_NVCC_FLAGS -gencode arch=compute_${COMPUTE},code=sm_${COMPUTE})
 else(COMPUTE AND (COMPUTE GREATER 0))
@@ -38,9 +38,13 @@ message("CUDA NOT FOUND")
 endif()
 
 
-include_directories(${CUDA_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} ..)
-
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CUDA_INCLUDE_DIRS})
+include_directories(..)
 CUDA_ADD_LIBRARY(${EXECUTABLE} STATIC ${SRC_LIST} ${HEADERS})
 TARGET_LINK_LIBRARIES(${EXECUTABLE} ${CUDA_LIBRARIES} cuda)
 
 message("-- CUDA_NVCC_FLAGS: ${CUDA_NVCC_FLAGS}")
+
+install( TARGETS ${EXECUTABLE} RUNTIME DESTINATION bin ARCHIVE DESTINATION lib LIBRARY DESTINATION lib )
+install( FILES ${HEADERS} DESTINATION include/${EXECUTABLE} )

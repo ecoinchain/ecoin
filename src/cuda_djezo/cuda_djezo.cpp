@@ -67,7 +67,7 @@ void cuda_djezo::getinfo(int platf_id, int d_id, std::string& gpu_name, int& sm_
 
 
 void cuda_djezo::start(cuda_djezo& device_context)
-{ 
+{
 	switch (device_context.combo_mode)
 	{
 #ifdef CONFIG_MODE_2
@@ -87,7 +87,7 @@ void cuda_djezo::start(cuda_djezo& device_context)
 }
 
 void cuda_djezo::stop(cuda_djezo& device_context)
-{ 
+{
 	if (device_context.context)
 	{
 		delete device_context.context;

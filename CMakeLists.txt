@@ -19,10 +19,6 @@ option(USE_CPU_TROMP "USE CPU_TROMP" ON)
 set(USE_CPU_XENONCAT OFF)
 option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
 
-if (USE_CUDA_DJEZO)
-    add_subdirectory(src/cuda_djezo)
-endif()
-
 if(MSVC)
 set (CMAKE_CONFIGURATION_TYPES "Release;Debug")
 set(CompilerFlags
@@ -172,6 +168,14 @@ set(DISABLE_SSP 1)
 set(DISABLE_ASM 1)
 
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
+
+include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
+include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
+
+
+if (USE_CUDA_DJEZO)
+    add_subdirectory(src/cuda_djezo)
+endif()
 
 if(WIN32)
 	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)

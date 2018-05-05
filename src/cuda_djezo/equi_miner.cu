@@ -149,6 +149,14 @@ struct __align__(8) slottiny
 template <u32 RB, u32 SM>
 struct equi
 {
+	struct
+	{
+		scontainerreal srealcont;
+		u32 nslots8[4096];
+		u32 nslots0[4096];
+		u32 nslots[9][NBUCKETS];
+	} edata;
+
 	slot round0trees[4096][RB8_NSLOTS];
 	slot trees[1][NBUCKETS][NSLOTS];
 	struct
@@ -169,13 +177,7 @@ struct equi
 		u64 blake_h[8];
 		u32 blake_h32[16];
 	};
-	struct
-	{
-		u32 nslots8[4096];
-		u32 nslots0[4096];
-		u32 nslots[9][NBUCKETS];
-		scontainerreal srealcont;
-	} edata;
+
 };
 
 
@@ -197,7 +199,7 @@ __device__ __forceinline__ uint4 operator^ (uint4 a, uint4 b)
 	return make_uint4(a.x ^ b.x, a.y ^ b.y, a.z ^ b.z, a.w ^ b.w);
 }
 
-__device__ __forceinline__ uint2 ROR2(const uint2 a, const int offset) 
+__device__ __forceinline__ uint2 ROR2(const uint2 a, const int offset)
 {
 	uint2 result;
 	{
@@ -207,7 +209,7 @@ __device__ __forceinline__ uint2 ROR2(const uint2 a, const int offset)
 	return result;
 }
 
-__device__ __forceinline__ uint2 SWAPUINT2(uint2 value) 
+__device__ __forceinline__ uint2 SWAPUINT2(uint2 value)
 {
 	return make_uint2(value.y, value.x);
 }
@@ -228,7 +230,7 @@ __device__ __forceinline__ uint2 ROR16(const uint2 a)
 	return result;
 }
 
-__device__ __forceinline__ void G2(u64 & a, u64 & b, u64 & c, u64 & d, u64 x, u64 y) 
+__device__ __forceinline__ void G2(u64 & a, u64 & b, u64 & c, u64 & d, u64 x, u64 y)
 {
 	a = a + b + x;
 	((uint2*)&d)[0] = SWAPUINT2(((uint2*)&d)[0] ^ ((uint2*)&a)[0]);
@@ -512,12 +514,12 @@ __global__ void digit_first(equi<RB, SM>* eq, u32 nonce)
 
 /*
   Functions digit_1 to digit_8 works by the same principle;
-  Each thread does 2-3 slot loads (loads are coalesced). 
+  Each thread does 2-3 slot loads (loads are coalesced).
   Xorwork of slots is loaded into shared memory and is kept in registers (except for digit_1).
-  At the same time, restbits (8 or 9 bits) in xorwork are used for collisions. 
+  At the same time, restbits (8 or 9 bits) in xorwork are used for collisions.
   Restbits determine position in ht.
   Following next is pair creation. First one (or two) pairs' xorworks are put into global memory
-  as soon as possible, the rest pairs are saved in shared memory (one u32 per pair - 16 bit indices). 
+  as soon as possible, the rest pairs are saved in shared memory (one u32 per pair - 16 bit indices).
   In most cases, all threads have one (or two) pairs so with this trick, we offload memory writes a bit in last step.
   In last step we save xorwork of pairs in memory.
 */
@@ -555,7 +557,7 @@ __global__ void digit_1(equi<RB, SM>* eq)
 
 	// enable this to make fully safe shared mem operations;
 	// disabled gains some speed, but can rarely cause a crash
-	//__syncthreads();
+	__syncthreads();
 
 #pragma unroll
 	for (u32 i = 0; i != 2; ++i)
@@ -1908,18 +1910,18 @@ std::mutex dev_init;
 int dev_init_done[8] = { 0 };
 
 
-__host__ int compu32_callback(const void *pa, const void *pb)
+__host__ int compu32cuda(const void *pa, const void *pb)
 {
 	uint32_t a = *(uint32_t *)pa, b = *(uint32_t *)pb;
 	return a<b ? -1 : a == b ? 0 : +1;
 }
 
 
-__host__ bool duped_host_api(uint32_t* prf)
+__host__ bool dupedcuda(uint32_t* prf)
 {
 	uint32_t sortprf[512];
 	memcpy(sortprf, prf, sizeof(uint32_t) * 512);
-	qsort(sortprf, 512, sizeof(uint32_t), &compu32_callback);
+	qsort(sortprf, 512, sizeof(uint32_t), &compu32cuda);
 	for (uint32_t i = 1; i<512; i++)
 		if (sortprf[i] <= sortprf[i - 1])
 			return true;
@@ -1943,25 +1945,7 @@ __host__ void sort_pair(uint32_t *a, uint32_t len)
 			return;
 }
 
-
-__host__ void setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen)
-{
-	uint32_t le_N = WN;
-	uint32_t le_K = WK;
-    unsigned char personalization[crypto_generichash_blake2b_PERSONALBYTES] = {};
-    memcpy(personalization, "ZcashPoW", 8);
-    memcpy(personalization+8,  &le_N, 4);
-    memcpy(personalization+12, &le_K, 4);
-    crypto_generichash_blake2b_init_salt_personal(ctx,
-                                                         NULL, 0, // No key.
-                                                         (512/WN)*WN/8,
-                                                         NULL,    // No salt.
-                                                         personalization);
-	
-	crypto_generichash_blake2b_update(ctx, (const uchar *)header, headerLen);
-	crypto_generichash_blake2b_update(ctx, (const uchar *)nce, nonceLen);
-}
-
+extern void equi_setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen);
 
 #ifdef WIN32
 typedef CUresult(CUDAAPI *dec_cuDeviceGet)(CUdevice*, int);
@@ -2033,8 +2017,7 @@ __host__ eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::eq_cuda_context(int id)
 	if (cudaMalloc((void**)&device_eq, sizeof(equi<RB, SM>)) != cudaSuccess)
 		throw std::runtime_error("CUDA: failed to alloc memory");
 
-	cudaHostAlloc(&solutions, sizeof(scontainerreal), cudaHostAllocDefault);
-//	solutions = (scontainerreal*)malloc(sizeof(scontainerreal));
+	solutions = (scontainerreal*)aligned_alloc(4096, sizeof(scontainerreal));
 }
 
 
@@ -2051,7 +2034,7 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	int blocks = NBUCKETS;
 
-	setheader(&blake_ctx, tequihash_header, tequihash_header_len, nonce, nonce_len);
+	equi_setheader(&blake_ctx, tequihash_header, tequihash_header_len, nonce, nonce_len);
 
 	// todo: improve
 	// djezo solver allows last 4 bytes of nonce to be iterrated
@@ -2073,8 +2056,7 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	digit_3<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
 
-	if (cancelf())
-		return false;
+	if (cancelf()) return false;
 
 	digit_4<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
 
@@ -2088,16 +2070,18 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	digit_last_wdc<RB, SM, SSM - 3, 2, PACKER, 64, 8, 4> << <4096, 256 / 2 >> >(device_eq);
 
+	printf("cuda finished, about to copy result from %p to %p, size %d\n", &device_eq->edata.srealcont, solutions, (MAXREALSOLS * (512 * 4)) + 4);
+
 	checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (MAXREALSOLS * (512 * 4)) + 4, cudaMemcpyDeviceToHost));
 
-	//printf("nsols: %u\n", solutions->nsols);
+	printf("nsols: %u\n", solutions->nsols);
 	//if (solutions->nsols > 9)
 	//	printf("missing sol, total: %u\n", solutions->nsols);
 
 	for (u32 s = 0; (s < solutions->nsols) && (s < MAXREALSOLS); s++)
 	{
 		// remove dups on CPU (dup removal on GPU is not fully exact and can pass on some invalid solutions)
-		if (duped_host_api(solutions->sols[s])) continue;
+		if (dupedcuda(solutions->sols[s])) continue;
 
 		// perform sort of pairs
 		for (uint32_t level = 0; level < 9; level++)
@@ -2108,12 +2092,9 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 		for (u32 i = 0; i < PROOFSIZE; i++) {
 			index_vector[i] = solutions->sols[s][i];
 		}
-		
+
 		if (solutionf(index_vector, DIGITBITS, nullptr))
-		{
-			hashdonef();
 			return true;
-		}
 	}
 
 	hashdonef();
@@ -2124,8 +2105,7 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 template <u32 RB, u32 SM, u32 SSM, u32 THREADS, typename PACKER>
 __host__ eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::~eq_cuda_context()
 {
-	if (solutions)
-		cudaFreeHost(solutions);
+	free(solutions);
 
 	cudaFree(device_eq);
 

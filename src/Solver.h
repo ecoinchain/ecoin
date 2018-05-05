@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "ISolver.h"
 
 template<typename StaticInterface>
@@ -7,15 +8,10 @@ class Solver : public ISolver
 {
 protected:
 	const SolverType _type;
-	StaticInterface * const _context = nullptr;	
+	std::unique_ptr<StaticInterface> _context;
 public:
 	Solver(StaticInterface *contex, SolverType type) : _context(contex), _type(type){}
-	virtual ~Solver() {
-		// the solver owns the context should delete it
-		if (_context != nullptr) {
-			delete _context;
-		}
-	}
+	virtual ~Solver() { }
 
 	virtual void start() override {
 		StaticInterface::start(*_context);

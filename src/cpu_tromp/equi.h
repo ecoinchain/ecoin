@@ -12,7 +12,6 @@
 #define htole32(x) OSSwapHostToLittleInt32(x)
 #else
 #ifdef WIN32
-#include "pthreads/pthread.h"
 #undef _POSIX_THREADS
 #endif
 #endif

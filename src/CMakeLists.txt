@@ -175,8 +175,6 @@ add_subdirectory(secp256k1)
 add_subdirectory(ed25519)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodium/include/sodium)
 
 add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=17
 	-DCLIENT_VERSION_REVISION=1 -DCLIENT_VERSION_BUILD=0
@@ -288,7 +286,7 @@ add_library(coincore STATIC
   rpc/client.cpp
 
   MinerFactory.cpp
-  
+
   addrdb.cpp
   addrman.cpp
   bloom.cpp

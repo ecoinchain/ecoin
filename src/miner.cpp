@@ -497,7 +497,7 @@ static bool ProcessBlockFound(CBlock* pblock)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
-            return error("BitcoinMiner: generated block is stale");
+            return error("Miner: generated block is stale");
     }
 
 #ifdef ENABLE_WALLET
@@ -516,18 +516,18 @@ static bool ProcessBlockFound(CBlock* pblock)
     // Process this block the same as if we had received it from another node
     std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
     if (!ProcessNewBlock(Params(), shared_pblock, true, NULL))
-        return error("BitcoinMiner: ProcessNewBlock, block not accepted");
+        return error("Miner: ProcessNewBlock, block not accepted");
 
     return true;
 }
 
 #ifdef ENABLE_WALLET
-void static BitcoinMiner(CWallet *pwallet, ISolver *solver)
+void static Miner(CWallet *pwallet, std::unique_ptr<ISolver> solver)
 #else
-void static BitcoinMiner(ISolver *solver)
+void static Miner(std::unique_ptr<ISolver> solver)
 #endif
 {
-	LogPrintf("BitcoinMiner started\n");
+	LogPrintf("Miner started\n");
 	SetThreadPriority(THREAD_PRIORITY_LOWEST);
 	RenameThread("Bitcoin-miner");
 	const CChainParams& chainparams = Params();
@@ -550,7 +550,7 @@ void static BitcoinMiner(ISolver *solver)
 		{
 			std::lock_guard<std::mutex> lock{m_cs};
 			cancelSolver = true;
-			
+
 		}
 	);
 
@@ -558,8 +558,10 @@ void static BitcoinMiner(ISolver *solver)
 
 		solver->start();
 
-		while (true) {
-			if (chainparams.MiningRequiresPeers()) {
+		while (true)
+		{
+			if (chainparams.MiningRequiresPeers())
+			{
 				// Busy-wait for the network to come online so we don't waste time mining
 				// on an obsolete chain. In regtest mode we expect to fly solo.
 				do {
@@ -583,18 +585,21 @@ void static BitcoinMiner(ISolver *solver)
 			std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(*scriptPubKey));
 			if (!pblocktemplate.get())
 			{
-				if (gArgs.GetArg("-mineraddress", "").empty()) {
-					LogPrintf("Error in BitcoinMiner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
-				} else {
+				if (gArgs.GetArg("-mineraddress", "").empty())
+				{
+					LogPrintf("Error in Miner: Keypool ran out, please call keypoolrefill before restarting the mining thread\n");
+				}
+				else
+				{
 					// Should never reach here, because -mineraddress validity is checked in init.cpp
-					LogPrintf("Error in BitcoinMiner: Invalid -mineraddress\n");
+					LogPrintf("Error in Miner: Invalid -mineraddress\n");
 				}
 				return;
 			}
 			CBlock *pblock = &pblocktemplate->block;
 			pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
 
-			LogPrintf("Running BitcoinMiner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
+			LogPrintf("Running Miner with %u transactions in block (%u bytes)\n", pblock->vtx.size(),
 						::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
 			//
@@ -602,8 +607,8 @@ void static BitcoinMiner(ISolver *solver)
 			//
 			int64_t nStart = GetTime();
 
-			while (true) {
-
+			while (true)
+			{
 				// I = the block header minus nonce and solution.
 				CEquihashInput I {*pblock};
 				CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
@@ -625,7 +630,7 @@ void static BitcoinMiner(ISolver *solver)
 					}
 					else
 						pblock->nSolution = GetMinimalFromIndices(index_vector, cbitlen);
-					
+
 					//                    pblock->nNonce = bNonce;
 
 					if (!CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
@@ -635,40 +640,48 @@ void static BitcoinMiner(ISolver *solver)
 					// Found a solution
 					SetThreadPriority(THREAD_PRIORITY_NORMAL);
 					arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
-					LogPrintf("BitcoinMiner:\n");
-					LogPrintf("Proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
-				
+					LogPrintf("Miner:\n");
+					LogPrintf("Proof-of-work found via %s  \n  hash: %s  \ntarget: %s\n", solver->getname(), pblock->GetHash().GetHex(), hashTarget.GetHex());
+
 					bool ProcessBlockFoundRet;
 #ifdef ENABLE_WALLET
-					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);                    
+					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);
 #else
 					ProcessBlockFoundRet = ProcessBlockFound(pblock);
 #endif
-					if (ProcessBlockFoundRet) {
+					if (ProcessBlockFoundRet)
+					{
 						// Ignore chain updates caused by us
 						std::lock_guard<std::mutex> lock {m_cs};
 						cancelSolver = false;
 					}
+
 					SetThreadPriority(THREAD_PRIORITY_LOWEST);
 
 					// In regression test mode, stop mining after a block is found.
-					if (chainparams.MineBlocksOnDemand()) {
+					if (chainparams.MineBlocksOnDemand())
+					{
 						// Increment here because throwing skips the call below
 						throw boost::thread_interrupted();
 					}
 
 					return true;
 				};
-				std::function<bool()> cancelFun = [&m_cs, &cancelSolver]() {
+
+				std::function<bool()> cancelFun = [&m_cs, &cancelSolver]()
+				{
 					std::lock_guard<std::mutex> lock {m_cs};
-					return cancelSolver;
+					bool ret = cancelSolver;
+					cancelSolver = false;
+					return ret;
 				};
 
 				std::function<void(void)> hashDone = []() {
 
 				};
 
-				try {
+				try
+				{
 					bool found = solver->solve(tequihash_header,
 									tequihash_header_len,
 									(const char*)pblock->nNonce.begin(),
@@ -680,7 +693,8 @@ void static BitcoinMiner(ISolver *solver)
 					if (found)
 						break;
 
-				} catch (EhSolverCancelledException&) {
+				} catch (EhSolverCancelledException&)
+				{
 					LogPrintf("Equihash solver cancelled\n");
 					std::lock_guard<std::mutex> lock {m_cs};
 					cancelSolver = false;
@@ -699,20 +713,21 @@ void static BitcoinMiner(ISolver *solver)
 				pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
 				UpdateTime(pblock, chainparams.GetConsensus(), pindexPrev);
 			}
-
-			cancelSolver = false;
 		}
 	}
 	catch (const boost::thread_interrupted&)
 	{
+		solver->stop();
 		c.disconnect();
-		LogPrintf("BitcoinMiner terminated\n");
+		LogPrintf("Miner terminated\n");
 		throw;
 	}
 	catch (const std::runtime_error &e)
 	{
+		solver->stop();
 		c.disconnect();
-		LogPrintf("BitcoinMiner runtime error: %s\n", e.what());
+		LogPrintf("Miner runtime error: %s\n", e.what());
+		std::printf("Miner runtime error: %s\n", e.what());
 		return;
 	}
 	solver->stop();
@@ -763,7 +778,7 @@ static void detect_AVX_and_AVX2()
 		if (use_avx2)
 			std::cout << "AVX2 supported" << std::flush;
 	}
-	
+
 	std::cout << std::endl;
 }
 
@@ -803,37 +818,27 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
         return;
 
 	detect_AVX_and_AVX2();
-	
+
 	int use_gpu = 1;
 
 	minerThreads = new boost::thread_group();
 
 	auto _MinerFactory = new MinerFactory(use_avx || use_avx2, 1, 1);
-	
+
 	#define MAX_INSTANCES 8 * 2
 
 	int cuda_enabled[MAX_INSTANCES] = { 0 };
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
-			
-	auto solver = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
-	
-	auto solver_idx = 0;
-	if (use_gpu)
-	{
-#ifdef ENABLE_WALLET
-		minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet, solver[solver_idx++]));
-#else
-		minerThreads->create_thread(&BitcoinMiner, solver[solver_idx++]);
-#endif
-	}
 
-	for (int i = 0; i < nThreads; i++)
+	auto solver = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
+
+	for (int i = 0; i < solver.size(); i++)
 	{
 #ifdef ENABLE_WALLET
-		minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet, solver[solver_idx++]));
+		minerThreads->create_thread([pwallet, &solver, i](){ Miner(pwallet, std::move(solver[i]));});
 #else
-		minerThreads->create_thread(&BitcoinMiner, solver[solver_idx++]);
+		minerThreads->create_thread([&solver, i](){ Miner(std::move(solver[i]));});
 #endif
 	}
 }

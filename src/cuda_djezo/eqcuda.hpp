@@ -3,7 +3,7 @@
 #include "cuda.h"
 #include "cuda_runtime.h"
 #include "device_launch_parameters.h"
-#include <sodium/crypto_generichash_blake2b.h>
+#include "sodium/crypto_generichash_blake2b.h"
 #include "cuda_djezo.hpp"
 
 #ifdef WIN32
@@ -21,6 +21,7 @@ do {														\
         _SNPRINTF(errorBuff, sizeof(errorBuff) - 1,			\
 			"CUDA error '%s' in func '%s' line %d",			\
 			cudaGetErrorString(err), __FUNCTION__, __LINE__);	\
+			fprintf(stderr, "%s", errorBuff); \
 		throw std::runtime_error(errorBuff);				\
 		}														\
 } while (0)
