@@ -113,7 +113,6 @@ _cpuid(unsigned int cpu_info[4U], const unsigned int cpu_info_type)
 
 int _sodium_runtime_intel_cpu_features(CPUFeatures * const cpu_features)
 {
-	printf("hello\n");
     unsigned int cpu_info[4];
     unsigned int id;
 
