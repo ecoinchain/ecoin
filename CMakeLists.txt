@@ -131,7 +131,12 @@ if(MSVC AND ENABLE_QT_STATIC)
 	link_libraries(${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 endif()
 
+if(WIN32)
 add_subdirectory(3rd-src/openssl-cmake)
+set(OPENSSL_LIBRARIES crypto_static eay32_static)
+else()
+find_package(OpenSSL REQUIRED)
+endif()
 
 if(WIN32)
 	add_definitions(-DBOOST_ALL_STATIC_LINK -DBOOST_AUTO_LINK_NOMANGLE)
