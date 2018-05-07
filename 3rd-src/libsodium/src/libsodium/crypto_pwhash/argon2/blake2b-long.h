@@ -3,6 +3,6 @@
 
 #include <stddef.h>
 
-int blake2b_long(void *pout, size_t outlen, const void *in, size_t inlen);
+int crypto_generichash_blake2b_long(void *pout, size_t outlen, const void *in, size_t inlen);
 
 #endif
