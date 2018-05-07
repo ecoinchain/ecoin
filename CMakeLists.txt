@@ -13,12 +13,6 @@ SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "1")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 
-#### older slower
-option(USE_CPU_TROMP "USE CPU_TROMP" ON)
-#### faster
-set(USE_CPU_XENONCAT OFF)
-option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
-
 if(MSVC)
 set (CMAKE_CONFIGURATION_TYPES "Release;Debug")
 set(CompilerFlags
@@ -171,11 +165,6 @@ add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
 include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
 include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
-
-
-if (USE_CUDA_DJEZO)
-    add_subdirectory(src/cuda_djezo)
-endif()
 
 if(WIN32)
 	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)

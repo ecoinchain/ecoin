@@ -522,9 +522,9 @@ static bool ProcessBlockFound(CBlock* pblock)
 }
 
 #ifdef ENABLE_WALLET
-void static Miner(CWallet *pwallet, std::unique_ptr<ISolver> solver)
+void static Minerthread(CWallet *pwallet, std::unique_ptr<ISolver> solver)
 #else
-void static Miner(std::unique_ptr<ISolver> solver)
+void static Minerthread(std::unique_ptr<ISolver> solver)
 #endif
 {
 	LogPrintf("Miner started\n");
@@ -819,7 +819,7 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	detect_AVX_and_AVX2();
 
-	int use_gpu = 1;
+	int use_gpu = 0;
 
 	minerThreads = new boost::thread_group();
 
@@ -831,14 +831,15 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 
-	auto solver = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
+	auto solvers = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
 
-	for (int i = 0; i < solver.size(); i++)
+	for (auto & solver : solvers)
 	{
+		ISolver* solver_ptr = solver.release();
 #ifdef ENABLE_WALLET
-		minerThreads->create_thread([pwallet, &solver, i](){ Miner(pwallet, std::move(solver[i]));});
+		minerThreads->create_thread([pwallet, solver_ptr]() mutable { Minerthread(pwallet, std::unique_ptr<ISolver>(solver_ptr));});
 #else
-		minerThreads->create_thread([&solver, i](){ Miner(std::move(solver[i]));});
+		minerThreads->create_thread([solver_ptr]() mutable { Minerthread(std::unique_ptr<ISolver>(solver_ptr));});
 #endif
 	}
 }
