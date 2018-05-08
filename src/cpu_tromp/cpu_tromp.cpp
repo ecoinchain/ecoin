@@ -19,7 +19,7 @@ bool CPU_TROMP::solve(const char *tequihash_header,
 	std::function<void(void)> hashdonef,
 	CPU_TROMP& device_context)
 {
-	equi eq(1);
+	equi eq;
 	eq.setnonce(tequihash_header, tequihash_header_len, nonce, nonce_len);
 	eq.digit0(0);
 	eq.xfull = eq.bfull = eq.hfull = 0;

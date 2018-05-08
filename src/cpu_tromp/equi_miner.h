@@ -200,14 +200,12 @@ struct equi {
   bsizes *nslots; // PUT IN BUCKET STRUCT
   proof *sols;
   au32 nsols;
-  u32 nthreads;
   u32 xfull;
   u32 hfull;
   u32 bfull;
 
-  equi(const u32 n_threads) {
+  equi() {
     assert(sizeof(hashunit) == 4);
-    nthreads = n_threads;
 
     hta.alloctrees();
     nslots = (bsizes *)hta.alloc(2 * NBUCKETS, sizeof(au32));
@@ -416,7 +414,7 @@ struct equi {
     crypto_generichash_blake2b_state state;
     htlayout htl(this, 0);
     const u32 hashbytes = hashsize(0);
-    for (u32 block = id; block < NBLOCKS; block += nthreads) {
+    for (u32 block = id; block < NBLOCKS; block += 1) {
       state = blake_ctx;
       u32 leb = block;
       crypto_generichash_blake2b_update(&state, (uchar *)&leb, sizeof(u32));
@@ -450,7 +448,7 @@ struct equi {
   void digitodd(const u32 r, const u32 id) {
     htlayout htl(this, r);
     collisiondata cd;
-    for (u32 bucketid=id; bucketid < NBUCKETS; bucketid += nthreads) {
+    for (u32 bucketid=id; bucketid < NBUCKETS; bucketid += 1) {
       cd.clear();
       slot0 *buck = htl.hta.trees0[(r-1)/2][bucketid]; // optimize by updating previous buck?!
       u32 bsize = getnslots(r-1, bucketid);       // optimize by putting bucketsize with block?!
@@ -499,7 +497,7 @@ struct equi {
   void digiteven(const u32 r, const u32 id) {
     htlayout htl(this, r);
     collisiondata cd;
-    for (u32 bucketid=id; bucketid < NBUCKETS; bucketid += nthreads) {
+    for (u32 bucketid=id; bucketid < NBUCKETS; bucketid += 1) {
       cd.clear();
       slot1 *buck = htl.hta.trees1[(r-1)/2][bucketid]; // OPTIMIZE BY UPDATING PREVIOUS
       u32 bsize = getnslots(r-1, bucketid);
@@ -548,7 +546,7 @@ struct equi {
   void digitK(const u32 id) {
     collisiondata cd;
     htlayout htl(this, WK);
-    for (u32 bucketid = id; bucketid < NBUCKETS; bucketid += nthreads) {
+    for (u32 bucketid = id; bucketid < NBUCKETS; bucketid += 1) {
       cd.clear();
       slot0 *buck = htl.hta.trees0[(WK-1)/2][bucketid];
       u32 bsize = getnslots(WK-1, bucketid);
