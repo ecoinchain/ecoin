@@ -75,10 +75,10 @@ if(MSVC AND ENABLE_QT_STATIC)
 
 	message(STATUS "using qt in ${QT_LIB_DIR}")
 
-	FIND_LIBRARY(Qt5HB_LIBRARIES_RELEASE qtharfbuzzng
+	FIND_LIBRARY(Qt5HB_LIBRARIES_RELEASE qtharfbuzzng qtharfbuzz
 		HINTS "${QT_LIB_DIR}"
 	)
-	FIND_LIBRARY(Qt5HB_LIBRARIES_DEBUG qtharfbuzzngd
+	FIND_LIBRARY(Qt5HB_LIBRARIES_DEBUG qtharfbuzzngd qtharfbuzzd
 		HINTS "${QT_LIB_DIR}"
 	)
 
