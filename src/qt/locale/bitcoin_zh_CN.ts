@@ -2751,7 +2751,7 @@
     <message>
         <location line="-177"/>
         <source>&amp;Request payment</source>
-        <translation>请求付款(&amp;R)</translation>
+        <translation>生成收款地址(&amp;R)</translation>
     </message>
     <message>
         <source>Show the selected request (does the same as double clicking an entry)</source>
