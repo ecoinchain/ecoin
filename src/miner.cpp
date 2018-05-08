@@ -737,8 +737,6 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 extern int use_avx;
 extern int use_avx2;
 
-#ifdef __x86_64__
-
 #ifdef _WIN32
 #include <intrin.h>
 
@@ -782,14 +780,13 @@ static void detect_AVX_and_AVX2()
 	std::cout << std::endl;
 }
 
-#else
+#elif defined(__GNUC__)
 
 static void detect_AVX_and_AVX2()
 {
 	use_avx = __builtin_cpu_supports("avx");
 	use_avx2 = __builtin_cpu_supports("avx2");
 }
-#endif
 
 #endif
 
