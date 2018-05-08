@@ -738,25 +738,26 @@ extern int use_avx;
 extern int use_avx2;
 
 #ifdef _WIN32
+#include <bitset>
 #include <intrin.h>
 
 static void detect_AVX_and_AVX2()
 {
     // Fix on Linux
 	//int cpuInfo[4] = {-1};
-	int cpui[4];
-	std::vector<int[4]> data_;
+	std::array<int, 4> cpui;
+    std::vector<std::array<int, 4>> data_;
 	std::bitset<32> f_1_ECX_;
 	std::bitset<32> f_7_EBX_;
 
 	// Calling __cpuid with 0x0 as the function_id argument
 	// gets the number of the highest valid function ID.
-	__cpuid(cpui, 0);
+	__cpuid(cpui.data(), 0);
 	int nIds_ = cpui[0];
 
 	for (int i = 0; i <= nIds_; ++i)
 	{
-		__cpuidex(cpui, i, 0);
+		__cpuidex(cpui.data(), i, 0);
 		data_.push_back(cpui);
 	}
 
