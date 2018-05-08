@@ -235,10 +235,15 @@ add_library (
 
 target_include_directories(
     libsodium-static
+	PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/include/sodium
+    ${CMAKE_CURRENT_BINARY_DIR}/include
+)
+
+target_include_directories(
+    libsodium-static
 	PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/sodium
-    ${CMAKE_CURRENT_BINARY_DIR}/include/sodium
     ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
@@ -250,14 +255,5 @@ SET_TARGET_PROPERTIES(
 	OUTPUT_NAME libsodium
         LINK_FLAGS "${_LINKER_OPTIONS}"
 )
-
-INSTALL(
-    TARGETS
-	libsodium-static
-    PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-    LIBRARY DESTINATION ${LIBSODIUM_LIB_DIR}
-    ARCHIVE DESTINATION ${LIBSODIUM_LIB_DIR}
-)
-
 
 ADD_SUBDIRECTORY(include)

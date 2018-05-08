@@ -168,9 +168,6 @@ set(DISABLE_ASM 1)
 
 add_subdirectory(3rd-src/libsodium EXCLUDE_FROM_ALL)
 
-include_directories(SYSTEM ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
-include_directories(SYSTEM ${CMAKE_CURRENT_BINARY_DIR}/3rd-src/libsodium/src/libsodium/include/sodium)
-
 if(WIN32)
 	add_subdirectory(3rd-src/db-4.8.30 EXCLUDE_FROM_ALL)
 	set(DB_LIBRARY berkeleydb)
