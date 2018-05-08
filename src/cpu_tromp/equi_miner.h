@@ -23,8 +23,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#include <atomic>
-typedef std::atomic<u32> au32;
+typedef u32 au32;
 
 typedef uint16_t u16;
 typedef uint64_t u64;
@@ -222,7 +221,7 @@ struct equi {
 	  nsols = 0;
   }
   u32 getslot(const u32 r, const u32 bucketi) {
-    return std::atomic_fetch_add_explicit(&nslots[r&1][bucketi], 1U, std::memory_order_relaxed);
+    return nslots[r&1][bucketi]++;
   }
   u32 getnslots(const u32 r, const u32 bid) { // SHOULD BE METHOD IN BUCKET STRUCT
     au32 &nslot = nslots[r&1][bid];
@@ -266,11 +265,8 @@ struct equi {
     for (u32 i=1; i<PROOFSIZE; i++)
       if (prf[i] <= prf[i-1])
         return;
-#ifdef ATOMIC
-    u32 soli = std::atomic_fetch_add_explicit(&nsols, 1U, std::memory_order_relaxed);
-#else
     u32 soli = nsols++;
-#endif
+
     if (soli < MAXSOLS)
       listindices1(WK, t, sols[soli]); // assume WK odd
   }
