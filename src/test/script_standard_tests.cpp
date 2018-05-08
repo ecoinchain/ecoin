@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(script_standard_Solver_success)
     // TX_PUBKEY
     s.clear();
     s << ToByteVector(pubkeys[0]) << OP_CHECKSIG;
-    BOOST_CHECK(Solver(s, whichType, solutions));
+    BOOST_CHECK(SScriptSolver(s, whichType, solutions));
     BOOST_CHECK_EQUAL(whichType, TX_PUBKEY);
     BOOST_CHECK_EQUAL(solutions.size(), 1);
     BOOST_CHECK(solutions[0] == ToByteVector(pubkeys[0]));
