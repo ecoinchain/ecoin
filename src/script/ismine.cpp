@@ -46,7 +46,7 @@ isminetype IsMine(const CKeyStore &keystore, const CScript& scriptPubKey, bool& 
 
     std::vector<valtype> vSolutions;
     txnouttype whichType;
-    if (!Solver(scriptPubKey, whichType, vSolutions)) {
+    if (!ScriptSolver(scriptPubKey, whichType, vSolutions)) {
         if (keystore.HaveWatchOnly(scriptPubKey))
             return ISMINE_WATCH_UNSOLVABLE;
         return ISMINE_NO;

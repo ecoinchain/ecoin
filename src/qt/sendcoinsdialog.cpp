@@ -15,6 +15,7 @@
 #include <qt/optionsmodel.h>
 #include <qt/platformstyle.h>
 #include <qt/sendcoinsentry.h>
+#include "qt/widgets/overlaydialogembeder.h"
 
 #include <chainparams.h>
 #include <key_io.h>
@@ -771,9 +772,14 @@ void SendCoinsDialog::coinControlFeatureChanged(bool checked)
 // Coin Control: button inputs -> show actual coin control dialog
 void SendCoinsDialog::coinControlButtonClicked()
 {
-    CoinControlDialog dlg(platformStyle);
-    dlg.setModel(model);
-    dlg.exec();
+	auto dlg = new CoinControlDialog(platformStyle);
+
+	OverlayDialogEmbeder embeder(dlg, this);
+
+    dlg->setModel(model);
+	dlg->show();
+	embeder.show();
+    dlg->exec();
     coinControlUpdateLabels();
 }
 

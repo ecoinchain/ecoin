@@ -228,6 +228,7 @@ libbitcoin_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
+  MinerFactory.cpp \
   $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
@@ -344,7 +345,7 @@ libbitcoin_consensus_a_SOURCES = \
   utilstrencodings.cpp \
   utilstrencodings.h \
   version.h \
-  $(libed25519_a_SOURCES)  
+  $(libed25519_a_SOURCES)
 
 
 # common: shared between bitcoind, and bitcoin-qt and non-server tools

@@ -1,19 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
-cmake_minimum_required(VERSION 3.0)
 project(ecoin)
+cmake_policy(SET CMP0058 NEW)
+include(CheckCXXCompilerFlag)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
-
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag(-std=c++14 HAS_CXX14)
-if (HAS_CXX14)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
-endif()
 
 option(ENABLE_QT_STATIC "link to static qt" ON)
 option(Boost_USE_STATIC_LIBS "use static Boost" ON)
@@ -43,7 +35,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /bigobj /MP")
 #set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG}  /ignore:4099 /NODEFAULTLIB:libcmt.lib ")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER}  /SAFESEH:NO ")
-
+else()
+check_cxx_compiler_flag(-std=c++14 HAS_CXX14)
+if (HAS_CXX14)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 ")
+endif()
 endif(MSVC)
 
 include(cpacksettings.cmake)
@@ -79,10 +75,10 @@ if(MSVC AND ENABLE_QT_STATIC)
 
 	message(STATUS "using qt in ${QT_LIB_DIR}")
 
-	FIND_LIBRARY(Qt5HB_LIBRARIES_RELEASE qtharfbuzzng
+	FIND_LIBRARY(Qt5HB_LIBRARIES_RELEASE qtharfbuzzng qtharfbuzz
 		HINTS "${QT_LIB_DIR}"
 	)
-	FIND_LIBRARY(Qt5HB_LIBRARIES_DEBUG qtharfbuzzngd
+	FIND_LIBRARY(Qt5HB_LIBRARIES_DEBUG qtharfbuzzngd qtharfbuzzd
 		HINTS "${QT_LIB_DIR}"
 	)
 
@@ -135,7 +131,12 @@ if(MSVC AND ENABLE_QT_STATIC)
 	link_libraries(${Qt5PNG_LIBRARIES} ${Qt5HB_LIBRARIES} ${Qt5FT_LIBRARIES} ${Qt5PCRE_LIBRARIES})
 endif()
 
+if(WIN32)
 add_subdirectory(3rd-src/openssl-cmake)
+set(OPENSSL_LIBRARIES crypto_static eay32_static)
+else()
+find_package(OpenSSL REQUIRED)
+endif()
 
 if(WIN32)
 	add_definitions(-DBOOST_ALL_STATIC_LINK -DBOOST_AUTO_LINK_NOMANGLE)

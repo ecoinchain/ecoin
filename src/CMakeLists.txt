@@ -1,7 +1,4 @@
 
-add_subdirectory(leveldb EXCLUDE_FROM_ALL)
-
-
 include(CheckIncludeFile)
 
 include(CheckSymbolExists)
@@ -144,24 +141,30 @@ if (HAVE_DECL_BSWAP_64)
 	add_definitions(-DHAVE_DECL_BSWAP_64)
 endif()
 
+## Add solvers here
+add_definitions(-DUSE_CPU_TROMP)
+message("-- USE_CPU_TROMP DEFINED")
+
+add_subdirectory(cpu_tromp)
+
+add_subdirectory(leveldb EXCLUDE_FROM_ALL)
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
 add_subdirectory(ed25519)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../3rd-src/libsodium/src/libsodium/include/ ${CMAKE_CURRENT_SOURCE_DIR}../3rd-src/libsodium/src/libsodium/include/sodium)
-include_directories(${CMAKE_CURRENT_BINARY_DIR}/../3rd-src/libsodium/src/libsodium/include/sodium)
 
 add_definitions(-DCLIENT_VERSION_MAJOR=0 -DCLIENT_VERSION_MINOR=17
-	-DCLIENT_VERSION_REVISION=1 -DCLIENT_VERSION_BUILD=0
+	-DCLIENT_VERSION_REVISION=2 -DCLIENT_VERSION_BUILD=0
         -DCLIENT_VERSION_IS_RELEASE=1 -DCOPYRIGHT_YEAR=2018)
-add_definitions(-DPACKAGE_NAME="ecoin")
 
 add_definitions(-DENABLE_WALLET)
 
 link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
+
+add_definitions(-DPACKAGE_NAME="ecoin")
 
 add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/aes.h
@@ -260,7 +263,9 @@ add_library(coincore STATIC
 
   rpc/client.cpp
 
-    addrdb.cpp
+  MinerFactory.cpp
+
+  addrdb.cpp
   addrman.cpp
   bloom.cpp
   blockencodings.cpp
@@ -312,6 +317,9 @@ if(WIN32)
 else()
 	target_link_libraries(coincore ${EV_LIBRARIES})
 endif()
+
+# link libs
+target_link_libraries(coincore cpu_tromp)
 
 add_subdirectory(wallet)
 add_subdirectory(qt)

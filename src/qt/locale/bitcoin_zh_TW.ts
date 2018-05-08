@@ -2708,7 +2708,7 @@
     <message>
         <location line="-177"/>
         <source>&amp;Request payment</source>
-        <translation>要求付款</translation>
+        <translation>生成收款地址</translation>
     </message>
     <message>
         <location line="+110"/>

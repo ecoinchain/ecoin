@@ -14,6 +14,46 @@
  # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  ##
+include(CheckIncludeFile)
+
+include(CheckSymbolExists)
+CHECK_INCLUDE_FILE(immintrin.h HAVE_immintrin_H)
+if (HAVE_immintrin_H)
+	add_definitions(-DHAVE_AVX2INTRIN_H -DHAVE_AVXINTRIN_H)
+endif()
+
+CHECK_INCLUDE_FILE(wmmintrin.h HAVE_WMMINTRIN_H)
+
+if (HAVE_WMMINTRIN_H)
+	add_definitions(-DHAVE_WMMINTRIN_H)
+endif()
+
+CHECK_INCLUDE_FILE(smmintrin.h HAVE_SMMINTRIN_H)
+
+if (HAVE_SMMINTRIN_H)
+	add_definitions(-DHAVE_SMMINTRIN_H)
+endif()
+
+CHECK_INCLUDE_FILE(emmintrin.h HAVE_EMMINTRIN_H)
+
+if (HAVE_EMMINTRIN_H)
+	add_definitions(-DHAVE_EMMINTRIN_H)
+endif()
+
+CHECK_INCLUDE_FILE(tmmintrin.h HAVE_TMMINTRIN_H)
+
+if (HAVE_TMMINTRIN_H)
+	add_definitions(-DHAVE_TMMINTRIN_H)
+endif()
+
+
+CHECK_INCLUDE_FILE(avx2intrin.h HAVE_AVX2INTRIN_H)
+
+
+if (HAVE_AVX2INTRIN_H)
+	add_definitions(-DHAVE_AVX2INTRIN_H)
+endif()
+
 
 SET(_SOURCES
 	crypto_aead/aes256gcm/aesni/aead_aes256gcm_aesni.c
@@ -195,10 +235,15 @@ add_library (
 
 target_include_directories(
     libsodium-static
+	PRIVATE
+    ${CMAKE_CURRENT_BINARY_DIR}/include/sodium
+    ${CMAKE_CURRENT_BINARY_DIR}/include
+)
+
+target_include_directories(
+    libsodium-static
 	PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/include/sodium
-    ${CMAKE_CURRENT_BINARY_DIR}/include/sodium
     ${CMAKE_CURRENT_BINARY_DIR}/include
 )
 
@@ -210,14 +255,5 @@ SET_TARGET_PROPERTIES(
 	OUTPUT_NAME libsodium
         LINK_FLAGS "${_LINKER_OPTIONS}"
 )
-
-INSTALL(
-    TARGETS
-	libsodium-static
-    PERMISSIONS OWNER_WRITE OWNER_READ OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-    LIBRARY DESTINATION ${LIBSODIUM_LIB_DIR}
-    ARCHIVE DESTINATION ${LIBSODIUM_LIB_DIR}
-)
-
 
 ADD_SUBDIRECTORY(include)
