@@ -21,20 +21,13 @@
 #include "equi.h"
 #include <stdio.h>
 #include <stdlib.h>
-#ifndef WIN32
-#include <pthread.h>
-#endif
 #include <assert.h>
+
+#include <atomic>
+typedef std::atomic<u32> au32;
 
 typedef uint16_t u16;
 typedef uint64_t u64;
-
-#ifdef ATOMIC
-#include <atomic>
-typedef std::atomic<u32> au32;
-#else
-typedef u32 au32;
-#endif
 
 #ifndef RESTBITS
 #define RESTBITS	8
@@ -211,12 +204,11 @@ struct equi {
   u32 xfull;
   u32 hfull;
   u32 bfull;
-  pthread_barrier_t barry;
+
   equi(const u32 n_threads) {
     assert(sizeof(hashunit) == 4);
     nthreads = n_threads;
-    const int err = pthread_barrier_init(&barry, NULL, nthreads);
-    assert(!err);
+
     hta.alloctrees();
     nslots = (bsizes *)hta.alloc(2 * NBUCKETS, sizeof(au32));
     sols   =  (proof *)hta.alloc(MAXSOLS, sizeof(proof));
@@ -232,11 +224,7 @@ struct equi {
 	  nsols = 0;
   }
   u32 getslot(const u32 r, const u32 bucketi) {
-#ifdef ATOMIC
     return std::atomic_fetch_add_explicit(&nslots[r&1][bucketi], 1U, std::memory_order_relaxed);
-#else
-    return nslots[r&1][bucketi]++;
-#endif
   }
   u32 getnslots(const u32 r, const u32 bid) { // SHOULD BE METHOD IN BUCKET STRUCT
     au32 &nslot = nslots[r&1][bid];
@@ -321,7 +309,7 @@ struct equi {
     u32 dunits;
     u32 prevbo;
     u32 nextbo;
-  
+
     htlayout(equi *eq, u32 r): hta(eq->hta), prevhashunits(0), dunits(0) {
       u32 nexthashbytes = hashsize(r);
       nexthashunits = hashwords(nexthashbytes);
@@ -458,7 +446,7 @@ struct equi {
       }
     }
   }
-  
+
   void digitodd(const u32 r, const u32 id) {
     htlayout htl(this, r);
     collisiondata cd;
@@ -507,7 +495,7 @@ struct equi {
       }
     }
   }
-  
+
   void digiteven(const u32 r, const u32 id) {
     htlayout htl(this, r);
     collisiondata cd;
@@ -556,7 +544,7 @@ struct equi {
       }
     }
   }
-  
+
   void digitK(const u32 id) {
     collisiondata cd;
     htlayout htl(this, WK);
@@ -578,52 +566,3 @@ struct equi {
     }
   }
 };
-
-typedef struct {
-  u32 id;
-  pthread_t thread;
-  equi *eq;
-} thread_ctx;
-
-void barrier(pthread_barrier_t *barry) {
-  const int rc = pthread_barrier_wait(barry);
-  if (rc != 0 && rc != PTHREAD_BARRIER_SERIAL_THREAD) {
-    printf("Could not wait on barrier\n");
-    pthread_exit(NULL);
-  }
-}
-
-void *worker(void *vp) {
-  thread_ctx *tp = (thread_ctx *)vp;
-  equi *eq = tp->eq;
-
-  if (tp->id == 0)
-    printf("Digit 0\n");
-  barrier(&eq->barry);
-  eq->digit0(tp->id);
-  barrier(&eq->barry);
-  if (tp->id == 0) {
-    eq->xfull = eq->bfull = eq->hfull = 0;
-    eq->showbsizes(0);
-  }
-  barrier(&eq->barry);
-  for (u32 r = 1; r < WK; r++) {
-    if (tp->id == 0)
-      printf("Digit %d", r);
-    barrier(&eq->barry);
-    r&1 ? eq->digitodd(r, tp->id) : eq->digiteven(r, tp->id);
-    barrier(&eq->barry);
-    if (tp->id == 0) {
-      printf(" x%d b%d h%d\n", eq->xfull, eq->bfull, eq->hfull);
-      eq->xfull = eq->bfull = eq->hfull = 0;
-      eq->showbsizes(r);
-    }
-    barrier(&eq->barry);
-  }
-  if (tp->id == 0)
-    printf("Digit %d\n", WK);
-  eq->digitK(tp->id);
-  barrier(&eq->barry);
-  pthread_exit(NULL);
-  return 0;
-}
