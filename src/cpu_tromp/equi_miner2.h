@@ -1,4 +1,4 @@
-// Equihash solver
+﻿// Equihash solver
 // Copyright (c) 2016 John Tromp
 
 // Fix N, K, such that n = N/(k+1) is integer

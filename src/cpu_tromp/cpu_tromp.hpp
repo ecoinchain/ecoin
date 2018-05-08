@@ -1,4 +1,4 @@
-#ifdef WIN32
+﻿#ifdef WIN32
 
 #ifdef _USRDLL
 #define DLL_CPU_TROMP __declspec(dllexport)
