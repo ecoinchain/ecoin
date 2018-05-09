@@ -27,7 +27,31 @@
 #include <QSettings>
 #include <QStringList>
 
+#include <boost/lexical_cast.hpp>
+
 const char *DEFAULT_GUI_PROXY_HOST = "127.0.0.1";
+
+struct ProxySetting {
+    bool is_set;
+    QString ip;
+    QString port;
+};
+
+static ProxySetting GetProxySetting(QSettings &settings, const QString &name)
+{
+    static const ProxySetting default_val = {false, DEFAULT_GUI_PROXY_HOST, QString("%1").arg(DEFAULT_GUI_PROXY_PORT)};
+    // Handle the case that the setting is not set at all
+    if (!settings.contains(name)) {
+        return default_val;
+    }
+    // contains IP at index 0 and port at index 1
+    QStringList ip_port = settings.value(name).toString().split(":", QString::SkipEmptyParts);
+    if (ip_port.size() == 2) {
+        return {true, ip_port.at(0), ip_port.at(1)};
+    } else { // Invalid: return default
+        return default_val;
+    }
+}
 
 OptionsModel::OptionsModel(QObject *parent, bool resetSettings) :
     QAbstractListModel(parent)
@@ -60,7 +84,7 @@ void OptionsModel::Init(bool resetSettings)
         settings.setValue("fHideTrayIcon", false);
     fHideTrayIcon = settings.value("fHideTrayIcon").toBool();
     Q_EMIT hideTrayIconChanged(fHideTrayIcon);
-    
+
     if (!settings.contains("fMinimizeToTray"))
         settings.setValue("fMinimizeToTray", false);
     fMinimizeToTray = settings.value("fMinimizeToTray").toBool() && !fHideTrayIcon;
@@ -126,7 +150,14 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("fUseProxy"))
         settings.setValue("fUseProxy", false);
     if (!settings.contains("addrProxy"))
-        settings.setValue("addrProxy", QString("%1:%2").arg(DEFAULT_GUI_PROXY_HOST, DEFAULT_GUI_PROXY_PORT));
+    {
+        settings.setValue("addrProxy", QString(DEFAULT_GUI_PROXY_HOST) + ":" + QString::fromStdString(boost::lexical_cast<std::string>(DEFAULT_GUI_PROXY_PORT)));
+    }
+    else
+    {
+        if (GetProxySetting(settings, "addrProxy").port == "%2") // FIX previes bug
+            settings.setValue("addrProxy", QString(DEFAULT_GUI_PROXY_HOST) + ":" + QString::fromStdString(boost::lexical_cast<std::string>(DEFAULT_GUI_PROXY_PORT)));
+    }
     // Only try to set -proxy, if user has enabled fUseProxy
     if (settings.value("fUseProxy").toBool() && !gArgs.SoftSetArg("-proxy", settings.value("addrProxy").toString().toStdString()))
         addOverriddenOption("-proxy");
@@ -136,7 +167,15 @@ void OptionsModel::Init(bool resetSettings)
     if (!settings.contains("fUseSeparateProxyTor"))
         settings.setValue("fUseSeparateProxyTor", false);
     if (!settings.contains("addrSeparateProxyTor"))
-        settings.setValue("addrSeparateProxyTor", QString("%1:%2").arg(DEFAULT_GUI_PROXY_HOST, DEFAULT_GUI_PROXY_PORT));
+    {
+        settings.setValue("addrSeparateProxyTor", QString(DEFAULT_GUI_PROXY_HOST) + ":" + QString::fromStdString(boost::lexical_cast<std::string>(DEFAULT_GUI_PROXY_PORT)));
+    }
+    else
+    {
+        if (GetProxySetting(settings, "addrSeparateProxyTor").port == "%2") // FIX previes bug
+            settings.setValue("addrSeparateProxyTor", QString(DEFAULT_GUI_PROXY_HOST) + ":" + QString::fromStdString(boost::lexical_cast<std::string>(DEFAULT_GUI_PROXY_PORT)));
+    }
+
     // Only try to set -onion, if user has enabled fUseSeparateProxyTor
     if (settings.value("fUseSeparateProxyTor").toBool() && !gArgs.SoftSetArg("-onion", settings.value("addrSeparateProxyTor").toString().toStdString()))
         addOverriddenOption("-onion");
@@ -201,28 +240,6 @@ int OptionsModel::rowCount(const QModelIndex & parent) const
     return OptionIDRowCount;
 }
 
-struct ProxySetting {
-    bool is_set;
-    QString ip;
-    QString port;
-};
-
-static ProxySetting GetProxySetting(QSettings &settings, const QString &name)
-{
-    static const ProxySetting default_val = {false, DEFAULT_GUI_PROXY_HOST, QString("%1").arg(DEFAULT_GUI_PROXY_PORT)};
-    // Handle the case that the setting is not set at all
-    if (!settings.contains(name)) {
-        return default_val;
-    }
-    // contains IP at index 0 and port at index 1
-    QStringList ip_port = settings.value(name).toString().split(":", QString::SkipEmptyParts);
-    if (ip_port.size() == 2) {
-        return {true, ip_port.at(0), ip_port.at(1)};
-    } else { // Invalid: return default
-        return default_val;
-    }
-}
-
 static void SetProxySetting(QSettings &settings, const QString &name, const ProxySetting &ip_port)
 {
     settings.setValue(name, ip_port.ip + ":" + ip_port.port);
@@ -270,12 +287,12 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
 #ifdef ENABLE_WALLET
         case SpendZeroConfChange:
             return settings.value("bSpendZeroConfChange");
-		case EnableMinner:
-			return settings.value("enableMinner", false);
-			break;
-		case MinnerCPUCount:
-			return settings.value("MinnerCPUCount", 1);
-			break;
+        case EnableMinner:
+            return settings.value("enableMinner", false);
+            break;
+        case MinnerCPUCount:
+            return settings.value("MinnerCPUCount", 1);
+            break;
 #endif
         case DisplayUnit:
             return nDisplayUnit;
@@ -313,7 +330,7 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         case HideTrayIcon:
             fHideTrayIcon = value.toBool();
             settings.setValue("fHideTrayIcon", fHideTrayIcon);
-    		Q_EMIT hideTrayIconChanged(fHideTrayIcon);
+            Q_EMIT hideTrayIconChanged(fHideTrayIcon);
             break;
         case MinimizeToTray:
             fMinimizeToTray = value.toBool();
@@ -392,22 +409,22 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
                 setRestartRequired(true);
             }
             break;
-		case EnableMinner:
-			if (settings.value("enableMinner") != value) {
-				settings.setValue("enableMinner", value);
-				if (value.toBool())
-				{
-					gArgs.ForceSetArg("-gen", value.toBool() ? "1" : "0");
-					Q_EMIT generateChanged(value.toBool());
-				}
-				if(value.toBool()==false)
-					setRestartRequired(true);
-			}
-			break;
-		case MinnerCPUCount:
-			settings.setValue("MinnerCPUCount", value.toInt());
-			setRestartRequired(true);
-			break;
+        case EnableMinner:
+            if (settings.value("enableMinner") != value) {
+                settings.setValue("enableMinner", value);
+                if (value.toBool())
+                {
+                    gArgs.ForceSetArg("-gen", value.toBool() ? "1" : "0");
+                    Q_EMIT generateChanged(value.toBool());
+                }
+                if(value.toBool()==false)
+                    setRestartRequired(true);
+            }
+            break;
+        case MinnerCPUCount:
+            settings.setValue("MinnerCPUCount", value.toInt());
+            setRestartRequired(true);
+            break;
 #endif
         case DisplayUnit:
             setDisplayUnit(value);
