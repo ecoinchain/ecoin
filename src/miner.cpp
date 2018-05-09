@@ -899,7 +899,7 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	#define MAX_INSTANCES 8 * 2
 
-	int cuda_enabled[MAX_INSTANCES] = { 0 };
+	int cuda_enabled[MAX_INSTANCES] = { 0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 , 10, 11, 12, 13, 14, 15 };
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 
