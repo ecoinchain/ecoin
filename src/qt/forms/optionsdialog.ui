@@ -430,7 +430,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QValidatedLineEdit" name="proxyIp">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -468,7 +468,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QLineEdit" name="proxyPort">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -629,7 +629,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QValidatedLineEdit" name="proxyIpTor">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -667,7 +667,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QLineEdit" name="proxyPortTor">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
