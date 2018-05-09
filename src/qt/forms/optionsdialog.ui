@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>665</width>
-    <height>536</height>
+    <width>903</width>
+    <height>819</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -151,7 +151,7 @@ QCheckBox::indicator::checked {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -182,7 +182,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QLabel" name="databaseCacheLabel">
            <property name="text">
-            <string>Size of &amp;database cache</string>
+            <string>Si&amp;ze of database cache</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -328,7 +328,7 @@ QCheckBox::indicator::checked {
              <item>
               <widget class="QRadioButton" name="use3quartercpu">
                <property name="text">
-                <string>Use 3/4 CPU Power</string>
+                <string>Use &amp;3/4 CPU Power</string>
                </property>
               </widget>
              </item>
@@ -345,7 +345,7 @@ QCheckBox::indicator::checked {
              <item>
               <widget class="QRadioButton" name="use1quartercpu">
                <property name="text">
-                <string>Use 1/4 CPU Power</string>
+                <string>Use &amp;1/4 CPU Power</string>
                </property>
               </widget>
              </item>
@@ -417,7 +417,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QLabel" name="proxyIpLabel">
            <property name="text">
-            <string>Proxy &amp;IP:</string>
+            <string>Pro&amp;xy IP:</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -429,9 +429,15 @@ QCheckBox::indicator::checked {
          </item>
          <item>
           <widget class="QValidatedLineEdit" name="proxyIp">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>140</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -461,9 +467,15 @@ QCheckBox::indicator::checked {
          </item>
          <item>
           <widget class="QLineEdit" name="proxyPort">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>55</width>
+             <width>100</width>
              <height>0</height>
             </size>
            </property>
@@ -604,7 +616,7 @@ QCheckBox::indicator::checked {
          <item>
           <widget class="QLabel" name="proxyIpTorLabel">
            <property name="text">
-            <string>Proxy &amp;IP:</string>
+            <string>Prox&amp;y IP:</string>
            </property>
            <property name="textFormat">
             <enum>Qt::PlainText</enum>
@@ -616,9 +628,15 @@ QCheckBox::indicator::checked {
          </item>
          <item>
           <widget class="QValidatedLineEdit" name="proxyIpTor">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>140</width>
+             <width>200</width>
              <height>0</height>
             </size>
            </property>
@@ -648,9 +666,15 @@ QCheckBox::indicator::checked {
          </item>
          <item>
           <widget class="QLineEdit" name="proxyPortTor">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="minimumSize">
             <size>
-             <width>55</width>
+             <width>100</width>
              <height>0</height>
             </size>
            </property>
@@ -902,7 +926,7 @@ QCheckBox::indicator::checked {
     </widget>
    </item>
    <item>
-    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,0,0,0">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,0,0">
      <item row="0" column="0">
       <layout class="QVBoxLayout" name="verticalLayout_Buttons">
        <item>
