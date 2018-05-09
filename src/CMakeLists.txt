@@ -344,15 +344,11 @@ add_subdirectory(wallet)
 add_subdirectory(qt)
 
 add_executable(rcoind bitcoind.cpp)
-
+add_executable(rcoin-cli bitcoin-cli.cpp)
 
 target_link_libraries(rcoind concore_crypto coincore wallet)
+target_link_libraries(rcoin-cli concore_crypto coincore wallet)
 target_link_libraries(rcoind libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(rcoin-cli libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
 target_link_libraries(rcoind Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
-
-if(APPLE)
-	target_link_libraries(rcoind "-framework CoreFoundation")
-endif()
-
-install(TARGETS rcoind RUNTIME DESTINATION bin)
-
+target_link_libraries(rcoin-cli Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
