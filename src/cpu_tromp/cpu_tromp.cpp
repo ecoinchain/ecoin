@@ -52,3 +52,11 @@ bool CPU_TROMP::solve(const char *tequihash_header,
 	hashdonef();
 	return false;
 }
+
+void equi_setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen)
+{
+  EhInitialiseState(WN, WK, *ctx);
+
+  crypto_generichash_blake2b_update(ctx, (const uchar *)header, headerLen);
+  crypto_generichash_blake2b_update(ctx, (const uchar *)nce, nonceLen);
+}

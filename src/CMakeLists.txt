@@ -147,6 +147,15 @@ message("-- USE_CPU_TROMP DEFINED")
 
 add_subdirectory(cpu_tromp)
 
+option(USE_CUDA_TROMP "use cuda solver" OFF)
+
+if(USE_CUDA_TROMP)
+add_definitions(-DUSE_CUDA_TROMP)
+message("-- USE_CPU_TROMP DEFINED")
+add_subdirectory(cuda_tromp)
+link_directories(cuda_tromp)
+endif()
+
 add_subdirectory(leveldb EXCLUDE_FROM_ALL)
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
@@ -188,6 +197,7 @@ add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/sha3_256.h
   crypto/sha512.cpp
   crypto/sha512.h
+  blake2/blake2bx.cpp
 )
 
 add_library(coincore STATIC
@@ -320,6 +330,10 @@ endif()
 
 # link libs
 target_link_libraries(coincore cpu_tromp)
+if(USE_CUDA_TROMP)
+target_link_libraries(coincore cuda_tromp)
+endif()
+
 
 add_subdirectory(wallet)
 add_subdirectory(qt)
