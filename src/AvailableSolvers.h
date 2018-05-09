@@ -3,12 +3,8 @@
 #include "Solver.h"
 #include "SolverStub.h"
 
-
-#ifdef USE_CPU_TROMP
 #include "cpu_tromp/cpu_tromp.hpp"
-#else
-CREATE_SOLVER_STUB(cpu_tromp, "cpu_tromp_STUB")
-#endif
+
 #ifdef USE_CPU_XENONCAT
 #include "cpu_xenoncat/cpu_xenoncat.hpp"
 #else
