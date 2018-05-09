@@ -541,8 +541,11 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	unsigned int n = chainparams.EquihashN();
 	unsigned int k = chainparams.EquihashK();
 
+#ifdef USE_NEW_SOLVER
 	LogPrintf("Using Equihash solver \"%s\" with n = %u, k = %u\n", solver->getname(), n, k);
-
+#else
+	LogPrintf("Using Equihash solver with n = %u, k = %u\n", n, k);
+#endif
 	std::mutex m_cs;
 	bool cancelSolver = false;
     boost::signals2::connection c = uiInterface.NotifyBlockTip.connect(
@@ -556,7 +559,9 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 
 	try {
 
+#ifdef USE_NEW_SOLVER
 		solver->start();
+#endif
 
 		while (true)
 		{
@@ -657,8 +662,11 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 					SetThreadPriority(THREAD_PRIORITY_NORMAL);
 					arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
 					LogPrintf("Miner:\n");
+#ifdef USE_NEW_SOLVER
 					LogPrintf("Proof-of-work found via %s  \n  hash: %s  \ntarget: %s\n", solver->getname(), pblock->GetHash().GetHex(), hashTarget.GetHex());
-
+#else
+					LogPrintf("Proof-of-work found\n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
+#endif
 					bool ProcessBlockFoundRet;
 #ifdef ENABLE_WALLET
 					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);
@@ -786,20 +794,26 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	}
 	catch (const boost::thread_interrupted&)
 	{
+#ifdef USE_NEW_SOLVER
 		solver->stop();
+#endif
 		c.disconnect();
 		LogPrintf("Miner terminated\n");
 		throw;
 	}
 	catch (const std::runtime_error &e)
 	{
+#ifdef USE_NEW_SOLVER
 		solver->stop();
+#endif
 		c.disconnect();
 		LogPrintf("Miner runtime error: %s\n", e.what());
 		std::printf("Miner runtime error: %s\n", e.what());
 		return;
 	}
+#ifdef USE_NEW_SOLVER
 	solver->stop();
+#endif
 	c.disconnect();
 }
 
