@@ -145,6 +145,11 @@ endif()
 add_definitions(-DUSE_CPU_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 
+option(USE_NEW_SOLVER "use fast solver" OFF)
+if(USE_NEW_SOLVER)
+add_definitions(-DUSE_NEW_SOLVER)
+endif()
+
 add_subdirectory(cpu_tromp)
 
 option(USE_CUDA_TROMP "use cuda solver" OFF)
@@ -337,3 +342,17 @@ endif()
 
 add_subdirectory(wallet)
 add_subdirectory(qt)
+
+add_executable(rcoind bitcoind.cpp)
+
+
+target_link_libraries(rcoind concore_crypto coincore wallet)
+target_link_libraries(rcoind libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(rcoind Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
+
+if(APPLE)
+	target_link_libraries(rcoind "-framework CoreFoundation")
+endif()
+
+install(TARGETS rcoind RUNTIME DESTINATION bin)
+
