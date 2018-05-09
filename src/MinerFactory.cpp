@@ -49,38 +49,17 @@ void MinerFactory::ClearAllSolvers()
 {
 }
 
-ISolver * MinerFactory::GenCPUSolver(int use_opt) {
-    // TODO fix dynamic linking on Linux
-#ifdef    USE_CPU_XENONCAT
-	if (_use_xenoncat)
-	{
-		return new CPUSolverXenoncat(use_opt);
-	}
-	else
-	{
-		return new CPUSolverTromp(use_opt);
-	}
-#else
+ISolver * MinerFactory::GenCPUSolver(int use_opt)
+{
 	return new CPUSolverTromp(use_opt);
-#endif
 }
 
-ISolver * MinerFactory::GenCUDASolver(int dev_id, int blocks, int threadsperblock) {
-	if (_use_cuda_djezo) {
-		return new CUDASolverDjezo(dev_id, blocks, threadsperblock);
-	}
-	else {
-		return new CUDASolverTromp(dev_id, blocks, threadsperblock);
-	}
+ISolver * MinerFactory::GenCUDASolver(int dev_id, int blocks, int threadsperblock)
+{
+	return new CUDASolverTromp(dev_id, blocks, threadsperblock);
 }
 // no OpenCL solvers at the moment keep for future reference
-ISolver * MinerFactory::GenOPENCLSolver(int platf_id, int dev_id) {
-	if (_use_silentarmy)
-	{
-		return new OPENCLSolverSilentarmy(platf_id, dev_id);
-	}
-	else
-	{
-		return new OPENCLSolverXMP(platf_id, dev_id);
-	}
+ISolver * MinerFactory::GenOPENCLSolver(int platf_id, int dev_id)
+{
+	return new OPENCLSolverSilentarmy(platf_id, dev_id);
 }
