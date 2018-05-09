@@ -135,12 +135,12 @@ typedef bucket0 digit0[NBUCKETS];
 typedef bucket1 digit1[NBUCKETS];
 
 // size (in bytes) of hash in round 0 <= r < WK
-u32 hashsize(const u32 r) {
+static u32 hashsize(const u32 r) {
   const u32 hashbits = WN - (r+1) * DIGITBITS + RESTBITS;
   return (hashbits + 7) / 8;
 }
 
-u32 hashwords(u32 bytes) {
+static u32 hashwords(u32 bytes) {
   return (bytes + 3) / 4;
 }
 
@@ -189,10 +189,11 @@ struct htalloc {
 
 typedef au32 bsizes[NBUCKETS];
 
-u32 min(const u32 a, const u32 b) {
+static u32 min(const u32 a, const u32 b) {
   return a < b ? a : b;
 }
 
+#ifndef __CUDACC__
 struct equi {
   crypto_generichash_blake2b_state blake_ctx;
   htalloc hta;
@@ -560,3 +561,4 @@ struct equi {
     }
   }
 };
+#endif

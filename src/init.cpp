@@ -198,7 +198,7 @@ void Shutdown()
     GenerateBitcoins(false, NULL, 0);
 #else
     GenerateBitcoins(false, 0);
-#endif    
+#endif
     StopMapPort();
 
     // Because these depend on each-other, we make sure that neither can be
@@ -1655,7 +1655,8 @@ bool AppInitMain()
             // Address has alreday been validated
             CTxDestination addr = DecodeDestination(gArgs.GetArg("-mineraddress", ""));
             CKeyID *keyID = boost::get<CKeyID>(&addr);
-            minerAddressInLocalWallet = pwalletMain->HaveKey(*keyID);
+            if (keyID)
+                minerAddressInLocalWallet = pwalletMain->HaveKey(*keyID);
         }
         if (gArgs.GetBoolArg("-minetolocalwallet", true) && !minerAddressInLocalWallet) {
             return InitError(_("-mineraddress is not in the local wallet. Either use a local address, or set -minetolocalwallet=0"));

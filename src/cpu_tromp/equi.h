@@ -3,10 +3,11 @@
 // Copyright (c) 2016-2016 John Tromp
 
 #include <sodium/crypto_generichash_blake2b.h>
+#ifndef __CUDACC__
 #include <crypto/equihash.h>
+#endif
 
 #ifdef __APPLE__
-#include "osx_barrier.h"
 #include <machine/endian.h>
 #include <libkern/OSByteOrder.h>
 #define htole32(x) OSSwapHostToLittleInt32(x)
@@ -48,18 +49,13 @@ typedef unsigned char uchar;
 
 typedef u32 proof[PROOFSIZE];
 
-void equi_setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen)
-{
-  EhInitialiseState(WN, WK, *ctx);
-
-  crypto_generichash_blake2b_update(ctx, (const uchar *)header, headerLen);
-  crypto_generichash_blake2b_update(ctx, (const uchar *)nce, nonceLen);
-}
+void equi_setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen);
 
 enum verify_code { POW_OK, POW_DUPLICATE, POW_OUT_OF_ORDER, POW_NONZERO_XOR };
-const char *errstr[] = { "OK", "duplicate index", "indices out of order", "nonzero xor" };
 
-void genhash(crypto_generichash_blake2b_state *ctx, u32 idx, uchar *hash) {
+static const char *errstr[] = { "OK", "duplicate index", "indices out of order", "nonzero xor" };
+
+static void genhash(crypto_generichash_blake2b_state *ctx, u32 idx, uchar *hash) {
   crypto_generichash_blake2b_state state = *ctx;
   u32 leb = (idx / HASHESPERBLAKE);
   crypto_generichash_blake2b_update(&state, (uchar *)&leb, sizeof(u32));
@@ -68,7 +64,7 @@ void genhash(crypto_generichash_blake2b_state *ctx, u32 idx, uchar *hash) {
   memcpy(hash, blakehash + (idx % HASHESPERBLAKE) * WN/8, WN/8);
 }
 
-int verifyrec(crypto_generichash_blake2b_state *ctx, u32 *indices, uchar *hash, int r) {
+static int verifyrec(crypto_generichash_blake2b_state *ctx, u32 *indices, uchar *hash, int r) {
   if (r == 0) {
     genhash(ctx, *indices, hash);
     return POW_OK;
@@ -94,12 +90,12 @@ int verifyrec(crypto_generichash_blake2b_state *ctx, u32 *indices, uchar *hash, 
   return POW_OK;
 }
 
-int compu32(const void *pa, const void *pb) {
+static int compu32(const void *pa, const void *pb) {
   u32 a = *(u32 *)pa, b = *(u32 *)pb;
   return a<b ? -1 : a==b ? 0 : +1;
 }
 
-bool duped(proof prf) {
+static bool duped(proof prf) {
   proof sortprf;
   memcpy(sortprf, prf, sizeof(proof));
   qsort(sortprf, PROOFSIZE, sizeof(u32), &compu32);
@@ -110,7 +106,7 @@ bool duped(proof prf) {
 }
 
 // verify Wagner conditions
-int verify(u32 indices[PROOFSIZE], const char *header, const u32 headerlen, const char *nonce, u32 noncelen) {
+static int verify(u32 indices[PROOFSIZE], const char *header, const u32 headerlen, const char *nonce, u32 noncelen) {
   if (duped(indices))
     return POW_DUPLICATE;
   crypto_generichash_blake2b_state ctx;

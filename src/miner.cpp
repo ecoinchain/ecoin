@@ -886,15 +886,20 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	detect_AVX_and_AVX2();
 
+#ifndef USE_CUDA_TROMP
 	int use_gpu = 0;
+#else
+	int use_gpu = 1;
+	nThreads = 0;
+#endif
 
 	minerThreads = new boost::thread_group();
 
-	auto _MinerFactory = new MinerFactory(use_avx || use_avx2, 1, 1);
+	auto _MinerFactory = new MinerFactory();
 
 	#define MAX_INSTANCES 8 * 2
 
-	int cuda_enabled[MAX_INSTANCES] = { 0 };
+	int cuda_enabled[MAX_INSTANCES] = { 0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 , 10, 11, 12, 13, 14, 15 };
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 

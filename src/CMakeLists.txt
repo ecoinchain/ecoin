@@ -145,7 +145,21 @@ endif()
 add_definitions(-DUSE_CPU_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 
+option(USE_NEW_SOLVER "use fast solver" OFF)
+if(USE_NEW_SOLVER)
+add_definitions(-DUSE_NEW_SOLVER)
+endif()
+
 add_subdirectory(cpu_tromp)
+
+option(USE_CUDA_TROMP "use cuda solver" OFF)
+
+if(USE_CUDA_TROMP)
+add_definitions(-DUSE_CUDA_TROMP)
+message("-- USE_CPU_TROMP DEFINED")
+add_subdirectory(cuda_tromp)
+link_directories(cuda_tromp)
+endif()
 
 add_subdirectory(leveldb EXCLUDE_FROM_ALL)
 add_subdirectory(univalue)
@@ -188,6 +202,7 @@ add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/sha3_256.h
   crypto/sha512.cpp
   crypto/sha512.h
+  blake2/blake2bx.cpp
 )
 
 add_library(coincore STATIC
@@ -320,6 +335,20 @@ endif()
 
 # link libs
 target_link_libraries(coincore cpu_tromp)
+if(USE_CUDA_TROMP)
+target_link_libraries(coincore cuda_tromp)
+endif()
+
 
 add_subdirectory(wallet)
 add_subdirectory(qt)
+
+add_executable(ecoind bitcoind.cpp)
+add_executable(ecoin-cli bitcoin-cli.cpp)
+
+target_link_libraries(ecoind concore_crypto coincore wallet)
+target_link_libraries(ecoin-cli concore_crypto coincore wallet)
+target_link_libraries(ecoind libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(ecoin-cli libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(ecoind ${Boost_LIBRARIES} )
+target_link_libraries(ecoin-cli ${Boost_LIBRARIES})
