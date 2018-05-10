@@ -877,6 +877,10 @@ static void detect_AVX_and_AVX2()
 int use_avx = 0;
 int use_avx2 = 0;
 
+#ifdef USE_CUDA_TROMP
+int get_cuda_device_count();
+#endif
+
 #ifdef ENABLE_WALLET
 void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
 #else
@@ -903,7 +907,7 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 #ifndef USE_CUDA_TROMP
 	int use_gpu = 0;
 #else
-	int use_gpu = 1;
+	int gpu_count = get_cuda_device_count();
 	nThreads = 0;
 #endif
 
@@ -911,13 +915,19 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	auto _MinerFactory = new MinerFactory();
 
-	#define MAX_INSTANCES 8 * 2
+	#define MAX_INSTANCES 12 * 2
 
-	int cuda_enabled[MAX_INSTANCES] = { 0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 , 10, 11, 12, 13, 14, 15 };
+	std::vector<int> cuda_enabled;
+
+	for (int gpu_id =0; gpu_id < gpu_count; gpu_id ++)
+	{
+		cuda_enabled.push_back(gpu_id);
+	}
+
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 
-	auto solvers = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
+	auto solvers = _MinerFactory->GenerateSolvers(nThreads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks, cuda_tpb, 0, 0, 0, 0);
 
 	for (auto & solver : solvers)
 	{

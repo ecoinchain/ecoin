@@ -147,3 +147,5 @@ private:
 };
 
 #endif
+
+int DLL_CUDA_TROMP get_cuda_device_count();
