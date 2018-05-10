@@ -148,7 +148,7 @@ endif()
 
 link_directories(${QT_LIB_DIR})
 
-IF(MSVC)
+IF(WIN32)
 add_subdirectory(3rd-src/boost)
 include_directories(3rd-src/boost)
 set(Boost_LIBRARIES Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options)
@@ -157,7 +157,7 @@ find_package(Boost 1.65 COMPONENTS filesystem thread system date_time program_op
 include_directories(${Boost_INCLUDE_DIR})
 endif()
 
-IF(MSVC)
+IF(WIN32)
 add_subdirectory(3rd-src/protobuf)
 set(Protobuf_LIBRARY libprotobuf)
 endif()

@@ -20,7 +20,7 @@
 #include <string.h> // for functions memset
 #include <stdlib.h> // for function qsort
 #include <stdbool.h>
-
+#include <stdexcept>
 
 typedef uint32_t u32;
 typedef unsigned char uchar;
