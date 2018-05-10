@@ -905,7 +905,7 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 	detect_AVX_and_AVX2();
 
 #ifndef USE_CUDA_TROMP
-	int use_gpu = 0;
+	int gpu_count = 0;
 #else
 	int gpu_count = get_cuda_device_count();
 	nThreads = 0;
