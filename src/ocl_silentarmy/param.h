@@ -36,7 +36,7 @@
 // Total size of hash table
 #define HT_SIZE				(NR_ROWS * NR_SLOTS * SLOT_LEN)
 // Length of Zcash block header and nonce
-#define ZCASH_BLOCK_HEADER_LEN		140
+#define ZCASH_BLOCK_HEADER_LEN		108
 #define ZCASH_NONCE_LEN			32
 // Number of bytes Zcash needs out of Blake
 #define ZCASH_HASH_LEN                  50

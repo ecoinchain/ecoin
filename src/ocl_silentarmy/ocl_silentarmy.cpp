@@ -103,66 +103,23 @@ OclContext::OclContext(boost::compute::device && device, unsigned int threadsNum
 
 	clprogram = boost::compute::program::create_with_source(std::string(ocl_code), clcontext);
 
-	k_init_ht = boost::compute::kernel(clprogram, "kernel_init_ht");
+	clprogram.build();
+
+	k_init_ht = clprogram.create_kernel("kernel_init_ht");
 	for (unsigned i = 0; i < WK; i++) {
 		char kernelName[128];
 		sprintf(kernelName, "kernel_round%d", i);
-		k_rounds[i] = boost::compute::kernel(clprogram, kernelName);
+		k_rounds[i] = clprogram.create_kernel(kernelName);
 	}
 
 	sols = (sols_t *)malloc(sizeof(*sols));
 
-	k_sols = boost::compute::kernel(clprogram, "kernel_sols");
+	k_sols = clprogram.create_kernel("kernel_sols");
 }
 
 ///
 int             verbose = 0;
 uint32_t	show_encoded = 0;
-
-cl_mem check_clCreateBuffer(cl_context ctx, cl_mem_flags flags, size_t size,
-	void *host_ptr)
-{
-	cl_int	status;
-	cl_mem	ret;
-	ret = clCreateBuffer(ctx, flags, size, host_ptr, &status);
-	if (status != CL_SUCCESS || !ret)
-		printf("clCreateBuffer (%d)\n", status);
-	return ret;
-}
-
-void check_clSetKernelArg(boost::compute::kernel k, cl_uint a_pos, boost::compute::buffer *a)
-{
-	cl_int	status;
-	status = clSetKernelArg(k, a_pos, sizeof(*a), a);
-	if (status != CL_SUCCESS)
-		printf("clSetKernelArg (%d)\n", status);
-}
-
-void check_clEnqueueNDRangeKernel(cl_command_queue queue, cl_kernel k, cl_uint
-	work_dim, const size_t *global_work_offset, const size_t
-	*global_work_size, const size_t *local_work_size, cl_uint
-	num_events_in_wait_list, const cl_event *event_wait_list, cl_event
-	*event)
-{
-	cl_uint	status;
-	status = clEnqueueNDRangeKernel(queue, k, work_dim, global_work_offset,
-		global_work_size, local_work_size, num_events_in_wait_list,
-		event_wait_list, event);
-	if (status != CL_SUCCESS)
-		printf("clEnqueueNDRangeKernel (%d)\n", status);
-}
-
-void check_clEnqueueReadBuffer(cl_command_queue queue, cl_mem buffer, cl_bool
-	blocking_read, size_t offset, size_t size, void *ptr, cl_uint
-	num_events_in_wait_list, const cl_event *event_wait_list, cl_event
-	*event)
-{
-	cl_int	status;
-	status = clEnqueueReadBuffer(queue, buffer, blocking_read, offset,
-		size, ptr, num_events_in_wait_list, event_wait_list, event);
-	if (status != CL_SUCCESS)
-		printf("clEnqueueReadBuffer (%d)\n", status);
-}
 
 void hexdump(uint8_t *a, uint32_t a_len)
 {
@@ -274,17 +231,14 @@ static void init_ht(boost::compute::command_queue queue, boost::compute::kernel 
 	if (status != CL_SUCCESS)
 		fatal("clEnqueueFillBuffer (%d)\n", status);
 #endif
-	status = clSetKernelArg(k_init_ht, 0, sizeof(buf_ht), &buf_ht);
+	k_init_ht.set_arg(0, buf_ht);
 	if (status != CL_SUCCESS)
 		printf("clSetKernelArg (%d)\n", status);
-	check_clEnqueueNDRangeKernel(queue, k_init_ht,
+	queue.enqueue_nd_range_kernel(k_init_ht,
 		1,		// cl_uint	work_dim
 		NULL,	// size_t	*global_work_offset
 		&global_ws,	// size_t	*global_work_size
-		&local_ws,	// size_t	*local_work_size
-		0,		// cl_uint	num_events_in_wait_list
-		NULL,	// cl_event	*event_wait_list
-		NULL);	// cl_event	*event
+		&local_ws);	// size_t	*local_work_size
 }
 
 
@@ -390,8 +344,8 @@ bool ocl_silentarmy::solve(const char *tequihash_header,
 	std::function<void(void)> hashdonef,
 	ocl_silentarmy& device_context) {
 
-	unsigned char context[140];
-	memset(context, 0, 140);
+	unsigned char context[ZCASH_BLOCK_HEADER_LEN];
+	memset(context, 0, ZCASH_BLOCK_HEADER_LEN);
 	memcpy(context, tequihash_header, tequihash_header_len);
 	memcpy(context + tequihash_header_len, nonce, nonce_len);
 
