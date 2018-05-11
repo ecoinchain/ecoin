@@ -8,6 +8,9 @@
 // but occasionally misses ~1% of solutions.
 #define NR_ROWS_LOG                     20
 
+#define OPTIM_SIMPLIFY_ROUND		1
+
+
 // Make hash tables OVERHEAD times larger than necessary to store the average
 // number of elements per row. The ideal value is as small as possible to
 // reduce memory usage, but not too small or else elements are dropped from the
@@ -20,13 +23,16 @@
 // Even (as opposed to odd) values of OVERHEAD sometimes significantly decrease
 // performance as they cause VRAM channel conflicts.
 #if NR_ROWS_LOG == 16
+#error "NR_ROWS_LOG = 16 is currently broken - do not use"
 #define OVERHEAD                        3
 #elif NR_ROWS_LOG == 18
-#define OVERHEAD                        5
+#define OVERHEAD                        3
 #elif NR_ROWS_LOG == 19
-#define OVERHEAD                        9
+#define OVERHEAD                        5
+#elif NR_ROWS_LOG == 20 && OPTIM_SIMPLIFY_ROUND
+#define OVERHEAD                        6
 #elif NR_ROWS_LOG == 20
-#define OVERHEAD                        13
+#define OVERHEAD                        9
 #endif
 
 #define NR_ROWS                         (1 << NR_ROWS_LOG)
@@ -36,7 +42,7 @@
 // Total size of hash table
 #define HT_SIZE				(NR_ROWS * NR_SLOTS * SLOT_LEN)
 // Length of Zcash block header and nonce
-#define ZCASH_BLOCK_HEADER_LEN		140
+#define ZCASH_BLOCK_HEADER_LEN		108
 #define ZCASH_NONCE_LEN			32
 // Number of bytes Zcash needs out of Blake
 #define ZCASH_HASH_LEN                  50
@@ -46,6 +52,16 @@
 // instructions. 10 is the max supported by the hw.
 #define BLAKE_WPS               	10
 #define MAX_SOLS			2000
+
+#if (NR_SLOTS < 16)
+#define BITS_PER_ROW 4
+#define ROWS_PER_UINT 8
+#define ROW_MASK 0x0F
+#else
+#define BITS_PER_ROW 8
+#define ROWS_PER_UINT 4
+#define ROW_MASK 0xFF
+#endif
 
 // Optional features
 #undef ENABLE_DEBUG

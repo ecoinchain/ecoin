@@ -11,7 +11,7 @@ MinerFactory::~MinerFactory()
 }
 
 std::vector<std::unique_ptr<ISolver>> MinerFactory::GenerateSolvers(int cpu_threads, int cuda_count, int* cuda_en, int* cuda_b, int* cuda_t,
-	int opencl_count, int opencl_platf, int* opencl_en, int* opencl_t)
+	int opencl_count, int opencl_platf, int* opencl_en)
 {
 	std::vector<std::unique_ptr<ISolver>> solversPointers;
 
@@ -21,13 +21,7 @@ std::vector<std::unique_ptr<ISolver>> MinerFactory::GenerateSolvers(int cpu_thre
 
 	for (int i = 0; i < opencl_count; ++i)
 	{
-		if (opencl_t[i] < 1) opencl_t[i] = 1;
-
-		// add multiple threads if wanted
-		for (int k = 0; k < opencl_t[i]; ++k) {
-			// todo: save local&global work size, new solvers
-			solversPointers.emplace_back( (ISolver*) GenOPENCLSolver(opencl_platf, opencl_en[i]));
-		}
+		solversPointers.emplace_back( (ISolver*) GenOPENCLSolver(opencl_platf, opencl_en[i]));
 	}
 
 	bool hasGpus = solversPointers.size() > 0;

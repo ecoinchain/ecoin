@@ -904,11 +904,17 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	detect_AVX_and_AVX2();
 
-#ifndef USE_CUDA_TROMP
-	int gpu_count = 0;
-#else
-	int gpu_count = get_cuda_device_count();
+#ifdef USE_CUDA_TROMP
 	nThreads = 0;
+	int cuda_count = get_cuda_device_count();
+	int opencl_count = 0;
+#elif defined(USE_OCL_SILENTARMY)
+	nThreads = 0;
+	int opencl_count = 1;
+	int cuda_count = 0;
+#else
+	int cuda_count = 0;
+	int opencl_count = 0;
 #endif
 
 	minerThreads = new boost::thread_group();
@@ -919,7 +925,7 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	std::vector<int> cuda_enabled;
 
-	for (int gpu_id =0; gpu_id < gpu_count; gpu_id ++)
+	for (int gpu_id =0; gpu_id < cuda_count; gpu_id ++)
 	{
 		cuda_enabled.push_back(gpu_id);
 	}
@@ -927,7 +933,16 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 
-	auto solvers = _MinerFactory->GenerateSolvers(nThreads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks, cuda_tpb, 0, 0, 0, 0);
+	std::vector<int> opencl_enabled;
+
+	for (int gpu_id =0; gpu_id < opencl_count; gpu_id ++)
+	{
+		opencl_enabled.push_back(gpu_id);
+	}
+
+	auto solvers = _MinerFactory->GenerateSolvers(nThreads,
+		cuda_enabled.size(), cuda_enabled.data(), cuda_blocks, cuda_tpb,
+		opencl_enabled.size(), 0, opencl_enabled.data());
 
 	for (auto & solver : solvers)
 	{
