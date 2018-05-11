@@ -61,14 +61,22 @@ WalletModel::WalletModel(const PlatformStyle *platformStyle, CWallet *_wallet, O
 
     subscribeToCoreSignals();
 
-	connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged(bool)), Qt::QueuedConnection);
+    connect(optionsModel, SIGNAL(generateChanged(bool)), this, SLOT(onGenerateChanged(bool)), Qt::QueuedConnection);
 
-	QVariant enableminner = optionsModel->data(optionsModel->index(OptionsModel::EnableMinner, 0), Qt::EditRole);
-	if (enableminner.toBool())
-	{
-		QTimer::singleShot(10, [this](){onGenerateChanged(true);});
-		gArgs.ForceSetArg("-gen", "1");
-	}
+    if (getMining())
+    {
+        QTimer::singleShot(10, [this]() {
+            onGenerateChanged(true);
+        });
+        gArgs.ForceSetArg("-gen", "1");
+    }
+}
+
+bool WalletModel::getMining()
+{
+    QVariant enableminner = optionsModel->data(optionsModel->index(OptionsModel::EnableMinner, 0), Qt::EditRole);
+
+    return enableminner.toBool();
 }
 
 WalletModel::~WalletModel()

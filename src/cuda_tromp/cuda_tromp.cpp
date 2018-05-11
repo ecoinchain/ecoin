@@ -80,3 +80,10 @@ bool SOLVER_NAME::solve(const char *tequihash_header,
 		solutionf,
 		hashdonef);
 }
+
+int DLL_CUDA_TROMP get_cuda_device_count()
+{
+	int count = 0;
+	cudaGetDeviceCount(&count);
+	return count;
+}

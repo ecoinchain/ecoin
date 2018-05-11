@@ -636,12 +636,17 @@ void BitcoinGUI::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 
 void BitcoinGUI::optionsClicked()
 {
-    if(!clientModel || !clientModel->getOptionsModel())
-        return;
+	if(!clientModel || !clientModel->getOptionsModel())
+		return;
 
-    OptionsDialog dlg(this, enableWallet);
-    dlg.setModel(clientModel->getOptionsModel());
-    dlg.exec();
+	auto dlg = new OptionsDialog(this, enableWallet);
+
+	OverlayDialogEmbeder embeder(dlg, this);
+
+	dlg->setModel(clientModel->getOptionsModel());
+	dlg->show();
+	embeder.show();
+	dlg->exec();
 }
 
 void BitcoinGUI::aboutClicked()

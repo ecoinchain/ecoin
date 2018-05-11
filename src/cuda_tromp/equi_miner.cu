@@ -932,13 +932,14 @@ __global__ void digitK(equi *eq) {
 	}
 }
 
-
-eq_cuda_context::eq_cuda_context(int tpb, int blocks, int id)
+__host__ eq_cuda_context::eq_cuda_context(int tpb, int blocks, int id)
 	: threadsperblock(tpb), totalblocks(blocks), device_id(id)
 {
 	eq = new equi(threadsperblock * totalblocks);
 	sol_memory = malloc(sizeof(proof) * MAXSOLS + 4096);
 	solutions = (proof*)(((long long)sol_memory + 4095) & -4096);
+
+	try{
 
 	checkCudaErrors(cudaSetDevice(device_id));
 	checkCudaErrors(cudaDeviceReset());
@@ -957,19 +958,26 @@ eq_cuda_context::eq_cuda_context(int tpb, int blocks, int id)
 	checkCudaErrors(cudaMalloc((void**)&eq->sols, MAXSOLS * sizeof(proof)));
 
 	checkCudaErrors(cudaMalloc((void**)&device_eq, sizeof(equi)));
+	}catch(...)
+	{
+		free(sol_memory);
+		delete eq;
+		sol_memory = nullptr;
+		eq = nullptr;
+		throw;
+	}
 }
 
-
-eq_cuda_context::~eq_cuda_context()
+__host__ eq_cuda_context::~eq_cuda_context()
 {
+	cudaSetDevice(device_id);
+	cudaDeviceReset();
+	free(sol_memory);
+	delete eq;
 	/*checkCudaErrors(cudaFree(eq->nslots));
 	checkCudaErrors(cudaFree(eq->sols));
 	checkCudaErrors(cudaFree(eq->hta.trees0[0]));
 	checkCudaErrors(cudaFree(eq->hta.trees1[0]));*/
-	checkCudaErrors(cudaSetDevice(device_id));
-	checkCudaErrors(cudaDeviceReset());
-	free(sol_memory);
-	delete eq;
 }
 
 bool eq_cuda_context::solve(const char *tequihash_header,

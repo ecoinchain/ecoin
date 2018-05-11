@@ -153,12 +153,19 @@ endif()
 add_subdirectory(cpu_tromp)
 
 option(USE_CUDA_TROMP "use cuda solver" OFF)
+option(USE_OCL_SILENTARMY "use opencl solver" OFF)
 
 if(USE_CUDA_TROMP)
 add_definitions(-DUSE_CUDA_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 add_subdirectory(cuda_tromp)
-link_directories(cuda_tromp)
+endif()
+
+
+if(USE_OCL_SILENTARMY)
+add_definitions(-DUSE_OCL_SILENTARMY)
+message("-- USE_OCL_SILENTARMY DEFINED")
+add_subdirectory(ocl_silentarmy)
 endif()
 
 add_subdirectory(leveldb EXCLUDE_FROM_ALL)
@@ -339,6 +346,9 @@ if(USE_CUDA_TROMP)
 target_link_libraries(coincore cuda_tromp)
 endif()
 
+if(USE_OCL_SILENTARMY)
+target_link_libraries(coincore ocl_silentarmy)
+endif()
 
 add_subdirectory(wallet)
 add_subdirectory(qt)

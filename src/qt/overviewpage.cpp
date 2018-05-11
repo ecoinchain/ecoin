@@ -40,7 +40,7 @@ public:
 		double iconscale = 1.0;
 #else
 		double iconscale = painter->device()->logicalDpiX() / 96.0;
-#endif	
+#endif
 		painter->save();
 
         QIcon icon = qvariant_cast<QIcon>(index.data(TransactionTableModel::RawDecorationRole));
@@ -99,7 +99,7 @@ public:
             amountText = QString("[") + amountText + QString("]");
         }
 		painter->drawText(amountRect, Qt::AlignLeft | Qt::AlignVCenter, amountText);
-		
+
         painter->setPen(QColor(186, 193, 196));
 		painter->drawText(amountRect, Qt::AlignRight | Qt::AlignVCenter, GUIUtil::dateTimeStr(date));
 
@@ -112,7 +112,7 @@ public:
 		double iconscale = 1.0;
 #else
 		double iconscale = option.widget->logicalDpiX() / 96.0;
-#endif	
+#endif
 		return QSize(DECORATION_SIZE, DECORATION_SIZE)*iconscale;
     }
 
@@ -139,8 +139,8 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
 	double iconscale = 1.0;
 #else
 	double iconscale = logicalDpiX() / 96.0;
-#endif	
-	
+#endif
+
 	ui->setupUi(this);
 	ui->frameBalance->setBackgroundImage(QIcon(":/icons/balance_bg"));
 	ui->framePending->setBackgroundImage(QIcon(":/icons/balance_bg"));
@@ -163,7 +163,7 @@ OverviewPage::OverviewPage(const PlatformStyle *platformStyle, QWidget *parent) 
     ui->listTransactions->setItemDelegate(txdelegate);
     ui->listTransactions->setIconSize(QSize(16, 16) * iconscale);
     ui->listTransactions->setMinimumHeight(NUM_ITEMS * (DECORATION_SIZE + 2) * iconscale);
-	
+
 	ui->listTransactions->setMinimumWidth(ui->listTransactions->fontMetrics().boundingRect(QString("7DnsD6GuTBNGZ3CEDC7tnU5piBvKKmTCwW")).width() + (DECORATION_SIZE + 2) * iconscale);
 	ui->listTransactions->setAttribute(Qt::WA_MacShowFocusRect, false);
 
@@ -218,6 +218,11 @@ void OverviewPage::setBalance(const CAmount& balance, const CAmount& unconfirmed
     ui->labelImmature->setVisible(showImmature || showWatchOnlyImmature);
     ui->labelImmatureText->setVisible(showImmature || showWatchOnlyImmature);
     ui->labelWatchImmature->setVisible(showWatchOnlyImmature); // show watch-only immature balance
+
+    if(immatureBalance > 0)
+    {
+        ui->WatchImmature->show();
+    }
 }
 
 // show/hide watch-only labels

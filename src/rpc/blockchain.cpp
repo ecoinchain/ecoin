@@ -61,16 +61,23 @@ double GetDifficulty(const CChain& chain, const CBlockIndex* blockindex)
             blockindex = chain.Tip();
     }
 
-    int nShift = (blockindex->nBits >> 24) & 0xff;
-    double dDiff =
-        (double)0x0000ffff / (double)(blockindex->nBits & 0x00ffffff);
+    uint32_t bits = blockindex->nBits;
 
-    while (nShift < 29)
+    uint32_t powLimit =
+        UintToArith256(Params().GetConsensus().powLimit).GetCompact();
+    int nShift = (bits >> 24) & 0xff;
+    int nShiftAmount = (powLimit >> 24) & 0xff;
+
+    double dDiff =
+        (double)(powLimit & 0x00ffffff) / 
+        (double)(bits & 0x00ffffff);
+
+    while (nShift < nShiftAmount)
     {
         dDiff *= 256.0;
         nShift++;
     }
-    while (nShift > 29)
+    while (nShift > nShiftAmount)
     {
         dDiff /= 256.0;
         nShift--;

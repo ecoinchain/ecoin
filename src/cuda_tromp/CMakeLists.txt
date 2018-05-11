@@ -17,7 +17,7 @@ file(GLOB HEADERS
 
 #set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-m64;--std=c++11;--disable-warnings;--ptxas-options=-v;-use_fast_math;-lineinfo)
 
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-D_FORCE_INLINES;--std=c++14;--disable-warnings;--ptxas-options=-v;-Xptxas=-dlcm=ca;-Xptxas=-dscm=cs; -O3)
+set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-D_FORCE_INLINES;--std=c++14;--disable-warnings;--ptxas-options=-v;-Xptxas=-dlcm=ca;-Xptxas=-dscm=cs)
 
 # set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};--disable-warnings;--ptxas-options=-v;-use_fast_math;-lineinfo; -O3)
 
@@ -38,7 +38,6 @@ endif(COMPUTE AND (COMPUTE GREATER 0))
 include_directories(${CUDA_INCLUDE_DIRS})
 
 find_package(Threads REQUIRED COMPONENTS)
-find_package(Boost REQUIRED COMPONENTS system log_setup log date_time filesystem thread)
 
 if(CUDA_FOUND)
 message("CUDA FOUND")

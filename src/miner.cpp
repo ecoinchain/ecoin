@@ -541,8 +541,11 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	unsigned int n = chainparams.EquihashN();
 	unsigned int k = chainparams.EquihashK();
 
+#ifdef USE_NEW_SOLVER
 	LogPrintf("Using Equihash solver \"%s\" with n = %u, k = %u\n", solver->getname(), n, k);
-
+#else
+	LogPrintf("Using Equihash solver with n = %u, k = %u\n", n, k);
+#endif
 	std::mutex m_cs;
 	bool cancelSolver = false;
     boost::signals2::connection c = uiInterface.NotifyBlockTip.connect(
@@ -556,7 +559,9 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 
 	try {
 
+#ifdef USE_NEW_SOLVER
 		solver->start();
+#endif
 
 		while (true)
 		{
@@ -657,8 +662,11 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 					SetThreadPriority(THREAD_PRIORITY_NORMAL);
 					arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
 					LogPrintf("Miner:\n");
+#ifdef USE_NEW_SOLVER
 					LogPrintf("Proof-of-work found via %s  \n  hash: %s  \ntarget: %s\n", solver->getname(), pblock->GetHash().GetHex(), hashTarget.GetHex());
-
+#else
+					LogPrintf("Proof-of-work found\n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
+#endif
 					bool ProcessBlockFoundRet;
 #ifdef ENABLE_WALLET
 					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);
@@ -786,20 +794,26 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	}
 	catch (const boost::thread_interrupted&)
 	{
+#ifdef USE_NEW_SOLVER
 		solver->stop();
+#endif
 		c.disconnect();
 		LogPrintf("Miner terminated\n");
 		throw;
 	}
 	catch (const std::runtime_error &e)
 	{
+#ifdef USE_NEW_SOLVER
 		solver->stop();
+#endif
 		c.disconnect();
 		LogPrintf("Miner runtime error: %s\n", e.what());
 		std::printf("Miner runtime error: %s\n", e.what());
 		return;
 	}
+#ifdef USE_NEW_SOLVER
 	solver->stop();
+#endif
 	c.disconnect();
 }
 
@@ -863,6 +877,10 @@ static void detect_AVX_and_AVX2()
 int use_avx = 0;
 int use_avx2 = 0;
 
+#ifdef USE_CUDA_TROMP
+int get_cuda_device_count();
+#endif
+
 #ifdef ENABLE_WALLET
 void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
 #else
@@ -887,9 +905,9 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 	detect_AVX_and_AVX2();
 
 #ifndef USE_CUDA_TROMP
-	int use_gpu = 0;
+	int gpu_count = 0;
 #else
-	int use_gpu = 1;
+	int gpu_count = get_cuda_device_count();
 	nThreads = 0;
 #endif
 
@@ -897,13 +915,19 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	auto _MinerFactory = new MinerFactory();
 
-	#define MAX_INSTANCES 8 * 2
+	#define MAX_INSTANCES 12 * 2
 
-	int cuda_enabled[MAX_INSTANCES] = { 0, 1, 2, 3, 4 ,5 ,6 ,7 ,8 ,9 , 10, 11, 12, 13, 14, 15 };
+	std::vector<int> cuda_enabled;
+
+	for (int gpu_id =0; gpu_id < gpu_count; gpu_id ++)
+	{
+		cuda_enabled.push_back(gpu_id);
+	}
+
 	int cuda_blocks[MAX_INSTANCES] = { 0 };
 	int cuda_tpb[MAX_INSTANCES] = { 0 };
 
-	auto solvers = _MinerFactory->GenerateSolvers(nThreads, use_gpu, cuda_enabled, cuda_blocks, cuda_tpb, 0, 0, 0, 0);
+	auto solvers = _MinerFactory->GenerateSolvers(nThreads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks, cuda_tpb, 0, 0, 0, 0);
 
 	for (auto & solver : solvers)
 	{
