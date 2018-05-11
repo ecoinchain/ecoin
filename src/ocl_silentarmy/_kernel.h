@@ -150,7 +150,7 @@ void kernel_round0(__global ulong *blake_state, __global char *ht,
  v[14] = blake_iv[6];
  v[15] = blake_iv[7];
 
- v[12] ^= 140 + 4 ;
+ v[12] ^= 108 + 4 ;
 
  v[14] ^= (ulong)-1;
 

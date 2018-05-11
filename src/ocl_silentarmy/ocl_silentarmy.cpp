@@ -21,7 +21,6 @@
 #include <boost/compute/core.hpp>
 
 #include <fstream>
-#include "sa_blake.h"
 
 typedef uint8_t		uchar;
 typedef uint32_t	uint;
@@ -64,7 +63,7 @@ struct OclContext {
 	boost::compute::kernel k_rounds[PARAM_K];
 	boost::compute::kernel k_sols;
 
-	boost::compute::buffer buf_ht[2], buf_sols, buf_dbg;
+	boost::compute::buffer buf_ht[2], rowCounters[2], buf_sols, buf_dbg;
 
 	size_t global_ws;
 	size_t local_work_size = 64;
@@ -97,6 +96,10 @@ OclContext::OclContext(boost::compute::device && device, unsigned int threadsNum
 	buf_dbg = boost::compute::buffer(clcontext, dbg_size);
 	buf_ht[0] = boost::compute::buffer(clcontext, HT_SIZE);
 	buf_ht[1] = boost::compute::buffer(clcontext, HT_SIZE);
+
+	rowCounters[0] = boost::compute::buffer(clcontext, NR_ROWS, NULL);
+	rowCounters[1] = boost::compute::buffer(clcontext, NR_ROWS, NULL);
+
 	buf_sols = boost::compute::buffer(clcontext, sizeof(sols_t));
 
 	fprintf(stderr, "Hash tables will use %.1f MB\n", 2.0 * HT_SIZE / 1e6);
@@ -216,11 +219,11 @@ size_t select_work_size_blake(int nr_compute_units)
 	return work_size;
 }
 
-static void init_ht(boost::compute::command_queue queue, boost::compute::kernel k_init_ht, boost::compute::buffer buf_ht)
+static void init_ht(boost::compute::command_queue& queue, boost::compute::kernel& k_init_ht, boost::compute::buffer& buf_ht, boost::compute::buffer& rowCounters)
 {
-	size_t      global_ws = NR_ROWS;
+    size_t      global_ws = NR_ROWS / ROWS_PER_UINT;
 	size_t      local_ws = 64;
-	cl_int      status;
+
 #if 0
 	uint32_t    pat = -1;
 	status = clEnqueueFillBuffer(queue, buf_ht, &pat, sizeof(pat), 0,
@@ -231,9 +234,9 @@ static void init_ht(boost::compute::command_queue queue, boost::compute::kernel 
 	if (status != CL_SUCCESS)
 		fatal("clEnqueueFillBuffer (%d)\n", status);
 #endif
-	k_init_ht.set_arg(0, buf_ht);
-	if (status != CL_SUCCESS)
-		printf("clSetKernelArg (%d)\n", status);
+	k_init_ht.set_arg(0, buf_ht.get());
+	k_init_ht.set_arg(1, rowCounters.get());
+
 	queue.enqueue_nd_range_kernel(k_init_ht,
 		1,		// cl_uint	work_dim
 		NULL,	// size_t	*global_work_offset
@@ -335,6 +338,53 @@ void ocl_silentarmy::stop(ocl_silentarmy& device_context) {
 	if (device_context.oclc != nullptr) delete device_context.oclc;
 }
 
+#include <blake2/blake2.h>
+
+
+#ifndef WN
+#define WN	200
+#endif
+
+#ifndef WK
+#define WK	9
+#endif
+
+#define PARAMETER_N WN
+#define PARAMETER_K WK
+
+#define NDIGITS		(WK+1)
+#define DIGITBITS	(WN/(NDIGITS))
+
+#define BASE (1<<DIGITBITS)
+#define NHASHES (2*BASE)
+#define HASHESPERBLAKE (512/WN)
+#define HASHOUT (HASHESPERBLAKE*WN/8)
+
+
+void blacke_setheader(blake2b_state *ctx, const char *header, const uint32_t headerLen, const char* nce, const uint32_t nonceLen)
+{
+  uint32_t le_N = WN;
+  uint32_t le_K = WK;
+  uchar personal[] = "ZcashPoW01230123";
+  memcpy(personal+8,  &le_N, 4);
+  memcpy(personal+12, &le_K, 4);
+  blake2b_param P[1];
+  P->digest_length = HASHOUT;
+  P->key_length    = 0;
+  P->fanout        = 1;
+  P->depth         = 1;
+  P->leaf_length   = 0;
+  P->node_offset   = 0;
+  P->node_depth    = 0;
+  P->inner_length  = 0;
+  memset(P->reserved, 0, sizeof(P->reserved));
+  memset(P->salt,     0, sizeof(P->salt));
+  memcpy(P->personal, (const uint8_t *)personal, 16);
+  blake2b_init_param(ctx, P);
+  blake2b_update(ctx, (const uchar *)header, headerLen);
+  blake2b_update(ctx, (const uchar *)nce, nonceLen);
+}
+
 bool ocl_silentarmy::solve(const char *tequihash_header,
 	unsigned int tequihash_header_len,
 	const char* nonce,
@@ -342,42 +392,48 @@ bool ocl_silentarmy::solve(const char *tequihash_header,
 	std::function<bool()> cancelf,
 	std::function<bool(const std::vector<uint32_t>&, size_t, const unsigned char*)> solutionf,
 	std::function<void(void)> hashdonef,
-	ocl_silentarmy& device_context) {
-
-	unsigned char context[ZCASH_BLOCK_HEADER_LEN];
-	memset(context, 0, ZCASH_BLOCK_HEADER_LEN);
+	ocl_silentarmy& device_context)
+{
+	unsigned char context[128];
+	memset(context, 0, 128);
 	memcpy(context, tequihash_header, tequihash_header_len);
 	memcpy(context + tequihash_header_len, nonce, nonce_len);
 
-	OclContext *miner = device_context.oclc;
-	clFlush(miner->queue);
+	auto nonce_ptr = (uint64_t *)(context + ZCASH_BLOCK_HEADER_LEN - ZCASH_NONCE_LEN);
 
-	blake2b_state_t initialCtx;
-	zcash_blake2b_init(&initialCtx, ZCASH_HASH_LEN, PARAM_N, PARAM_K);
-	zcash_blake2b_update(&initialCtx, (const uint8_t*)context, 128, 0);
+	blake2b_state	initialCtx;
+
+	blacke_setheader(&initialCtx, tequihash_header, tequihash_header_len, nonce, nonce_len);
+
+	OclContext *miner = device_context.oclc;
 
 	boost::compute::buffer buf_blake_st = boost::compute::buffer(miner->clcontext,
-		sizeof(blake2b_state_s), CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, &initialCtx);
+		sizeof(initialCtx.h), CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, &initialCtx.h);
 
 	for (unsigned round = 0; round < PARAM_K; round++)
 	{
-		if (round < 2)
-			init_ht(miner->queue, miner->k_init_ht, miner->buf_ht[round % 2]);
+
+		init_ht(miner->queue, miner->k_init_ht, miner->buf_ht[round % 2], miner->rowCounters[round % 2]);
+
 		if (!round)
 		{
-			miner->k_rounds[round].set_arg(0, buf_blake_st);
-			miner->k_rounds[round].set_arg(1, miner->buf_ht[round % 2]);
-			miner->global_ws = select_work_size_blake(miner->cldevice.compute_units());
+			miner->k_rounds[round].set_arg(0, buf_blake_st.get());
+			miner->k_rounds[round].set_arg(1, miner->buf_ht[round % 2].get());
+			miner->k_rounds[round].set_arg(2, miner->rowCounters[round % 2].get());
+
+			miner->global_ws = select_work_size_blake(miner->cldevice.compute_units() * 8);
 		}
 		else
 		{
-			miner->k_rounds[round].set_arg(0, miner->buf_ht[(round - 1) % 2]);
-			miner->k_rounds[round].set_arg(1, miner->buf_ht[round % 2]);
+			miner->k_rounds[round].set_arg(0, miner->buf_ht[(round - 1) % 2].get());
+			miner->k_rounds[round].set_arg(1, miner->buf_ht[round % 2].get());
+			miner->k_rounds[round].set_arg(2, miner->rowCounters[(round - 1) % 2].get());
+			miner->k_rounds[round].set_arg(3, miner->rowCounters[round % 2].get());
 			miner->global_ws = NR_ROWS;
 		}
-		miner->k_rounds[round].set_arg(2, miner->buf_dbg);
+		miner->k_rounds[round].set_arg(round == 0 ? 3 : 4, miner->buf_dbg.get());
 		if (round == PARAM_K - 1)
-			miner->k_rounds[round].set_arg(3, miner->buf_sols);
+			miner->k_rounds[round].set_arg(5, miner->buf_sols.get());
 
 		miner->queue.enqueue_nd_range_kernel(miner->k_rounds[round], 1, NULL,
 			&miner->global_ws, &miner->local_work_size);
@@ -385,12 +441,16 @@ bool ocl_silentarmy::solve(const char *tequihash_header,
 		if (cancelf())
 			return false;
 	}
-	miner->k_sols.set_arg(0, miner->buf_ht[0]);
-	miner->k_sols.set_arg(1, miner->buf_ht[1]);
-	miner->k_sols.set_arg(2, miner->buf_sols);
+	miner->k_sols.set_arg(0, miner->buf_ht[0].get());
+	miner->k_sols.set_arg(1, miner->buf_ht[1].get());
+	miner->k_sols.set_arg(2, miner->buf_sols.get());
+	miner->k_sols.set_arg(3, miner->rowCounters[0].get());
+	miner->k_sols.set_arg(4, miner->rowCounters[1].get());
 	miner->global_ws = NR_ROWS;
 	miner->queue.enqueue_nd_range_kernel(miner->k_sols, 1, NULL,
 		&miner->global_ws, &miner->local_work_size);
+
+	miner->queue.flush();
 
 	miner->queue.enqueue_read_buffer(miner->buf_sols,
 		0,		// size_t	offset
