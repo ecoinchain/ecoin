@@ -50,7 +50,7 @@ ISolver * MinerFactory::GenCPUSolver(int use_opt)
 
 ISolver * MinerFactory::GenCUDASolver(int dev_id, int blocks, int threadsperblock)
 {
-	return new CUDASolverTromp(dev_id, blocks, threadsperblock);
+	return new CUDASolverDjezo(dev_id, blocks, threadsperblock);
 }
 // no OpenCL solvers at the moment keep for future reference
 ISolver * MinerFactory::GenOPENCLSolver(int platf_id, int dev_id)

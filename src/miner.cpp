@@ -877,7 +877,7 @@ static void detect_AVX_and_AVX2()
 int use_avx = 0;
 int use_avx2 = 0;
 
-#ifdef USE_CUDA_TROMP
+#ifdef USE_CUDA_DJEZO
 int get_cuda_device_count();
 #endif
 

@@ -152,15 +152,15 @@ endif()
 
 add_subdirectory(cpu_tromp)
 
-option(USE_CUDA_TROMP "use cuda solver" OFF)
+option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
+
 option(USE_OCL_SILENTARMY "use opencl solver" OFF)
 
-if(USE_CUDA_TROMP)
-add_definitions(-DUSE_CUDA_TROMP)
-message("-- USE_CPU_TROMP DEFINED")
-add_subdirectory(cuda_tromp)
+if(USE_CUDA_DJEZO)
+add_definitions(-DUSE_CUDA_DJEZO)
+message("-- USE_CUDA_DJEZO DEFINED")
+add_subdirectory(cuda_djezo)
 endif()
-
 
 if(USE_OCL_SILENTARMY)
 add_definitions(-DUSE_OCL_SILENTARMY)
@@ -342,8 +342,8 @@ endif()
 
 # link libs
 target_link_libraries(coincore cpu_tromp)
-if(USE_CUDA_TROMP)
-target_link_libraries(coincore cuda_tromp)
+if(USE_CUDA_DJEZO)
+target_link_libraries(coincore cuda_djezo)
 endif()
 
 if(USE_OCL_SILENTARMY)
