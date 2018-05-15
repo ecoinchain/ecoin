@@ -541,11 +541,8 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	unsigned int n = chainparams.EquihashN();
 	unsigned int k = chainparams.EquihashK();
 
-#ifdef USE_NEW_SOLVER
 	LogPrintf("Using Equihash solver \"%s\" with n = %u, k = %u\n", solver->getname(), n, k);
-#else
-	LogPrintf("Using Equihash solver with n = %u, k = %u\n", n, k);
-#endif
+
 	std::mutex m_cs;
 	bool cancelSolver = false;
     boost::signals2::connection c = uiInterface.NotifyBlockTip.connect(
@@ -559,9 +556,7 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 
 	try {
 
-#ifdef USE_NEW_SOLVER
 		solver->start();
-#endif
 
 		while (true)
 		{
@@ -619,26 +614,9 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 				CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
 				ss << I;
 
-#ifdef USE_NEW_SOLVER
 				const char *tequihash_header = ss.data();
 				unsigned int tequihash_header_len = ss.size();
-#else
 
-				                // Hash state
-				crypto_generichash_blake2b_state curr_state;
-				EhInitialiseState(n, k, curr_state);
-
-				// I = the block header minus nonce and solution.
-
-				// H(I||...
-				crypto_generichash_blake2b_update(&curr_state, (unsigned char*)&ss[0], ss.size());
-
-				// H(I||V||...
-				crypto_generichash_blake2b_update(&curr_state,
-													pblock->nNonce.begin(),
-													pblock->nNonce.size());
-
-#endif
 				auto solutionFound = [&](const std::vector<uint32_t>& index_vector, size_t cbitlen, const unsigned char* compressed_sol)
 				{
 					// Write the solution to the hash and compute the result.
@@ -662,11 +640,9 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 					SetThreadPriority(THREAD_PRIORITY_NORMAL);
 					arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
 					LogPrintf("Miner:\n");
-#ifdef USE_NEW_SOLVER
+
 					LogPrintf("Proof-of-work found via %s  \n  hash: %s  \ntarget: %s\n", solver->getname(), pblock->GetHash().GetHex(), hashTarget.GetHex());
-#else
-					LogPrintf("Proof-of-work found\n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
-#endif
+
 					bool ProcessBlockFoundRet;
 #ifdef ENABLE_WALLET
 					ProcessBlockFoundRet = ProcessBlockFound(pblock, *pwallet, reservekey);
@@ -706,7 +682,6 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 
 				try
 				{
-#ifdef USE_NEW_SOLVER
 					bool found = solver->solve(tequihash_header,
 									tequihash_header_len,
 									(const char*)pblock->nNonce.begin(),
@@ -714,53 +689,7 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 									cancelFun,
 									solutionFound,
 									hashDone);
-#else
 
-					std::function<bool(std::vector<unsigned char>)> validBlock = [&](std::vector<unsigned char> soln)
-					{
-						// Write the solution to the hash and compute the result.
-						pblock->nSolution = soln;
-
-						if (!CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
-						return false;
-						}
-
-						// Found a solution
-						SetThreadPriority(THREAD_PRIORITY_NORMAL);
-						arith_uint256 hashTarget = arith_uint256().SetCompact(pblock->nBits);
-						LogPrintf("BitcoinMiner:\n");
-						LogPrintf("Proof-of-work found  \n  hash: %s  \ntarget: %s\n", pblock->GetHash().GetHex(), hashTarget.GetHex());
-#ifdef ENABLE_WALLET
-						if (ProcessBlockFound(pblock, *pwallet, reservekey))
-#else
-						if (ProcessBlockFound(pblock))
-#endif
-						{
-						// Ignore chain updates caused by us
-							std::lock_guard<std::mutex> lock{m_cs};
-								cancelSolver = false;
-						}
-
-						SetThreadPriority(THREAD_PRIORITY_LOWEST);
-
-						// In regression test mode, stop mining after a block is found.
-						if (chainparams.MineBlocksOnDemand())
-						{
-							// Increment here because throwing skips the call below
-							throw boost::thread_interrupted();
-						}
-
-						return true;
-					};
-
-					std::function<bool(EhSolverCancelCheck)> cancelled = [&m_cs, &cancelSolver](EhSolverCancelCheck pos)
-					{
-						std::lock_guard<std::mutex> lock{m_cs};
-						return cancelSolver;
-					};
-
-					bool found = EhOptimisedSolve(n, k, curr_state, validBlock, cancelled);
-#endif
 					if (found)
 					{
 						break;
@@ -794,26 +723,22 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	}
 	catch (const boost::thread_interrupted&)
 	{
-#ifdef USE_NEW_SOLVER
 		solver->stop();
-#endif
+
 		c.disconnect();
 		LogPrintf("Miner terminated\n");
 		throw;
 	}
 	catch (const std::runtime_error &e)
 	{
-#ifdef USE_NEW_SOLVER
 		solver->stop();
-#endif
 		c.disconnect();
 		LogPrintf("Miner runtime error: %s\n", e.what());
 		std::printf("Miner runtime error: %s\n", e.what());
 		return;
 	}
-#ifdef USE_NEW_SOLVER
+
 	solver->stop();
-#endif
 	c.disconnect();
 }
 
@@ -904,12 +829,14 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
 
 	detect_AVX_and_AVX2();
 
-#ifdef USE_CUDA_TROMP
-	nThreads = 0;
+#ifdef USE_CUDA_DJEZO
+	if (nThreads >=1)
+		nThreads --;
 	int cuda_count = get_cuda_device_count();
 	int opencl_count = 0;
 #elif defined(USE_OCL_SILENTARMY)
-	nThreads = 0;
+	if (nThreads >=1)
+		nThreads --;
 	int opencl_count = 1;
 	int cuda_count = 0;
 #else

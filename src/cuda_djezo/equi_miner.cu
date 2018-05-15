@@ -101,7 +101,7 @@ SOFTWARE.
 #define CANTORMAXSQRT (2 * NSLOTS)
 #define RB8_NSLOTS 640
 #define RB8_NSLOTS_LD 624
-#define FD_THREADS 128
+#define FD_THREADS 256
 
 // reduce vstudio warnings (__byteperm, blockIdx...)
 #ifdef __INTELLISENSE__
@@ -174,10 +174,10 @@ struct equi
 	};
 	struct
 	{
+		scontainerreal srealcont;
 		u32 nslots8[4096];
 		u32 nslots0[4096];
 		u32 nslots[9][NBUCKETS];
-		scontainerreal srealcont;
 	} edata;
 };
 
@@ -2063,35 +2063,33 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 	u32 nn = 0;
 
 
-	checkCudaErrors(cudaMemcpy(&device_eq->blake_ctx, &initialCtx, sizeof(initialCtx) * 8, cudaMemcpyHostToDevice));
+	checkCudaErrors(cudaMemcpy(&device_eq->blake_ctx, &initialCtx, sizeof(initialCtx), cudaMemcpyHostToDevice));
 
 	checkCudaErrors(cudaMemset(&device_eq->edata, 0, sizeof(device_eq->edata)));
 
 	digit_first<RB, SM, PACKER> << <NBLOCKS / FD_THREADS, FD_THREADS >> >(device_eq, nn);
 
-	digit_1<RB, SM, SSM, PACKER, 4 * NRESTS, 512> << <4096, 512 >> >(device_eq);
+	digit_1<RB, SM, SSM, PACKER, 2 * NRESTS, 512> <<<4096, 512 >>>(device_eq);
 
-	digit_2<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
+	digit_2<RB, SM, SSM, PACKER, 2 * NRESTS, THREADS> <<<blocks, THREADS >>>(device_eq);
 
-	digit_3<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
+	digit_3<RB, SM, SSM, PACKER, 2 * NRESTS, THREADS> <<<blocks, THREADS >>>(device_eq);
 
-	if (cancelf()) return false;
+	digit_4<RB, SM, SSM, PACKER, 2 * NRESTS, THREADS> <<<blocks, THREADS >>>(device_eq);
 
-	digit_4<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
+	digit_5<RB, SM, SSM, PACKER, 2 * NRESTS, THREADS> <<<blocks, THREADS >>>(device_eq);
 
-	digit_5<RB, SM, SSM, PACKER, 4 * NRESTS, THREADS> << <blocks, THREADS >> >(device_eq);
+	digit_6<RB, SM, SSM - 1, PACKER, 2 * NRESTS> <<<blocks, NRESTS >>>(device_eq);
 
-	digit_6<RB, SM, SSM - 1, PACKER, 3 * NRESTS> << <blocks, NRESTS >> >(device_eq);
+	digit_7<RB, SM, SSM - 1, PACKER, 2 * NRESTS> <<<blocks, NRESTS >>>(device_eq);
 
-	digit_7<RB, SM, SSM - 1, PACKER, 3 * NRESTS> << <blocks, NRESTS >> >(device_eq);
-
-	digit_8<RB, SM, SSM - 1, PACKER, 3 * NRESTS> << <blocks, NRESTS >> >(device_eq);
+	digit_8<RB, SM, SSM - 1, PACKER, 2 * NRESTS> <<<blocks, NRESTS >>>(device_eq);
 
 	digit_last_wdc<RB, SM, SSM - 3, 2, PACKER, 64, 8, 4> << <4096, 256 / 2 >> >(device_eq);
 
 	checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (MAXREALSOLS * (512 * 4)) + 4, cudaMemcpyDeviceToHost));
 
-	printf("nsols: %u\n", solutions->nsols);
+//	printf("nsols: %u\n", solutions->nsols);
 	//if (solutions->nsols > 9)
 	//	printf("missing sol, total: %u\n", solutions->nsols);
 

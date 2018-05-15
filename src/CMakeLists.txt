@@ -145,11 +145,6 @@ endif()
 add_definitions(-DUSE_CPU_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 
-option(USE_NEW_SOLVER "use fast solver" OFF)
-if(USE_NEW_SOLVER)
-add_definitions(-DUSE_NEW_SOLVER)
-endif()
-
 add_subdirectory(cpu_tromp)
 
 option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)

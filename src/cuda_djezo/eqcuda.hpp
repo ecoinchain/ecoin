@@ -93,6 +93,6 @@ struct eq_cuda_context : public eq_cuda_context_interface
 		std::function<void(void)> hashdonef);
 };
 
-#define CONFIG_MODE_1	9, 1248, 12, 640, packer_cantor
+#define CONFIG_MODE_1	9, 1184, 12, 640, packer_cantor
 
 #define CONFIG_MODE_2	8, 640, 12, 512, packer_default

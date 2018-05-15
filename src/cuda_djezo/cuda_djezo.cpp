@@ -126,3 +126,11 @@ bool eq_cuda_context_interface::solve(const char *tequihash_header,
 }
 
 eq_cuda_context_interface::~eq_cuda_context_interface() { }
+
+
+int DLL_CUDA_DJEZO get_cuda_device_count()
+{
+	int count = 0;
+	cudaGetDeviceCount(&count);
+	return count;
+}
