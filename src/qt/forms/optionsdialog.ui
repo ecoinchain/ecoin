@@ -143,7 +143,7 @@ QCheckBox::indicator::checked {
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabMain">
       <attribute name="title">
@@ -306,25 +306,8 @@ QCheckBox::indicator::checked {
             <property name="checked">
              <bool>false</bool>
             </property>
-            <layout class="QVBoxLayout" name="verticalLayout_3">
-             <item>
-              <widget class="QRadioButton" name="allcpu">
-               <property name="text">
-                <string>Use All CPU Power</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QRadioButton" name="use3quartercpu">
-               <property name="text">
-                <string>Use &amp;3/4 CPU Power</string>
-               </property>
-              </widget>
-             </item>
-             <item>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="2" column="0">
               <widget class="QRadioButton" name="halfcpu">
                <property name="text">
                 <string>Use Half CPU Power</string>
@@ -334,17 +317,34 @@ QCheckBox::indicator::checked {
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QRadioButton" name="use1quartercpu">
-               <property name="text">
-                <string>Use &amp;1/4 CPU Power</string>
-               </property>
-              </widget>
-             </item>
-             <item>
+             <item row="4" column="0">
               <widget class="QRadioButton" name="onecpu">
                <property name="text">
                 <string>Use One CPU Power</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="allcpu">
+               <property name="text">
+                <string>&amp;Use All CPU Power</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QRadioButton" name="use3quartercpu">
+               <property name="text">
+                <string>Use &amp;3/4 CPU Power</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QRadioButton" name="use1quartercpu">
+               <property name="text">
+                <string>Use &amp;1/4 CPU Power</string>
                </property>
               </widget>
              </item>
