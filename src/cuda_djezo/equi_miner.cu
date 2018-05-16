@@ -189,6 +189,55 @@ __device__ __constant__ const u64 blake_iv[] =
 	0x1f83d9abfb41bd6b, 0x5be0cd19137e2179,
 };
 
+static __device__ __forceinline__ uint64_t MAKE_ULONGLONG(uint32_t LO, uint32_t HI)
+{
+#ifdef __CUDA_ARCH__
+        uint64_t result;
+        asm("mov.b64	%0,{%1,%2}; \n\t"
+                : "=l"(result) : "r"(LO), "r"(HI));
+        return result;
+#else
+	return (uint64_t)LO | (((uint64_t)HI) << 32);
+#endif
+}
+
+static __host__ __device__ __forceinline__ uint2 vectorize(uint64_t v) {
+	uint2 result;
+#ifdef __CUDA_ARCH__
+	asm("// vectorize\n\t");
+	asm("mov.b64	{%0,%1},%2; \n\t"
+		: "=r"(result.x), "=r"(result.y) : "l"(v));
+#else
+	result.x = (uint32_t)(v);
+	result.y = (uint32_t)(v >> 32);
+#endif
+	return result;
+}
+
+static __host__ __device__ __forceinline__ uint64_t devectorize(uint2 v) {
+#ifdef __CUDA_ARCH__
+	return MAKE_ULONGLONG(v.x, v.y);
+#else
+	return (((uint64_t)v.y) << 32) + v.x;
+#endif
+}
+
+static __device__ __forceinline__ uint2 operator+ (uint2 a, uint2 b) {
+#ifdef __CUDA_ARCH__
+	uint2 result;
+	asm("{\n\t"
+		"add.cc.u32 %0,%2,%4; \n\t"
+		"addc.u32 %1,%3,%5;   \n\t"
+	"}\n\t"
+		: "=r"(result.x), "=r"(result.y) : "r"(a.x), "r"(a.y), "r"(b.x), "r"(b.y));
+	return result;
+#else
+	return vectorize(devectorize(a) + devectorize(b));
+#endif
+}
+
+static __device__ __forceinline__ void operator+= (uint2 &a, uint2 b) { a = a + b; }
+
 __device__ __forceinline__ uint2 operator^ (uint2 a, uint2 b)
 {
 	return make_uint2(a.x ^ b.x, a.y ^ b.y);
@@ -379,13 +428,20 @@ struct packer_default
 {
 	__device__ __forceinline__ static u32 set_bucketid_and_slots(const u32 bucketid, const u32 s0, const u32 s1, const u32 RB, const u32 SM)
 	{
-		return (((bucketid << SLOTBITS) | s0) << SLOTBITS) | s1;
+		u32 ret;
+		asm volatile (
+			"vshl.u32.u32.u32.clamp.add %0, %1, %2, %3;\n\t"
+			"vshl.u32.u32.u32.clamp.add %0, %0, %2, %4;"
+			: "=r"(ret)
+			: "r"(bucketid), "r"(SLOTBITS), "r"(s0), "r"(s1));
+		return ret;
 	}
 
 	__device__ __forceinline__ static u32 get_bucketid(const u32 bid, const u32 RB, const u32 SM)
 	{
-		// BUCKMASK-ed to prevent illegal memory accesses in case of memory errors
-		return (bid >> (2 * SLOTBITS)) & BUCKMASK;
+		u32 ret;
+		asm volatile("bfe.u32 %0, %1, %2, %3;" : "=r"(ret) : "r"(bid), "r"(2 * SLOTBITS), "r"(BUCKBITS));
+		return ret;
 	}
 
 	__device__ __forceinline__ static u32 get_slot0(const u32 bid, const u32 s1, const u32 RB, const u32 SM)
@@ -395,7 +451,9 @@ struct packer_default
 
 	__device__ __forceinline__ static u32 get_slot1(const u32 bid, const u32 RB, const u32 SM)
 	{
-		return (bid >> SLOTBITS) & SLOTMASK;
+		u32 s1;
+		asm("bfe.u32 %0, %1, %2, %3;" : "=r"(s1) : "r"(bid), "r"(SLOTBITS), "r"(SLOTBITS));
+		return s1;
 	}
 };
 
@@ -406,17 +464,37 @@ struct packer_cantor
 	{
 		u32 a = umax(s0, s1);
 		u32 b = umin(s0, s1);
-		return a * (a + 1) / 2 + b;
+
+		u32 c;
+		asm volatile (
+			"{\n\t.reg .u32 c;\n\t"
+			"mad.lo.s32     c, %1, %1, %1;\n\t"
+			"vshr.u32.u32.u32.clamp.add %0, c, 1, %2;\n\t}"
+			: "=r"(c)
+			: "r"(a), "r"(b));
+		return c;
 	}
 
 	__device__ __forceinline__ static u32 set_bucketid_and_slots(const u32 bucketid, const u32 s0, const u32 s1, const u32 RB, const u32 SM)
 	{
-		return (bucketid << CANTORBITS) | cantor(s0, s1);
+		u32 ret;
+		u32 a = umax(s0, s1);
+		u32 b = umin(s0, s1);
+		asm volatile (
+			"{\n\t.reg .u32 c, d;\n\t"
+			"mad.lo.s32     c, %3, %3, %3;\n\t"
+			"vshr.u32.u32.u32.clamp.add d, c, 1, %4;\n\t"
+			"vshl.u32.u32.u32.clamp.add %0, %1, %2, d;\n\t}"
+			: "=r"(ret)
+			: "r"(bucketid), "r"(CANTORBITS), "r"(a), "r"(b));
+		return ret;
 	}
 
 	__device__ __forceinline__ static u32 get_bucketid(const u32 bid, const u32 RB, const u32 SM)
 	{
-		return (bid >> CANTORBITS) & BUCKMASK;
+		u32 s1;
+		asm("bfe.u32 %0, %1, %2, %3;" : "=r"(s1) : "r"(bid), "r"(CANTORBITS), "r"(BUCKBITS));
+		return s1;
 	}
 
 	__device__ __forceinline__ static u32 get_slot0(const u32 bid, const u32 s1, const u32 RB, const u32 SM)
@@ -426,7 +504,12 @@ struct packer_cantor
 
 	__device__ __forceinline__ static u32 get_slot1(const u32 bid, const u32 RB, const u32 SM)
 	{
-		u32 k, q, sqr = 8 * (bid & CANTORMASK) + 1;
+		u32 k, q, sqr;// = 8 * (bid & CANTORMASK) + 1;
+
+		asm volatile (
+                        "vshl.u32.u32.u32.clamp.add %0, %1, 3, 1;"
+                        : "=r"(sqr)
+                        : "r"(bid & CANTORMASK));
 		// this k=sqrt(sqr) computing loop averages 3.4 iterations out of maximum 9
 		for (k = CANTORMAXSQRT; (q = sqr / k) < k; k = (k + q) / 2);
 		return ((k - 1) / 2) & SLOTMASK;
@@ -438,21 +521,12 @@ template <u32 RB, u32 SM, typename PACKER>
 __global__ void digit_first(equi<RB, SM>* eq, u32 nonce)
 {
 	const u32 block = blockIdx.x * blockDim.x + threadIdx.x;
-	__shared__ u64 hash_h[8];
-	//memcpy(hash_h, eq->blake_h, sizeof(hash_h));
-	u32* hash_h32 = (u32*)hash_h;
-
-	if (threadIdx.x < 16)
-		hash_h32[threadIdx.x] = __ldca(&eq->blake_h32[threadIdx.x]);
-
-	__syncthreads();
 
 	union
 	{
 		uchar hash[50];
-		u64 v[16];
 		u32 v32[32];
-		uint4 v128[8];
+		uint2 u[16];
 	};
 
 	blake2b_state state;
@@ -460,47 +534,50 @@ __global__ void digit_first(equi<RB, SM>* eq, u32 nonce)
 	state = eq->blake_ctx;
 	blake2b_gpu_hash_djezo(&state, block, hash, HASHOUT);
 
-	u32 bexor = __byte_perm(v32[0], 0, 0x4012); // first 20 bits
+	//u32 bexor = __byte_perm(v32[0], 0, 0x4012); // first 20 bits
+	u32 bexor = __byte_perm(u[0].x, 0, 0x4012);
 	u32 bucketid;
 	asm("bfe.u32 %0, %1, 12, 12;" : "=r"(bucketid) : "r"(bexor));
 	u32 slotp = atomicAdd(&eq->edata.nslots0[bucketid], 1);
 	if (slotp < RB8_NSLOTS)
 	{
-		slot* s = &eq->round0trees[bucketid][slotp];
+		//slot* s = &eq->round0trees[bucketid][slotp];
 
-		uint4 tt;
-		tt.x = __byte_perm(v32[0], v32[1], 0x1234);
-		tt.y = __byte_perm(v32[1], v32[2], 0x1234);
-		tt.z = __byte_perm(v32[2], v32[3], 0x1234);
-		tt.w = __byte_perm(v32[3], v32[4], 0x1234);
-		*(uint4*)(&s->hash[0]) = tt;
+		slot* __restrict__ s = &eq->round0trees[bucketid][slotp];
 
-		tt.x = __byte_perm(v32[4], v32[5], 0x1234);
-		tt.y = __byte_perm(v32[5], v32[6], 0x1234);
-		tt.z = 0;
-		tt.w = block << 1;
-		*(uint4*)(&s->hash[4]) = tt;
+		uint4 t1, t2;
+		t1.x = __byte_perm(u[0].x, u[0].y, 0x1234);
+		t1.y = __byte_perm(u[0].y, u[1].x, 0x1234);
+		t1.z = __byte_perm(u[1].x, u[1].y, 0x1234);
+		t1.w = __byte_perm(u[1].y, u[2].x, 0x1234);
+		*(uint4*)(&s->hash[0]) = t1;
+
+		t2.x = __byte_perm(u[2].x, u[2].y, 0x1234);
+		t2.y = __byte_perm(u[2].y, u[3].x, 0x1234);
+		t2.z = 0;
+		t2.w = block << 1;
+		*(uint4*)(&s->hash[4]) = t2;
 	}
 
-	bexor = __byte_perm(v32[6], 0, 0x0123);
+	bexor = __byte_perm(u[3].x, 0, 0x0123);
 	asm("bfe.u32 %0, %1, 12, 12;" : "=r"(bucketid) : "r"(bexor));
 	slotp = atomicAdd(&eq->edata.nslots0[bucketid], 1);
 	if (slotp < RB8_NSLOTS)
 	{
-		slot* s = &eq->round0trees[bucketid][slotp];
+		slot* __restrict__ s = &eq->round0trees[bucketid][slotp];
 
-		uint4 tt;
-		tt.x = __byte_perm(v32[6], v32[7], 0x2345);
-		tt.y = __byte_perm(v32[7], v32[8], 0x2345);
-		tt.z = __byte_perm(v32[8], v32[9], 0x2345);
-		tt.w = __byte_perm(v32[9], v32[10], 0x2345);
-		*(uint4*)(&s->hash[0]) = tt;
+		uint4 t1, t2;
+		t1.x = __byte_perm(u[3].x, u[3].y, 0x2345);
+		t1.y = __byte_perm(u[3].y, u[4].x, 0x2345);
+		t1.z = __byte_perm(u[4].x, u[4].y, 0x2345);
+		t1.w = __byte_perm(u[4].y, u[5].x, 0x2345);
+		*(uint4*)(&s->hash[0]) = t1;
 
-		tt.x = __byte_perm(v32[10], v32[11], 0x2345);
-		tt.y = __byte_perm(v32[11], v32[12], 0x2345);
-		tt.z = 0;
-		tt.w = (block << 1) + 1;
-		*(uint4*)(&s->hash[4]) = tt;
+		t2.x = __byte_perm(u[5].x, u[5].y, 0x2345);
+		t2.y = __byte_perm(u[5].y, u[6].x, 0x2345);
+		t2.z = 0;
+		t2.w = (block << 1) + 1;
+		*(uint4*)(&s->hash[4]) = t2;
 	}
 }
 
@@ -523,7 +600,6 @@ __global__ void digit_1(equi<RB, SM>* eq)
 	__shared__ uint4 lastword2[RB8_NSLOTS];
 	__shared__ int ht_len[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -533,10 +609,8 @@ __global__ void digit_1(equi<RB, SM>* eq)
 		ht_len[threadid] = 0;
 	else if (threadid == (THREADS - 1))
 		pairs_len = 0;
-	else if (threadid == (THREADS - 33))
-		next_pair = 0;
 
-	u32 bsize = umin(eq->edata.nslots0[bucketid], RB8_NSLOTS);
+	const u32 bsize = umin(eq->edata.nslots0[bucketid], RB8_NSLOTS);
 
 	u32 hr[2];
 	int pos[2];
@@ -552,7 +626,7 @@ __global__ void digit_1(equi<RB, SM>* eq)
 	//__syncthreads();
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		si[i] = i * THREADS + threadid;
 		if (si[i] >= bsize) break;
@@ -560,8 +634,8 @@ __global__ void digit_1(equi<RB, SM>* eq)
 		const slot* pslot1 = eq->round0trees[bucketid] + si[i];
 
 		// get xhash
-		uint4 a1 = *(uint4*)(&pslot1->hash[0]);
-		uint2 a2 = *(uint2*)(&pslot1->hash[4]);
+		const uint4 a1 = *(uint4*)(&pslot1->hash[0]);
+		const uint2 a2 = *(uint2*)(&pslot1->hash[4]);
 		ta[i].x = a1.x;
 		ta[i].y = a1.y;
 		lastword1[si[i]] = ta[i];
@@ -583,13 +657,13 @@ __global__ void digit_1(equi<RB, SM>* eq)
 	u32 xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			*(uint2*)(&xors[0]) = ta[i] ^ lastword1[p];
 
@@ -598,7 +672,7 @@ __global__ void digit_1(equi<RB, SM>* eq)
 
 			if (xorslot < NSLOTS)
 			{
-				*(uint4*)(&xors[2]) = lastword2[si[i]] ^ lastword2[p];
+				*(uint4*)(&xors[2]) = tb[i] ^ lastword2[p];
 
 				slot &xs = eq->trees[0][xorbucketid][xorslot];
 				*(uint4*)(&xs.hash[0]) = *(uint4*)(&xors[1]);
@@ -610,12 +684,18 @@ __global__ void digit_1(equi<RB, SM>* eq)
 				*(uint4*)(&xs.hash[4]) = ttx;
 			}
 
-			for (int k = 1; k != pos[i]; ++k)
+			if (pos[i] > 1)
 			{
-				u32 pindex = atomicAdd(&pairs_len, 1);
-				if (pindex >= MAXPAIRS) break;
-				u16 prev = ht[hr[i]][k];
-				pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+				u32 len = pos[i] - 1;
+				u32 pindex = atomicAdd(&pairs_len, len);
+				len = min(len, MAXPAIRS - pindex);
+				#pragma unroll (SSM - 2)
+				for (int k = 0; k < len; k++)
+				{
+					u32 prev = ht[hr[i]][k + 1];
+					pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+					if (k + 1 >= len) break;
+				}
 			}
 		}
 	}
@@ -623,10 +703,10 @@ __global__ void digit_1(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
+	const u32 plen = umin(pairs_len, MAXPAIRS);
 
 	u32 i, k;
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	for (u32 s = threadid; s < plen; s+= THREADS)
 	{
 		int pair = pairs[s];
 		i = __byte_perm(pair, 0, 0x4510);
@@ -663,7 +743,6 @@ __global__ void digit_2(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -673,11 +752,9 @@ __global__ void digit_2(equi<RB, SM>* eq)
 		ht_len[threadid] = 0;
 	else if (threadid == (THREADS - 1))
 		pairs_len = 0;
-	else if (threadid == (THREADS - 33))
-		next_pair = 0;
 
 	slot* buck = eq->trees[0][bucketid];
-	u32 bsize = umin(eq->edata.nslots[1][bucketid], NSLOTS);
+	const u32 bsize = umin(eq->edata.nslots[1][bucketid], NSLOTS);
 
 	u32 hr[2];
 	int pos[2];
@@ -693,7 +770,7 @@ __global__ void digit_2(equi<RB, SM>* eq)
 	//__syncthreads();
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		si[i] = i * THREADS + threadid;
 		if (si[i] >= bsize) break;
@@ -701,9 +778,9 @@ __global__ void digit_2(equi<RB, SM>* eq)
 		// get slot
 		const slot* pslot1 = buck + si[i];
 
-		uint4 ttx = *(uint4*)(&pslot1->hash[0]);
+		const uint4 ttx = *(uint4*)(&pslot1->hash[0]);
 		lastword1[si[i]] = ta[i] = ttx.x;
-		uint2 tty = *(uint2*)(&pslot1->hash[4]);
+		const uint2 tty = *(uint2*)(&pslot1->hash[4]);
 		tt[i].x = ttx.y;
 		tt[i].y = ttx.z;
 		tt[i].z = ttx.w;
@@ -721,13 +798,13 @@ __global__ void digit_2(equi<RB, SM>* eq)
 	u32 xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			xors[0] = ta[i] ^ lastword1[p];
 
@@ -745,12 +822,18 @@ __global__ void digit_2(equi<RB, SM>* eq)
 				*(uint2*)(&xst.hash[0]) = ttx;
 			}
 
-			for (int k = 1; k != pos[i]; ++k)
+			if (pos[i] > 1)
 			{
-				u32 pindex = atomicAdd(&pairs_len, 1);
-				if (pindex >= MAXPAIRS) break;
-				u16 prev = ht[hr[i]][k];
-				pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+				u32 len = pos[i] - 1;
+				u32 pindex = atomicAdd(&pairs_len, len);
+				len = min(len, MAXPAIRS - pindex);
+				#pragma unroll (SSM - 2)
+				for (int k = 0; k < len; k++)
+				{
+					u32 prev = ht[hr[i]][k + 1];
+					pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+					if (k + 1 >= len) break;
+				}
 			}
 		}
 	}
@@ -758,10 +841,10 @@ __global__ void digit_2(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
+	const u32 plen = umin(pairs_len, MAXPAIRS);
 
 	u32 i, k;
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	for (u32 s = threadid; s < plen; s+= THREADS)
 	{
 		int pair = pairs[s];
 		i = __byte_perm(pair, 0, 0x4510);
@@ -795,7 +878,6 @@ __global__ void digit_3(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -805,10 +887,8 @@ __global__ void digit_3(equi<RB, SM>* eq)
 		ht_len[threadid] = 0;
 	else if (threadid == (THREADS - 1))
 		pairs_len = 0;
-	else if (threadid == (THREADS - 33))
-		next_pair = 0;
 
-	u32 bsize = umin(eq->edata.nslots[2][bucketid], NSLOTS);
+	const u32 bsize = umin(eq->edata.nslots[2][bucketid], NSLOTS);
 
 	u32 hr[2];
 	int pos[2];
@@ -823,7 +903,7 @@ __global__ void digit_3(equi<RB, SM>* eq)
 	//__syncthreads();
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		si[i] = i * THREADS + threadid;
 		if (si[i] >= bsize) break;
@@ -846,13 +926,13 @@ __global__ void digit_3(equi<RB, SM>* eq)
 	u32 bexor, xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			xors[4] = ta[i] ^ lastword2[p];
 
@@ -876,12 +956,18 @@ __global__ void digit_3(equi<RB, SM>* eq)
 				}
 			}
 
-			for (int k = 1; k != pos[i]; ++k)
+			if (pos[i] > 1)
 			{
-				u32 pindex = atomicAdd(&pairs_len, 1);
-				if (pindex >= MAXPAIRS) break;
-				u16 prev = ht[hr[i]][k];
-				pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+				u32 len = pos[i] - 1;
+				u32 pindex = atomicAdd(&pairs_len, len);
+				len = min(len, MAXPAIRS - pindex);
+				#pragma unroll (SSM -2)
+				for (int k = 0; k < len; k++)
+				{
+					u32 prev = ht[hr[i]][k + 1];
+					pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+					if (k + 1 >= len) break;
+				}
 			}
 		}
 	}
@@ -889,10 +975,10 @@ __global__ void digit_3(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
+	const u32 plen = umin(pairs_len, MAXPAIRS);
 
 	u32 i, k;
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	for (u32 s = threadid; s < plen; s+= THREADS)
 	{
 		int pair = pairs[s];
 		i = __byte_perm(pair, 0, 0x4510);
@@ -931,7 +1017,6 @@ __global__ void digit_4(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -941,10 +1026,8 @@ __global__ void digit_4(equi<RB, SM>* eq)
 		ht_len[threadid] = 0;
 	else if (threadid == (THREADS - 1))
 		pairs_len = 0;
-	else if (threadid == (THREADS - 33))
-		next_pair = 0;
 
-	u32 bsize = umin(eq->edata.nslots[3][bucketid], NSLOTS);
+	const u32 bsize = umin(eq->edata.nslots[3][bucketid], NSLOTS);
 
 	u32 hr[2];
 	int pos[2];
@@ -958,7 +1041,7 @@ __global__ void digit_4(equi<RB, SM>* eq)
 	//__syncthreads();
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		si[i] = i * THREADS + threadid;
 		if (si[i] >= bsize) break;
@@ -979,13 +1062,13 @@ __global__ void digit_4(equi<RB, SM>* eq)
 	u32 xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			*(uint4*)(&xors[0]) = tt[i] ^ lastword[p];
 
@@ -1002,12 +1085,18 @@ __global__ void digit_4(equi<RB, SM>* eq)
 				}
 			}
 
-			for (int k = 1; k != pos[i]; ++k)
+			if (pos[i] > 1)
 			{
-				u32 pindex = atomicAdd(&pairs_len, 1);
-				if (pindex >= MAXPAIRS) break;
-				u16 prev = ht[hr[i]][k];
-				pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+				u32 len = pos[i] - 1;
+				u32 pindex = atomicAdd(&pairs_len, len);
+				len = min(len, MAXPAIRS - pindex);
+				#pragma unroll (SSM - 2)
+				for (int k = 0; k < len; k++)
+				{
+					u32 prev = ht[hr[i]][k + 1];
+					pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+					if (k + 1 >= len) break;
+				}
 			}
 		}
 	}
@@ -1015,9 +1104,9 @@ __global__ void digit_4(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
+	const u32 plen = umin(pairs_len, MAXPAIRS);
 	u32 i, k;
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	for (u32 s = threadid; s < plen; s+= THREADS)
 	{
 		int pair = pairs[s];
 		i = __byte_perm(pair, 0, 0x4510);
@@ -1047,7 +1136,6 @@ __global__ void digit_5(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -1056,11 +1144,9 @@ __global__ void digit_5(equi<RB, SM>* eq)
 		ht_len[threadid] = 0;
 	else if (threadid == (THREADS - 1))
 		pairs_len = 0;
-	else if (threadid == (THREADS - 33))
-		next_pair = 0;
 
 	slotsmall* buck = eq->treessmall[3][bucketid];
-	u32 bsize = umin(eq->edata.nslots[4][bucketid], NSLOTS);
+	const u32 bsize = umin(eq->edata.nslots[4][bucketid], NSLOTS);
 
 	u32 hr[2];
 	int pos[2];
@@ -1074,7 +1160,7 @@ __global__ void digit_5(equi<RB, SM>* eq)
 	//__syncthreads();
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		si[i] = i * THREADS + threadid;
 		if (si[i] >= bsize) break;
@@ -1093,13 +1179,13 @@ __global__ void digit_5(equi<RB, SM>* eq)
 	u32 bexor, xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 2; ++i)
+	for (u32 i = 0; i < 2; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			*(uint4*)(&xors[0]) = tt[i] ^ lastword[p];
 
@@ -1120,12 +1206,18 @@ __global__ void digit_5(equi<RB, SM>* eq)
 				}
 			}
 
-			for (int k = 1; k != pos[i]; ++k)
+			if (pos[i] > 1)
 			{
-				u32 pindex = atomicAdd(&pairs_len, 1);
-				if (pindex >= MAXPAIRS) break;
-				u16 prev = ht[hr[i]][k];
-				pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+				u32 len = pos[i] - 1;
+				u32 pindex = atomicAdd(&pairs_len, len);
+				len = min(len, MAXPAIRS - pindex);
+				#pragma unroll (SSM - 2)
+				for (int k = 0; k < len; k++)
+				{
+					u32 prev = ht[hr[i]][k + 1];
+					pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+					if (k + 1 >= len) break;
+				}
 			}
 		}
 	}
@@ -1133,9 +1225,9 @@ __global__ void digit_5(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
+	const u32 plen = umin(pairs_len, MAXPAIRS);
 	u32 i, k;
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	for (u32 s = threadid; s < plen; s+= THREADS)
 	{
 		int pair = pairs[s];
 		i = __byte_perm(pair, 0, 0x4510);
@@ -1171,8 +1263,6 @@ __global__ void digit_6(equi<RB, SM>* eq)
 	__shared__ u32 lastword2[NSLOTS];
 	__shared__ int ht_len[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 bsize_sh;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -1180,14 +1270,10 @@ __global__ void digit_6(equi<RB, SM>* eq)
 	// reset hashtable len
 	ht_len[threadid] = 0;
 	if (threadid == (NRESTS - 1))
-	{
 		pairs_len = 0;
-		next_pair = 0;
-	}
-	else if (threadid == (NRESTS - 33))
-		bsize_sh = umin(eq->edata.nslots[5][bucketid], NSLOTS);
 
 	slotsmall* buck = eq->treessmall[2][bucketid];
+	const u32 bsize = umin(eq->edata.nslots[5][bucketid], NSLOTS);
 
 	u32 hr[3];
 	int pos[3];
@@ -1198,10 +1284,8 @@ __global__ void digit_6(equi<RB, SM>* eq)
 
 	__syncthreads();
 
-	u32 bsize = bsize_sh;
-
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		si[i] = i * NRESTS + threadid;
 		if (si[i] >= bsize) break;
@@ -1224,13 +1308,13 @@ __global__ void digit_6(equi<RB, SM>* eq)
 	u32 bexor, xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			xors[2] = tt[i].z ^ lastword2[p];
 
@@ -1278,12 +1362,18 @@ __global__ void digit_6(equi<RB, SM>* eq)
 					}
 				}
 
-				for (int k = 2; k != pos[i]; ++k)
+				if (pos[i] > 2)
 				{
-					u32 pindex = atomicAdd(&pairs_len, 1);
-					if (pindex >= MAXPAIRS) break;
-					u16 prev = ht[hr[i]][k];
-					pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+					u32 len = pos[i] - 2;
+					u32 pindex = atomicAdd(&pairs_len, len);
+					len = min(len, MAXPAIRS - pindex);
+					#pragma unroll (SSM - 3)
+					for (int k = 0; k < len; k++)
+					{
+						u32 prev = ht[hr[i]][k + 2];
+						pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+						if (k + 1 >= len) break;
+					}
 				}
 			}
 		}
@@ -1292,8 +1382,8 @@ __global__ void digit_6(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	const u32 plen = umin(pairs_len, MAXPAIRS);
+	for (u32 s = threadid; s < plen; s+= blockDim.x)
 	{
 		u32 pair = pairs[s];
 		u32 i = __byte_perm(pair, 0, 0x4510);
@@ -1328,8 +1418,6 @@ __global__ void digit_7(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 bsize_sh;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -1337,14 +1425,10 @@ __global__ void digit_7(equi<RB, SM>* eq)
 	// reset hashtable len
 	ht_len[threadid] = 0;
 	if (threadid == (NRESTS - 1))
-	{
 		pairs_len = 0;
-		next_pair = 0;
-	}
-	else if (threadid == (NRESTS - 33))
-		bsize_sh = umin(eq->edata.nslots[6][bucketid], NSLOTS);
 
 	slotsmall* buck = eq->treessmall[0][bucketid];
+	const u32 bsize = umin(eq->edata.nslots[6][bucketid], NSLOTS);
 
 	u32 hr[3];
 	int pos[3];
@@ -1355,10 +1439,8 @@ __global__ void digit_7(equi<RB, SM>* eq)
 
 	__syncthreads();
 
-	u32 bsize = bsize_sh;
-
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		si[i] = i * NRESTS + threadid;
 		if (si[i] >= bsize) break;
@@ -1379,13 +1461,13 @@ __global__ void digit_7(equi<RB, SM>* eq)
 	u32 xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			*(uint2*)(&xors[0]) = *(uint2*)(&tt[i].x) ^ *(uint2*)(&lastword[p][0]);
 
@@ -1427,12 +1509,18 @@ __global__ void digit_7(equi<RB, SM>* eq)
 					}
 				}
 
-				for (int k = 2; k != pos[i]; ++k)
+				if (pos[i] > 2)
 				{
-					u32 pindex = atomicAdd(&pairs_len, 1);
-					if (pindex >= MAXPAIRS) break;
-					u16 prev = ht[hr[i]][k];
-					pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+					u32 len = pos[i] - 2;
+					u32 pindex = atomicAdd(&pairs_len, len);
+					len = min(len, MAXPAIRS - pindex);
+					#pragma unroll (SSM - 3)
+					for (int k = 0; k < len; k++)
+					{
+						u32 prev = ht[hr[i]][k + 2];
+						pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+						if (k + 1 >= len) break;
+					}
 				}
 			}
 		}
@@ -1441,8 +1529,8 @@ __global__ void digit_7(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	const u32 plen = umin(pairs_len, MAXPAIRS);
+	for (u32 s = threadid; s < plen; s+= blockDim.x)
 	{
 		int pair = pairs[s];
 		u32 i = __byte_perm(pair, 0, 0x4510);
@@ -1475,8 +1563,6 @@ __global__ void digit_8(equi<RB, SM>* eq)
 	__shared__ int ht_len[NRESTS];
 	__shared__ int pairs[MAXPAIRS];
 	__shared__ u32 pairs_len;
-	__shared__ u32 bsize_sh;
-	__shared__ u32 next_pair;
 
 	const u32 threadid = threadIdx.x;
 	const u32 bucketid = blockIdx.x;
@@ -1484,14 +1570,10 @@ __global__ void digit_8(equi<RB, SM>* eq)
 	// reset hashtable len
 	ht_len[threadid] = 0;
 	if (threadid == (NRESTS - 1))
-	{
-		next_pair = 0;
 		pairs_len = 0;
-	}
-	else if (threadid == (NRESTS - 33))
-		bsize_sh = umin(eq->edata.nslots[7][bucketid], NSLOTS);
 
 	slotsmall* buck = eq->treessmall[1][bucketid];
+	const u32 bsize = umin(eq->edata.nslots[7][bucketid], NSLOTS);
 
 	u32 hr[3];
 	int pos[3];
@@ -1502,10 +1584,8 @@ __global__ void digit_8(equi<RB, SM>* eq)
 
 	__syncthreads();
 
-	u32 bsize = bsize_sh;
-
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		si[i] = i * NRESTS + threadid;
 		if (si[i] >= bsize) break;
@@ -1526,13 +1606,13 @@ __global__ void digit_8(equi<RB, SM>* eq)
 	u32 bexor, xorbucketid, xorslot;
 
 #pragma unroll
-	for (u32 i = 0; i != 3; ++i)
+	for (u32 i = 0; i < 3; ++i)
 	{
 		if (pos[i] >= SSM) continue;
 
 		if (pos[i] > 0)
 		{
-			u16 p = ht[hr[i]][0];
+			u32 p = ht[hr[i]][0];
 
 			*(uint2*)(&xors[0]) = *(uint2*)(&tt[i].x) ^ *(uint2*)(&lastword[p][0]);
 
@@ -1572,12 +1652,18 @@ __global__ void digit_8(equi<RB, SM>* eq)
 					}
 				}
 
-				for (int k = 2; k != pos[i]; ++k)
+				if (pos[i] > 2)
 				{
-					u32 pindex = atomicAdd(&pairs_len, 1);
-					if (pindex >= MAXPAIRS) break;
-					u16 prev = ht[hr[i]][k];
-					pairs[pindex] = __byte_perm(si[i], prev, 0x1054);
+					u32 len = pos[i] - 2;
+					u32 pindex = atomicAdd(&pairs_len, len);
+					len = min(len, MAXPAIRS - pindex);
+					#pragma unroll (SSM - 3)
+					for (int k = 0; k < len; k++)
+					{
+						u32 prev = ht[hr[i]][k + 2];
+						pairs[pindex + k] = __byte_perm(si[i], prev, 0x1054);
+						if (k + 1 >= len) break;
+					}
 				}
 			}
 		}
@@ -1586,8 +1672,8 @@ __global__ void digit_8(equi<RB, SM>* eq)
 	__syncthreads();
 
 	// process pairs
-	u32 plen = umin(pairs_len, MAXPAIRS);
-	for (u32 s = atomicAdd(&next_pair, 1); s < plen; s = atomicAdd(&next_pair, 1))
+	const u32 plen = umin(pairs_len, MAXPAIRS);
+	for (u32 s = threadid; s < plen; s+= blockDim.x)
 	{
 		int pair = pairs[s];
 		u32 i = __byte_perm(pair, 0, 0x4510);
