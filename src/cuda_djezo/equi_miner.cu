@@ -2164,7 +2164,12 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	digit_last_wdc<RB, SM, SSM - 3, 2, PACKER, 64, 8, 4> << <4096, 256 / 2 >> >(device_eq);
 
-	checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (MAXREALSOLS * (512 * 4)) + 4, cudaMemcpyDeviceToHost));
+	u32 nsols;
+	checkCudaErrors(cudaMemcpy(&nsols, &device_eq->edata.srealcont.nsols, sizeof(u32), cudaMemcpyDeviceToHost));
+	if (nsols > 0)
+	{
+		checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (nsols > MAXREALSOLS ? MAXREALSOLS : nsols) * (512 * 4), cudaMemcpyDeviceToHost));
+	}
 
 //	printf("nsols: %u\n", solutions->nsols);
 	//if (solutions->nsols > 9)
