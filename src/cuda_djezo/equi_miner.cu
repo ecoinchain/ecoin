@@ -518,7 +518,7 @@ struct packer_cantor
 
 
 template <u32 RB, u32 SM, typename PACKER>
-__global__ void digit_first(equi<RB, SM>* eq, u32 nonce)
+__global__ void digit_first(equi<RB, SM>* eq)
 {
 	const u32 block = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -2140,20 +2140,11 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	blake_setheader(&initialCtx, tequihash_header, tequihash_header_len, nonce, nonce_len);
 
-	// todo: improve
-	// djezo solver allows last 4 bytes of nonce to be iterrated
-	// this can be used to create internal loop - calc initial blake hash only once, then load 8*8 bytes on device (blake state h)
-	// then just iterate nn++
-	// less CPU load, 1 cudaMemcpy less -> faster
-	//u32 nn = *(u32*)&nonce[28];
-	u32 nn = 0;
-
-
 	checkCudaErrors(cudaMemcpy(&device_eq->blake_ctx, &initialCtx, sizeof(initialCtx), cudaMemcpyHostToDevice));
 
 	checkCudaErrors(cudaMemset(&device_eq->edata, 0, sizeof(device_eq->edata)));
 
-	digit_first<RB, SM, PACKER> << <NBLOCKS / FD_THREADS, FD_THREADS >> >(device_eq, nn);
+	digit_first<RB, SM, PACKER> << <NBLOCKS / FD_THREADS, FD_THREADS >> >(device_eq);
 
 	digit_1<RB, SM, SSM, PACKER, 2 * NRESTS, 512> <<<4096, 512 >>>(device_eq);
 
@@ -2173,7 +2164,12 @@ __host__ bool eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::solve(const char *t
 
 	digit_last_wdc<RB, SM, SSM - 3, 2, PACKER, 64, 8, 4> << <4096, 256 / 2 >> >(device_eq);
 
-	checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (MAXREALSOLS * (512 * 4)) + 4, cudaMemcpyDeviceToHost));
+	u32 nsols;
+	checkCudaErrors(cudaMemcpy(&nsols, &device_eq->edata.srealcont.nsols, sizeof(u32), cudaMemcpyDeviceToHost));
+	if (nsols > 0)
+	{
+		checkCudaErrors(cudaMemcpy(solutions, &device_eq->edata.srealcont, (nsols > MAXREALSOLS ? MAXREALSOLS : nsols) * (512 * 4), cudaMemcpyDeviceToHost));
+	}
 
 //	printf("nsols: %u\n", solutions->nsols);
 	//if (solutions->nsols > 9)

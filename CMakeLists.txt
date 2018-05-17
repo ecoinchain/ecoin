@@ -136,6 +136,9 @@ add_subdirectory(3rd-src/openssl-cmake)
 set(OPENSSL_LIBRARIES crypto_static eay32_static)
 else()
 find_package(OpenSSL REQUIRED)
+
+add_definitions(-DHAVE_DECL_EVP_MD_CTX_NEW)
+
 endif()
 
 if(WIN32)
