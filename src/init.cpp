@@ -168,6 +168,7 @@ void Interrupt()
     InterruptREST();
     InterruptTorControl();
     InterruptMapPort();
+	GenerateBitcoins(false, nullptr, 0);
     if (g_connman)
         g_connman->Interrupt();
 }

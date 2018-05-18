@@ -10,7 +10,7 @@
 #endif
 
 #include <compat/byteswap.h>
-
+#include <boost/endian/conversion.hpp>
 #include <stdint.h>
 
 #if defined(HAVE_ENDIAN_H)
