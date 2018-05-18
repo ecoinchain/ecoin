@@ -2042,6 +2042,7 @@ __host__ eq_cuda_context<RB, SM, SSM, THREADS, PACKER>::eq_cuda_context(int id)
 	: device_id(id)
 {
 	solutions = nullptr;
+	device_eq = nullptr;
 
 	dev_init.lock();
 	if (!dev_init_done[device_id])
