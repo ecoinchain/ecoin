@@ -19,11 +19,11 @@
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
     assert(pindexLast != nullptr);
-    unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
 
     // Only change once per difficulty adjustment interval
     if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
     {
+		unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
         if (params.fPowAllowMinDifficultyBlocks)
         {
             // Special difficulty rule for testnet:
@@ -73,7 +73,22 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
     // Retarget
     auto bnPowLimit = UintToCpp512(params.powLimit);
     arith_uint256 bnNewtmp;
-	bnNewtmp.SetCompact(pindexLast->nBits);
+
+	unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+
+	// Use the last non-special-min-difficulty-rules-block
+	if (pindexLast->nHeight > 51840)
+	{
+		const CBlockIndex* pindex = pindexLast;
+		while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
+			pindex = pindex->pprev;
+			bnNewtmp.SetCompact(pindex->nBits);
+	}
+	else
+	{
+		bnNewtmp.SetCompact(pindexLast->nBits);
+	}
+
 	boost::multiprecision::uint512_t bnNew = UintToCpp512(ArithToUint256(bnNewtmp));
 
 //	bnNew.SetCompact(pindexLast->nBits);
