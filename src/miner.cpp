@@ -723,11 +723,7 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 	}
 	catch (const boost::thread_interrupted&)
 	{
-		solver->stop();
-
-		c.disconnect();
 		LogPrintf("Miner terminated\n");
-		throw;
 	}
 	catch (const std::runtime_error &e)
 	{
@@ -735,6 +731,9 @@ void static Minerthread(std::unique_ptr<ISolver> solver)
 		c.disconnect();
 		LogPrintf("Miner runtime error: %s\n", e.what());
 		std::printf("Miner runtime error: %s\n", e.what());
+
+		std::abort();
+
 		return;
 	}
 
