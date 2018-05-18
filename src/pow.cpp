@@ -72,8 +72,16 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
     // Retarget
     auto bnPowLimit = UintToCpp512(params.powLimit);
+
+	unsigned int nProofOfWorkLimit = UintToArith256(params.powLimit).GetCompact();
+
     arith_uint256 bnNewtmp;
-	bnNewtmp.SetCompact(pindexLast->nBits);
+
+	const CBlockIndex* pindex = pindexLast;
+	while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
+		pindex = pindex->pprev;
+		bnNewtmp.SetCompact(pindex->nBits);
+
 	boost::multiprecision::uint512_t bnNew = UintToCpp512(ArithToUint256(bnNewtmp));
 
 //	bnNew.SetCompact(pindexLast->nBits);
