@@ -85,10 +85,17 @@ unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nF
 
     arith_uint256 bnNewtmp;
 
-	const CBlockIndex* pindex = pindexLast;
-	while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
-		pindex = pindex->pprev;
-		bnNewtmp.SetCompact(pindex->nBits);
+    if (pindexLast->nHeight > 576)
+	{
+        const CBlockIndex* pindex = pindexLast;
+        while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
+            pindex = pindex->pprev;
+        bnNewtmp.SetCompact(pindex->nBits);
+    }
+	else
+	{
+        bnNewtmp.SetCompact(pindexLast->nBits);
+    }
 
 	boost::multiprecision::uint512_t bnNew = UintToCpp512(ArithToUint256(bnNewtmp));
 
