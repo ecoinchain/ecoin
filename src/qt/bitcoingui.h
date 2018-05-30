@@ -11,6 +11,7 @@
 
 #include <amount.h>
 
+#include <QPointer>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMap>
@@ -21,6 +22,7 @@
 #include <QScopedPointerDeleteLater>
 #include <QMovie>
 
+class MinerSetup;
 class ClientModel;
 class NetworkStyle;
 class Notificator;
@@ -120,6 +122,7 @@ private:
     QAction *showHelpMessageAction = nullptr;
 	QAction *usedSendingAddressesAction = nullptr;
 	QAction *usedReceivingAddressesAction  = nullptr;
+	QPointer<MinerSetup> minerui;
 
     menubar *appMenuBar = nullptr;
 
@@ -259,6 +262,8 @@ private Q_SLOTS:
 	void toolbartoggle_ui_style(IconedAction* sender, bool);
 
     void changeDatadir();
+
+	void openMiner();
 };
 
 class UnitDisplayStatusBarControl : public QLabel

@@ -168,7 +168,11 @@ void Interrupt()
     InterruptREST();
     InterruptTorControl();
     InterruptMapPort();
+#ifdef ENABLE_WALLET
 	GenerateBitcoins(false, nullptr, 0);
+#else
+	GenerateBitcoins(false, 0);
+#endif
     if (g_connman)
         g_connman->Interrupt();
 }

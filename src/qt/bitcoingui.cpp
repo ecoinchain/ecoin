@@ -23,6 +23,8 @@
 #include "qt/widgets/iconedaction.h"
 #include "qt/widgets/overlaydialogembeder.h"
 
+#include "minersetup.h"
+
 #ifdef ENABLE_WALLET
 #include <qt/walletframe.h>
 #include <qt/walletmodel.h>
@@ -384,6 +386,7 @@ void BitcoinGUI::createActions()
         connect(usedSendingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedSendingAddresses()));
         connect(usedReceivingAddressesAction, SIGNAL(triggered()), walletFrame, SLOT(usedReceivingAddresses()));
         connect(openAction, SIGNAL(triggered()), this, SLOT(openClicked()));
+		connect(openMinerAction, SIGNAL(triggered()), this, SLOT(openMiner()));
     }
 #endif // ENABLE_WALLET
 
@@ -1309,6 +1312,20 @@ void BitcoinGUI::changeDatadir()
     QApplication::instance()->setProperty("dorestart", true);
     quitAction->trigger();
     return;
+}
+
+void BitcoinGUI::openMiner()
+{
+	if (minerui)
+	{
+		minerui->show();
+	}
+	else
+	{
+		minerui = new MinerSetup(platformStyle);
+
+		minerui->show();
+	}
 }
 
 static bool ThreadSafeMessageBox(BitcoinGUI *gui, const std::string& message, const std::string& caption, unsigned int style)
