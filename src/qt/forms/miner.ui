@@ -41,7 +41,7 @@ QLabel {
 
 </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3" columnstretch="1,1">
+  <layout class="QGridLayout" name="mainLayout" columnstretch="1,1">
    <property name="leftMargin">
     <number>20</number>
    </property>
@@ -131,7 +131,7 @@ QLabel {
     </layout>
    </item>
    <item row="0" column="1">
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="cpu_select_group">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -141,22 +141,7 @@ QLabel {
      <property name="title">
       <string>Mining With this Device</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>CPU0</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QCheckBox" name="checkBox_3">
-        <property name="text">
-         <string>CPU2</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <layout class="QGridLayout" name="cpu_select_group_layout"/>
     </widget>
    </item>
    <item row="1" column="1">

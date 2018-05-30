@@ -2,6 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#include <thread>
+#include <QCheckBox>
 #include <qt/forms/ui_miner.h>
 
 #include <qt/platformstyle.h>
@@ -18,6 +20,19 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
 	double iconscale = logicalDpiX() / 96.0;
 #endif
 	ui->setupUi(this);
+
+	// fill CPU{id} checkbox.
+	int number_of_cpus = std::thread::hardware_concurrency();
+
+	for (int i = 0; i < number_of_cpus; i++)
+	{
+		auto checkbox = new QCheckBox(ui->cpu_select_group);
+
+		checkbox->setText(QString("CPU%1").arg(i));
+
+		ui->cpu_select_group_layout->addWidget(checkbox, i/2 , i%2, 1, 1);
+	}
+
 }
 
 MinerSetup::~MinerSetup()
