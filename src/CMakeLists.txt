@@ -141,32 +141,12 @@ if (HAVE_DECL_BSWAP_64)
 	add_definitions(-DHAVE_DECL_BSWAP_64)
 endif()
 
-## Add solvers here
-add_definitions(-DUSE_CPU_TROMP)
-message("-- USE_CPU_TROMP DEFINED")
-
-add_subdirectory(cpu_tromp)
-
-option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
-
-option(USE_OCL_SILENTARMY "use opencl solver" OFF)
-
-if(USE_CUDA_DJEZO)
-add_definitions(-DUSE_CUDA_DJEZO)
-message("-- USE_CUDA_DJEZO DEFINED")
-add_subdirectory(cuda_djezo)
-endif()
-
-if(USE_OCL_SILENTARMY)
-add_definitions(-DUSE_OCL_SILENTARMY)
-message("-- USE_OCL_SILENTARMY DEFINED")
-add_subdirectory(ocl_silentarmy)
-endif()
-
 add_subdirectory(leveldb EXCLUDE_FROM_ALL)
 add_subdirectory(univalue)
 add_subdirectory(secp256k1)
 add_subdirectory(ed25519)
+
+add_subdirectory(libminer)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -204,7 +184,6 @@ add_library(concore_crypto STATIC   crypto/aes.cpp
   crypto/sha3_256.h
   crypto/sha512.cpp
   crypto/sha512.h
-  blake2/blake2bx.cpp
 )
 
 add_library(coincore STATIC
@@ -229,7 +208,7 @@ add_library(coincore STATIC
   warnings.cpp
 
 
-    amount.h
+  amount.h
   arith_uint256.cpp
   arith_uint256.h
   consensus/merkle.cpp
@@ -279,8 +258,6 @@ add_library(coincore STATIC
   utiltime.cpp
 
   rpc/client.cpp
-
-  MinerFactory.cpp
 
   addrdb.cpp
   addrman.cpp
@@ -336,14 +313,7 @@ else()
 endif()
 
 # link libs
-target_link_libraries(coincore cpu_tromp)
-if(USE_CUDA_DJEZO)
-target_link_libraries(coincore cuda_djezo)
-endif()
-
-if(USE_OCL_SILENTARMY)
-target_link_libraries(coincore ocl_silentarmy)
-endif()
+target_link_libraries(coincore libminer)
 
 add_subdirectory(wallet)
 add_subdirectory(qt)

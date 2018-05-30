@@ -17,7 +17,7 @@
 #include <QMenu>
 #include <QPoint>
 #include <QSystemTrayIcon>
-#include <QScopedPointer> 
+#include <QScopedPointer>
 #include <QScopedPointerDeleteLater>
 #include <QMovie>
 
@@ -116,6 +116,7 @@ private:
     QAction *aboutQtAction = nullptr;
     QAction *openRPCConsoleAction = nullptr;
     QAction *openAction = nullptr;
+	QAction *openMinerAction = nullptr;
     QAction *showHelpMessageAction = nullptr;
 	QAction *usedSendingAddressesAction = nullptr;
 	QAction *usedReceivingAddressesAction  = nullptr;
@@ -188,7 +189,7 @@ public Q_SLOTS:
 
     /** Set the hd-enabled status as shown in the UI.
      @param[in] status            current hd enabled status
-    
+
      @see WalletModel::EncryptionStatus
      */
     void setHDStatus(int hdEnabled);
@@ -256,7 +257,7 @@ private Q_SLOTS:
     void showModalOverlay();
 
 	void toolbartoggle_ui_style(IconedAction* sender, bool);
-    
+
     void changeDatadir();
 };
 

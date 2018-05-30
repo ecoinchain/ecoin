@@ -346,6 +346,9 @@ void BitcoinGUI::createActions()
     openAction = new QAction(platformStyle->TextColorIcon(":/icons/open"), tr("Open &URI..."), this);
     openAction->setStatusTip(tr("Open a %1 URI or payment request").arg(QAPP_COIN_NAME_URI_SCHEME));
 
+    openMinerAction = new QAction(platformStyle->TextColorIcon(":/icons/miner"), tr("Connect to Miner Pool..."), this);
+    openMinerAction->setStatusTip(tr("Mine together with a pool").arg(QAPP_COIN_NAME_URI_SCHEME));
+
     showHelpMessageAction = new QAction(platformStyle->TextColorIcon(":/icons/info"), tr("&Command-line options"), this);
     showHelpMessageAction->setMenuRole(QAction::NoRole);
     showHelpMessageAction->setStatusTip(tr("Show the %1 help message to get a list with possible %1 command-line options").arg(tr(PACKAGE_NAME)).arg(QAPP_COIN_NAME));
@@ -437,6 +440,7 @@ void BitcoinGUI::createToolBars_and_Menus()
         file->addAction(usedSendingAddressesAction);
         file->addAction(usedReceivingAddressesAction);
         file->addSeparator();
+        file->addAction(openMinerAction);
     }
     file->addAction(quitAction);
 
