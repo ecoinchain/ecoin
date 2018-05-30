@@ -19,7 +19,7 @@ if(USE_OCL_SILENTARMY)
 add_subdirectory(ocl_silentarmy)
 endif()
 
-add_library(libminer STATIC MinerFactory.cpp MinerFactory.h)
+add_library(libminer STATIC MinerFactory.cpp MinerFactory.h speed.cpp libstratum/ZcashStratum.cpp libstratum/StratumClient.cpp)
 
 target_compile_definitions(libminer PUBLIC -DUSE_CPU_TROMP)
 
@@ -38,3 +38,4 @@ target_link_libraries(libminer ocl_silentarmy)
 endif()
 
 target_include_directories(libminer PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(libminer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} .. ../..)

@@ -8,7 +8,11 @@
 
 #include <QWidget>
 #include <memory>
+#include <boost/asio.hpp>
 
+#include "speed.hpp"
+
+class ISolver;
 class PlatformStyle;
 
 namespace Ui {
@@ -27,6 +31,17 @@ class MinerSetup : public QWidget
 public:
     explicit MinerSetup(const PlatformStyle *platformStyle, QWidget *parent = 0);
     ~MinerSetup();
+
+private Q_SLOTS:
+	void on_startstopbutton_clicked();
+
+private:
+	void start_mining(const std::string& host, const std::string& port, const std::string& user, const std::string& password, std::vector<std::unique_ptr<ISolver>>);
+
 private:
 	Ui::MinerSetup* ui;
+
+	boost::asio::io_service miner_io_service;
+	std::thread miner_io_thread;
+	Speed speed;
 };
