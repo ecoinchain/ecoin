@@ -7,6 +7,7 @@
 #include <amount.h>
 
 #include <QWidget>
+#include <QTimer>
 #include <memory>
 #include <boost/asio.hpp>
 
@@ -33,10 +34,13 @@ public:
     ~MinerSetup();
 
 private Q_SLOTS:
-	void on_startstopbutton_clicked();
+	void on_startbutton_clicked();
+	void on_stopbutton_clicked();
+
+	void timer_interrupt();
 
 private:
-	void start_mining(const std::string& host, const std::string& port, const std::string& user, const std::string& password, std::vector<std::unique_ptr<ISolver>>);
+	void start_mining(std::string host, std::string port, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
 
 private:
 	Ui::MinerSetup* ui;
@@ -44,4 +48,6 @@ private:
 	boost::asio::io_service miner_io_service;
 	std::thread miner_io_thread;
 	Speed speed;
+
+	QTimer ui_update_timer;
 };

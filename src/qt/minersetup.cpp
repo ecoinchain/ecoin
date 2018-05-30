@@ -11,13 +11,16 @@
 
 #include <QCheckBox>
 #include <qt/forms/ui_miner.h>
-
 #include <qt/platformstyle.h>
 
 #include "MinerFactory.h"
 
+#include "wallet/wallet.h"
+#include "key_io.h"
+
 #include "libstratum/ZcashStratum.h"
 #include "libstratum/StratumClient.h"
+#include "validation.h"
 
 MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
 	: QWidget(parent)
@@ -31,6 +34,8 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
 #endif
 	ui->setupUi(this);
 
+	ui->stopbutton->hide();
+
 	// fill CPU{id} checkbox.
 	int number_of_cpus = std::thread::hardware_concurrency();
 
@@ -43,6 +48,26 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
 		ui->cpu_select_group_layout->addWidget(checkbox, i/2 , i%2, 1, 1);
 	}
 
+	CWallet *pwallet = ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
+
+    LOCK2(cs_main, pwallet->cs_wallet);
+
+    // Generate a new key that is added to wallet
+    CPubKey newKey;
+    if (!pwallet->GetKeyFromPool(newKey)) {
+        // TODO. return;
+    }
+    pwallet->LearnRelatedScripts(newKey, OUTPUT_TYPE_DEFAULT);
+    CTxDestination dest = GetDestinationForKey(newKey, OUTPUT_TYPE_DEFAULT);
+
+    pwallet->SetAddressBook(dest, "mining_receive_address", "pool_mining");
+
+    ui->username->setCurrentText(QString::fromStdString(EncodeDestination(dest)));
+
+	ui_update_timer.setInterval(std::chrono::milliseconds(500));
+
+	connect(&ui_update_timer, SIGNAL(timeout()), this, SLOT(timer_interrupt()));
+	ui_update_timer.start();
 }
 
 MinerSetup::~MinerSetup()
@@ -52,45 +77,40 @@ MinerSetup::~MinerSetup()
     delete ui;
 }
 
-void MinerSetup::start_mining(const std::string& host, const std::string& port,
-	const std::string& user, const std::string& password, std::vector<std::unique_ptr<ISolver>> i_solvers)
+void MinerSetup::start_mining(std::string host, std::string port,
+	std::string user, std::string password, std::vector<std::unique_ptr<ISolver>> i_solvers)
 {
-	std::shared_ptr<boost::asio::io_service> io_service(new boost::asio::io_service);
+	miner_io_service.reset();
 
 	ZcashMiner miner(&speed, std::move(i_solvers));
 	ZcashStratumClient sc{
-		io_service, &miner, host, port, user, password, 0, 0
+		miner_io_service, &miner, host, port, user, password, 0, 0
 	};
 
 	miner.onSolutionFound([&](const EquihashSolution& solution, const std::string& jobid) {
 		return sc.submit(&solution, jobid);
 	});
 
-//	signal(SIGINT, stratum_sigint_handler);
+	miner_io_service.run();
 
-	int c = 0;
-	while (sc.isRunning()) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		if (++c % 1000 == 0)
-		{
-			double allshares = speed.GetShareSpeed() * 60;
-			double accepted = speed.GetShareOKSpeed() * 60;
-			std::cout << "Speed [" << INTERVAL_SECONDS << " sec]: " <<
-				speed.GetHashSpeed() << " I/s, " <<
-				speed.GetSolutionSpeed() << " Sols/s" <<
-				//accepted << " AS/min, " <<
-				//(allshares - accepted) << " RS/min"
-				CL_N << std::endl;
-		}
-	}
+	miner.stop();
 }
 
-void MinerSetup::on_startstopbutton_clicked()
+void MinerSetup::timer_interrupt()
 {
-	int num_threads = 0;
+	double allshares = speed.GetShareSpeed() * 60;
 
-	std::string user;
+	ui->hashrate->setText(QString("%1/s").arg(speed.GetSolutionSpeed()));
+	ui->acceptedshare->setText(QString("%1/min").arg(allshares));
+}
+
+void MinerSetup::on_startbutton_clicked()
+{
+	int num_threads = 8;
+
+	std::string user = ui->username->currentText().toStdString();
 	std::string location = "47.97.167.150:3333";
+	location = "192.168.0.110:3333";
 	// start miner.
 	if (user.length() == 0)
 	{
@@ -101,6 +121,9 @@ void MinerSetup::on_startstopbutton_clicked()
 	size_t delim = location.find(':');
 	std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
 	std::string port = delim != std::string::npos ? location.substr(delim + 1) : "2142";
+
+	if (this->miner_io_thread.joinable())
+		this->miner_io_thread.join();
 
 	this->miner_io_thread = std::thread([this, num_threads, user, host, port](){
 
@@ -117,4 +140,18 @@ void MinerSetup::on_startstopbutton_clicked()
 			_MinerFactory->GenerateSolvers(num_threads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks.data(),
 			cuda_tpb.data(), opencl_enabled.size(), 0, opencl_enabled.data()));
 	});
+
+	ui->startbutton->hide();
+	ui->stopbutton->show();
+}
+
+void MinerSetup::on_stopbutton_clicked()
+{
+	miner_io_service.stop();
+
+	if (this->miner_io_thread.joinable())
+		this->miner_io_thread.join();
+
+	ui->stopbutton->hide();
+	ui->startbutton->show();
 }

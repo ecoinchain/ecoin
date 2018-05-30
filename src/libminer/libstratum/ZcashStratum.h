@@ -80,7 +80,7 @@ typedef boost::signals2::signal<void (std::shared_ptr<ZcashJob>)> NewJob_t;
 class ZcashMiner
 {
     int nThreads;
-	std::thread* minerThreads;
+	std::vector<std::thread> minerThreads;
     //boost::thread_group* minerThreads;
     uint256 nonce1;
     size_t nonce1Size;
@@ -95,7 +95,7 @@ class ZcashMiner
 
 public:
     NewJob_t NewJob;
-	bool* minerThreadActive;
+	std::vector<bool> minerThreadActive;
 
 	ZcashMiner(Speed*, std::vector<std::unique_ptr<ISolver>> &&i_solvers);
 	~ZcashMiner();

@@ -18,14 +18,13 @@ using namespace json_spirit;
 
 template <typename Miner, typename Job, typename Solution>
 StratumClient<Miner, Job, Solution>::StratumClient(
-		std::shared_ptr<boost::asio::io_service> io_s, Miner * m,
+		boost::asio::io_service& io_s, Miner * m,
         string const & host, string const & port,
         string const & user, string const & pass,
         int const & retries, int const & worktimeout)
-    : m_socket(*io_s)
+    : m_io_service(io_s)
+	, m_socket(m_io_service)
 {
-	m_io_service = io_s;
-
     m_primary.host = host;
     m_primary.port = port;
     m_primary.user = user;
@@ -64,96 +63,142 @@ void StratumClient<Miner, Job, Solution>::setFailover(
 template <typename Miner, typename Job, typename Solution>
 void StratumClient<Miner, Job, Solution>::startWorking()
 {
-    m_work.reset(new std::thread([&]() {
-        this->workLoop();
-    }));
+	m_io_work.reset(new boost::asio::io_service::work(m_io_service));
+
+	this->workLoop(boost::system::error_code(), boost::asio::coroutine());
 }
 
 template <typename Miner, typename Job, typename Solution>
-void StratumClient<Miner, Job, Solution>::workLoop()
+void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec, boost::asio::coroutine coro)
 {
-	if (!p_miner->isMining()) {
-		LogPrintf("Starting miner");
-		p_miner->start();
+	if (ec)
+	{
+		std::cerr << ec.message() << std::endl;
+		p_current.reset();
+		m_reconnect_delay = 30;
+		reconnect();
 	}
 
-    while (m_running) {
-        try {
-            if (!m_connected) {
-                //m_io_service.run();
-                //boost::thread t(boost::bind(&boost::asio::io_service::run, &m_io_service));
-                connect();
+	BOOST_ASIO_CORO_REENTER(coro)
+	{
+		if (!p_miner->isMining()) {
+			LogPrintf("Starting miner");
+			p_miner->start();
+		}
 
-            }
-            read_until(m_socket, m_responseBuffer, "\n");
-            std::istream is(&m_responseBuffer);
-            std::string response;
-            getline(is, response);
+		BOOST_ASIO_CORO_YIELD this->async_connect(boost::bind(&StratumClient<Miner, Job, Solution>::workLoop, this, _1, coro));
 
-            if (!response.empty() && response.front() == '{' && response.back() == '}') {
-                Value valResponse;
-				std::cerr << response << std::endl;
-                if (read_string(response, valResponse) && valResponse.type() == obj_type) {
-                    const Object& responseObject = valResponse.get_obj();
-                    if (!responseObject.empty()) {
-                        processReponse(responseObject);
-                        m_response = response;
-                    } else {
-                        //LogS("[WARN] Response was empty\n");
-                    }
-                } else {
-                    //LogS("[WARN] Parse response failed\n");
-                }
-            } else {
-                //LogS("[WARN] Discarding incomplete response\n");
-            }
-        } catch (std::exception const& _e) {
-			std::cerr << _e.what() << std::endl;
-			p_current.reset();
-			m_reconnect_delay = 30;
-            reconnect();
-        }
-    }
-}
-
-
-template <typename Miner, typename Job, typename Solution>
-void StratumClient<Miner, Job, Solution>::connect()
-{
-	LogPrintf("Connecting to stratum server %s:%s", p_active->host, p_active->port);
-
-    tcp::resolver r(*m_io_service);
-    tcp::resolver::query q(p_active->host, p_active->port);
-    tcp::resolver::iterator endpoint_iterator = r.resolve(q);
-    tcp::resolver::iterator end;
-
-    boost::system::error_code error = boost::asio::error::host_not_found;
-    while (error && endpoint_iterator != end) {
-        m_socket.close();
-        m_socket.connect(*endpoint_iterator++, error);
-    }
-    if (error) {
-		LogPrintf("Could not connect to stratum server %s:%s, %s ", p_active->host, p_active->port, error.message());
-        reconnect();
-    } else {
-		LogPrintf("Connected!");
-		m_connected = true;
-		m_retries = 0;
-		m_socket.set_option(boost::asio::socket_base::keep_alive(true));
-		m_socket.set_option(boost::asio::ip::tcp::no_delay(true));
-		std::stringstream ss;
-		ss << "{\"id\":1,\"method\":\"mining.subscribe\",\"params\":[\""
+		{
+			m_connected = true;
+			m_retries = 0;
+			m_socket.set_option(boost::asio::socket_base::keep_alive(true));
+			m_socket.set_option(boost::asio::ip::tcp::no_delay(true));
+			std::stringstream ss;
+			ss << "{\"id\":1,\"method\":\"mining.subscribe\",\"params\":[\""
 			<< p_miner->userAgent() << "\", null,\""
 			<< p_active->host << "\",\""
 			<< p_active->port << "\"]}\n";
-		std::string sss = ss.str();
-        std::ostream os(&m_requestBuffer);
-		os << sss;
+			std::string sss = ss.str();
+			std::ostream os(&m_requestBuffer);
+			os << sss;
 
-		write(m_socket, m_requestBuffer);
+			write(m_socket, m_requestBuffer);
 
-		m_share_id = 4;
-    }
+			m_share_id = 4;
+		}
+
+		while (m_running)
+		{
+			{
+				BOOST_ASIO_CORO_YIELD async_read_until(m_socket, m_responseBuffer, "\n", boost::bind(&StratumClient::workLoop, this, _1, coro));
+			}
+
+			{
+
+				std::istream is(&m_responseBuffer);
+				std::string response;
+				getline(is, response);
+
+				if (!response.empty() && response.front() == '{' && response.back() == '}')
+				{
+					Value valResponse;
+					std::cerr << response << std::endl;
+					if (read_string(response, valResponse) && valResponse.type() == obj_type)
+					{
+						const Object& responseObject = valResponse.get_obj();
+						if (!responseObject.empty())
+						{
+							processReponse(responseObject);
+							m_response = response;
+						}
+						else
+						{
+							//LogS("[WARN] Response was empty\n");
+						}
+					}
+					else
+					{
+						//LogS("[WARN] Parse response failed\n");
+					}
+				}
+				else
+				{
+					//LogS("[WARN] Discarding incomplete response\n");
+				}
+			}
+		}
+	}
+}
+
+template<typename Handler>
+struct connect_op : boost::asio::coroutine
+{
+	connect_op(tcp::socket& socket, std::string host, std::string port, Handler handler)
+		: _socket(socket)
+		, m_handler(handler)
+		, q(host, port)
+	{
+		r.reset(new tcp::resolver(socket.get_io_context()));
+	}
+
+
+	void operator()(boost::system::error_code ec = boost::system::error_code(), tcp::resolver::iterator endpoint_iterator = tcp::resolver::iterator())
+	{
+		if (ec)
+		{
+			LogPrintf("Could not connect to stratum server %s ", ec.message());
+			m_handler(ec);
+			return;
+		}
+
+		BOOST_ASIO_CORO_REENTER(this)
+		{
+			BOOST_ASIO_CORO_YIELD r->async_resolve(q, *this);
+
+			BOOST_ASIO_CORO_YIELD boost::asio::async_connect(_socket, endpoint_iterator, tcp::resolver::iterator(), *this);
+
+
+			LogPrintf("Connected!");
+
+			m_handler(ec);
+		}
+	}
+
+	tcp::socket& _socket;
+
+	std::shared_ptr<tcp::resolver> r;
+	tcp::resolver::query q;
+
+	Handler m_handler;
+};
+
+template <typename Miner, typename Job, typename Solution>
+template <typename Handler>
+void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
+{
+	LogPrintf("Connecting to stratum server %s:%s", p_active->host, p_active->port);
+
+	connect_op<Handler>(this->m_socket, p_active->host, p_active->port, handler)();
 }
 
 template <typename Miner, typename Job, typename Solution>
@@ -187,7 +232,7 @@ void StratumClient<Miner, Job, Solution>::reconnect()
     }
 
     LogPrintf("Reconnecting in 3 seconds...");
-    boost::asio::deadline_timer timer(*m_io_service, boost::posix_time::microseconds(m_reconnect_delay));
+    boost::asio::deadline_timer timer(m_io_service, boost::posix_time::microseconds(m_reconnect_delay));
 	m_reconnect_delay = 3000;
     timer.wait();
 }
@@ -205,11 +250,7 @@ void StratumClient<Miner, Job, Solution>::disconnect()
         p_miner->stop();
     }
     m_socket.close();
-    //m_io_service.stop();
-    if (m_work) {
-        m_work->join();
-        m_work.reset();
-    }
+	m_io_work.reset();
 }
 
 template <typename Miner, typename Job, typename Solution>

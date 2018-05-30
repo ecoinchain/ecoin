@@ -293,8 +293,7 @@ std::string ZcashJob::getSubmission(const EquihashSolution* solution)
 
 
 ZcashMiner::ZcashMiner(Speed* speed, std::vector<std::unique_ptr<ISolver>> && i_solvers)
-	: minerThreads{ nullptr }
-	, speed(speed)
+	: speed(speed)
 	, solvers(std::move(i_solvers))
 {
 	m_isActive = false;
@@ -315,14 +314,14 @@ std::string ZcashMiner::userAgent()
 
 void ZcashMiner::start()
 {
-    if (minerThreads) {
+    if (!minerThreads.empty()) {
         stop();
     }
 
 	m_isActive = true;
 
-	minerThreads = new std::thread[nThreads];
-	minerThreadActive = new bool[nThreads];
+	minerThreads.resize(nThreads);
+	minerThreadActive.resize(nThreads);
 
 	// start solvers
 	// #1 start cpu threads
@@ -340,21 +339,16 @@ void ZcashMiner::start()
 void ZcashMiner::stop()
 {
 	m_isActive = false;
-	if (minerThreads)
+	if (!minerThreads.empty())
 	{
 		for (int i = 0; i < nThreads; i++)
 			minerThreadActive[i] = false;
 		for (int i = 0; i < nThreads; i++)
-			minerThreads[i].join();
-		delete minerThreads;
-		minerThreads = nullptr;
-		delete minerThreadActive;
+		{
+			if (minerThreads[i].joinable())
+				minerThreads[i].join();
+		}
 	}
-    /*if (minerThreads) {
-        minerThreads->interrupt_all();
-        delete minerThreads;
-        minerThreads = nullptr;
-    }*/
 }
 
 

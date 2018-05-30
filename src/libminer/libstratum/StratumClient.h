@@ -98,7 +98,7 @@ template <typename Miner, typename Job, typename Solution>
 class StratumClient
 {
 public:
-	StratumClient(std::shared_ptr<boost::asio::io_service> io_s, Miner * m,
+	StratumClient(boost::asio::io_service& io_s, Miner * m,
                   string const & host, string const & port,
                   string const & user, string const & pass,
                   int const & retries, int const & worktimeout);
@@ -117,8 +117,10 @@ public:
 
 private:
     void startWorking();
-    void workLoop();
-    void connect();
+    void workLoop(boost::system::error_code ec, boost::asio::coroutine);
+
+	template<typename Handler>
+    void async_connect(Handler handler);
 
     void work_timeout_handler(const boost::system::error_code& ec);
 
@@ -145,9 +147,9 @@ private:
 
     bool m_stale = false;
 
-    std::unique_ptr<std::thread> m_work;
+	std::unique_ptr<boost::asio::io_service::work> m_io_work;
 
-    std::shared_ptr<boost::asio::io_service> m_io_service;
+    boost::asio::io_service& m_io_service;
     tcp::socket m_socket;
 
     boost::asio::streambuf m_requestBuffer;

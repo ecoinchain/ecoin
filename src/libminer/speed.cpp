@@ -6,45 +6,51 @@
 #include "speed.hpp"
 
 
-Speed::Speed(int interval) 
-	: m_interval(interval), m_start(std::chrono::high_resolution_clock::now()) {}
-Speed::~Speed() { }
+Speed::Speed(int interval)
+	: m_interval(interval)
+	, m_buffer_hashes(interval * 10000)
+	, m_buffer_solutions(interval * 10000)
+	, m_buffer_shares(interval * 10000)
+	, m_buffer_shares_ok(interval * 10000)
+{
+}
 
-void Speed::Add(std::vector<time_point>& buffer, std::mutex& mutex)
+Speed::~Speed()
+{
+}
+
+void Speed::Add(boost::circular_buffer<time_point>& buffer, std::mutex& mutex)
 {
 	mutex.lock();
 	buffer.push_back(std::chrono::high_resolution_clock::now());
 	mutex.unlock();
 }
 
-double Speed::Get(std::vector<time_point>& buffer, std::mutex& mutex)
+double Speed::Get(boost::circular_buffer<time_point>& buffer, std::mutex& mutex)
 {
 	time_point now = std::chrono::high_resolution_clock::now();
 	time_point past = now - std::chrono::seconds(m_interval);
 	double interval = (double)m_interval;
-	if (past < m_start)
-	{
-		interval = ((double)std::chrono::duration_cast<std::chrono::milliseconds>(now - m_start).count()) / 1000;
-		past = m_start;
-	}
+
 	size_t total = 0;
 
-	mutex.lock();
-	for (std::vector<time_point>::iterator it = buffer.begin(); it != buffer.end();)
+	std::unique_lock<std::mutex> l(mutex);
+
+	if (buffer.size() > 1)
 	{
-		if ((*it) < past)
+		for (int i =0; i < buffer.size(); i++)
 		{
-			it = buffer.erase(it);
-		}
-		else
-		{
-			++total;
-			++it;
+			if (buffer[i] > past)
+			{
+				total = buffer.size() - i;
+
+				interval = ((double)std::chrono::duration_cast<std::chrono::milliseconds>(now - buffer[i]).count()) / 1000;
+
+				return (double)total / interval;
+			}
 		}
 	}
-	mutex.unlock();
-
-	return (double)total / (double)interval;
+	return 0.0;
 }
 
 void Speed::AddHash()
@@ -105,8 +111,6 @@ void Speed::Reset()
 	m_mutex_shares_ok.lock();
 	m_buffer_shares_ok.clear();
 	m_mutex_shares_ok.unlock();
-
-	m_start = std::chrono::high_resolution_clock::now();
 }
 
 
