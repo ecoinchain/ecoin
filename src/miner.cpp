@@ -35,6 +35,7 @@
 #include <boost/thread.hpp>
 #include "ISolver.h"
 #include "MinerFactory.h"
+#include "ui_interface.h"
 
 // Unconfirmed transactions in the memory pool often depend on other
 // transactions in the memory pool. When we select transactions from the

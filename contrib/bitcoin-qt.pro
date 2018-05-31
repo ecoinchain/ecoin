@@ -20,7 +20,8 @@ FORMS += \
     ../src/qt/forms/splashscreen.ui \
     ../src/qt/forms/transactiondescdialog.ui \
     ../src/qt/forms/transactionview.ui \
-    ../src/qt/forms/menubar.ui
+    ../src/qt/forms/menubar.ui \
+    ../src/qt/forms/miner.ui
 
 RESOURCES += \
     ../src/qt/bitcoin.qrc

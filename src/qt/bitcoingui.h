@@ -11,16 +11,18 @@
 
 #include <amount.h>
 
+#include <QPointer>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMap>
 #include <QMenu>
 #include <QPoint>
 #include <QSystemTrayIcon>
-#include <QScopedPointer> 
+#include <QScopedPointer>
 #include <QScopedPointerDeleteLater>
 #include <QMovie>
 
+class MinerSetup;
 class ClientModel;
 class NetworkStyle;
 class Notificator;
@@ -116,9 +118,11 @@ private:
     QAction *aboutQtAction = nullptr;
     QAction *openRPCConsoleAction = nullptr;
     QAction *openAction = nullptr;
+	QAction *openMinerAction = nullptr;
     QAction *showHelpMessageAction = nullptr;
 	QAction *usedSendingAddressesAction = nullptr;
 	QAction *usedReceivingAddressesAction  = nullptr;
+	QPointer<MinerSetup> minerui;
 
     menubar *appMenuBar = nullptr;
 
@@ -188,7 +192,7 @@ public Q_SLOTS:
 
     /** Set the hd-enabled status as shown in the UI.
      @param[in] status            current hd enabled status
-    
+
      @see WalletModel::EncryptionStatus
      */
     void setHDStatus(int hdEnabled);
@@ -256,8 +260,10 @@ private Q_SLOTS:
     void showModalOverlay();
 
 	void toolbartoggle_ui_style(IconedAction* sender, bool);
-    
+
     void changeDatadir();
+
+	void openMiner();
 };
 
 class UnitDisplayStatusBarControl : public QLabel
