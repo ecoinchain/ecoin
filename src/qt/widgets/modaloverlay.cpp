@@ -32,20 +32,47 @@ bool ModalOverlay::eventFilter(QObject * obj, QEvent * ev) {
         else if (ev->type() == QEvent::ChildAdded) {
 			raise();
 		}
-    }
+	}
+
+	if (ev->type() == QEvent::KeyPress)
+	{
+		QKeyEvent * keyevent = static_cast<QKeyEvent*>(ev);
+
+		if (keyevent->key() == Qt::Key_Escape)
+		{
+			close();
+			deleteLater();
+			return true;
+		}
+	}
     return QWidget::eventFilter(obj, ev);
 }
 
 //! Tracks parent widget changes
-bool ModalOverlay::event(QEvent* ev) {
-    if (ev->type() == QEvent::ParentAboutToChange) {
-        if (parent()) parent()->removeEventFilter(this);
-    }
-    else if (ev->type() == QEvent::ParentChange) {
-        if (parent()) {
-            parent()->installEventFilter(this);
-            raise();
-        }
-    }
-    return QWidget::event(ev);
+bool ModalOverlay::event(QEvent* ev)
+{
+	if (ev->type() == QEvent::ParentAboutToChange)
+	{
+		if (parent()) parent()->removeEventFilter(this);
+	}
+	else if (ev->type() == QEvent::ParentChange)
+	{
+		if (parent())
+		{
+			parent()->installEventFilter(this);
+			raise();
+		}
+	}
+	else if (ev->type() == QEvent::KeyPress)
+	{
+		QKeyEvent * keyevent = static_cast<QKeyEvent*>(ev);
+
+		if (keyevent->key() == Qt::Key_Escape)
+		{
+			close();
+			deleteLater();
+			return true;
+		}
+	}
+	return QWidget::event(ev);
 }
