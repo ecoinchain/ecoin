@@ -110,7 +110,7 @@ void MinerSetup::on_startbutton_clicked()
 
 	std::string user = ui->username->currentText().toStdString();
 	std::string location = "47.97.167.150:3333";
-	location = "192.168.0.110:3333";
+
 	// start miner.
 	if (user.length() == 0)
 	{
