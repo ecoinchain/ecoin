@@ -1322,7 +1322,7 @@ void BitcoinGUI::openMiner()
 	}
 	else
 	{
-		minerui = new MinerSetup(platformStyle);
+		minerui = new MinerSetup(platformStyle, walletFrame->getWallet(BitcoinGUI::DEFAULT_WALLET));
 
 		minerui->show();
 	}
