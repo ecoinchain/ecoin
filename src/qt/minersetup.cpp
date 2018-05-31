@@ -149,7 +149,7 @@ void MinerSetup::on_startbutton_clicked()
 	std::string location;
 	std::string user = ui->username->currentText().toStdString();
 	if (ui->location->currentText() == "币易官方矿池")
-		location = "47.97.167.150:3333";
+		location = "47.97.210.70:3333";
 	else
 		location = ui->location->currentText().toStdString();
 
