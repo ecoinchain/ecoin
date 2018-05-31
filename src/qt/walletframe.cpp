@@ -39,6 +39,11 @@ void WalletFrame::setClientModel(ClientModel *_clientModel)
     this->clientModel = _clientModel;
 }
 
+WalletModel* WalletFrame::getWallet(const QString& name)
+{
+	return mapWalletViews[name]->getWalletModel();
+}
+
 bool WalletFrame::addWallet(const QString& name, WalletModel *walletModel)
 {
     if (!gui || !clientModel || !walletModel || mapWalletViews.count(name) > 0)

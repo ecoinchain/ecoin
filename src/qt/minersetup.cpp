@@ -9,6 +9,8 @@
 #include <thread>
 #include <boost/asio.hpp>
 
+#include <QVariant>
+#include <QString>
 #include <QCheckBox>
 #include <qt/forms/ui_miner.h>
 #include <qt/platformstyle.h>
@@ -16,15 +18,20 @@
 #include "MinerFactory.h"
 
 #include "wallet/wallet.h"
+#include "walletmodel.h"
+#include "addresstablemodel.h"
+#include "recentrequeststablemodel.h"
+
 #include "key_io.h"
 
 #include "libstratum/ZcashStratum.h"
 #include "libstratum/StratumClient.h"
 #include "validation.h"
 
-MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
+MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, QWidget *parent)
 	: QWidget(parent)
 	, ui(new Ui::MinerSetup)
+	, model(model)
 	, speed(15)
 {
 #ifdef Q_OS_MAC
@@ -48,33 +55,51 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, QWidget *parent)
 		ui->cpu_select_group_layout->addWidget(checkbox, i/2 , i%2, 1, 1);
 	}
 
-	CWallet *pwallet = ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
-
-    LOCK2(cs_main, pwallet->cs_wallet);
-
-    // Generate a new key that is added to wallet
-    CPubKey newKey;
-    if (!pwallet->GetKeyFromPool(newKey)) {
-        // TODO. return;
-    }
-    pwallet->LearnRelatedScripts(newKey, OUTPUT_TYPE_DEFAULT);
-    CTxDestination dest = GetDestinationForKey(newKey, OUTPUT_TYPE_DEFAULT);
-
-    pwallet->SetAddressBook(dest, "mining_receive_address", "pool_mining");
-
-    ui->username->setCurrentText(QString::fromStdString(EncodeDestination(dest)));
-
 	ui_update_timer.setInterval(std::chrono::milliseconds(500));
-
 	connect(&ui_update_timer, SIGNAL(timeout()), this, SLOT(timer_interrupt()));
 	ui_update_timer.start();
+
+	if(!model || !model->getOptionsModel() || !model->getAddressTableModel() || !model->getRecentRequestsTableModel())
+		return;
+
+	// looop through address book.
+	AddressTableModel * addrmodel = model->getAddressTableModel();
+
+	for (int i =0; i < addrmodel->rowCount(QModelIndex()); i++)
+	{
+		QVariant stored_label = addrmodel->data(addrmodel->index(i, AddressTableModel::ColumnIndex::Label, QModelIndex()), Qt::DisplayRole);
+
+		if (stored_label.toString() == "mining_receive_address")
+		{
+
+			QVariant stored_address = addrmodel->data(addrmodel->index(i, AddressTableModel::ColumnIndex::Address, QModelIndex()), Qt::DisplayRole);
+
+			ui->username->setCurrentText(stored_address.toString());
+			return;
+		}
+	}
+
+	/* Generate new receiving address */
+	OutputType address_type = model->getDefaultAddressType();
+
+	if (address_type != OUTPUT_TYPE_LEGACY) {
+		address_type = OUTPUT_TYPE_P2SH_SEGWIT;
+	}
+
+	QString address = addrmodel->addRow(AddressTableModel::Receive, "mining_receive_address", "", address_type);
+	ui->username->setCurrentText(address);
+
+	SendCoinsRecipient info(address, "mining_receive_address", {}, tr("address to receive mining payment"));
+
+    /* Store request for later reference */
+	model->getRecentRequestsTableModel()->addNewRequest(info);
 }
 
 MinerSetup::~MinerSetup()
 {
+	delete ui;
 	if (miner_io_thread.joinable())
 		miner_io_thread.join();
-    delete ui;
 }
 
 void MinerSetup::start_mining(std::string host, std::string port,

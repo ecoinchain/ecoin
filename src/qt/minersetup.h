@@ -15,6 +15,7 @@
 
 class ISolver;
 class PlatformStyle;
+class WalletModel;
 
 namespace Ui {
     class MinerSetup;
@@ -30,7 +31,7 @@ class MinerSetup : public QWidget
     Q_OBJECT
 
 public:
-    explicit MinerSetup(const PlatformStyle *platformStyle, QWidget *parent = 0);
+    explicit MinerSetup(const PlatformStyle *platformStyle, WalletModel*, QWidget *parent = 0);
     ~MinerSetup();
 
 private Q_SLOTS:
@@ -44,6 +45,7 @@ private:
 
 private:
 	Ui::MinerSetup* ui;
+	WalletModel *model;
 
 	boost::asio::io_service miner_io_service;
 	std::thread miner_io_thread;

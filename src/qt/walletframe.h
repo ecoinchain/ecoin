@@ -40,6 +40,7 @@ public:
     bool setCurrentWallet(const QString& name);
     bool removeWallet(const QString &name);
     void removeAllWallets();
+	WalletModel* getWallet(const QString& name);
 
     bool handlePaymentRequest(const SendCoinsRecipient& recipient);
 
