@@ -12,6 +12,11 @@
 #include <QVariant>
 #include <QString>
 #include <QCheckBox>
+#include <QFontMetrics>
+
+#include "widgets/flowlayout.h"
+#include "qt/widgets/overlaydialogembeder.h"
+
 #include <qt/forms/ui_miner.h>
 #include <qt/platformstyle.h>
 
@@ -41,6 +46,8 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 #endif
 	ui->setupUi(this);
 
+	QFontMetrics fm = this->fontMetrics();
+	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1   "), 0));
 	ui->stopbutton->hide();
 
 	// fill CPU{id} checkbox.
@@ -97,6 +104,7 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 MinerSetup::~MinerSetup()
 {
+	miner_io_service.stop();
 	delete ui;
 	if (miner_io_thread.joinable())
 		miner_io_thread.join();
@@ -111,6 +119,11 @@ void MinerSetup::start_mining(std::string host, std::string port,
 	ZcashStratumClient sc{
 		miner_io_service, &miner, host, port, user, password, 0, 0
 	};
+
+	sc.set_report_error([this](std::string error)
+	{
+		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(error)));
+	});
 
 	miner.onSolutionFound([&](const EquihashSolution& solution, const std::string& jobid) {
 		return sc.submit(&solution, jobid);
@@ -133,8 +146,12 @@ void MinerSetup::on_startbutton_clicked()
 {
 	int num_threads = 8;
 
+	std::string location;
 	std::string user = ui->username->currentText().toStdString();
-	std::string location = "47.97.167.150:3333";
+	if (ui->location->currentText() == "币易官方矿池")
+		location = "47.97.167.150:3333";
+	else
+		location = ui->location->currentText().toStdString();
 
 	// start miner.
 	if (user.length() == 0)
@@ -180,3 +197,45 @@ void MinerSetup::on_stopbutton_clicked()
 	ui->stopbutton->hide();
 	ui->startbutton->show();
 }
+
+static QWidget* TopLevelParentWidget(QWidget* widget)
+{
+	while (widget->parentWidget() != Q_NULLPTR) widget = widget->parentWidget();
+	return widget;
+}
+
+void MinerSetup::error_report(QString error_string)
+{
+	if (message_widget)
+	{
+		message_widget->setText(message_widget->text() + "\r\n" + error_string);
+	}
+	else
+	{
+		message_widget = new QLabel(error_string);
+		message_widget->setStyleSheet("color: red");
+
+		auto embeder = new OverlayDialogEmbeder(message_widget, TopLevelParentWidget(this));
+
+		embeder->setProperty("greycolor", QColor(255, 255, 124, 200));
+
+		embeder->installEventFilter(this);
+
+		embeder->setAttribute(Qt::WA_DeleteOnClose, true);
+		message_widget->show();
+		embeder->show();
+	}
+
+}
+
+bool MinerSetup::eventFilter(QObject * watched, QEvent * ev)
+{
+	if (ev->type() == QEvent::MouseButtonPress)
+	{
+		static_cast<QWidget*>(watched)->close();
+		return true;
+	}
+
+    return QWidget::eventFilter(watched, ev);
+}
+

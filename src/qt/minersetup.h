@@ -4,12 +4,15 @@
 
 #pragma once
 
-#include <amount.h>
 
+#include <QPointer>
 #include <QWidget>
 #include <QTimer>
 #include <memory>
+#include <QLabel>
 #include <boost/asio.hpp>
+
+#include "amount.h"
 
 #include "speed.hpp"
 
@@ -34,11 +37,16 @@ public:
     explicit MinerSetup(const PlatformStyle *platformStyle, WalletModel*, QWidget *parent = 0);
     ~MinerSetup();
 
+public Q_SLOTS:
+	void error_report(QString error_message);
+
 private Q_SLOTS:
 	void on_startbutton_clicked();
 	void on_stopbutton_clicked();
 
 	void timer_interrupt();
+
+	bool eventFilter(QObject * watched, QEvent * event) override;
 
 private:
 	void start_mining(std::string host, std::string port, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
@@ -52,4 +60,6 @@ private:
 	Speed speed;
 
 	QTimer ui_update_timer;
+
+	QPointer<QLabel> message_widget;
 };

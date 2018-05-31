@@ -115,6 +115,12 @@ public:
     void reconnect();
     void disconnect();
 
+	template<typename Func>
+	void set_report_error(Func f)
+	{
+		report_error.connect(f);
+	}
+
 private:
     void startWorking();
     void workLoop(boost::system::error_code ec, boost::asio::coroutine);
@@ -162,6 +168,10 @@ private:
 	unsigned char o_index;
 
 	int m_reconnect_delay = 3000;
+
+	typedef boost::signals2::signal<void (std::string)> report_error_t;
+
+	report_error_t report_error;
 };
 
 

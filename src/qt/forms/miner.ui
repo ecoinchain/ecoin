@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>968</width>
-    <height>613</height>
+    <width>777</width>
+    <height>455</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -217,16 +217,22 @@ QLabel {
     </layout>
    </item>
    <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
-     <item>
+    <layout class="FlowLayout" name="flowLayout">
+     <item row="0" column="0">
       <widget class="QLabel" name="username_label">
        <property name="text">
         <string>Payment goes to this Address:</string>
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="0">
       <widget class="QComboBox" name="username">
+       <property name="minimumSize">
+        <size>
+         <width>330</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="editable">
         <bool>true</bool>
        </property>
@@ -236,6 +242,14 @@ QLabel {
    </item>
   </layout>
  </widget>
+  <customwidgets>
+  <customwidget>
+   <class>FlowLayout</class>
+   <extends>QLayout</extends>
+   <header>qt/widgets/flowlayout.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -66,6 +66,7 @@
         <file>res/icons/bitcoin.ico</file>
         <file alias="changedatadir">res/icons/changedatadir.svg</file>
         <file alias="restore">res/icons/huifu.svg</file>
+        <file alias="miner">res/icons/miner.svg</file>
     </qresource>
     <qresource prefix="/movies">
         <file alias="spinner-000">res/movies/spinner-000.png</file>
