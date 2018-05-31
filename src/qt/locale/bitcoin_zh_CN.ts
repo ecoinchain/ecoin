@@ -79,22 +79,6 @@
         <translation>收款地址</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="vanished">这些是你要付款过去的R币地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
-    </message>
-    <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
-    </message>
-    <message>
-        <source>These are your Rcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="vanished">这些是你要付款过去的R币地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
-    </message>
-    <message>
-        <source>These are your Rcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation type="vanished">这些是你用来收款的R币地址。建议在每次交易时，都使用一个新的收款地址。</translation>
-    </message>
-    <message>
         <location line="+7"/>
         <source>These are your %1 addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
         <translation>这些是你要付款过去的%1地址。在付钱之前，务必要检查金额和收款地址是否正确。</translation>
@@ -241,31 +225,15 @@
         <translation>%1 现在要关闭，以完成加密过程。请注意，加密钱包不能完全防止入侵你的电脑的恶意程序偷取钱币。</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your rcoins from being stolen by malware infecting your computer.</source>
-        <translation type="vanished">%1 现在要关闭，以完成加密过程。请注意，加密钱包不能完全防止入侵你的电脑的恶意程序偷取钱币。</translation>
-    </message>
-    <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation type="vanished">警告: 如果把钱包加密后又忘记密码，你就会从此&lt;b&gt;失去其中所有的R币了&lt;/b&gt;！</translation>
-    </message>
-    <message>
         <location line="-11"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>你确定要把钱包加密吗？</translation>
-    </message>
-    <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RCOINS&lt;/b&gt;!</source>
-        <translation type="vanished">警告: 如果把钱包加密后又忘记密码，你就会从此&lt;b&gt;失去其中所有的R币了&lt;/b&gt;！</translation>
     </message>
     <message>
         <location line="+9"/>
         <location line="+58"/>
         <source>Wallet encrypted</source>
         <translation>钱包已加密</translation>
-    </message>
-    <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation type="vanished">%1 现在要关闭，以完成加密过程。请注意，加密钱包不能完全防止入侵你的电脑的恶意程序偷取钱币。</translation>
     </message>
     <message>
         <location line="-52"/>
@@ -336,7 +304,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+336"/>
+        <location filename="../bitcoingui.cpp" line="+338"/>
         <source>Sign &amp;message...</source>
         <translation>消息签名(&amp;M)...</translation>
     </message>
@@ -346,12 +314,22 @@
         <translation>打开一个 %1 URI 或支付请求</translation>
     </message>
     <message>
-        <location line="+475"/>
+        <location line="+2"/>
+        <source>Connect to Miner Pool...</source>
+        <translation type="unfinished">连到矿池挖矿...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Mine together with a pool</source>
+        <translation>加入矿池协调挖矿</translation>
+    </message>
+    <message>
+        <location line="+482"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <location line="-576"/>
+        <location line="-586"/>
         <source>&amp;Overview</source>
         <translation>概况(&amp;O)</translation>
     </message>
@@ -364,14 +342,6 @@
         <location line="+145"/>
         <source>Show general overview of wallet</source>
         <translation>显示钱包概况</translation>
-    </message>
-    <message>
-        <source>Send coins to a Rcoin address</source>
-        <translation type="vanished">向一个R币地址发送R币</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and rcoin: URIs)</source>
-        <translation type="vanished">请求支付 (生成二维码和 rcoin: URI)</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -446,12 +416,12 @@
     <message>
         <location line="+2"/>
         <source>&amp;Restore Wallet...</source>
-        <translation type="unfinished">恢复钱包(&amp;R)...</translation>
+        <translation>恢复钱包(&amp;R)...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Restore previesly backuped wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>选择以前备份的钱包</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -459,15 +429,7 @@
         <translation>更改密码(&amp;C)...</translation>
     </message>
     <message>
-        <source>Sign messages with your Rcoin addresses to prove you own them</source>
-        <translation type="vanished">用R币地址关联的私钥为消息签名，以证明您拥有这个R币地址</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Rcoin addresses</source>
-        <translation type="vanished">校验消息，确保该消息是由指定的R币地址所有者签名的</translation>
-    </message>
-    <message>
-        <location line="+19"/>
+        <location line="+22"/>
         <source>&amp;Sending addresses...</source>
         <translation>付款地址</translation>
     </message>
@@ -477,28 +439,14 @@
         <translation>收款地址</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Open &amp;URI...</source>
         <translation>打开 &amp;URI...</translation>
     </message>
     <message>
-        <source>Open a rcoin: URI or payment request</source>
-        <translation type="vanished">打开一个 rcoin: URI 或支付请求</translation>
-    </message>
-    <message>
-        <source>Show the %1 help message to get a list with possible Rcoin command-line options</source>
-        <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
-    </message>
-    <message>
-        <location line="+415"/>
+        <location line="+425"/>
         <source>Click to disable network activity.</source>
         <translation>点击禁用网络活动。</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation type="vanished">
-            <numerusform>%n 条到 R币网络的活动连接。</numerusform>
-        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -521,11 +469,7 @@
         <translation>正在为数据块重建索引...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation type="vanished">向一个R币地址发送R币</translation>
-    </message>
-    <message>
-        <location line="-504"/>
+        <location line="-514"/>
         <source>Backup wallet to another location</source>
         <translation>备份钱包到其他文件夹</translation>
     </message>
@@ -558,14 +502,6 @@
         <location line="-4"/>
         <source>&amp;Verify message...</source>
         <translation>验证消息(&amp;V)...</translation>
-    </message>
-    <message>
-        <source>Rcoin</source>
-        <translation type="vanished">R币</translation>
-    </message>
-    <message>
-        <source>Bitcoin</source>
-        <translation type="vanished">R币</translation>
     </message>
     <message>
         <location line="-238"/>
@@ -610,36 +546,12 @@
         <translation>对钱包中的私钥加密</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation type="vanished">用R币地址关联的私钥为消息签名，以证明您拥有这个R币地址</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation type="vanished">校验消息，确保该消息是由指定的R币地址所有者签名的</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation type="vanished">文件(&amp;F)</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation type="vanished">设置(&amp;S)</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="vanished">帮助(&amp;H)</translation>
-    </message>
-    <message>
-        <location line="+67"/>
+        <location line="+71"/>
         <source>Tabs toolbar</source>
         <translation>分页工具栏</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation type="vanished">请求支付 (生成二维码和 bitcoin: URI)</translation>
-    </message>
-    <message>
-        <location line="-39"/>
+        <location line="-40"/>
         <source>Show the list of used sending addresses and labels</source>
         <translation>显示用过的发送地址和标签的列表</translation>
     </message>
@@ -647,10 +559,6 @@
         <location line="+4"/>
         <source>Show the list of used receiving addresses and labels</source>
         <translation>显示用过的接收地址和标签的列表</translation>
-    </message>
-    <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation type="vanished">打开一个 bitcoin: URI 或支付请求</translation>
     </message>
     <message>
         <location line="-9"/>
@@ -663,7 +571,7 @@
         <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+410"/>
+        <location line="+417"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 条到网络的活动连接。</translation>
     </message>
@@ -713,22 +621,12 @@
         <translation>已是最新</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
-        <translation type="vanished">显示 %1 帮助信息，获取可用命令行选项列表</translation>
-    </message>
-    <message>
-        <location line="-272"/>
+        <location line="-277"/>
         <source>%1 client</source>
         <translation>%1 客戶</translation>
     </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Rcoin network</source>
-        <translation type="vanished">
-            <numerusform>%n 条到 R币网络的活动连接。</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="+258"/>
+        <location line="+263"/>
         <source>Connecting to peers...</source>
         <translation>正在连接到节点……</translation>
     </message>
@@ -820,7 +718,7 @@
         <translation>钱包已被&lt;b&gt;加密&lt;/b&gt;，当前为&lt;b&gt;锁定&lt;/b&gt;状态</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+113"/>
         <source>Unable to change datadir</source>
         <translation>无法修改数据目录</translation>
     </message>
@@ -830,7 +728,7 @@
         <translation>你在命令行上使用了 &lt;b&gt;-datadir&lt;/b&gt; 参数，所以没法修改数据路径</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
         <translation>错误：无法创建 指定的数据目录 &quot;%1&quot; </translation>
     </message>
@@ -845,10 +743,6 @@
         <translation>%1 需要重启才能生效。</translation>
     </message>
     <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation type="vanished">发生严重错误。客户端无法安全地继续运行，即将退出。</translation>
-    </message>
-    <message>
         <location filename="../bitcoin.cpp" line="+520"/>
         <source>A fatal error occurred. %1 can no longer continue safely and will quit.</source>
         <translation>发生严重错误。%1 客户端无法安全地继续运行，即将退出。</translation>
@@ -860,10 +754,6 @@
         <location filename="../forms/chainsyncwarning.ui" line="+14"/>
         <source>Form</source>
         <translation>表单</translation>
-    </message>
-    <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation type="vanished">近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
     </message>
     <message>
         <location line="+119"/>
@@ -932,7 +822,7 @@
         <translation>选择钱币</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+52"/>
         <source>Quantity:</source>
         <translation>总量：</translation>
     </message>
@@ -973,13 +863,13 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tree mode</source>
-        <translation>树状模式</translation>
+        <source>Tree &amp;mode</source>
+        <translation>树状</translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>List mode</source>
-        <translation>列表模式</translation>
+        <source>&amp;List mode</source>
+        <translation>列表</translation>
     </message>
     <message>
         <location line="+56"/>
@@ -1167,14 +1057,6 @@
         <translation>输入的地址 %1 并不是有效的%2地址。</translation>
     </message>
     <message>
-        <source>The entered address &quot;%1&quot; is not a valid Rcoin address.</source>
-        <translation type="vanished">输入的地址 %1 并不是有效的R币地址。</translation>
-    </message>
-    <message>
-        <source>The entered address &quot;%1&quot; is not a valid Bitcoin address.</source>
-        <translation type="vanished">输入的地址 %1 并不是有效的R币地址。</translation>
-    </message>
-    <message>
         <location line="+5"/>
         <source>The entered address &quot;%1&quot; is already in the address book.</source>
         <translation>输入的地址 %1 已经存在地址簿。</translation>
@@ -1330,14 +1212,6 @@
         <translation>使用自定义的数据目录：</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation type="vanished">R币</translation>
-    </message>
-    <message>
-        <source>Rcoin</source>
-        <translation type="vanished">R币</translation>
-    </message>
-    <message>
         <location filename="../intro.cpp" line="+26"/>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
         <translation>此目录中至少会保存 %1 GB 的数据，并且尺寸还会随着时间增长。</translation>
@@ -1346,14 +1220,6 @@
         <location line="+5"/>
         <source>Approximately %1 GB of data will be stored in this directory.</source>
         <translation>会在此目录中存储约 %1 GB 的数据。</translation>
-    </message>
-    <message>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
-        <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
-    </message>
-    <message>
-        <source>%1 will download and store a copy of the Rcoin block chain.</source>
-        <translation type="vanished">%1 将会下载并存储R币区块链。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1391,54 +1257,58 @@
     </message>
 </context>
 <context>
-    <name>ModalOverlay</name>
+    <name>MinerSetup</name>
     <message>
-        <source>Form</source>
-        <translation type="vanished">表单</translation>
+        <location filename="../forms/miner.ui" line="+14"/>
+        <source>YeeMiner</source>
+        <translation>易矿工</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation type="vanished">近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与R币网络完全同步后更正。详情如下</translation>
+        <location line="+53"/>
+        <source>Work for:</source>
+        <translation>连接到矿池：</translation>
     </message>
     <message>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation type="vanished">尝试使用受未可见交易影响的余额将不被网络接受。</translation>
+        <location line="+35"/>
+        <source>Current Difficulty:</source>
+        <translation>当前难度：</translation>
     </message>
     <message>
-        <source>Number of blocks left</source>
-        <translation type="vanished">剩余区块数量</translation>
+        <location line="+7"/>
+        <source>Accepted Share:</source>
+        <translation>贡献速度</translation>
     </message>
     <message>
-        <source>Unknown...</source>
-        <translation type="vanished">未知</translation>
+        <location line="+7"/>
+        <location line="+14"/>
+        <location line="+7"/>
+        <source>N/A</source>
+        <translation>不可用</translation>
     </message>
     <message>
-        <source>Last block time</source>
-        <translation type="vanished">上一数据块时间</translation>
+        <location line="-14"/>
+        <source>Hash Rate:</source>
+        <translation>算力：</translation>
     </message>
     <message>
-        <source>Progress</source>
-        <translation type="vanished">进度</translation>
+        <location line="+31"/>
+        <source>Mining With this Device</source>
+        <translation>使用这些设备挖矿</translation>
     </message>
     <message>
-        <source>Progress increase per hour</source>
-        <translation type="vanished">每小时进度增加</translation>
+        <location line="+39"/>
+        <source>Stop</source>
+        <translation>停工</translation>
     </message>
     <message>
-        <source>calculating...</source>
-        <translation type="vanished">正在计算</translation>
+        <location line="+7"/>
+        <source>Start</source>
+        <translation>开始</translation>
     </message>
     <message>
-        <source>Estimated time left until synced</source>
-        <translation type="vanished">预计剩余同步时间</translation>
-    </message>
-    <message>
-        <source>Hide</source>
-        <translation type="vanished">隐藏</translation>
-    </message>
-    <message>
-        <source>Unknown. Syncing Headers (%1)...</source>
-        <translation type="vanished">未知状态。同步区块头(%1)...</translation>
+        <location line="+24"/>
+        <source>Payment goes to this Address:</source>
+        <translation>收益打入这个地址：</translation>
     </message>
 </context>
 <context>
@@ -1492,12 +1362,7 @@
         <translation>系统登入时启动 %1</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Size of &amp;database cache</source>
-        <translation>数据库缓存大小(&amp;D)</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+25"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
@@ -1507,20 +1372,40 @@
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
-        <location line="+217"/>
-        <location line="+187"/>
+        <location line="+110"/>
+        <source>&amp;Use All CPU Power</source>
+        <translation>使用全部的 CPU</translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Use &amp;3/4 CPU Power</source>
+        <translation>使用四分之三CPU</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use &amp;1/4 CPU Power</source>
+        <translation>使用四分之一CPU</translation>
+    </message>
+    <message>
+        <location line="+65"/>
+        <source>Pro&amp;xy IP:</source>
+        <translation>代理地址：</translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <location line="+199"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-124"/>
         <location line="+23"/>
         <location line="+23"/>
         <source>Shows if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
         <translation>显示默认的SOCKS5代理是否被用于在该类型的网络下连接同伴</translation>
     </message>
     <message>
-        <location line="+166"/>
+        <location line="+178"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</source>
         <translation>窗口被关闭时最小化而不是退出应用程序。当此选项启用时，应用程序只会在菜单中选择退出时退出。</translation>
     </message>
@@ -1571,12 +1456,17 @@
         <translation>恢复缺省设置(&amp;R)</translation>
     </message>
     <message>
-        <location line="-545"/>
+        <location line="-569"/>
         <source>&amp;Network</source>
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-197"/>
+        <source>Si&amp;ze of database cache</source>
+        <translation>数据缓存大小</translation>
+    </message>
+    <message>
+        <location line="+56"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
@@ -1612,31 +1502,16 @@
     </message>
     <message>
         <location line="+12"/>
-        <source>Use All CPU Power</source>
-        <translation>使用全部CPU</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Use 3/4 CPU Power</source>
-        <translation>使用 75% CPU</translation>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>Use Half CPU Power</source>
         <translation>只用一半的CPU</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Use 1/4 CPU Power</source>
-        <translation>使用 25% CPU</translation>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>Use One CPU Power</source>
         <translation>只使用一个CPU</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+57"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>自动在路由器中打开端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
     </message>
@@ -1666,25 +1541,19 @@
         <translation>通过 SO&amp;CKS5 代理连接(默认代理)：</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location line="+187"/>
-        <source>Proxy &amp;IP:</source>
-        <translation>代理服务器 &amp;IP：</translation>
-    </message>
-    <message>
-        <location line="-155"/>
-        <location line="+187"/>
+        <location line="+47"/>
+        <location line="+199"/>
         <source>&amp;Port:</source>
         <translation>端口(&amp;P)：</translation>
     </message>
     <message>
-        <location line="-162"/>
-        <location line="+187"/>
+        <location line="-168"/>
+        <location line="+199"/>
         <source>Port of the proxy (e.g. 9050)</source>
         <translation>代理端口（例如 9050）</translation>
     </message>
     <message>
-        <location line="-163"/>
+        <location line="-175"/>
         <source>Used for reaching peers via:</source>
         <translation>连接到同伴的方式：</translation>
     </message>
@@ -1714,7 +1583,12 @@
         <translation>使用另外的 SOCKS5 代理访问上述设定的 SOCKS5 代理</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location line="+9"/>
+        <source>Prox&amp;y IP:</source>
+        <translation>代理地址：</translation>
+    </message>
+    <message>
+        <location line="+105"/>
         <source>&amp;Window</source>
         <translation>窗口(&amp;W)</translation>
     </message>
@@ -1769,12 +1643,12 @@
         <translation>选择货币单位。</translation>
     </message>
     <message>
-        <location line="-509"/>
+        <location line="-533"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
-        <location line="+656"/>
+        <location line="+680"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
@@ -1853,10 +1727,6 @@
         <translation>现在显示的消息可能是过期的。在连接上网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
     </message>
     <message>
-        <source>Watch-only:</source>
-        <translation type="vanished">仅观察:</translation>
-    </message>
-    <message>
         <location line="-488"/>
         <source>Available:</source>
         <translation>可使用的余额：</translation>
@@ -1887,10 +1757,6 @@
         <translation>尚未成熟的挖矿收入余额</translation>
     </message>
     <message>
-        <source>Balances</source>
-        <translation type="vanished">余额</translation>
-    </message>
-    <message>
         <location line="+82"/>
         <source>Total:</source>
         <translation>总额：</translation>
@@ -1904,10 +1770,6 @@
         <location line="-312"/>
         <source>Your current balance in watch-only addresses</source>
         <translation>您当前 观察地址(watch-only address)的余额 </translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation type="vanished">可使用：</translation>
     </message>
     <message>
         <location line="+401"/>
@@ -1943,15 +1805,6 @@
         <translation>要求付款时发生错误</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation type="vanished">无法启动 bitcoin 协议的“
-一键支付”处理器</translation>
-    </message>
-    <message>
-        <source>Cannot start rcoin: click-to-pay handler</source>
-        <translation type="vanished">无法启动 rcoin 协议的“一键支付”处理器</translation>
-    </message>
-    <message>
         <location line="-296"/>
         <location line="+13"/>
         <location line="+7"/>
@@ -1967,14 +1820,6 @@
         <location line="+12"/>
         <source>Invalid payment address %1</source>
         <translation>无效的付款地址 %1</translation>
-    </message>
-    <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
-    </message>
-    <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Rcoin address or malformed URI parameters.</source>
-        <translation type="vanished">无法解析 URI 地址！可能是因为R币地址无效，或是 URI 参数格式错误。</translation>
     </message>
     <message>
         <location line="-115"/>
@@ -2112,14 +1957,6 @@
         <location filename="../bitcoinunits.cpp" line="+186"/>
         <source>Amount</source>
         <translation>金额</translation>
-    </message>
-    <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
-    </message>
-    <message>
-        <source>Enter a Rcoin address (e.g. %1)</source>
-        <translation type="vanished">请输入一个R币地址 (例如 %1)</translation>
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+135"/>
@@ -2754,22 +2591,6 @@
         <translation>生成收款地址(&amp;R)</translation>
     </message>
     <message>
-        <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="vanished">显示选中的请求 (双击也可以显示)</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="vanished">显示</translation>
-    </message>
-    <message>
-        <source>Remove the selected entries from the list</source>
-        <translation type="vanished">从列表中移除选中的条目</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">移除</translation>
-    </message>
-    <message>
         <location filename="../receivecoinsdialog.cpp" line="+50"/>
         <source>Copy URI</source>
         <translation>复制URI</translation>
@@ -2792,10 +2613,6 @@
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
-    <message>
-        <source>QR Code</source>
-        <translation type="vanished">二维码</translation>
-    </message>
     <message>
         <location filename="../forms/receiverequestdialog.ui" line="+72"/>
         <source>Label:</source>
@@ -2855,26 +2672,6 @@
         <location filename="../forms/receiverequestdialog.ui" line="-137"/>
         <source>Payment information</source>
         <translation>付款信息</translation>
-    </message>
-    <message>
-        <source>URI</source>
-        <translation type="vanished">URI</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="vanished">地址</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation type="vanished">金额</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="vanished">标签</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="vanished">消息</translation>
     </message>
     <message>
         <location filename="../receiverequestdialog.cpp" line="+32"/>
@@ -2944,7 +2741,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+587"/>
+        <location filename="../sendcoinsdialog.cpp" line="+588"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
@@ -3038,16 +2835,12 @@
         <source>Specify a custom fee per kB (1,000 bytes) of the transaction&apos;s virtual size.
 
 Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satoshis per kB&quot; for a transaction size of 500 bytes (half of 1 kB) would ultimately yield a fee of only 50 satoshis.</source>
-        <translation type="unfinished"></translation>
+        <translation>设定自定义的费率（每千字节手续费）</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>per kilobyte</source>
         <translation>每kb</translation>
-    </message>
-    <message>
-        <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="vanished">如果自定义交易费设置为 1000聪而交易大小只有250字节，则“每千字节&quot; 模式只支付250聪交易费， 而&quot;最少&quot;模式则支付1000聪。 大于1000字节的交易按每千字节付费。</translation>
     </message>
     <message>
         <location line="-53"/>
@@ -3083,12 +2876,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+103"/>
         <source>With Replace-By-Fee (BIP-125) you can increase a transaction&apos;s fee after it is sent. Without this, a higher fee may be recommended to compensate for increased transaction delay risk.</source>
-        <translation type="unfinished"></translation>
+        <translation>允许稍后更改手续费</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Enable Replace-By-Fee</source>
-        <translation type="unfinished"></translation>
+        <translation>允许稍后更改手续费</translation>
     </message>
     <message>
         <location line="+90"/>
@@ -3206,12 +2999,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+4"/>
         <source>You can increase the fee later (signals Replace-By-Fee, BIP-125).</source>
-        <translation type="unfinished"></translation>
+        <translation>你可以稍后增加手续费（打开了BIP-125）</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Not signalling Replace-By-Fee, BIP-125.</source>
-        <translation type="unfinished"></translation>
+        <translation>未开启 BIP-125（发出后无法修改手续费）</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3271,22 +3064,14 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message numerus="yes">
         <location line="+42"/>
         <source>Estimated to begin confirmation within %n block(s).</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>预计 %n 个区块后确认</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+106"/>
         <source>Warning: Invalid %1 address</source>
         <translation>警告: %1 地址无效</translation>
-    </message>
-    <message>
-        <source>Warning: Invalid Rcoin address</source>
-        <translation type="vanished">警告: R币地址无效</translation>
-    </message>
-    <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation type="vanished">警告: R币地址无效</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3625,14 +3410,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation>请重试。</translation>
     </message>
     <message>
-        <source>The signature did not match the message digest.</source>
-        <translation type="vanished">签名与消息摘要不匹配。</translation>
-    </message>
-    <message>
-        <source>Message verification failed.</source>
-        <translation type="vanished">消息验证失败。</translation>
-    </message>
-    <message>
         <location line="+5"/>
         <source>Message verified.</source>
         <translation>消息验证成功。</translation>
@@ -3731,8 +3508,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message numerus="yes">
         <location line="+2"/>
         <source>, broadcast through %n node(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>，已向 %n 个节点广播</numerusform>
         </translation>
     </message>
     <message>
@@ -3797,8 +3574,8 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message numerus="yes">
         <location line="-145"/>
         <source>matures in %n more block(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 个区块后成熟</numerusform>
         </translation>
     </message>
     <message>
@@ -3857,7 +3634,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+1"/>
         <source>Transaction virtual size</source>
-        <translation type="unfinished"></translation>
+        <translation>虚拟交易字节数</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -4152,7 +3929,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+29"/>
         <location line="+17"/>
         <source>yyyy/MM/dd</source>
-        <translation type="unfinished"></translation>
+        <translation>yyyy/MM/dd</translation>
     </message>
     <message>
         <location line="-7"/>
@@ -4279,15 +4056,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <source>Range:</source>
         <translation>范围：</translation>
     </message>
-    <message>
-        <source>to</source>
-        <translation type="vanished">到</translation>
-    </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+49"/>
+        <location filename="../bitcoingui.cpp" line="+63"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>金额单位。单击选择别的单位。</translation>
     </message>
@@ -4303,7 +4076,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+353"/>
+        <location filename="../walletmodel.cpp" line="+361"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
@@ -4317,7 +4090,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+39"/>
         <location line="+6"/>
         <source>Fee bump error</source>
-        <translation type="unfinished"></translation>
+        <translation>提升手续费失败</translation>
     </message>
     <message>
         <location line="-39"/>
@@ -4342,7 +4115,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+4"/>
         <source>Confirm fee bump</source>
-        <translation type="unfinished"></translation>
+        <translation>确认提高手续费</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -4357,14 +4130,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 </context>
 <context>
     <name>WalletView</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation type="vanished">导出(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation type="vanished">将当前标签页数据导出到文件</translation>
-    </message>
     <message>
         <location filename="../walletview.cpp" line="+266"/>
         <source>Backup Wallet</source>
@@ -4402,12 +4167,12 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <message>
         <location line="+8"/>
         <source>Restore Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复钱包</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>The wallet data was successfully restored. restart to take effect</source>
-        <translation type="unfinished"></translation>
+        <translation>钱包被成功导入，重启后生效</translation>
     </message>
 </context>
 <context>
@@ -4490,10 +4255,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+40"/>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation>无法启动HTTP服务，查看日志获取更多信息</translation>
-    </message>
-    <message>
-        <source>Bitcoin Core</source>
-        <translation type="vanished">Bitcoin Core</translation>
     </message>
     <message>
         <location line="-396"/>
@@ -5698,10 +5459,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+18"/>
         <source>S&amp;etting</source>
         <translation>设置(&amp;E)</translation>
-    </message>
-    <message>
-        <source>Se&amp;tting</source>
-        <translation type="obsolete">设置(&amp;T)</translation>
     </message>
     <message>
         <location line="+18"/>
