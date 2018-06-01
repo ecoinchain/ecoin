@@ -318,6 +318,7 @@ target_link_libraries(coincore libminer)
 add_subdirectory(wallet)
 add_subdirectory(qt)
 
+if(NOT WIN32) # do not build command line tools on windows
 add_executable(rcoind bitcoind.cpp)
 add_executable(rcoin-cli bitcoin-cli.cpp)
 
@@ -327,3 +328,4 @@ target_link_libraries(rcoind libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES}
 target_link_libraries(rcoin-cli libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
 target_link_libraries(rcoind ${Boost_LIBRARIES} )
 target_link_libraries(rcoin-cli ${Boost_LIBRARIES})
+endif()
