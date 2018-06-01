@@ -5,51 +5,61 @@
     <name>AddressBookPage</name>
     <message>
         <location filename="../forms/addressbookpage.ui" line="+135"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+251"/>
         <source>Right-click to edit address or label</source>
         <translation>鼠标右击编辑地址或标签</translation>
     </message>
     <message>
         <location line="+46"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+3"/>
         <source>Create a new address</source>
         <translation>创建新地址</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+2"/>
         <source>&amp;New</source>
         <translation>新建(&amp;N)</translation>
     </message>
     <message>
         <location line="+20"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+2"/>
         <source>Copy the currently selected address to the system clipboard</source>
         <translation>复制当前选中的地址到系统剪贴板</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+2"/>
         <source>&amp;Copy</source>
         <translation>复制(&amp;C)</translation>
     </message>
     <message>
         <location line="+79"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+9"/>
         <source>C&amp;lose</source>
         <translation>关闭(&amp;l)</translation>
     </message>
     <message>
         <location line="-59"/>
+        <location filename="../forms/ui_addressbookpage.h" line="-7"/>
         <source>Delete the currently selected address from the list</source>
         <translation>从列表中删除选中的地址</translation>
     </message>
     <message>
         <location line="+36"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+4"/>
         <source>Export the data in the current tab to a file</source>
         <translation>将当前标签页数据导出到文件</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_addressbookpage.h" line="+2"/>
         <source>&amp;Export</source>
         <translation>导出(&amp;E)</translation>
     </message>
     <message>
         <location line="-36"/>
+        <location filename="../forms/ui_addressbookpage.h" line="-4"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
@@ -146,26 +156,31 @@
     <name>AskPassphraseDialog</name>
     <message>
         <location filename="../forms/askpassphrasedialog.ui" line="+26"/>
+        <location filename="../forms/ui_askpassphrasedialog.h" line="+170"/>
         <source>Passphrase Dialog</source>
         <translation>密码对话框</translation>
     </message>
     <message>
         <location line="+68"/>
+        <location filename="../forms/ui_askpassphrasedialog.h" line="+1"/>
         <source>Enter passphrase</source>
         <translation>输入密码</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../forms/ui_askpassphrasedialog.h" line="+1"/>
         <source>New passphrase</source>
         <translation>新密码</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../forms/ui_askpassphrasedialog.h" line="+1"/>
         <source>Repeat new passphrase</source>
         <translation>重复新密码</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../forms/ui_askpassphrasedialog.h" line="+1"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
@@ -316,7 +331,7 @@
     <message>
         <location line="+2"/>
         <source>Connect to Miner Pool...</source>
-        <translation type="unfinished">连到矿池挖矿...</translation>
+        <translation>连到矿池挖矿...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -752,21 +767,25 @@
     <name>ChainSyncWarning</name>
     <message>
         <location filename="../forms/chainsyncwarning.ui" line="+14"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+263"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
         <location line="+119"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+2"/>
         <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the network, as detailed below.</source>
         <translation>近期交易可能尚未显示，因此当前余额可能不准确。以上信息将在与网络完全同步后更正。详情如下</translation>
     </message>
     <message>
         <location line="+19"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+1"/>
         <source>Attempting to spend coins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
         <translation>尝试使用受未可见交易影响的余额将不被网络接受。</translation>
     </message>
     <message>
         <location line="+63"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+1"/>
         <source>Number of blocks left</source>
         <translation>剩余区块数量</translation>
     </message>
@@ -774,37 +793,46 @@
         <location line="+7"/>
         <location line="+26"/>
         <location filename="../ChainSyncWarning.cpp" line="+108"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+1"/>
+        <location line="+2"/>
         <source>Unknown...</source>
         <translation>未知</translation>
     </message>
     <message>
         <location line="-13"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="-1"/>
         <source>Last block time</source>
         <translation>上一数据块时间</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+2"/>
         <source>Progress</source>
         <translation>进度</translation>
     </message>
     <message>
         <location line="+34"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+2"/>
         <source>Progress increase per hour</source>
         <translation>每小时进度增加</translation>
     </message>
     <message>
         <location line="+7"/>
         <location line="+20"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+1"/>
+        <location line="+2"/>
         <source>calculating...</source>
         <translation>正在计算</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="-1"/>
         <source>Estimated time left until synced</source>
         <translation>预计剩余同步时间</translation>
     </message>
     <message>
         <location line="+40"/>
+        <location filename="../forms/ui_chainsyncwarning.h" line="+2"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
@@ -818,86 +846,103 @@
     <name>CoinControlDialog</name>
     <message>
         <location filename="../forms/coincontroldialog.ui" line="+14"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+309"/>
         <source>Coin Selection</source>
         <translation>选择钱币</translation>
     </message>
     <message>
         <location line="+52"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>Quantity:</source>
         <translation>总量：</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>Bytes:</source>
         <translation>字节：</translation>
     </message>
     <message>
         <location line="+45"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>Amount:</source>
         <translation>金额：</translation>
     </message>
     <message>
         <location line="+80"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+2"/>
         <source>Fee:</source>
         <translation>费用：</translation>
     </message>
     <message>
         <location line="-48"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="-1"/>
         <source>Dust:</source>
         <translation>小额：</translation>
     </message>
     <message>
         <location line="+93"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+2"/>
         <source>After Fee:</source>
         <translation>加上交易费用后:</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>Change:</source>
         <translation>变更 : </translation>
     </message>
     <message>
         <location line="+56"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>(un)select all</source>
         <translation>(不)全选</translation>
     </message>
     <message>
         <location line="+16"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>Tree &amp;mode</source>
         <translation>树状</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+1"/>
         <source>&amp;List mode</source>
         <translation>列表</translation>
     </message>
     <message>
         <location line="+56"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+6"/>
         <source>Amount</source>
         <translation>金额</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="-1"/>
         <source>Received with label</source>
         <translation>按标签收款</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="-1"/>
         <source>Received with address</source>
         <translation>按地址收款</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="-1"/>
         <source>Date</source>
         <translation>日期</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="-1"/>
         <source>Confirmations</source>
         <translation>确认</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_coincontroldialog.h" line="+6"/>
         <source>Confirmed</source>
         <translation>已确认</translation>
     </message>
@@ -1008,26 +1053,31 @@
     <name>EditAddressDialog</name>
     <message>
         <location filename="../forms/editaddressdialog.ui" line="+14"/>
+        <location filename="../forms/ui_editaddressdialog.h" line="+125"/>
         <source>Edit Address</source>
         <translation>编辑地址</translation>
     </message>
     <message>
         <location line="+49"/>
+        <location filename="../forms/ui_editaddressdialog.h" line="+1"/>
         <source>&amp;Label</source>
         <translation>标签(&amp;L)</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_editaddressdialog.h" line="+2"/>
         <source>The label associated with this address list entry</source>
         <translation>与此地址相关的标签项</translation>
     </message>
     <message>
         <location line="+17"/>
+        <location filename="../forms/ui_editaddressdialog.h" line="+4"/>
         <source>The address associated with this address list entry. This can only be modified for sending addresses.</source>
         <translation>该地址已与地址列表中的条目关联，只能被发送地址修改。</translation>
     </message>
     <message>
         <location line="-10"/>
+        <location filename="../forms/ui_editaddressdialog.h" line="-2"/>
         <source>&amp;Address</source>
         <translation>地址(&amp;A)</translation>
     </message>
@@ -1173,41 +1223,49 @@
     <name>Intro</name>
     <message>
         <location filename="../forms/intro.ui" line="+14"/>
+        <location filename="../forms/ui_intro.h" line="+299"/>
         <source>Welcome</source>
         <translation>欢迎</translation>
     </message>
     <message>
         <location line="+107"/>
+        <location filename="../forms/ui_intro.h" line="+1"/>
         <source>Welcome to %1.</source>
         <translation>欢迎使用 %1</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_intro.h" line="+1"/>
         <source>As this is the first time the program is launched, you can choose where %1 will store its data.</source>
         <translation>由于这是第一次启动此程序，您可以选择%1的数据所存储的位置</translation>
     </message>
     <message>
         <location line="+157"/>
+        <location filename="../forms/ui_intro.h" line="+4"/>
         <source>When you click OK, %1 will begin to download and process the full %4 block chain (%2GB) starting with the earliest transactions in %3 when %4 initially launched.</source>
         <translation>当你点击确认后，%1 将会在 %4 启动时从  %3 中最早的交易开始，下载并处理完整的 %4 区块链 (%2GB)。</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_intro.h" line="+1"/>
         <source>This initial synchronisation is very demanding, and may expose hardware problems with your computer that had previously gone unnoticed. Each time you run %1, it will continue downloading where it left off.</source>
         <translation>一开始的同步作业非常的耗费资源，并且可能会暴露出之前没被发现的电脑硬件问题。每次执行 %1 的时候都会继续先前未完成的下载。</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_intro.h" line="+1"/>
         <source>If you have chosen to limit block chain storage (pruning), the historical data must still be downloaded and processed, but will be deleted afterward to keep your disk usage low.</source>
         <translation>如果你选择限制区块链存储大小（区块链裁剪模式），程序依然会下载并处理全部历史数据，此后才会删除不必须的部分，占用最少的存储空间。</translation>
     </message>
     <message>
         <location line="-160"/>
+        <location filename="../forms/ui_intro.h" line="-5"/>
         <source>Use the default data directory</source>
         <translation>使用默认的数据目录</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_intro.h" line="+1"/>
         <source>Use a custom data directory:</source>
         <translation>使用自定义的数据目录：</translation>
     </message>
@@ -1260,21 +1318,26 @@
     <name>MinerSetup</name>
     <message>
         <location filename="../forms/miner.ui" line="+14"/>
+        <location filename="../forms/ui_miner.h" line="+208"/>
+        <location filename="../minersetup.cpp" line="+205"/>
         <source>YeeMiner</source>
         <translation>易矿工</translation>
     </message>
     <message>
         <location line="+53"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
         <source>Work for:</source>
         <translation>连接到矿池：</translation>
     </message>
     <message>
         <location line="+35"/>
+        <location filename="../forms/ui_miner.h" line="+2"/>
         <source>Current Difficulty:</source>
         <translation>当前难度：</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
         <source>Accepted Share:</source>
         <translation>贡献速度</translation>
     </message>
@@ -1282,54 +1345,81 @@
         <location line="+7"/>
         <location line="+14"/>
         <location line="+7"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
+        <location line="+2"/>
+        <location line="+1"/>
         <source>N/A</source>
         <translation>不可用</translation>
     </message>
     <message>
         <location line="-14"/>
+        <location filename="../forms/ui_miner.h" line="-2"/>
         <source>Hash Rate:</source>
         <translation>算力：</translation>
     </message>
     <message>
         <location line="+31"/>
+        <location filename="../forms/ui_miner.h" line="+3"/>
         <source>Mining With this Device</source>
         <translation>使用这些设备挖矿</translation>
     </message>
     <message>
         <location line="+39"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
         <source>Stop</source>
         <translation>停工</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../forms/ui_miner.h" line="+1"/>
         <source>Payment goes to this Address:</source>
         <translation>收益打入这个地址：</translation>
+    </message>
+    <message>
+        <location filename="../minersetup.cpp" line="-106"/>
+        <source>address to receive mining payment</source>
+        <translation>用于接收矿池的收益</translation>
+    </message>
+    <message>
+        <location line="+91"/>
+        <source>YeeMiner - Mining</source>
+        <translation>易矿工 - 挖矿中</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Stopping Miner....</source>
+        <translation>正在停止挖矿</translation>
     </message>
 </context>
 <context>
     <name>OpenURIDialog</name>
     <message>
         <location filename="../forms/openuridialog.ui" line="+14"/>
+        <location filename="../forms/ui_openuridialog.h" line="+149"/>
         <source>Open URI</source>
         <translation>打开 URI</translation>
     </message>
     <message>
         <location line="+89"/>
+        <location filename="../forms/ui_openuridialog.h" line="+1"/>
         <source>Open payment request from URI or file</source>
         <translation>打开来自URI或文件的付款请求 </translation>
     </message>
     <message>
         <location line="+9"/>
+        <location filename="../forms/ui_openuridialog.h" line="+1"/>
         <source>URI:</source>
         <translation>URI: </translation>
     </message>
     <message>
         <location line="+16"/>
+        <location filename="../forms/ui_openuridialog.h" line="+2"/>
         <source>Select payment request file</source>
         <translation>选择付款请求文件 </translation>
     </message>
@@ -1343,57 +1433,69 @@
     <name>OptionsDialog</name>
     <message>
         <location filename="../forms/optionsdialog.ui" line="+14"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+735"/>
         <source>Options</source>
         <translation>选项</translation>
     </message>
     <message>
         <location line="+144"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+11"/>
         <source>&amp;Main</source>
         <translation>主要(&amp;M)</translation>
     </message>
     <message>
         <location line="+12"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-9"/>
         <source>Automatically start %1 after logging in to the system.</source>
         <translation>在登入系统后自动启动 %1</translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Start %1 on system login</source>
         <translation>系统登入时启动 %1</translation>
     </message>
     <message>
         <location line="+25"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>MB</source>
         <translation>MB</translation>
     </message>
     <message>
         <location line="+27"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Number of script &amp;verification threads</source>
         <translation>脚本验证线程数(&amp;V)</translation>
     </message>
     <message>
         <location line="+110"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+17"/>
         <source>&amp;Use All CPU Power</source>
         <translation>使用全部的 CPU</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Use &amp;3/4 CPU Power</source>
         <translation>使用四分之三CPU</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Use &amp;1/4 CPU Power</source>
         <translation>使用四分之一CPU</translation>
     </message>
     <message>
         <location line="+65"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+14"/>
         <source>Pro&amp;xy IP:</source>
         <translation>代理地址：</translation>
     </message>
     <message>
         <location line="+31"/>
         <location line="+199"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
+        <location line="+28"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理的 IP 地址 (例如 IPv4: 127.0.0.1 / IPv6: ::1)</translation>
     </message>
@@ -1401,259 +1503,315 @@
         <location line="-124"/>
         <location line="+23"/>
         <location line="+23"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-20"/>
+        <location line="+5"/>
+        <location line="+5"/>
         <source>Shows if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
         <translation>显示默认的SOCKS5代理是否被用于在该类型的网络下连接同伴</translation>
     </message>
     <message>
         <location line="+178"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+26"/>
         <source>Minimize instead of exit the application when the window is closed. When this option is enabled, the application will be closed only after selecting Exit in the menu.</source>
         <translation>窗口被关闭时最小化而不是退出应用程序。当此选项启用时，应用程序只会在菜单中选择退出时退出。</translation>
     </message>
     <message>
         <location line="+79"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+9"/>
         <source>1</source>
         <translation>1</translation>
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>2</source>
         <translation>2</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+13"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+6"/>
+        <location line="+4"/>
         <source>Third party URLs (e.g. a block explorer) that appear in the transactions tab as context menu items. %s in the URL is replaced by transaction hash. Multiple URLs are separated by vertical bar |.</source>
         <translation>出现在交易的选项卡的上下文菜单项的第三方网址 (例如：区块链接查询) 。 %s的URL被替换为交易哈希。多个的URL需要竖线 | 分隔。</translation>
     </message>
     <message>
         <location line="-10"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-2"/>
         <source>&amp;Third party transaction URLs</source>
         <translation>区块链查看地址</translation>
     </message>
     <message>
         <location line="+41"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
         <source>Active command-line options that override above options:</source>
         <translation>有效的命令行参数覆盖上述选项:</translation>
     </message>
     <message>
         <location line="+45"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+3"/>
         <source>Open the %1 configuration file from the working directory.</source>
         <translation>从工作目录下打开配置文件 %1。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Open Configuration File</source>
         <translation>打开配置文件</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Reset all client options to default.</source>
         <translation>恢复客户端的缺省设置</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Reset Options</source>
         <translation>恢复缺省设置(&amp;R)</translation>
     </message>
     <message>
         <location line="-569"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-42"/>
         <source>&amp;Network</source>
         <translation>网络(&amp;N)</translation>
     </message>
     <message>
         <location line="-197"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-71"/>
         <source>Si&amp;ze of database cache</source>
         <translation>数据缓存大小</translation>
     </message>
     <message>
         <location line="+56"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+4"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 = 自动, &lt;0 = 保持指定数量的CPU核心空闲)</translation>
     </message>
     <message>
         <location line="+36"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+18"/>
         <source>W&amp;allet</source>
         <translation>钱包(&amp;A)</translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-15"/>
         <source>Expert</source>
         <translation>专家</translation>
     </message>
     <message>
         <location line="+9"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+4"/>
         <source>Enable coin &amp;control features</source>
         <translation>启动货币控制功能(&amp;C)</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>If you disable the spending of unconfirmed change, the change from a transaction cannot be used until that transaction has at least one confirmation. This also affects how your balance is computed.</source>
         <translation>如果禁用未确认的零钱，则零钱至少需要1个确认才能使用。同时账户余额计算会受到影响。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Spend unconfirmed change</source>
         <translation>使用未经确认的零钱(&amp;S)</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Enable Mining</source>
         <translation>启用挖矿</translation>
     </message>
     <message>
         <location line="+12"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Use Half CPU Power</source>
         <translation>只用一半的CPU</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Use One CPU Power</source>
         <translation>只使用一个CPU</translation>
     </message>
     <message>
         <location line="+57"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+6"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>自动在路由器中打开端口。只有当您的路由器开启了 UPnP 选项时此功能才有效。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Map port using &amp;UPnP</source>
         <translation>使用 &amp;UPnP 映射端口</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Accept connections from outside.</source>
         <translation>接受传入的连接</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Allow incomin&amp;g connections</source>
         <translation>接受传入的连接</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Connect to the Bitcoin network through a SOCKS5 proxy.</source>
         <translation>通过 SOCKS5 代理连接网络。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Connect through SOCKS5 proxy (default proxy):</source>
         <translation>通过 SO&amp;CKS5 代理连接(默认代理)：</translation>
     </message>
     <message>
         <location line="+47"/>
         <location line="+199"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
+        <location line="+28"/>
         <source>&amp;Port:</source>
         <translation>端口(&amp;P)：</translation>
     </message>
     <message>
         <location line="-168"/>
         <location line="+199"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-26"/>
+        <location line="+28"/>
         <source>Port of the proxy (e.g. 9050)</source>
         <translation>代理端口（例如 9050）</translation>
     </message>
     <message>
         <location line="-175"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-26"/>
         <source>Used for reaching peers via:</source>
         <translation>连接到同伴的方式：</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
         <source>IPv4</source>
         <translation>IPv4</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
         <source>IPv6</source>
         <translation>IPv6</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
         <source>Tor</source>
         <translation>Tor</translation>
     </message>
     <message>
         <location line="+25"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Connect to the Bitcoin network through a separate SOCKS5 proxy for Tor hidden services.</source>
         <translation>在 Tor 匿名网络下通过不同的 SOCKS5 代理连接网络</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Use separate SOCKS&amp;5 proxy to reach peers via Tor hidden services:</source>
         <translation>使用另外的 SOCKS5 代理访问上述设定的 SOCKS5 代理</translation>
     </message>
     <message>
         <location line="+9"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>Prox&amp;y IP:</source>
         <translation>代理地址：</translation>
     </message>
     <message>
         <location line="+105"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+21"/>
         <source>&amp;Window</source>
         <translation>窗口(&amp;W)</translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-11"/>
         <source>Hide the icon from the system tray.</source>
         <translation>隐藏托盘图标</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Hide tray icon</source>
         <translation>隐藏托盘图标</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>Show only a tray icon after minimizing the window.</source>
         <translation>最小化窗口后仅显示托盘图标</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Minimize to the tray instead of the taskbar</source>
         <translation>最小化到托盘(&amp;M)</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+4"/>
         <source>M&amp;inimize on close</source>
         <translation>单击关闭按钮最小化(&amp;I)</translation>
     </message>
     <message>
         <location line="+21"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+20"/>
         <source>&amp;Display</source>
         <translation>显示(&amp;D)</translation>
     </message>
     <message>
         <location line="+8"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-18"/>
         <source>User Interface &amp;language:</source>
         <translation>用户界面语言(&amp;L)：</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>The user interface language can be set here. This setting will take effect after restarting %1.</source>
         <translation>可以在这里设定用户界面的语言。这个设定在重启 %1 后才会生效。</translation>
     </message>
     <message>
         <location line="+14"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+2"/>
         <source>&amp;Unit to show amounts in:</source>
         <translation>金额单位(&amp;U)：</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+5"/>
         <source>Choose the default subdivision unit to show in the interface and when sending coins.</source>
         <translation>选择货币单位。</translation>
     </message>
     <message>
         <location line="-533"/>
+        <location filename="../forms/ui_optionsdialog.h" line="-85"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否需要交易源地址控制功能。</translation>
     </message>
     <message>
         <location line="+680"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+105"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
         <location line="+19"/>
+        <location filename="../forms/ui_optionsdialog.h" line="+1"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -1718,76 +1876,91 @@
     <name>OverviewPage</name>
     <message>
         <location filename="../forms/overviewpage.ui" line="+14"/>
+        <location filename="../forms/ui_overviewpage.h" line="+450"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
         <location line="+614"/>
+        <location filename="../forms/ui_overviewpage.h" line="+31"/>
         <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
         <translation>现在显示的消息可能是过期的。在连接上网络节点后，您的钱包将自动与网络同步，但是这个过程还没有完成。</translation>
     </message>
     <message>
         <location line="-488"/>
+        <location filename="../forms/ui_overviewpage.h" line="-30"/>
         <source>Available:</source>
         <translation>可使用的余额：</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_overviewpage.h" line="+2"/>
         <source>Your current spendable balance</source>
         <translation>您当前可使用的余额</translation>
     </message>
     <message>
         <location line="+82"/>
+        <location filename="../forms/ui_overviewpage.h" line="+5"/>
         <source>Pending:</source>
         <translation>等待中的余额：</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_overviewpage.h" line="+2"/>
         <source>Total of transactions that have yet to be confirmed, and do not yet count toward the spendable balance</source>
         <translation>尚未确认的交易总额，未计入当前余额</translation>
     </message>
     <message>
         <location line="+85"/>
+        <location filename="../forms/ui_overviewpage.h" line="+5"/>
         <source>Immature:</source>
         <translation>未成熟的：</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_overviewpage.h" line="+2"/>
         <source>Mined balance that has not yet matured</source>
         <translation>尚未成熟的挖矿收入余额</translation>
     </message>
     <message>
         <location line="+82"/>
+        <location filename="../forms/ui_overviewpage.h" line="+5"/>
         <source>Total:</source>
         <translation>总额：</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_overviewpage.h" line="+2"/>
         <source>Your current total balance</source>
         <translation>您当前的总余额</translation>
     </message>
     <message>
         <location line="-312"/>
+        <location filename="../forms/ui_overviewpage.h" line="-18"/>
         <source>Your current balance in watch-only addresses</source>
         <translation>您当前 观察地址(watch-only address)的余额 </translation>
     </message>
     <message>
         <location line="+401"/>
+        <location filename="../forms/ui_overviewpage.h" line="+23"/>
         <source>Recent transactions</source>
         <translation>最近交易记录</translation>
     </message>
     <message>
         <location line="-287"/>
+        <location filename="../forms/ui_overviewpage.h" line="-16"/>
         <source>Unconfirmed transactions to watch-only addresses</source>
         <translation>观察地址(watch-only address)的未确认交易记录 </translation>
     </message>
     <message>
         <location line="+117"/>
+        <location filename="../forms/ui_overviewpage.h" line="+7"/>
         <source>Mined balance in watch-only addresses that has not yet matured</source>
         <translation>观察地址(watch-only address)中尚未成熟(matured)的挖矿收入余额：</translation>
     </message>
     <message>
         <location line="+114"/>
+        <location filename="../forms/ui_overviewpage.h" line="+7"/>
         <source>Current total balance in watch-only addresses</source>
         <translation>观察地址(watch-only address)中的当前总余额 </translation>
     </message>
@@ -2151,118 +2324,171 @@
         <location line="+26"/>
         <location line="+23"/>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+988"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+3"/>
+        <location line="+2"/>
+        <location line="+30"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+2"/>
+        <location line="+5"/>
+        <location line="+2"/>
+        <location line="+2"/>
         <source>N/A</source>
         <translation>不可用</translation>
     </message>
     <message>
         <location line="-1297"/>
+        <location filename="../forms/ui_debugwindow.h" line="-91"/>
         <source>Client version</source>
         <translation>客户端版本</translation>
     </message>
     <message>
         <location line="-22"/>
+        <location filename="../forms/ui_debugwindow.h" line="+30"/>
         <source>&amp;Information</source>
         <translation>信息</translation>
     </message>
     <message>
         <location line="-86"/>
+        <location filename="../forms/ui_debugwindow.h" line="-32"/>
         <source>Debug window</source>
         <translation>调试窗口</translation>
     </message>
     <message>
         <location line="+101"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <source>General</source>
         <translation>常规</translation>
     </message>
     <message>
         <location line="+56"/>
+        <location filename="../forms/ui_debugwindow.h" line="+5"/>
         <source>Using BerkeleyDB version</source>
         <translation>使用的 BerkeleyDB 版本</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Datadir</source>
         <translation>数据目录</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Startup time</source>
         <translation>启动时间</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <source>Name</source>
         <translation>区块链名字</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Number of connections</source>
         <translation>连接数</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Block chain</source>
         <translation>数据链</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <source>Current number of blocks</source>
         <translation>当前数据块数量</translation>
     </message>
     <message>
         <location line="+52"/>
+        <location filename="../forms/ui_debugwindow.h" line="+4"/>
         <source>Memory Pool</source>
         <translation>资金池</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <source>Current number of transactions</source>
         <translation>当前交易数量</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Memory usage</source>
         <translation>内存使用</translation>
     </message>
     <message>
         <location line="+54"/>
+        <location filename="../forms/ui_debugwindow.h" line="+4"/>
         <source>Open the %1 debug log file from the current data directory. This can take a few seconds for large log files.</source>
         <translation>打开调试文件。如果文件很大可能需要数秒。</translation>
     </message>
     <message>
         <location line="+296"/>
+        <location filename="../forms/ui_debugwindow.h" line="+19"/>
         <source>&amp;Reset</source>
         <translation>&amp;重启</translation>
     </message>
     <message>
         <location line="+43"/>
         <location line="+521"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
+        <location line="+31"/>
         <source>Received</source>
         <translation>收到</translation>
     </message>
     <message>
         <location line="-478"/>
         <location line="+455"/>
+        <location filename="../forms/ui_debugwindow.h" line="-30"/>
+        <location line="+28"/>
         <source>Sent</source>
         <translation>发送</translation>
     </message>
     <message>
         <location line="-414"/>
+        <location filename="../forms/ui_debugwindow.h" line="+15"/>
         <source>&amp;Peers</source>
         <translation>同伴(&amp;P)</translation>
     </message>
     <message>
         <location line="+53"/>
+        <location filename="../forms/ui_debugwindow.h" line="-41"/>
         <source>Banned peers</source>
         <translation>节点黑名单</translation>
     </message>
     <message>
         <location line="+60"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <location filename="../rpcconsole.cpp" line="+497"/>
         <location line="+718"/>
         <source>Select a peer to view detailed information.</source>
@@ -2270,122 +2496,147 @@
     </message>
     <message>
         <location line="+25"/>
+        <location filename="../forms/ui_debugwindow.h" line="+1"/>
         <source>Whitelisted</source>
         <translation>白名单</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Direction</source>
         <translation>方向</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
         <location line="+69"/>
+        <location filename="../forms/ui_debugwindow.h" line="+6"/>
         <source>Starting Block</source>
         <translation>初始数据块</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Synced Headers</source>
         <translation>同步区块头</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Synced Blocks</source>
         <translation>同步区块链</translation>
     </message>
     <message>
         <location line="-1031"/>
         <location line="+939"/>
+        <location filename="../forms/ui_debugwindow.h" line="-65"/>
+        <location line="+57"/>
         <source>User Agent</source>
         <translation>用户代理</translation>
     </message>
     <message>
         <location line="-562"/>
+        <location filename="../forms/ui_debugwindow.h" line="-27"/>
         <source>Decrease font size</source>
         <translation>缩小文字</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_debugwindow.h" line="+4"/>
         <source>Increase font size</source>
         <translation>放大文字</translation>
     </message>
     <message>
         <location line="+553"/>
+        <location filename="../forms/ui_debugwindow.h" line="+25"/>
         <source>Services</source>
         <translation>服务</translation>
     </message>
     <message>
         <location line="+92"/>
+        <location filename="../forms/ui_debugwindow.h" line="+8"/>
         <source>Ban Score</source>
         <translation>禁止得分</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Connection Time</source>
         <translation>连接时间</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Last Send</source>
         <translation>最后发送</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Last Receive</source>
         <translation>最后接收</translation>
     </message>
     <message>
         <location line="+69"/>
+        <location filename="../forms/ui_debugwindow.h" line="+6"/>
         <source>Ping Time</source>
         <translation>Ping 时间</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+3"/>
         <source>The duration of a currently outstanding ping.</source>
         <translation>目前这一次 ping 已经过去的时间。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Ping Wait</source>
         <translation>Ping等待</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Min Ping</source>
         <translation>最小Ping值</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_debugwindow.h" line="+2"/>
         <source>Time Offset</source>
         <translation>时间偏移</translation>
     </message>
     <message>
         <location line="-1068"/>
+        <location filename="../forms/ui_debugwindow.h" line="-72"/>
         <source>Last block time</source>
         <translation>上一数据块时间</translation>
     </message>
     <message>
         <location line="+116"/>
+        <location filename="../forms/ui_debugwindow.h" line="+11"/>
         <source>&amp;Open</source>
         <translation>打开(&amp;O)</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_debugwindow.h" line="+16"/>
         <source>&amp;Console</source>
         <translation>控制台(&amp;C)</translation>
     </message>
     <message>
         <location line="+206"/>
+        <location filename="../forms/ui_debugwindow.h" line="+5"/>
         <source>&amp;Network Traffic</source>
         <translation>网络流量(&amp;N)</translation>
     </message>
     <message>
         <location line="+74"/>
+        <location filename="../forms/ui_debugwindow.h" line="-3"/>
         <source>Totals</source>
         <translation>总数</translation>
     </message>
@@ -2401,11 +2652,13 @@
     </message>
     <message>
         <location filename="../forms/debugwindow.ui" line="-325"/>
+        <location filename="../forms/ui_debugwindow.h" line="-22"/>
         <source>Debug log file</source>
         <translation>调试日志文件</translation>
     </message>
     <message>
         <location line="+145"/>
+        <location filename="../forms/ui_debugwindow.h" line="+15"/>
         <source>Clear console</source>
         <translation>清空控制台</translation>
     </message>
@@ -2524,69 +2777,85 @@
     <name>ReceiveCoinsDialog</name>
     <message>
         <location filename="../forms/receivecoinsdialog.ui" line="+99"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+344"/>
         <source>&amp;Amount:</source>
         <translation>总额(&amp;A)：</translation>
     </message>
     <message>
         <location line="+52"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+12"/>
         <source>&amp;Label:</source>
         <translation>标签(&amp;L)：</translation>
     </message>
     <message>
         <location line="-36"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-8"/>
         <source>&amp;Message:</source>
         <translation>消息(&amp;M)：</translation>
     </message>
     <message>
         <location line="-3"/>
         <location line="+52"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-2"/>
+        <location line="+12"/>
         <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
         <translation>可在付款请求上备注一条信息，在打开付款请求时可以看到。注意：该消息不会通过网络传送。</translation>
     </message>
     <message>
         <location line="-30"/>
         <location line="+14"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-8"/>
+        <location line="+4"/>
         <source>An optional label to associate with the new receiving address.</source>
         <translation>可为新建的收款地址添加一个标签。</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-2"/>
         <source>Use this form to request payments. All fields are &lt;b&gt;optional&lt;/b&gt;.</source>
         <translation>使用此表单要求付款。所有字段都是&lt;b&gt;可选&lt;/b&gt;。</translation>
     </message>
     <message>
         <location line="-45"/>
         <location line="+174"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-10"/>
+        <location line="+25"/>
         <source>An optional amount to request. Leave this empty or zero to not request a specific amount.</source>
         <translation>可选的请求金额。留空或填零为不要求具体金额。</translation>
     </message>
     <message>
         <location line="-59"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-5"/>
         <source>Clear all fields of the form.</source>
         <translation>清除此表单的所有字段。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+2"/>
         <source>Clear</source>
         <translation>清除</translation>
     </message>
     <message>
         <location line="+84"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+6"/>
         <source>Bech32 addresses (BIP-173) are cheaper to spend from and offer better protection against typos. When unchecked a P2SH wrapped SegWit address will be created, compatible with older wallets.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+2"/>
         <source>Generate Bech32 address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+64"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="+1"/>
         <source>Requested payments history</source>
         <translation>请求付款的历史</translation>
     </message>
     <message>
         <location line="-177"/>
+        <location filename="../forms/ui_receivecoinsdialog.h" line="-13"/>
         <source>&amp;Request payment</source>
         <translation>生成收款地址(&amp;R)</translation>
     </message>
@@ -2615,51 +2884,61 @@
     <name>ReceiveRequestDialog</name>
     <message>
         <location filename="../forms/receiverequestdialog.ui" line="+72"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+254"/>
         <source>Label:</source>
         <translation>标签</translation>
     </message>
     <message>
         <location line="+27"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>URI:</source>
         <translation>URI:</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>Address:</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+17"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>Message:</source>
         <translation>消息：</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>Amount:</source>
         <translation>金额：</translation>
     </message>
     <message>
         <location line="+37"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+2"/>
         <source>Copy &amp;URI</source>
         <translation>复制 URI(&amp;U)</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>Copy &amp;Address</source>
         <translation>复制地址(&amp;A)</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>&amp;Save Image...</source>
         <translation>保存图片(&amp;S)...</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>Copy Image</source>
         <translation>复制图片</translation>
     </message>
     <message>
         <location line="+66"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="+1"/>
         <source>QR CODE DISABBLED</source>
         <translation>QR 图片支持没有启用</translation>
     </message>
@@ -2670,6 +2949,7 @@
     </message>
     <message>
         <location filename="../forms/receiverequestdialog.ui" line="-137"/>
+        <location filename="../forms/ui_receiverequestdialog.h" line="-5"/>
         <source>Payment information</source>
         <translation>付款信息</translation>
     </message>
@@ -2741,97 +3021,116 @@
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+898"/>
         <location filename="../sendcoinsdialog.cpp" line="+588"/>
         <source>Send Coins</source>
         <translation>发送</translation>
     </message>
     <message>
         <location line="+152"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Coin Control Features</source>
         <translation>交易源地址控制功能</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Inputs...</source>
         <translation>输入...</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>automatically selected</source>
         <translation>自动选择</translation>
     </message>
     <message>
         <location line="+19"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Insufficient funds!</source>
         <translation>存款不足！</translation>
     </message>
     <message>
         <location line="+89"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Quantity:</source>
         <translation>总量：</translation>
     </message>
     <message>
         <location line="+35"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Bytes:</source>
         <translation>字节：</translation>
     </message>
     <message>
         <location line="+48"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Amount:</source>
         <translation>金额：</translation>
     </message>
     <message>
         <location line="+80"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Fee:</source>
         <translation>费用：</translation>
     </message>
     <message>
         <location line="+51"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>After Fee:</source>
         <translation>加上交易费用后:</translation>
     </message>
     <message>
         <location line="+32"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Change:</source>
         <translation>变更 : </translation>
     </message>
     <message>
         <location line="+44"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>If this is activated, but the change address is empty or invalid, change will be sent to a newly generated address.</source>
         <translation>如果激活该选项，但是零钱地址用光或者非法，将会新生成零钱地址，转入零钱。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Custom change address</source>
         <translation>自定义零钱地址</translation>
     </message>
     <message>
         <location line="+221"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Transaction Fee:</source>
         <translation>交易费用:</translation>
     </message>
     <message>
         <location line="+35"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Choose...</source>
         <translation>选择... </translation>
     </message>
     <message>
         <location line="+30"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Using the fallbackfee can result in sending a transaction that will take several hours or days (or never) to confirm. Consider choosing your fee manually or wait until you have validated the complete chain.</source>
         <translation>如果使用备用交易费设置，有可能会导致交易经过几个小时、几天（甚至永远）无法被确认。请考虑手动选择交易费，或等待整个链完成验证。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Warning: Fee estimation is currently not possible.</source>
         <translation>警告: 目前无法进行交易费估计。</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>collapse fee-settings</source>
         <translation>收起  费用设置 </translation>
     </message>
     <message>
         <location line="+51"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+4"/>
         <source>Specify a custom fee per kB (1,000 bytes) of the transaction&apos;s virtual size.
 
 Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satoshis per kB&quot; for a transaction size of 500 bytes (half of 1 kB) would ultimately yield a fee of only 50 satoshis.</source>
@@ -2839,92 +3138,111 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location line="+5"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+4"/>
         <source>per kilobyte</source>
         <translation>每kb</translation>
     </message>
     <message>
         <location line="-53"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="-6"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
         <location line="+80"/>
         <location line="+13"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+8"/>
+        <location line="+4"/>
         <source>Paying only the minimum fee is just fine as long as there is less transaction volume than space in the blocks. But be aware that this can end up in a never confirming transaction once there is more demand for bitcoin transactions than the network can process.</source>
         <translation>交易量小时允许只支付最小交易费。但是请注意，当交易量大到超出网络可处理时您的交易可能永远无法确认。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>(read the tooltip)</source>
         <translation>(请注意提示信息)</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Recommended:</source>
         <translation>推荐：</translation>
     </message>
     <message>
         <location line="+30"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+1"/>
         <source>Custom:</source>
         <translation>自定义：</translation>
     </message>
     <message>
         <location line="+52"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+3"/>
         <source>(Smart fee not initialized yet. This usually takes a few blocks...)</source>
         <translation>(智能交易费用 尚未初始化。 需要再下载一些数据块...)</translation>
     </message>
     <message>
         <location line="+103"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+3"/>
         <source>With Replace-By-Fee (BIP-125) you can increase a transaction&apos;s fee after it is sent. Without this, a higher fee may be recommended to compensate for increased transaction delay risk.</source>
         <translation>允许稍后更改手续费</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Enable Replace-By-Fee</source>
         <translation>允许稍后更改手续费</translation>
     </message>
     <message>
         <location line="+90"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+10"/>
         <source>Send to multiple recipients at once</source>
         <translation>一次发送给多个接收者</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>Add &amp;Recipient</source>
         <translation>添加收款人(&amp;R)</translation>
     </message>
     <message>
         <location line="-28"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="-6"/>
         <source>Clear all fields of the form.</source>
         <translation>清除此表单的所有字段。</translation>
     </message>
     <message>
         <location line="-878"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="-49"/>
         <source>Dust:</source>
         <translation>小额：</translation>
     </message>
     <message>
         <location line="+732"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+39"/>
         <source>Confirmation time target:</source>
         <translation>确认时间目标：</translation>
     </message>
     <message>
         <location line="+153"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+12"/>
         <source>Clear &amp;All</source>
         <translation>清除所有(&amp;A)</translation>
     </message>
     <message>
         <location line="+59"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+5"/>
         <source>Balance:</source>
         <translation>余额：</translation>
     </message>
     <message>
         <location line="-99"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="-11"/>
         <source>Confirm the send action</source>
         <translation>确认发送货币</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_sendcoinsdialog.h" line="+2"/>
         <source>S&amp;end</source>
         <translation>发送(&amp;E)</translation>
     </message>
@@ -3100,108 +3418,133 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location filename="../forms/sendcoinsentry.ui" line="+515"/>
         <location line="+482"/>
         <location line="+547"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+585"/>
+        <location line="+4"/>
+        <location line="+8"/>
         <source>A&amp;mount:</source>
         <translation>金额(&amp;M)</translation>
     </message>
     <message>
         <location line="-1316"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-44"/>
         <source>Pay &amp;To:</source>
         <translation>付给(&amp;T)：</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+1"/>
         <source>&amp;Label:</source>
         <translation>标签(&amp;L)：</translation>
     </message>
     <message>
         <location line="+37"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+5"/>
         <source>Choose previously used address</source>
         <translation>选择以前用过的地址</translation>
     </message>
     <message>
         <location line="-111"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-8"/>
         <source>This is a normal payment.</source>
         <translation>这是笔正常的支付。</translation>
     </message>
     <message>
         <location line="+98"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+5"/>
         <source>The Bitcoin address to send the payment to</source>
         <translation>付款目的地址</translation>
     </message>
     <message>
         <location line="+29"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+7"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
         <location line="+13"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+3"/>
         <source>Paste address from clipboard</source>
         <translation>从剪贴板粘贴地址</translation>
     </message>
     <message>
         <location line="+16"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+4"/>
         <source>Alt+P</source>
         <translation>Alt+P</translation>
     </message>
     <message>
         <location line="+154"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+14"/>
         <source>Use available balance</source>
         <translation>使用全部余额</translation>
     </message>
     <message>
         <location line="+1081"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+15"/>
         <source>Remove this entry</source>
         <translation>移除此项</translation>
     </message>
     <message>
         <location line="-1091"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-18"/>
         <source>The fee will be deducted from the amount being sent. The recipient will receive less bitcoins than you enter in the amount field. If multiple recipients are selected, the fee is split equally.</source>
         <translation>交易费将从发送总额中扣除。接收人将收到比您在金额框中输入的更少的钱。如果选中了多个收件人，交易费平分。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+2"/>
         <source>S&amp;ubtract fee from amount</source>
         <translation>从金额中减去交易费(&amp;U)</translation>
     </message>
     <message>
         <location line="-112"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-4"/>
         <source>Message:</source>
         <translation>消息：</translation>
     </message>
     <message>
         <location line="+586"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+8"/>
         <source>This is an unauthenticated payment request.</source>
         <translation>这是一个未经验证的支付请求。</translation>
     </message>
     <message>
         <location line="+523"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+6"/>
         <source>This is an authenticated payment request.</source>
         <translation>这是一个已经验证的支付请求。</translation>
     </message>
     <message>
         <location line="-1119"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-17"/>
         <source>Enter a label for this address to add it to the list of used addresses</source>
         <translation>请为此地址输入一个标签以将它加入用过的地址列表</translation>
     </message>
     <message>
         <location line="-16"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-3"/>
         <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
         <translation>URI 附带的备注信息，将会和交易一起存储，备查。 注意：该消息不会通过网络传输。</translation>
     </message>
     <message>
         <location line="+672"/>
         <location line="+507"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="+18"/>
+        <location line="+5"/>
         <source>Pay To:</source>
         <translation>支付给:</translation>
     </message>
     <message>
         <location line="-517"/>
         <location line="+507"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-6"/>
+        <location line="+5"/>
         <source>Memo:</source>
         <translation>便条：</translation>
     </message>
     <message>
         <location line="-1150"/>
+        <location filename="../forms/ui_sendcoinsentry.h" line="-17"/>
         <source>Enter a label for this address to add it to your address book</source>
         <translation>为这个地址输入一个标签，以便将它添加到您的地址簿</translation>
     </message>
@@ -3232,114 +3575,139 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <name>SignVerifyMessageDialog</name>
     <message>
         <location filename="../forms/signverifymessagedialog.ui" line="+14"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+439"/>
         <source>Signatures - Sign / Verify a Message</source>
         <translation>签名 - 为消息签名/验证签名消息</translation>
     </message>
     <message>
         <location line="+81"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+37"/>
         <source>&amp;Sign Message</source>
         <translation>签名消息(&amp;S)</translation>
     </message>
     <message>
         <location line="+21"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="-36"/>
         <source>You can sign messages/agreements with your addresses to prove you can receive bitcoins sent to them. Be careful not to sign anything vague or random, as phishing attacks may try to trick you into signing your identity over to them. Only sign fully-detailed statements you agree to.</source>
         <translation>您可以用你的地址对消息/协议进行签名，以证明您可以接收发送到该地址的钱。注意不要对任何模棱两可或者随机的消息进行签名，以免遭受钓鱼式攻击。请确保消息内容准确的表达了您的真实意愿。</translation>
     </message>
     <message>
         <location line="+24"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>The Bitcoin address to sign the message with</source>
         <translation>用来对消息签名的地址 </translation>
     </message>
     <message>
         <location line="+13"/>
         <location line="+310"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+3"/>
+        <location line="+37"/>
         <source>Choose previously used address</source>
         <translation>选择以前用过的地址</translation>
     </message>
     <message>
         <location line="-300"/>
         <location line="+310"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="-33"/>
+        <location line="+37"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
         <location line="-294"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="-34"/>
         <source>Paste address from clipboard</source>
         <translation>从剪贴板粘贴地址</translation>
     </message>
     <message>
         <location line="+10"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+4"/>
         <source>Alt+P</source>
         <translation>Alt+P</translation>
     </message>
     <message>
         <location line="+12"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+3"/>
         <source>Enter the message you want to sign here</source>
         <translation>请输入您要发送的签名消息</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>Signature</source>
         <translation>签名</translation>
     </message>
     <message>
         <location line="+39"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+3"/>
         <source>Copy the current signature to the system clipboard</source>
         <translation>复制当前签名至剪切板</translation>
     </message>
     <message>
         <location line="+47"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+4"/>
         <source>Sign the message to prove you own this Bitcoin address</source>
         <translation>签名消息，证明这个地址属于您。</translation>
     </message>
     <message>
         <location line="+6"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>Sign &amp;Message</source>
         <translation>消息签名(&amp;M)</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>Reset all sign message fields</source>
         <translation>清空所有签名消息栏</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+229"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
+        <location line="+21"/>
         <source>Clear &amp;All</source>
         <translation>清除所有(&amp;A)</translation>
     </message>
     <message>
         <location line="-150"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>&amp;Verify Message</source>
         <translation>验证消息(&amp;V)</translation>
     </message>
     <message>
         <location line="+18"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="-20"/>
         <source>Enter the receiver&apos;s address, message (ensure you copy line breaks, spaces, tabs, etc. exactly) and signature below to verify the message. Be careful not to read more into the signature than what is in the signed message itself, to avoid being tricked by a man-in-the-middle attack. Note that this only proves the signing party receives with the address, it cannot prove sendership of any transaction!</source>
         <translation>请在下面输入接收者地址、消息（确保换行符、空格符、制表符等完全相同）和签名以验证消息。请仔细核对签名信息，以提防中间人攻击。请注意，这只是证明接收方签名的地址，它不能证明任何交易！</translation>
     </message>
     <message>
         <location line="+27"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>The Bitcoin address the message was signed with</source>
         <translation>消息使用的签名地址</translation>
     </message>
     <message>
         <location line="+76"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+10"/>
         <source>Verify the message to ensure it was signed with the specified address</source>
         <translation>验证消息，确保消息是由指定的地址签名过的。</translation>
     </message>
     <message>
         <location line="+3"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>Verify &amp;Message</source>
         <translation>验证消息签名(&amp;M)</translation>
     </message>
     <message>
         <location line="+23"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="+2"/>
         <source>Reset all verify message fields</source>
         <translation>清空所有验证消息栏</translation>
     </message>
     <message>
         <location line="-312"/>
+        <location filename="../forms/ui_signverifymessagedialog.h" line="-31"/>
         <source>Click &quot;Sign Message&quot; to generate signature</source>
         <translation>单击“签名消息“产生签名。</translation>
     </message>
@@ -3424,11 +3792,13 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location filename="../forms/splashscreen.ui" line="+20"/>
+        <location filename="../forms/ui_splashscreen.h" line="+93"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
         <location line="+75"/>
+        <location filename="../forms/ui_splashscreen.h" line="+1"/>
         <source>Loading...</source>
         <translation>载入中.....</translation>
     </message>
@@ -3688,6 +4058,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <name>TransactionDescDialog</name>
     <message>
         <location filename="../forms/transactiondescdialog.ui" line="+20"/>
+        <location filename="../forms/ui_transactiondescdialog.h" line="+60"/>
         <source>This pane shows a detailed description of the transaction</source>
         <translation>当前面板显示了交易的详细信息</translation>
     </message>
@@ -3907,32 +4278,39 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location filename="../forms/transactionview.ui" line="+21"/>
+        <location filename="../forms/ui_transactionview.h" line="+215"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
         <location line="+57"/>
+        <location filename="../forms/ui_transactionview.h" line="+1"/>
         <source>Enter address, transaction id, or label to search</source>
         <translation>输入地址，交易id或者标签 开始搜索</translation>
     </message>
     <message>
         <location line="+7"/>
+        <location filename="../forms/ui_transactionview.h" line="+1"/>
         <source>Min amount</source>
         <translation>最小金额</translation>
     </message>
     <message>
         <location line="+26"/>
+        <location filename="../forms/ui_transactionview.h" line="+1"/>
         <source>&amp;Export</source>
         <translation>导出(&amp;E)</translation>
     </message>
     <message>
         <location line="+29"/>
         <location line="+17"/>
+        <location filename="../forms/ui_transactionview.h" line="+2"/>
+        <location line="+2"/>
         <source>yyyy/MM/dd</source>
         <translation>yyyy/MM/dd</translation>
     </message>
     <message>
         <location line="-7"/>
+        <location filename="../forms/ui_transactionview.h" line="-1"/>
         <source>To</source>
         <translation>到</translation>
     </message>
@@ -4053,6 +4431,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     </message>
     <message>
         <location filename="../forms/transactionview.ui" line="-17"/>
+        <location filename="../forms/ui_transactionview.h" line="-2"/>
         <source>Range:</source>
         <translation>范围：</translation>
     </message>
@@ -5447,21 +5826,25 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
     <name>menubar</name>
     <message>
         <location filename="../forms/menubar.ui" line="+14"/>
+        <location filename="../forms/ui_menubar.h" line="+164"/>
         <source>Form</source>
         <translation>表单</translation>
     </message>
     <message>
         <location line="+89"/>
+        <location filename="../forms/ui_menubar.h" line="+1"/>
         <source>&amp;File</source>
         <translation>文件(&amp;F)</translation>
     </message>
     <message>
         <location line="+18"/>
+        <location filename="../forms/ui_menubar.h" line="+1"/>
         <source>S&amp;etting</source>
         <translation>设置(&amp;E)</translation>
     </message>
     <message>
         <location line="+18"/>
+        <location filename="../forms/ui_menubar.h" line="+1"/>
         <source>&amp;Help</source>
         <translation>帮助(&amp;H)</translation>
     </message>

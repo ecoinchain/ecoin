@@ -132,6 +132,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 	miner_io_service.run();
 
 	miner.stop();
+	speed.Reset();
 }
 
 void MinerSetup::timer_interrupt()
@@ -185,17 +186,23 @@ void MinerSetup::on_startbutton_clicked()
 
 	ui->startbutton->hide();
 	ui->stopbutton->show();
+
+	setWindowTitle(tr("YeeMiner - Mining"));
 }
 
 void MinerSetup::on_stopbutton_clicked()
 {
 	miner_io_service.stop();
 
+	setWindowTitle(tr("Stopping Miner...."));
+
 	if (this->miner_io_thread.joinable())
 		this->miner_io_thread.join();
 
 	ui->stopbutton->hide();
 	ui->startbutton->show();
+
+	setWindowTitle(tr("YeeMiner"));
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)
