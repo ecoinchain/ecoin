@@ -40,6 +40,9 @@ public:
     explicit MinerSetup(const PlatformStyle *platformStyle, WalletModel*, QWidget *parent = 0);
     ~MinerSetup();
 
+Q_SIGNALS:
+	void MinerStatusChanged(bool);
+
 public Q_SLOTS:
 	void error_report(QString error_message);
 

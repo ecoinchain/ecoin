@@ -53,6 +53,8 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 	// fill CPU{id} checkbox.
 	int number_of_cpus = std::thread::hardware_concurrency();
 
+	int number_of_colum = std::max(2, (int)sqrt(number_of_cpus));
+
 	for (int i = 0; i < number_of_cpus; i++)
 	{
 		auto checkbox = new QCheckBox(ui->cpu_select_group);
@@ -61,7 +63,7 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 		checkbox->setCheckState(Qt::Checked);
 
-		ui->cpu_select_group_layout->addWidget(checkbox, i/2 , i%2, 1, 1);
+		ui->cpu_select_group_layout->addWidget(checkbox, i/number_of_colum , i%number_of_colum, 1, 1);
 
 		checkboxies.push_back(checkbox);
 	}
@@ -146,10 +148,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 
 void MinerSetup::timer_interrupt()
 {
-	double allshares = speed.GetShareSpeed() * 60;
-
 	ui->hashrate->setText(QString("%1/s").arg(speed.GetSolutionSpeed()));
-	ui->acceptedshare->setText(QString("%1/min").arg(allshares));
 }
 
 void MinerSetup::on_startbutton_clicked()
@@ -197,6 +196,8 @@ void MinerSetup::on_startbutton_clicked()
 	ui->stopbutton->show();
 
 	setWindowTitle(tr("YeeMiner - Mining"));
+
+	Q_EMIT MinerStatusChanged(true);
 }
 
 void MinerSetup::on_stopbutton_clicked()
@@ -214,6 +215,8 @@ void MinerSetup::on_stopbutton_clicked()
 	setWindowTitle(tr("YeeMiner"));
 
 	ui->difficultlty->setText(tr("N/A"));
+
+	Q_EMIT MinerStatusChanged(false);
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)

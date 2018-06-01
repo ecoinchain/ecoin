@@ -60,7 +60,7 @@ QLabel {
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout" stretch="0,8">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
@@ -103,13 +103,6 @@ QLabel {
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Accepted Share:</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="1">
         <widget class="QLabel" name="hashrate">
          <property name="text">
@@ -121,13 +114,6 @@ QLabel {
         <widget class="QLabel" name="label_2">
          <property name="text">
           <string>Hash Rate:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="acceptedshare">
-         <property name="text">
-          <string>N/A</string>
          </property>
         </widget>
        </item>
