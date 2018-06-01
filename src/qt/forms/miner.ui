@@ -60,7 +60,7 @@ QLabel {
          </property>
          <item>
           <property name="text">
-           <string notr="true" extracomment="币易官方矿池">币易官方矿池</string>
+           <string notr="true" extracomment="币易官方矿池">erpool.org</string>
           </property>
          </item>
         </widget>
