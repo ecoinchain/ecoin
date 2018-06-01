@@ -398,7 +398,6 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 			if (valParams.type() == array_type) {
 				const Array& params = valParams.get_array();
 				m_nextJobTarget = params[0].get_str();
-				new_target(m_nextJobTarget);
 			}
 		}
 		else if (method == "mining.set_extranonce") {
@@ -440,7 +439,6 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 			if (command_list[0].get_array()[0].get_str() == "mining.set_target")
 			{
 				m_nextJobTarget = command_list[0].get_array()[1].get_str();
-				new_target(m_nextJobTarget);
 			}
 
         }

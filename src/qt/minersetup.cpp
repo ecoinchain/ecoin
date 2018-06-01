@@ -131,11 +131,6 @@ void MinerSetup::start_mining(std::string host, std::string port,
 		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(error.c_str(), error.length())));
 	});
 
-	sc.on_target_change([this](std::string newtarget)
-	{
-		QMetaObject::invokeMethod(this, "on_target_change", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(newtarget)));
-	});
-
 	miner.onSolutionFound([&](const EquihashSolution& solution, const std::string& jobid) {
 		return sc.submit(&solution, jobid);
 	});
@@ -214,8 +209,6 @@ void MinerSetup::on_stopbutton_clicked()
 
 	setWindowTitle(tr("YeeMiner"));
 
-	ui->difficultlty->setText(tr("N/A"));
-
 	Q_EMIT MinerStatusChanged(false);
 }
 
@@ -259,9 +252,3 @@ bool MinerSetup::eventFilter(QObject * watched, QEvent * ev)
 
     return QWidget::eventFilter(watched, ev);
 }
-
-void MinerSetup::on_target_change(QString newtarget)
-{
-	ui->difficultlty->setText(newtarget);
-}
-
