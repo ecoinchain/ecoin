@@ -44,15 +44,10 @@ double Speed::Get(boost::circular_buffer<time_point>& buffer, std::mutex& mutex)
 
 				if (i == 0)
 				{
-					interval = std::chrono::duration_cast<std::chrono::milliseconds>(now - buffer[i]).count() / 1000.0;
-
 					return (total - 1.0) / interval;
 				}else
 				{
-					interval = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::seconds(m_interval)).count() / 1000.0;
-
 					return (double)total / interval;
-
 				}
 			}
 		}
