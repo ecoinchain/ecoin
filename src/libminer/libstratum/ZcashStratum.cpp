@@ -18,7 +18,7 @@
 
 #include "speed.hpp"
 
-#ifdef WIN32
+#ifdef _WIN32
 #include <Windows.h>
 #endif
 
@@ -36,9 +36,9 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 	LogPrintf( "miner#%d, Starting thread %d(%s)%s", pos, pos, solver->getname(), solver->getdevinfo());
 
 	if (solver->GetType() == SolverType::CPU) {
-#ifdef WIN32
+#ifdef _WIN32
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_LOWEST);
-#else
+#elif defined(__linux__)
 	// todo: linux set low priority
 	pthread_setschedprio(pthread_self(), 19);
 #endif
