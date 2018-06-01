@@ -166,7 +166,7 @@ void MinerSetup::on_startbutton_clicked()
 
 	size_t delim = location.find(':');
 	std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
-	std::string port = delim != std::string::npos ? location.substr(delim + 1) : "2142";
+	std::string port = delim != std::string::npos ? location.substr(delim + 1) : "3333";
 
 	if (this->miner_io_thread.joinable())
 		this->miner_io_thread.join();
