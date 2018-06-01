@@ -59,7 +59,11 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 		checkbox->setText(QString("CPU%1").arg(i));
 
+		checkbox->setCheckState(Qt::Checked);
+
 		ui->cpu_select_group_layout->addWidget(checkbox, i/2 , i%2, 1, 1);
+
+		checkboxies.push_back(checkbox);
 	}
 
 	ui_update_timer.setInterval(std::chrono::milliseconds(500));
@@ -125,6 +129,11 @@ void MinerSetup::start_mining(std::string host, std::string port,
 		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(error)));
 	});
 
+	sc.on_target_change([this](std::string newtarget)
+	{
+		QMetaObject::invokeMethod(this, "on_target_change", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(newtarget)));
+	});
+
 	miner.onSolutionFound([&](const EquihashSolution& solution, const std::string& jobid) {
 		return sc.submit(&solution, jobid);
 	});
@@ -132,6 +141,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 	miner_io_service.run();
 
 	miner.stop();
+	speed.Reset();
 }
 
 void MinerSetup::timer_interrupt()
@@ -144,7 +154,7 @@ void MinerSetup::timer_interrupt()
 
 void MinerSetup::on_startbutton_clicked()
 {
-	int num_threads = 8;
+	int num_threads = std::accumulate(checkboxies.begin(), checkboxies.end(), 0, [](int sum, QCheckBox* box){ return box->checkState() == Qt::Unchecked ?  sum  : sum + 1;});
 
 	std::string location;
 	std::string user = ui->username->currentText().toStdString();
@@ -185,17 +195,25 @@ void MinerSetup::on_startbutton_clicked()
 
 	ui->startbutton->hide();
 	ui->stopbutton->show();
+
+	setWindowTitle(tr("YeeMiner - Mining"));
 }
 
 void MinerSetup::on_stopbutton_clicked()
 {
 	miner_io_service.stop();
 
+	setWindowTitle(tr("Stopping Miner...."));
+
 	if (this->miner_io_thread.joinable())
 		this->miner_io_thread.join();
 
 	ui->stopbutton->hide();
 	ui->startbutton->show();
+
+	setWindowTitle(tr("YeeMiner"));
+
+	ui->difficultlty->setText(tr("N/A"));
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)
@@ -237,5 +255,10 @@ bool MinerSetup::eventFilter(QObject * watched, QEvent * ev)
 	}
 
     return QWidget::eventFilter(watched, ev);
+}
+
+void MinerSetup::on_target_change(QString newtarget)
+{
+	ui->difficultlty->setText(newtarget);
 }
 

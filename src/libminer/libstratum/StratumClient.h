@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 // Copyright (c) 2016 Genoil <jw@meneer.net>
 // Copyright (c) 2016 Jack Grigg <jack@z.cash>
 // Distributed under the MIT software license, see the accompanying
@@ -121,6 +121,11 @@ public:
 		report_error.connect(f);
 	}
 
+	template<typename Func>
+	void on_target_change(Func f)
+	{
+		new_target.connect(f);
+	}
 private:
     void startWorking();
     void workLoop(boost::system::error_code ec, boost::asio::coroutine);
@@ -172,6 +177,11 @@ private:
 	typedef boost::signals2::signal<void (std::string)> report_error_t;
 
 	report_error_t report_error;
+
+
+	typedef boost::signals2::signal<void (std::string)> target_report_t;
+
+	target_report_t new_target;
 };
 
 

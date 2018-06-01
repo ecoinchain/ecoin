@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Genoil <jw@meneer.net>
+﻿// Copyright (c) 2016 Genoil <jw@meneer.net>
 // Copyright (c) 2016 Jack Grigg <jack@z.cash>
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
@@ -77,7 +77,7 @@ struct connect_op : boost::asio::coroutine
 		, m_handler(handler)
 		, q(host, port)
 	{
-		r.reset(new tcp::resolver(socket.get_io_context()));
+		r.reset(new tcp::resolver(socket.get_io_service()));
 	}
 
 
@@ -120,6 +120,46 @@ void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
 	connect_op<Handler>(this->m_socket, p_active->host, p_active->port, handler)();
 }
 
+
+#include <boost/locale.hpp>
+#include <boost/locale/utf.hpp>
+
+inline std::wstring ansi_wide(const std::string& source)
+{
+	std::wstring wide;
+	wchar_t dest;
+	std::size_t max = source.size();
+
+	// reset mbtowc.
+	mbtowc(NULL, NULL, 0);
+
+	// convert source to wide.
+	for (std::string::const_iterator i = source.begin();
+		i != source.end(); )
+	{
+		int length = mbtowc(&dest, &(*i), max);
+		if (length < 1)
+			break;
+		max -= length;
+		while (length--) i++;
+		wide.push_back(dest);
+	}
+
+	return wide;
+}
+
+inline std::string wide_utf8(const std::wstring& source)
+{
+	return boost::locale::conv::utf_to_utf<char>(source);
+}
+
+inline std::string ansi_utf8(std::string const& source)
+{
+	std::wstring wide = ansi_wide(source);
+	return wide_utf8(wide);
+}
+
+
 template <typename Miner, typename Job, typename Solution>
 void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec, boost::asio::coroutine coro)
 {
@@ -141,7 +181,11 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 		{
 			std::cerr << ec.message() << std::endl;
 			p_current.reset();
+#ifdef _WIN32
+			report_error(ansi_utf8(ec.message()));
+#else
 			report_error(ec.message());
+#endif
 			m_reconnect_delay = 3000;
 			reconnect();
 			return;
@@ -339,6 +383,7 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 			if (valParams.type() == array_type) {
 				const Array& params = valParams.get_array();
 				m_nextJobTarget = params[0].get_str();
+				new_target(m_nextJobTarget);
 			}
 		}
 		else if (method == "mining.set_extranonce") {
@@ -380,8 +425,8 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 			if (command_list[0].get_array()[0].get_str() == "mining.set_target")
 			{
 				m_nextJobTarget = command_list[0].get_array()[1].get_str();
+				new_target(m_nextJobTarget);
 			}
-
 
         }
         break;

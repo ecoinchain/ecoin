@@ -203,7 +203,6 @@ libbitcoin_server_a_SOURCES = \
   init.cpp \
   dbwrapper.cpp \
   merkleblock.cpp \
-  miner.cpp \
   net.cpp \
   net_processing.cpp \
   noui.cpp \
@@ -230,7 +229,13 @@ libbitcoin_server_a_SOURCES = \
   versionbits.cpp \
   libminer/MinerFactory.cpp \
   libminer/cpu_tromp/cpu_tromp.cpp \
-  $(BITCOIN_CORE_H)
+  $(BITCOIN_CORE_H) \
+  miner.cpp \
+  libminer/speed.cpp \
+  libminer/MinerFactory.cpp \
+  libminer/blake2/blake2bx.cpp \
+  libminer/cpu_tromp/cpu_tromp.cpp
+
 
 if ENABLE_ZMQ
 libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
