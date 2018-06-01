@@ -126,7 +126,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 
 	sc.set_report_error([this](std::string error)
 	{
-		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromStdString(error)));
+		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(error.c_str(), error.length())));
 	});
 
 	sc.on_target_change([this](std::string newtarget)
@@ -158,7 +158,7 @@ void MinerSetup::on_startbutton_clicked()
 
 	std::string location;
 	std::string user = ui->username->currentText().toStdString();
-	if (ui->location->currentText() == "币易官方矿池")
+	if (ui->location->currentText() == QStringLiteral("币易官方矿池"))
 		location = "47.97.210.70:3333";
 	else
 		location = ui->location->currentText().toStdString();
