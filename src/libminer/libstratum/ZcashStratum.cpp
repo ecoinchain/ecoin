@@ -37,8 +37,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 
 	if (solver->GetType() == SolverType::CPU) {
 #ifdef WIN32
-	HANDLE hThread = minerThreads[i].native_handle();
-	SetThreadPriority(hThread, THREAD_PRIORITY_LOWEST);
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_LOWEST);
 #else
 	// todo: linux set low priority
 	pthread_setschedprio(pthread_self(), 19);

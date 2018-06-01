@@ -1,5 +1,7 @@
 #pragma once
 
+#include <mutex>
+#include <chrono>
 #include <boost/circular_buffer.hpp>
 
 #define INTERVAL_SECONDS 15 // 15 seconds

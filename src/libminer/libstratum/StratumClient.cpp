@@ -77,7 +77,7 @@ struct connect_op : boost::asio::coroutine
 		, m_handler(handler)
 		, q(host, port)
 	{
-		r.reset(new tcp::resolver(socket.get_io_context()));
+		r.reset(new tcp::resolver(socket.get_io_service()));
 	}
 
 
