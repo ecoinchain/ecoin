@@ -120,6 +120,46 @@ void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
 	connect_op<Handler>(this->m_socket, p_active->host, p_active->port, handler)();
 }
 
+
+#include <boost/locale.hpp>
+#include <boost/locale/utf.hpp>
+
+inline std::wstring ansi_wide(const std::string& source)
+{
+	std::wstring wide;
+	wchar_t dest;
+	std::size_t max = source.size();
+
+	// reset mbtowc.
+	mbtowc(NULL, NULL, 0);
+
+	// convert source to wide.
+	for (std::string::const_iterator i = source.begin();
+		i != source.end(); )
+	{
+		int length = mbtowc(&dest, &(*i), max);
+		if (length < 1)
+			break;
+		max -= length;
+		while (length--) i++;
+		wide.push_back(dest);
+	}
+
+	return wide;
+}
+
+inline std::string wide_utf8(const std::wstring& source)
+{
+	return boost::locale::conv::utf_to_utf<char>(source);
+}
+
+inline std::string ansi_utf8(std::string const& source)
+{
+	std::wstring wide = ansi_wide(source);
+	return wide_utf8(wide);
+}
+
+
 template <typename Miner, typename Job, typename Solution>
 void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec, boost::asio::coroutine coro)
 {
@@ -141,7 +181,11 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 		{
 			std::cerr << ec.message() << std::endl;
 			p_current.reset();
+#ifdef _WIN32
+			report_error(ansi_utf8(ec.message()));
+#else
 			report_error(ec.message());
+#endif
 			m_reconnect_delay = 3000;
 			reconnect();
 			return;
