@@ -187,7 +187,7 @@ void MinerSetup::on_startbutton_clicked()
 
 		auto _MinerFactory = new MinerFactory();
 
-		start_mining(host, port, user, "x",
+		start_mining(host, port, user, "",
 			_MinerFactory->GenerateSolvers(num_threads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks.data(),
 			cuda_tpb.data(), opencl_enabled.size(), 0, opencl_enabled.data()));
 	});
