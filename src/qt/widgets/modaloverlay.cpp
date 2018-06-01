@@ -41,7 +41,6 @@ bool ModalOverlay::eventFilter(QObject * obj, QEvent * ev) {
 		if (keyevent->key() == Qt::Key_Escape)
 		{
 			close();
-			deleteLater();
 			return true;
 		}
 	}
@@ -70,7 +69,6 @@ bool ModalOverlay::event(QEvent* ev)
 		if (keyevent->key() == Qt::Key_Escape)
 		{
 			close();
-			deleteLater();
 			return true;
 		}
 	}

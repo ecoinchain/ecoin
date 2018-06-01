@@ -143,7 +143,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 
 void MinerSetup::timer_interrupt()
 {
-	ui->hashrate->setText(QString("%1/s").arg(speed.GetSolutionSpeed()));
+	ui->hashrate->setText(QString("%1H/s").arg(speed.GetSolutionSpeed()));
 }
 
 void MinerSetup::on_startbutton_clicked()
