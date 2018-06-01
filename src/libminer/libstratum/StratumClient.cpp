@@ -124,6 +124,7 @@ void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
 #include <boost/locale.hpp>
 #include <boost/locale/utf.hpp>
 
+#ifndef _WIN32
 inline std::wstring ansi_wide(const std::string& source)
 {
 	std::wstring wide;
@@ -147,6 +148,20 @@ inline std::wstring ansi_wide(const std::string& source)
 
 	return wide;
 }
+#else
+inline std::wstring ansi_wide(const std::string& source)
+{
+	std::wstring wide;
+
+    int len = ::MultiByteToWideChar(CP_ACP, 0, source.c_str(), source.length(), NULL, 0);
+    if (len == 0) return L"";
+
+    wide.resize(len);
+    ::MultiByteToWideChar(CP_ACP, 0, source.c_str(), source.length(), &wide[0], len);
+
+    return wide;
+}
+#endif
 
 inline std::string wide_utf8(const std::wstring& source)
 {
