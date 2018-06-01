@@ -152,7 +152,7 @@ void MinerSetup::on_startbutton_clicked()
 
 	std::string location;
 	std::string user = ui->username->currentText().toStdString();
-	if (ui->location->currentText() == QStringLiteral("币易官方矿池"))
+	if (ui->location->currentText() == QStringLiteral("erpool.org"))
 		location = "47.97.210.70:3333";
 	else
 		location = ui->location->currentText().toStdString();
