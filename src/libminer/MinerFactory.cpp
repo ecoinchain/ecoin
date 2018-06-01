@@ -1,4 +1,4 @@
-#include "MinerFactory.h"
+﻿#include "MinerFactory.h"
 
 #include <thread>
 
