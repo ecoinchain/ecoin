@@ -85,7 +85,7 @@ struct connect_op : boost::asio::coroutine
 	{
 		if (ec)
 		{
-			LogPrintf("Could not connect to stratum server %s ", ec.message());
+			LogPrintf("Could not connect to stratum server %s\n", ec.message());
 			m_handler(ec);
 			return;
 		}
@@ -97,7 +97,7 @@ struct connect_op : boost::asio::coroutine
 			BOOST_ASIO_CORO_YIELD boost::asio::async_connect(_socket, endpoint_iterator, tcp::resolver::iterator(), *this);
 
 
-			LogPrintf("Connected!");
+			LogPrintf("Connected!\n");
 
 			m_handler(ec);
 		}
@@ -115,7 +115,7 @@ template <typename Miner, typename Job, typename Solution>
 template <typename Handler>
 void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
 {
-	LogPrintf("Connecting to stratum server %s:%s", p_active->host, p_active->port);
+	LogPrintf("Connecting to stratum server %s:%s\n", p_active->host, p_active->port);
 
 	connect_op<Handler>(this->m_socket, p_active->host, p_active->port, handler)();
 }
@@ -186,7 +186,7 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 	BOOST_ASIO_CORO_REENTER(coro)
 	{
 		if (!p_miner->isMining()) {
-			LogPrintf("Starting miner");
+			LogPrintf("Starting miner\n");
 			p_miner->start();
 		}
 
@@ -307,7 +307,7 @@ void StratumClient<Miner, Job, Solution>::reconnect()
         }
     }
 
-    LogPrintf("Reconnecting in 3 seconds...");
+    LogPrintf("Reconnecting in 3 seconds...\n");
     boost::asio::deadline_timer timer(m_io_service, boost::posix_time::milliseconds(m_reconnect_delay));
 	m_reconnect_delay = 3000;
     timer.wait();
@@ -319,11 +319,11 @@ void StratumClient<Miner, Job, Solution>::disconnect()
 {
     if (!m_connected) return;
 
-    LogPrintf("Disconnecting");
+    LogPrintf("Disconnecting\n");
     m_connected = false;
     m_running = false;
     if (p_miner->isMining()) {
-        LogPrintf("Stopping miner");
+        LogPrintf("Stopping miner\n");
         p_miner->stop();
     }
     m_socket.close();
