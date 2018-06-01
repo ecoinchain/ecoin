@@ -33,7 +33,7 @@ typedef uint32_t eh_index;
 
 void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solver, Speed * speed)
 {
-	LogPrintf( "miner#%d, Starting thread %d(%s)%s", pos, pos, solver->getname(), solver->getdevinfo());
+	LogPrintf("miner#%d, Starting thread %d(%s)%s\n", pos, pos, solver->getname(), solver->getdevinfo());
 
 	if (solver->GetType() == SolverType::CPU) {
 #ifdef _WIN32
@@ -61,7 +61,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
         (std::shared_ptr<ZcashJob> job) mutable {
             std::lock_guard<std::mutex> lock{*m_zmt};
             if (job) {
-				LogPrintf( "miner#%d, Loading new job #%s", pos, job->jobId());
+				LogPrintf( "miner#%d, Loading new job #%s\n", pos, job->jobId());
 				jobId = job->jobId();
 				nTime = job->time;
                 header = job->header;
@@ -167,7 +167,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 					}
 
 					// Found a solution
-					LogPrintf( "miner#%d, Found solution with header hash: %s", pos, headerhash.ToString());
+					LogPrintf( "miner#%d, Found solution with header hash: %s\n", pos, headerhash.ToString());
 					EquihashSolution solution{ bNonce, actualHeader.nSolution, actualTime, actualNonce1size };
 
 					CDataStream ss2(SER_NETWORK, PROTOCOL_VERSION);
@@ -215,13 +215,13 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 
                 // Check for new work
                 if (workReady.load()) {
-					LogPrintf( "miner#%d, New work received, dropping current work", pos);
+					LogPrintf( "miner#%d, New work received, dropping current work\n", pos);
                     break;
                 }
 
 				if (pauseMining.load())
 				{
-					LogPrintf( "miner#%d, Mining paused", pos);
+					LogPrintf( "miner#%d, Mining paused\n", pos);
 					break;
 				}
             }
@@ -233,7 +233,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
     }
     catch (const std::runtime_error &e)
     {
-		LogPrintf("miner#%d, error: %s", pos, e.what());
+		LogPrintf("miner#%d, error: %s\n", pos, e.what());
 		exit(0);
     }
 
@@ -243,10 +243,10 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 	}
 	catch (const std::runtime_error &e)
 	{
-		LogPrintf( "miner#%d, error: %s", pos, e.what());
+		LogPrintf( "miner#%d, error: %s\n", pos, e.what());
 	}
 
-	LogPrintf( "miner#%d, Thread #%d ended(%s)", pos, pos, solver->getname());
+	LogPrintf( "miner#%d, Thread #%d ended(%s)\n", pos, pos, solver->getname());
 }
 
 ZcashJob* ZcashJob::clone() const
@@ -268,7 +268,7 @@ void ZcashJob::setTarget(std::string target)
 	if (target.size() > 0) {
         serverTarget = UintToArith256(uint256S(target));
     } else {
-		LogPrintf( "miner | New job but no server target, assuming powLimit");
+		LogPrintf( "miner | New job but no server target, assuming powLimit\n");
 		serverTarget = UintToArith256(uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
     }
 }
@@ -354,7 +354,7 @@ void ZcashMiner::stop()
 void ZcashMiner::setServerNonce(const std::string& n1str)
 {
     //auto n1str = params[1].get_str();
-	LogPrintf( "miner | Extranonce is %s", n1str);
+	LogPrintf( "miner | Extranonce is %s\n", n1str);
     std::vector<unsigned char> nonceData(ParseHex(n1str));
     while (nonceData.size() < 32) {
         nonceData.push_back(0);
