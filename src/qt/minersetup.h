@@ -44,6 +44,7 @@ public Q_SLOTS:
 	void error_report(QString error_message);
 
 private Q_SLOTS:
+	void on_target_change(QString newtarget);
 	void on_startbutton_clicked();
 	void on_stopbutton_clicked();
 
