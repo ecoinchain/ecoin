@@ -1043,7 +1043,7 @@ void BitcoinGUI::incomingTransaction(const QString& date, int unit, const CAmoun
             msg, CClientUIInterface::MSG_INFORMATION);
 }
 
-void BitcoinGUI::MinerStatusChanged(bool)
+void BitcoinGUI::MinerStatusChanged(bool s)
 {
 #ifdef Q_OS_MAC
     double iconscale = 1.0;
@@ -1051,16 +1051,28 @@ void BitcoinGUI::MinerStatusChanged(bool)
     double iconscale = logicalDpiX() / 96.0;
 #endif
 
-    animatedIcon.reset(new QMovie(":/movies/wa.gif"));
-    labelWalletMinerStatusIcon->setToolTip(tr("mining"));
-    animatedIcon->setScaledSize(QSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE) * iconscale);
-    labelWalletMinerStatusIcon->setMargin(1);
-    labelWalletMinerStatusIcon->setMovie(animatedIcon.data());
-    animatedIcon->start();
+	if (s)
+	{
+		animatedIcon.reset(new QMovie(":/movies/wa.gif"));
+		labelWalletMinerStatusIcon->setToolTip(tr("mining"));
+		animatedIcon->setScaledSize(QSize(STATUSBAR_ICONSIZE, STATUSBAR_ICONSIZE) * iconscale);
+		labelWalletMinerStatusIcon->setMargin(1);
+		labelWalletMinerStatusIcon->setMovie(animatedIcon.data());
+		animatedIcon->start();
 
-#ifndef Q_OS_MAC
-    trayIcon->setToolTip(tr("%1 is mining").arg(QAPP_ORG_NAME));
-#endif
+	#ifndef Q_OS_MAC
+		trayIcon->setToolTip(tr("%1 is mining").arg(QAPP_ORG_NAME));
+	#endif
+	}
+	else
+	{
+		labelWalletMinerStatusIcon->setMovie(nullptr);
+		animatedIcon.reset();
+
+		QString toolTip = tr("%1 client").arg(tr(PACKAGE_NAME));
+		trayIcon->setToolTip(toolTip);
+	}
+
 }
 
 #endif // ENABLE_WALLET
@@ -1324,6 +1336,7 @@ void BitcoinGUI::openMiner()
 	{
 		minerui = new MinerSetup(platformStyle, walletFrame->getWallet(BitcoinGUI::DEFAULT_WALLET));
 
+		connect(minerui, SIGNAL(MinerStatusChanged(bool)), this, SLOT(MinerStatusChanged(bool)));
 		minerui->show();
 	}
 }
