@@ -4,12 +4,15 @@
 
 #pragma once
 
+#include <memory>
+#include <vector>
 
 #include <QPointer>
 #include <QWidget>
 #include <QTimer>
-#include <memory>
+
 #include <QLabel>
+#include <QCheckBox>
 #include <boost/asio.hpp>
 
 #include "amount.h"
@@ -62,4 +65,6 @@ private:
 	QTimer ui_update_timer;
 
 	QPointer<QLabel> message_widget;
+
+	std::vector<QCheckBox*> checkboxies;
 };
