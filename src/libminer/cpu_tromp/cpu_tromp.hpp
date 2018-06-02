@@ -1,4 +1,9 @@
-﻿#ifdef WIN32
+﻿
+struct equi;
+
+#pragma once
+
+#ifdef WIN32
 
 #ifdef _USRDLL
 #define DLL_CPU_TROMP __declspec(dllexport)
@@ -30,6 +35,8 @@ struct DLL_CPU_TROMP CPU_TROMP
     std::string getname() { return CPU_TROMP_NAME; }
 
     int use_opt;
+
+	equi * _eq;
 };
 
 #endif
@@ -63,6 +70,8 @@ struct DLL_CPU_TROMP CPU_TROMP
 	std::string getname() { return CPU_TROMP_NAME; }
 
 	int use_opt;
+
+	equi * _eq;
 };
 
 #endif
@@ -98,6 +107,8 @@ struct CPU_TROMP
     std::string getname() { return CPU_TROMP_NAME; }
 
     int use_opt;
+
+	equi * _eq;
 };
 
 #endif
