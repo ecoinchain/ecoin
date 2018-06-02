@@ -109,7 +109,6 @@ public:
                      string const & user, string const & pass);
 
     bool isRunning() { return m_running; }
-    bool isConnected() { return m_connected && m_authorized; }
     bool current() { return !!p_current; }
     bool submit(const Solution* solution, const std::string& jobid);
     void reconnect();
@@ -137,7 +136,6 @@ private:
     cred_t m_failover;
 
     bool m_authorized;
-    bool m_connected;
     bool m_running = true;
 
     int    m_retries = 0;
