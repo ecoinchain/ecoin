@@ -33,7 +33,6 @@ StratumClient<Miner, Job, Solution>::StratumClient(
     p_active = &m_primary;
 
     m_authorized = false;
-    m_connected = false;
     m_maxRetries = retries;
     m_worktimeout = worktimeout;
 
@@ -207,7 +206,6 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 		}
 
 		{
-			m_connected = true;
 			m_retries = 0;
 			m_socket.set_option(boost::asio::socket_base::keep_alive(true));
 			m_socket.set_option(boost::asio::ip::tcp::no_delay(true));
@@ -220,7 +218,8 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 			std::ostream os(&m_requestBuffer);
 			os << sss;
 
-			write(m_socket, m_requestBuffer);
+			boost::system::error_code ec;
+			boost::asio::write(m_socket, m_requestBuffer, ec);
 
 			m_share_id = 4;
 		}
@@ -289,7 +288,6 @@ void StratumClient<Miner, Job, Solution>::reconnect()
     //m_io_service.reset();
     //m_socket.close(); // leads to crashes on Linux
     m_authorized = false;
-    m_connected = false;
 
     if (!m_failover.host.empty()) {
         m_retries++;
@@ -317,16 +315,14 @@ void StratumClient<Miner, Job, Solution>::reconnect()
 template <typename Miner, typename Job, typename Solution>
 void StratumClient<Miner, Job, Solution>::disconnect()
 {
-    if (!m_connected) return;
-
+	boost::system::error_code ignore;
     LogPrintf("Disconnecting\n");
-    m_connected = false;
     m_running = false;
     if (p_miner->isMining()) {
         LogPrintf("Stopping miner\n");
         p_miner->stop();
     }
-    m_socket.close();
+    m_socket.close(ignore);
 	m_io_work.reset();
 }
 
@@ -432,7 +428,8 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 			   << p_active->user << "\",\"" << p_active->pass << "\"]}\n";
 			std::string sss = ss.str();
 			os << sss;
-            write(m_socket, m_requestBuffer);
+			boost::system::error_code ec;
+            boost::asio::write(m_socket, m_requestBuffer, ec);
 
 			const Array& command_list = result[0].get_array();
 
@@ -532,7 +529,8 @@ bool StratumClient<Miner, Job, Solution>::submit(const Solution* solution, const
 	std::string json = stream.str();
 	std::ostream os(&m_requestBuffer);
 	os << json;
-	write(m_socket, m_requestBuffer);
+	boost::system::error_code ec;
+	boost::asio::write(m_socket, m_requestBuffer, ec);
 	return true;
 }
 
