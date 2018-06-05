@@ -70,6 +70,8 @@ static const u32 MAXSOLS = 8;
 struct tree {
   u32 bid_s0_s1; // manual bitfields
 
+  tree(){ bid_s0_s1 = 0;}
+
   tree(const u32 idx) {
     bid_s0_s1 = idx;
   }
@@ -146,14 +148,11 @@ static u32 hashwords(u32 bytes) {
 
 // manages hash and tree data
 struct htalloc {
-  u32 *heap0;
-  u32 *heap1;
+  u32* heap0;
+  u32* heap1;
   bucket0 *trees0[(WK+1)/2];
   bucket1 *trees1[WK/2];
-  u32 alloced;
-  htalloc() {
-    alloced = 0;
-  }
+
   void alloctrees() {
 // optimize xenoncat's fixed memory layout, avoiding any waste
 // digit  trees  hashes  trees hashes
@@ -171,18 +170,18 @@ struct htalloc {
     heap1 = (u32 *)alloc(1, sizeof(digit1));
     for (int r=0; r<WK; r++)
       if ((r&1) == 0)
-        trees0[r/2]  = (bucket0 *)(heap0 + r/2);
+        trees0[r/2]  = (bucket0 *)( reinterpret_cast<u32*>(heap0) + r/2);
       else
-        trees1[r/2]  = (bucket1 *)(heap1 + r/2);
+        trees1[r/2]  = (bucket1 *)( reinterpret_cast<u32*>(heap1) + r/2);
   }
   void dealloctrees() {
     free(heap0);
     free(heap1);
   }
+private:
   void *alloc(const u32 n, const u32 sz) {
     void *mem  = calloc(n, sz);
     assert(mem);
-    alloced += n * sz;
     return mem;
   }
 };
@@ -197,8 +196,8 @@ static u32 min(const u32 a, const u32 b) {
 struct equi {
   crypto_generichash_blake2b_state blake_ctx;
   htalloc hta;
-  bsizes *nslots; // PUT IN BUCKET STRUCT
-  proof *sols;
+  bsizes nslots[2]; // PUT IN BUCKET STRUCT
+  proof sols[MAXSOLS];
   au32 nsols;
   u32 xfull;
   u32 hfull;
@@ -208,13 +207,9 @@ struct equi {
     assert(sizeof(hashunit) == 4);
 
     hta.alloctrees();
-    nslots = (bsizes *)hta.alloc(2 * NBUCKETS, sizeof(au32));
-    sols   =  (proof *)hta.alloc(MAXSOLS, sizeof(proof));
   }
   ~equi() {
     hta.dealloctrees();
-    free(nslots);
-    free(sols);
   }
   void setnonce(const char *header, const u32 headerLen, const char* nonce, u32 nonceLen) {
 	  equi_setheader(&blake_ctx, header, headerLen, nonce, nonceLen);
@@ -406,7 +401,8 @@ struct equi {
     }
   };
 
-  void digit0(const u32 id) {
+  void digit0(const u32 id)
+  {
     uchar hash[HASHOUT];
     crypto_generichash_blake2b_state state;
     htlayout htl(this, 0);
