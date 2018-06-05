@@ -190,7 +190,7 @@ void MinerSetup::on_startbutton_clicked()
 	ui->startbutton->hide();
 	ui->stopbutton->show();
 
-	setWindowTitle(tr("YeeMiner - Mining"));
+	setWindowTitle(tr("Contribute to a Pool - Mining"));
 
 	Q_EMIT MinerStatusChanged(true);
 }
@@ -207,7 +207,7 @@ void MinerSetup::on_stopbutton_clicked()
 	ui->stopbutton->hide();
 	ui->startbutton->show();
 
-	setWindowTitle(tr("YeeMiner"));
+	setWindowTitle(tr("Contribute to a Pool"));
 
 	Q_EMIT MinerStatusChanged(false);
 }
