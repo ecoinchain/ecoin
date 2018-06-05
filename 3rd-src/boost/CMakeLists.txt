@@ -364,7 +364,7 @@ target_compile_definitions(boost_system PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_ALL_ST
 
 if(Boost_USE_STATIC_LIBS)
 target_compile_definitions(boost_thread PRIVATE -DBOOST_THREAD_BUILD_LIB)
-else
+else()
 target_compile_definitions(boost_thread PRIVATE -DBOOST_THREAD_BUILD_DLL)
 endif()
 
