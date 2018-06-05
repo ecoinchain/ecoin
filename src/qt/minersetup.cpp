@@ -110,7 +110,7 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 MinerSetup::~MinerSetup()
 {
-	miner_io_service.stop();
+	miner_io_service->stop();
 	delete ui;
 	if (miner_io_thread.joinable())
 		miner_io_thread.join();
@@ -119,11 +119,11 @@ MinerSetup::~MinerSetup()
 void MinerSetup::start_mining(std::string host, std::string port,
 	std::string user, std::string password, std::vector<std::unique_ptr<ISolver>> i_solvers)
 {
-	miner_io_service.reset();
+	miner_io_service = std::make_shared<boost::asio::io_service>();
 
 	ZcashMiner miner(&speed, std::move(i_solvers));
 	ZcashStratumClient sc{
-		miner_io_service, &miner, host, port, user, password, 0, 0
+		*miner_io_service, &miner, host, port, user, password, 0, 0
 	};
 
 	sc.set_report_error([this](std::string error)
@@ -135,7 +135,7 @@ void MinerSetup::start_mining(std::string host, std::string port,
 		return sc.submit(&solution, jobid);
 	});
 
-	miner_io_service.run();
+	miner_io_service->run();
 
 	miner.stop();
 	speed.Reset();
@@ -197,7 +197,7 @@ void MinerSetup::on_startbutton_clicked()
 
 void MinerSetup::on_stopbutton_clicked()
 {
-	miner_io_service.stop();
+	miner_io_service->stop();
 
 	setWindowTitle(tr("Stopping Miner...."));
 

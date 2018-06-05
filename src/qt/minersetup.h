@@ -61,7 +61,7 @@ private:
 	Ui::MinerSetup* ui;
 	WalletModel *model;
 
-	boost::asio::io_service miner_io_service;
+	std::shared_ptr<boost::asio::io_service> miner_io_service;
 	std::thread miner_io_thread;
 	Speed speed;
 
