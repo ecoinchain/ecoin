@@ -101,6 +101,7 @@ using std::wstring;
       // See MinGW's windef.h
 #     define WINVER 0x501
 #   endif
+#   include <cwchar>
 #   include <io.h>
 #   include <windows.h>
 #   include <winnt.h>
@@ -328,9 +329,10 @@ namespace
 
   //  general helpers  -----------------------------------------------------------------//
 
-  bool is_empty_directory(const path& p)
+  bool is_empty_directory(const path& p, error_code* ec)
   {
-    return fs::directory_iterator(p)== end_dir_itr;
+    return (ec != 0 ? fs::directory_iterator(p, *ec) : fs::directory_iterator(p))
+      == end_dir_itr;
   }
 
   bool not_found_error(int errval); // forward declaration
@@ -382,16 +384,25 @@ namespace
     error_code* ec)
   {
     boost::uintmax_t count = 1;
-
     if (type == fs::directory_file)  // but not a directory symlink
     {
-      for (fs::directory_iterator itr(p);
-            itr != end_dir_itr; ++itr)
+      fs::directory_iterator itr;
+      if (ec != 0)
+      {
+        itr = fs::directory_iterator(p, *ec);
+        if (*ec)
+          return count;
+      }
+      else
+        itr = fs::directory_iterator(p);
+      for (; itr != end_dir_itr; ++itr)
       {
         fs::file_type tmp_type = query_file_type(itr->path(), ec);
         if (ec != 0 && *ec)
           return count;
         count += remove_all_aux(itr->path(), tmp_type, ec);
+        if (ec != 0 && *ec)
+          return count;
       }
     }
     remove_file_or_directory(p, type, ec);
@@ -508,24 +519,27 @@ namespace
       || errval == ERROR_BAD_NETPATH;  // "//nosuch" on Win32
   }
 
-// some distributions of mingw as early as GLIBCXX__ 20110325 have _stricmp, but the
-// offical 4.6.2 release with __GLIBCXX__ 20111026  doesn't. Play it safe for now, and
-// only use _stricmp if _MSC_VER is defined
-#if defined(_MSC_VER) // || (defined(__GLIBCXX__) && __GLIBCXX__ >= 20110325)
-#  define BOOST_FILESYSTEM_STRICMP _stricmp
-#else
-#  define BOOST_FILESYSTEM_STRICMP strcmp
-#endif
+  static bool equal_extension( wchar_t const* p, wchar_t const (&x1)[ 5 ], wchar_t const (&x2)[ 5 ] )
+  {
+    return
+      (p[0] == x1[0] || p[0] == x2[0]) &&
+      (p[1] == x1[1] || p[1] == x2[1]) &&
+      (p[2] == x1[2] || p[2] == x2[2]) &&
+      (p[3] == x1[3] || p[3] == x2[3]) &&
+      p[4] == 0;
+  }
 
   perms make_permissions(const path& p, DWORD attr)
   {
     perms prms = fs::owner_read | fs::group_read | fs::others_read;
     if  ((attr & FILE_ATTRIBUTE_READONLY) == 0)
       prms |= fs::owner_write | fs::group_write | fs::others_write;
-    if (BOOST_FILESYSTEM_STRICMP(p.extension().string().c_str(), ".exe") == 0
-      || BOOST_FILESYSTEM_STRICMP(p.extension().string().c_str(), ".com") == 0
-      || BOOST_FILESYSTEM_STRICMP(p.extension().string().c_str(), ".bat") == 0
-      || BOOST_FILESYSTEM_STRICMP(p.extension().string().c_str(), ".cmd") == 0)
+    path ext = p.extension();
+    wchar_t const* q = ext.c_str();
+    if (equal_extension(q, L".exe", L".EXE")
+      || equal_extension(q, L".com", L".COM")
+      || equal_extension(q, L".bat", L".BAT")
+      || equal_extension(q, L".cmd", L".CMD"))
       prms |= fs::owner_exe | fs::group_exe | fs::others_exe;
     return prms;
   }
@@ -629,7 +643,7 @@ namespace
     {
       return fs::file_status(fs::file_not_found, fs::no_perms);
     }
-    else if ((errval == ERROR_SHARING_VIOLATION))
+    else if (errval == ERROR_SHARING_VIOLATION)
     {
       return fs::file_status(fs::type_unknown);
     }
@@ -687,7 +701,7 @@ namespace
 
   PtrCreateHardLinkW create_hard_link_api = PtrCreateHardLinkW(
     ::GetProcAddress(
-      ::GetModuleHandle(TEXT("kernel32.dll")), "CreateHardLinkW"));
+      ::GetModuleHandleW(L"kernel32.dll"), "CreateHardLinkW"));
 
   typedef BOOLEAN (WINAPI *PtrCreateSymbolicLinkW)(
     /*__in*/ LPCWSTR lpSymlinkFileName,
@@ -697,7 +711,7 @@ namespace
 
   PtrCreateSymbolicLinkW create_symbolic_link_api = PtrCreateSymbolicLinkW(
     ::GetProcAddress(
-      ::GetModuleHandle(TEXT("kernel32.dll")), "CreateSymbolicLinkW"));
+      ::GetModuleHandleW(L"kernel32.dll"), "CreateSymbolicLinkW"));
 
 #endif
 
@@ -937,12 +951,20 @@ namespace detail
  BOOST_FILESYSTEM_DECL
   bool create_directories(const path& p, system::error_code* ec)
   {
-    path filename(p.filename());
-    if ((filename.native().size() == 1 && filename.native()[0] == dot)
-      || (filename.native().size() == 2
-        && filename.native()[0] == dot && filename.native()[1] == dot))
-      return create_directories(p.parent_path(), ec);
+   if (p.empty())
+   {
+     if (ec == 0)
+       BOOST_FILESYSTEM_THROW(filesystem_error(
+         "boost::filesystem::create_directories", p,
+         system::errc::make_error_code(system::errc::invalid_argument)));
+     else
+       ec->assign(system::errc::invalid_argument, system::generic_category());
+     return false;
+   }
 
+    if (p.filename_is_dot() || p.filename_is_dot_dot())
+      return create_directories(p.parent_path(), ec);
+    
     error_code local_ec;
     file_status p_status = status(p, local_ec);
 
@@ -993,7 +1015,8 @@ namespace detail
     //  attempt to create directory failed
     int errval(BOOST_ERRNO);  // save reason for failure
     error_code dummy;
-    if (errval == BOOST_ERROR_ALREADY_EXISTS && is_directory(p, dummy))
+
+    if (is_directory(p, dummy))
     {
       if (ec != 0)
         ec->clear();
@@ -1006,6 +1029,7 @@ namespace detail
         p, error_code(errval, system_category())));
     else
       ec->assign(errval, system_category());
+
     return false;
   }
 
@@ -1298,7 +1322,7 @@ namespace detail
         p, ec, "boost::filesystem::is_empty"))
       return false;        
     return S_ISDIR(path_stat.st_mode)
-      ? is_empty_directory(p)
+      ? is_empty_directory(p, ec)
       : path_stat.st_size == 0;
 #   else
 
@@ -1310,7 +1334,7 @@ namespace detail
     if (ec != 0) ec->clear();
     return 
       (fad.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-        ? is_empty_directory(p)
+        ? is_empty_directory(p, ec)
         : (!fad.nFileSizeHigh && !fad.nFileSizeLow);
 #   endif
   }
@@ -1601,7 +1625,7 @@ namespace detail
 #   ifdef BOOST_POSIX_API
     struct BOOST_STATVFS vfs;
     space_info info;
-    if (!error(::BOOST_STATVFS(p.c_str(), &vfs)!= 0,
+    if (!error(::BOOST_STATVFS(p.c_str(), &vfs) ? BOOST_ERRNO : 0,
       p, ec, "boost::filesystem::space"))
     {
       info.capacity 

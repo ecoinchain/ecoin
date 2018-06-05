@@ -378,7 +378,7 @@ BOOST_LOG_ANONYMOUS_NAMESPACE {
     }
 
     //! The function matches the file name and the pattern
-    bool match_pattern(path_string_type const& file_name, path_string_type const& pattern, unsigned int& file_counter)
+    bool match_pattern(path_string_type const& file_name, path_string_type const& pattern, unsigned int& file_counter, bool& file_counter_parsed)
     {
         typedef qi::extract_uint< unsigned int, 10, 1, -1 > file_counter_extract;
         typedef file_char_traits< path_char_type > traits_t;
@@ -481,6 +481,7 @@ BOOST_LOG_ANONYMOUS_NAMESPACE {
                         if (!file_counter_extract::call(f_it, f, file_counter))
                             return false;
 
+                        file_counter_parsed = true;
                         p_it = p;
                     }
                     break;
@@ -809,8 +810,9 @@ BOOST_LOG_ANONYMOUS_NAMESPACE {
                         {
                             // Check that the file name matches the pattern
                             unsigned int file_number = 0;
+                            bool file_number_parsed = false;
                             if (method != file::scan_matching ||
-                                match_pattern(filename_string(info.m_Path), mask, file_number))
+                                match_pattern(filename_string(info.m_Path), mask, file_number, file_number_parsed))
                             {
                                 info.m_Size = filesystem::file_size(info.m_Path);
                                 total_size += info.m_Size;
@@ -818,8 +820,9 @@ BOOST_LOG_ANONYMOUS_NAMESPACE {
                                 files.push_back(info);
                                 ++file_count;
 
-                                if (counter && file_number >= *counter)
-                                    *counter = file_number + 1;
+                                // Test that the file_number >= *counter accounting for the integer overflow
+                                if (file_number_parsed && counter != NULL && (file_number - *counter) < ((~0u) ^ ((~0u) >> 1)))
+                                    *counter = file_number + 1u;
                             }
                         }
                     }
@@ -1106,13 +1109,16 @@ struct text_file_backend::implementation
     time_based_rotation_predicate m_TimeBasedRotation;
     //! The flag shows if every written record should be flushed
     bool m_AutoFlush;
+    //! The flag indicates whether the final rotation should be performed
+    bool m_FinalRotationEnabled;
 
-    implementation(uintmax_t rotation_size, bool auto_flush) :
+    implementation(uintmax_t rotation_size, bool auto_flush, bool enable_final_rotation) :
         m_FileOpenMode(std::ios_base::trunc | std::ios_base::out),
         m_FileCounter(0),
         m_CharactersWritten(0),
         m_FileRotationSize(rotation_size),
-        m_AutoFlush(auto_flush)
+        m_AutoFlush(auto_flush),
+        m_FinalRotationEnabled(enable_final_rotation)
     {
     }
 };
@@ -1129,7 +1135,7 @@ BOOST_LOG_API text_file_backend::~text_file_backend()
     try
     {
         // Attempt to put the temporary file into storage
-        if (m_pImpl->m_File.is_open() && m_pImpl->m_CharactersWritten > 0)
+        if (m_pImpl->m_FinalRotationEnabled && m_pImpl->m_File.is_open() && m_pImpl->m_CharactersWritten > 0)
             rotate_file();
     }
     catch (...)
@@ -1145,9 +1151,10 @@ BOOST_LOG_API void text_file_backend::construct(
     std::ios_base::openmode mode,
     uintmax_t rotation_size,
     time_based_rotation_predicate const& time_based_rotation,
-    bool auto_flush)
+    bool auto_flush,
+    bool enable_final_rotation)
 {
-    m_pImpl = new implementation(rotation_size, auto_flush);
+    m_pImpl = new implementation(rotation_size, auto_flush, enable_final_rotation);
     set_file_name_pattern_internal(pattern);
     set_time_based_rotation(time_based_rotation);
     set_open_mode(mode);
@@ -1165,10 +1172,16 @@ BOOST_LOG_API void text_file_backend::set_time_based_rotation(time_based_rotatio
     m_pImpl->m_TimeBasedRotation = predicate;
 }
 
-//! Sets the flag to automatically flush buffers of all attached streams after each log record
-BOOST_LOG_API void text_file_backend::auto_flush(bool f)
+//! The method allows to enable or disable log file rotation on sink destruction.
+BOOST_LOG_API void text_file_backend::enable_final_rotation(bool enable)
 {
-    m_pImpl->m_AutoFlush = f;
+    m_pImpl->m_FinalRotationEnabled = enable;
+}
+
+//! Sets the flag to automatically flush write buffers of the file being written after each log record.
+BOOST_LOG_API void text_file_backend::auto_flush(bool enable)
+{
+    m_pImpl->m_AutoFlush = enable;
 }
 
 //! The method writes the message to the sink
@@ -1176,26 +1189,28 @@ BOOST_LOG_API void text_file_backend::consume(record_view const& rec, string_typ
 {
     typedef file_char_traits< string_type::value_type > traits_t;
 
-    bool no_new_filename = false;
-    if (!m_pImpl->m_File.good())
+    filesystem::path prev_file_name;
+    bool use_prev_file_name = false;
+    if (BOOST_UNLIKELY(!m_pImpl->m_File.good()))
     {
         // The file stream is not operational. One possible reason is that there is no more free space
         // on the file system. In this case it is possible that this log record will fail to be written as well,
         // leaving the newly creted file empty. Eventually this results in lots of empty log files.
         // We should take precautions to avoid this. https://svn.boost.org/trac/boost/ticket/11016
+        prev_file_name = m_pImpl->m_FileName;
         close_file();
 
         system::error_code ec;
-        uintmax_t size = filesystem::file_size(m_pImpl->m_FileName, ec);
+        uintmax_t size = filesystem::file_size(prev_file_name, ec);
         if (!!ec || size == 0)
         {
             // To reuse the empty file avoid re-generating the new file name later
-            no_new_filename = true;
+            use_prev_file_name = true;
         }
         else if (!!m_pImpl->m_pFileCollector)
         {
             // Complete file rotation
-            m_pImpl->m_pFileCollector->store_file(m_pImpl->m_FileName);
+            m_pImpl->m_pFileCollector->store_file(prev_file_name);
         }
     }
     else if
@@ -1212,20 +1227,23 @@ BOOST_LOG_API void text_file_backend::consume(record_view const& rec, string_typ
 
     if (!m_pImpl->m_File.is_open())
     {
-        if (!no_new_filename)
-            m_pImpl->m_FileName = m_pImpl->m_StorageDir / m_pImpl->m_FileNameGenerator(m_pImpl->m_FileCounter++);
+        filesystem::path new_file_name;
+        if (!use_prev_file_name)
+            new_file_name = m_pImpl->m_StorageDir / m_pImpl->m_FileNameGenerator(m_pImpl->m_FileCounter++);
+        else
+            prev_file_name.swap(new_file_name);
 
-        filesystem::create_directories(m_pImpl->m_FileName.parent_path());
+        filesystem::create_directories(new_file_name.parent_path());
 
-        m_pImpl->m_File.open(m_pImpl->m_FileName, m_pImpl->m_FileOpenMode);
-        if (!m_pImpl->m_File.is_open())
+        m_pImpl->m_File.open(new_file_name, m_pImpl->m_FileOpenMode);
+        if (BOOST_UNLIKELY(!m_pImpl->m_File.is_open()))
         {
-            filesystem_error err(
+            BOOST_THROW_EXCEPTION(filesystem_error(
                 "Failed to open file for writing",
-                m_pImpl->m_FileName,
-                system::error_code(system::errc::io_error, system::generic_category()));
-            BOOST_THROW_EXCEPTION(err);
+                new_file_name,
+                system::error_code(system::errc::io_error, system::generic_category())));
         }
+        m_pImpl->m_FileName.swap(new_file_name);
 
         if (!m_pImpl->m_OpenHandler.empty())
             m_pImpl->m_OpenHandler(m_pImpl->m_File);
@@ -1338,29 +1356,36 @@ BOOST_LOG_API void text_file_backend::set_file_name_pattern_internal(filesystem:
 //! Closes the currently open file
 void text_file_backend::close_file()
 {
-    if (!m_pImpl->m_CloseHandler.empty())
+    if (m_pImpl->m_File.is_open())
     {
-        // Rationale: We should call the close handler even if the stream is !good() because
-        // writing the footer may not be the only thing the handler does. However, there is
-        // a chance that the file had become writable since the last failure (e.g. there was
-        // no space left to write the last record, but it got freed since then), so if the handler
-        // attempts to write a footer it may succeed now. For this reason we clear the stream state
-        // and let the handler have a try.
-        m_pImpl->m_File.clear();
-        m_pImpl->m_CloseHandler(m_pImpl->m_File);
+        if (!m_pImpl->m_CloseHandler.empty())
+        {
+            // Rationale: We should call the close handler even if the stream is !good() because
+            // writing the footer may not be the only thing the handler does. However, there is
+            // a chance that the file had become writable since the last failure (e.g. there was
+            // no space left to write the last record, but it got freed since then), so if the handler
+            // attempts to write a footer it may succeed now. For this reason we clear the stream state
+            // and let the handler have a try.
+            m_pImpl->m_File.clear();
+            m_pImpl->m_CloseHandler(m_pImpl->m_File);
+        }
+
+        m_pImpl->m_File.close();
     }
-    m_pImpl->m_File.close();
+
     m_pImpl->m_File.clear();
     m_pImpl->m_CharactersWritten = 0;
+    m_pImpl->m_FileName.clear();
 }
 
 //! The method rotates the file
 BOOST_LOG_API void text_file_backend::rotate_file()
 {
+    filesystem::path prev_file_name = m_pImpl->m_FileName;
     close_file();
 
     if (!!m_pImpl->m_pFileCollector)
-        m_pImpl->m_pFileCollector->store_file(m_pImpl->m_FileName);
+        m_pImpl->m_pFileCollector->store_file(prev_file_name);
 }
 
 //! The method sets the file open mode
@@ -1389,6 +1414,12 @@ BOOST_LOG_API void text_file_backend::set_open_handler(open_handler_type const& 
 BOOST_LOG_API void text_file_backend::set_close_handler(close_handler_type const& handler)
 {
     m_pImpl->m_CloseHandler = handler;
+}
+
+//! The method returns name of the currently open log file. If no file is open, returns an empty path.
+BOOST_LOG_API filesystem::path text_file_backend::get_current_file_name() const
+{
+    return m_pImpl->m_FileName;
 }
 
 //! Performs scanning of the target directory for log files

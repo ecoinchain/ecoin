@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.2)
+﻿cmake_minimum_required(VERSION 3.2)
 project(Boost)
 
 if(WIN32)
@@ -39,9 +39,10 @@ set(BOOST_SYSTEM_SRC
 if(WIN32)
 	set(BOOST_THREAD_SRC
 		libs/thread/src/future.cpp
-		libs/thread/src/win32/tss_dll.cpp
+		libs/thread/src/win32/tss.cpp
 		libs/thread/src/win32/thread.cpp
 		libs/thread/src/win32/tss_pe.cpp
+		libs/thread/src/win32/thread_primitives.cpp
 	)
 else()
 	set(BOOST_THREAD_SRC
@@ -60,6 +61,8 @@ set(BOOST_CHRONO_SRC
 
 set(BOOST_CONTEXT_SRC
 	libs/context/src/execution_context.cpp
+	libs/context/src/continuation.cpp
+	libs/context/src/fiber.cpp
 )
 
 if(WIN32)
@@ -78,7 +81,11 @@ if(WIN32)
 else()
 	set(ASSEMBLER gas)
 	set(ASM_FILE_EXT "S")
+	if (APPLE)
+	set(EXEUCTABLEFORMAT "macho")
+	else()
 	set(EXEUCTABLEFORMAT "elf")
+	endif()
 
 	list(APPEND BOOST_CONTEXT_SRC libs/context/src/posix/stack_traits.cpp)
 
@@ -99,8 +106,13 @@ else()
 	endif()
 endif()
 
-list(APPEND BOOST_CONTEXT_SRC libs/context/src/asm/jump_${ARCH}_${SYSABI}_${EXEUCTABLEFORMAT}_${ASSEMBLER}.${ASM_FILE_EXT})
-list(APPEND BOOST_CONTEXT_SRC libs/context/src/asm/make_${ARCH}_${SYSABI}_${EXEUCTABLEFORMAT}_${ASSEMBLER}.${ASM_FILE_EXT})
+list(APPEND BOOST_CONTEXT_SRC
+	libs/context/src/asm/jump_${ARCH}_${SYSABI}_${EXEUCTABLEFORMAT}_${ASSEMBLER}.${ASM_FILE_EXT})
+list(APPEND BOOST_CONTEXT_SRC
+	libs/context/src/asm/make_${ARCH}_${SYSABI}_${EXEUCTABLEFORMAT}_${ASSEMBLER}.${ASM_FILE_EXT})
+
+list(APPEND BOOST_CONTEXT_SRC
+	libs/context/src/asm/ontop_${ARCH}_${SYSABI}_${EXEUCTABLEFORMAT}_${ASSEMBLER}.${ASM_FILE_EXT})
 
 set(BOOST_COROUTINE_SRC
 	libs/coroutine/src/detail/coroutine_context.cpp
@@ -216,8 +228,6 @@ set(BOOST_TIMER_SRC
 
 set(BOOST_RANDOM_SRC libs/random/src/random_device.cpp)
 
-set(BOOST_SRCS ${BOOST_ATOMIC_SRC})
-
 add_library(boost_header INTERFACE)
 add_library(Boost::boost ALIAS boost_header)
 
@@ -225,112 +235,125 @@ if(Boost_USE_STATIC_LIBS)
 add_library(boost_atomic STATIC ${BOOST_ATOMIC_SRC})
 add_library(Boost::atomic ALIAS boost_atomic)
 else()
-add_library(boost_atomic_dll SHARED ${BOOST_ATOMIC_SRC})
-add_library(Boost::atomic ALIAS boost_atomic_dll)
+add_library(boost_atomic SHARED ${BOOST_ATOMIC_SRC})
+add_library(Boost::atomic ALIAS boost_atomic)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_system STATIC ${BOOST_SYSTEM_SRC})
 add_library(Boost::system ALIAS boost_system)
 else()
-add_library(boost_system_dll SHARED ${BOOST_SYSTEM_SRC})
-add_library(Boost::system ALIAS boost_system_dll)
+add_library(boost_system SHARED ${BOOST_SYSTEM_SRC})
+add_library(Boost::system ALIAS boost_system)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_thread STATIC ${BOOST_THREAD_SRC})
 add_library(Boost::thread ALIAS boost_thread)
 else()
-add_library(boost_thread_dll SHARED ${BOOST_THREAD_SRC})
-add_library(Boost::thread ALIAS boost_thread_dll)
+add_library(boost_thread SHARED ${BOOST_THREAD_SRC})
+add_library(Boost::thread ALIAS boost_thread)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_context STATIC ${BOOST_CONTEXT_SRC})
 add_library(Boost::context ALIAS boost_context)
 else()
-add_library(boost_context_dll SHARED ${BOOST_CONTEXT_SRC})
-add_library(Boost::context ALIAS boost_context_dll)
-endif()
-
-if(Boost_USE_STATIC_LIBS)
-add_library(boost_coroutine STATIC ${BOOST_COROUTINE_SRC})
-add_library(Boost::coroutine ALIAS boost_coroutine)
-else()
-add_library(boost_coroutine_dll SHARED ${BOOST_COROUTINE_SRC})
-add_library(Boost::coroutine ALIAS boost_coroutine_dll)
+add_library(boost_context SHARED ${BOOST_CONTEXT_SRC})
+add_library(Boost::context ALIAS boost_context)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_chrono STATIC ${BOOST_CHRONO_SRC})
 add_library(Boost::chrono ALIAS boost_chrono)
 else()
-add_library(boost_chrono_dll SHARED ${BOOST_CHRONO_SRC})
-add_library(Boost::chrono ALIAS boost_chrono_dll)
+add_library(boost_chrono SHARED ${BOOST_CHRONO_SRC})
+add_library(Boost::chrono ALIAS boost_chrono)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_filesystem STATIC ${BOOST_FILESYSTEM_SRC})
 add_library(Boost::filesystem ALIAS boost_filesystem)
 else()
-add_library(boost_filesystem_dll SHARED ${BOOST_FILESYSTEM_SRC})
-add_library(Boost::filesystem ALIAS boost_filesystem_dll)
+add_library(boost_filesystem SHARED ${BOOST_FILESYSTEM_SRC})
+add_library(Boost::filesystem ALIAS boost_filesystem)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
-add_library(boost_locale STATIC ${BOOST_LOCALE_SRC})
-add_library(Boost::locale ALIAS boost_locale)
+	add_library(boost_locale STATIC ${BOOST_LOCALE_SRC})
+	add_library(Boost::locale ALIAS boost_locale)
+	if(WIN32)
+		target_compile_definitions(boost_locale PRIVATE -DBOOST_LOCALE_WITH_WCONV)
+	else()
+		target_compile_definitions(boost_locale PRIVATE -DBOOST_LOCALE_WITH_ICONV)
+	endif()
+
+	if(APPLE)
+	target_link_libraries(boost_locale iconv)
+	endif()
+
 else()
-add_library(boost_locale_dll SHARED ${BOOST_LOCALE_SRC})
-add_library(Boost::locale ALIAS boost_locale_dll)
+	add_library(boost_locale SHARED ${BOOST_LOCALE_SRC})
+	add_library(Boost::locale ALIAS boost_locale)
+
+	if(WIN32)
+		target_compile_definitions(boost_locale PRIVATE -DBOOST_LOCALE_WITH_WCONV)
+	else()
+		target_compile_definitions(boost_locale PRIVATE -DBOOST_LOCALE_WITH_ICONV)
+	endif()
+
+	if(APPLE)
+	target_link_libraries(boost_locale iconv)
+	endif()
 endif()
+
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_date_time STATIC ${BOOST_DATE_TIME_SRC})
 add_library(Boost::date_time ALIAS boost_date_time)
 else()
-add_library(boost_date_time_dll SHARED ${BOOST_DATE_TIME_SRC})
-add_library(Boost::date_time ALIAS boost_date_time_dll)
+add_library(boost_date_time SHARED ${BOOST_DATE_TIME_SRC})
+add_library(Boost::date_time ALIAS boost_date_time)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_regex STATIC ${BOOST_REGEX_SRC})
 add_library(Boost::regex ALIAS boost_regex)
 else()
-add_library(boost_regex_dll SHARED ${BOOST_REGEX_SRC})
-add_library(Boost::regex ALIAS boost_regex_dll)
+add_library(boost_regex SHARED ${BOOST_REGEX_SRC})
+add_library(Boost::regex ALIAS boost_regex)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_timer STATIC ${BOOST_TIMER_SRC})
 add_library(Boost::timer ALIAS boost_timer)
 else()
-add_library(boost_timer_dll SHARED ${BOOST_TIMER_SRC})
-add_library(Boost::timer ALIAS boost_timer_dll)
+add_library(boost_timer SHARED ${BOOST_TIMER_SRC})
+add_library(Boost::timer ALIAS boost_timer)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_exception STATIC ${BOOST_EXCEPTION_SRC})
 add_library(Boost::exception ALIAS boost_exception)
 else()
-add_library(boost_exception_dll SHARED ${BOOST_EXCEPTION_SRC})
-add_library(Boost::exception ALIAS boost_exception_dll)
+add_library(boost_exception SHARED ${BOOST_EXCEPTION_SRC})
+add_library(Boost::exception ALIAS boost_exception)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_random STATIC ${BOOST_RANDOM_SRC})
 add_library(Boost::random ALIAS boost_random)
 else()
-add_library(boost_random_dll SHARED ${BOOST_RANDOM_SRC})
-add_library(Boost::random ALIAS boost_random_dll)
+add_library(boost_random SHARED ${BOOST_RANDOM_SRC})
+add_library(Boost::random ALIAS boost_random)
 endif()
 
 if(Boost_USE_STATIC_LIBS)
 add_library(boost_program_options STATIC ${BOOST_PROGRAM_OPTIONS_SRC} )
 add_library(Boost::program_options ALIAS boost_program_options)
 else()
-add_library(boost_program_options_dll SHARED ${BOOST_PROGRAM_OPTIONS_SRC})
-add_library(Boost::program_options ALIAS boost_program_options_dll)
+add_library(boost_program_options SHARED ${BOOST_PROGRAM_OPTIONS_SRC})
+add_library(Boost::program_options ALIAS boost_program_options)
 endif()
 
 target_include_directories(boost_header INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
@@ -340,13 +363,11 @@ target_compile_definitions(boost_thread PRIVATE -DBOOST_THREAD_BUILD_LIB)
 target_compile_definitions(boost_context PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_ALL_STATIC_LINK)
 target_compile_definitions(boost_context PRIVATE -DBOOST_CONTEXT_EXPORT)
 
-if(Boost_USE_STATIC_LIBS)
 target_link_libraries(boost_system boost_header)
 target_link_libraries(boost_atomic boost_system boost_header)
 target_link_libraries(boost_filesystem boost_system boost_header)
 target_link_libraries(boost_thread boost_system boost_header Threads::Threads)
 target_link_libraries(boost_context boost_header)
-target_link_libraries(boost_coroutine boost_context boost_system boost_header)
 target_link_libraries(boost_chrono boost_system boost_header)
 target_link_libraries(boost_locale boost_system boost_header)
 target_link_libraries(boost_date_time boost_system boost_chrono boost_header)
@@ -355,22 +376,7 @@ target_link_libraries(boost_timer boost_system boost_chrono boost_header)
 target_link_libraries(boost_exception boost_system boost_header)
 target_link_libraries(boost_random boost_system boost_header)
 target_link_libraries(boost_program_options boost_filesystem boost_system boost_header)
-else()
-target_link_libraries(boost_system_dll boost_header)
-target_link_libraries(boost_atomic_dll boost_system boost_header)
-target_link_libraries(boost_filesystem_dll boost_system boost_header)
-target_link_libraries(boost_thread_dll boost_system boost_header Threads::Threads)
-target_link_libraries(boost_context_dll boost_header)
-target_link_libraries(boost_coroutine_dll boost_context boost_system boost_header)
-target_link_libraries(boost_chrono_dll boost_system boost_header)
-target_link_libraries(boost_locale_dll boost_system boost_header)
-target_link_libraries(boost_date_time_dll boost_system boost_chrono boost_header)
-target_link_libraries(boost_regex_dll boost_system boost_header)
-target_link_libraries(boost_timer_dll boost_system boost_chrono boost_header)
-target_link_libraries(boost_exception_dll boost_system boost_header)
-target_link_libraries(boost_random_dll boost_system boost_header)
-target_link_libraries(boost_program_options_dll boost_filesystem boost_system boost_header)
-endif()
+
 
 if(WIN32)
 	target_compile_definitions(boost_header INTERFACE -DWIN32_LEAN_AND_MEAN -DNOMINMAX)
@@ -378,14 +384,21 @@ if(WIN32)
 		target_compile_definitions(boost_header INTERFACE -DBOOST_SP_USE_STD_ATOMIC -DBOOST_USE_WINDOWS_H)
 		set_property(SOURCE libs/locale/src/shared/message.cpp APPEND PROPERTY CMAKE_CXX_FLAGS "-O0")
 	endif()
+	if(Boost_USE_STATIC_LIBS)
+		target_compile_definitions(boost_context PUBLIC -DBOOST_USE_WINFIB)
+	endif()
+else()
+	if(Boost_USE_STATIC_LIBS)
+		target_compile_definitions(boost_context PRIVATE -DBOOST_USE_UCONTEXT)
+	endif()
 endif()
+
 
 set(BOOST_LIBRARIES
 	Boost::boost
 	Boost::atomic
 	Boost::context
 	Boost::system
-	Boost::coroutine
 	Boost::chrono
 	Boost::date_time
 	Boost::regex
@@ -398,13 +411,11 @@ set(BOOST_LIBRARIES
 	Boost::locale
 PARENT_SCOPE)
 
-if(Boost_USE_STATIC_LIBS)
 set_target_properties(boost_system PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_atomic PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_filesystem PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_thread PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_context PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_coroutine PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_chrono PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_locale PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_date_time PROPERTIES FOLDER "third_party/boost")
@@ -413,19 +424,3 @@ set_target_properties(boost_timer PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_exception PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_random PROPERTIES FOLDER "third_party/boost")
 set_target_properties(boost_program_options PROPERTIES FOLDER "third_party/boost")
-else()
-set_target_properties(boost_system_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_atomic_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_filesystem_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_thread_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_context_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_coroutine_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_chrono_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_locale_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_date_time_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_regex_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_timer_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_exception_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_random_dll PROPERTIES FOLDER "third_party/boost")
-set_target_properties(boost_program_options_dll PROPERTIES FOLDER "third_party/boost")
-endif()
