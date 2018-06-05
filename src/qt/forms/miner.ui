@@ -2,16 +2,8 @@
 <ui version="4.0">
  <class>MinerSetup</class>
  <widget class="QWidget" name="MinerSetup">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>1065</width>
-    <height>405</height>
-   </rect>
-  </property>
   <property name="windowTitle">
-   <string>YeeMiner</string>
+   <string>Contribute to a Pool</string>
   </property>
   <property name="styleSheet">
    <string notr="true">#WatchImmature , #framePending{

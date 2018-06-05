@@ -225,31 +225,15 @@
         <translation>%1 現在要關閉，好完成加密程序。請注意，加密錢包不能完全防止入侵你的電腦的惡意程式偷取錢幣。</translation>
     </message>
     <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your rcoins from being stolen by malware infecting your computer.</source>
-        <translation type="vanished">%1 現在要關閉，好完成加密程序。請注意，加密錢包不能完全防止入侵你的電腦的惡意程式偷取錢幣。</translation>
-    </message>
-    <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation type="vanished">警告: 如果把錢包加密後又忘記密碼，你就會從此&lt;b&gt;失去其中所有的 Bitcoin 了&lt;/b&gt;！</translation>
-    </message>
-    <message>
         <location line="-11"/>
         <source>Are you sure you wish to encrypt your wallet?</source>
         <translation>你確定要把錢包加密嗎？</translation>
-    </message>
-    <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR RCOINS&lt;/b&gt;!</source>
-        <translation type="vanished">警告: 如果把錢包加密後又忘記密碼，你就會從此&lt;b&gt;失去其中所有的R币了&lt;/b&gt;！</translation>
     </message>
     <message>
         <location line="+9"/>
         <location line="+58"/>
         <source>Wallet encrypted</source>
         <translation>錢包已加密</translation>
-    </message>
-    <message>
-        <source>%1 will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your bitcoins from being stolen by malware infecting your computer.</source>
-        <translation type="vanished">%1 現在要關閉，好完成加密程序。請注意，加密錢包不能完全防止入侵你的電腦的惡意程式偷取錢幣。</translation>
     </message>
     <message>
         <location line="-52"/>
@@ -320,7 +304,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+336"/>
+        <location filename="../bitcoingui.cpp" line="+338"/>
         <source>Sign &amp;message...</source>
         <translation>簽署訊息...</translation>
     </message>
@@ -330,12 +314,12 @@
         <translation>從 URI 或檔案開啟付款要求</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+7"/>
         <source>Show the %1 help message to get a list with possible %1 command-line options</source>
         <translation>顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
-        <location line="+410"/>
+        <location line="+417"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 個運作中的網路連線</translation>
     </message>
@@ -345,7 +329,7 @@
         <translation>正在跟網路進行同步...</translation>
     </message>
     <message>
-        <location line="-576"/>
+        <location line="-586"/>
         <source>&amp;Overview</source>
         <translation>總覽</translation>
     </message>
@@ -358,14 +342,6 @@
         <location line="+145"/>
         <source>Show general overview of wallet</source>
         <translation>顯示錢包一般總覽</translation>
-    </message>
-    <message>
-        <source>Send coins to a Ecoin address</source>
-        <translation type="vanished">付錢給一個 R币 位址</translation>
-    </message>
-    <message>
-        <source>Request payments (generates QR codes and ecoin: URIs)</source>
-        <translation type="vanished">要求付款(產生 QR Code 和 ecoin 付款協議的資源識別碼: URI)</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -440,7 +416,7 @@
     <message>
         <location line="+2"/>
         <source>&amp;Restore Wallet...</source>
-        <translation type="unfinished">恢復錢包(&amp;R)...</translation>
+        <translation>恢復錢包(&amp;R)...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -453,11 +429,18 @@
         <translation>改變密碼...</translation>
     </message>
     <message>
-        <source>Sign messages with your Ecoin addresses to prove you own them</source>
-        <translation type="vanished">用 E币 位址簽署訊息來證明位址是你的</translation>
-     </message>
+        <location line="+15"/>
+        <source>Connect to Miner Pool...</source>
+        <translation>连到矿池挖矿...</translation>
+    </message>
     <message>
-       <location line="+918"/>
+        <location line="+1"/>
+        <source>Mine together with a pool</source>
+        <translation>加入矿池协调挖矿</translation>
+    </message>
+    <message>
+        <location line="+927"/>
+>>>>>>> 56dc79e481623efb63c1271c5941c7305e38d190
         <source>Unable to change datadir</source>
         <translation>無法修改路徑</translation>
     </message>
@@ -467,7 +450,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+36"/>
         <source>Error: Specified data directory &quot;%1&quot; cannot be created.</source>
         <translation type="unfinished">錯誤: 無法新增指定的資料目錄: %1</translation>
     </message>
@@ -482,11 +465,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Ecoin addresses</source>
-        <translation type="vanished">驗證訊息是用來確定訊息是用指定的 R币 位址簽署的</translation>
-    </message>
-    <message>
-        <location line="-942"/>
+        <location line="-965"/>
         <source>&amp;Sending addresses...</source>
         <translation>付款位址...</translation>
     </message>
@@ -496,28 +475,14 @@
         <translation>收款位址...</translation>
     </message>
     <message>
-        <location line="-11"/>
+        <location line="-14"/>
         <source>Open &amp;URI...</source>
         <translation>開啓 URI...</translation>
     </message>
     <message>
-        <source>Open a ecoin: URI or payment request</source>
-        <translation type="vanished">開啓 coin 協議的資源識別碼(URI)或付款要求</translation>
-    </message>
-    <message>
-        <source>Show the %1 help message to get a list with possible Ecoin command-line options</source>
-        <translation type="vanished">顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
-    </message>
-    <message>
-        <location line="+415"/>
+        <location line="+425"/>
         <source>Click to disable network activity.</source>
         <translation>按一下就會不使用網路。</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Ecoin network</source>
-        <translation type="vanished">
-            <numerusform>%n 個運作中的網路連線</numerusform>
-        </translation>
     </message>
     <message>
         <location line="+2"/>
@@ -540,11 +505,7 @@
         <translation>正在為磁碟裡的區塊重建索引...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation type="vanished">付錢給一個 Bitcoin 位址</translation>
-    </message>
-    <message>
-        <location line="-504"/>
+        <location line="-514"/>
         <source>Backup wallet to another location</source>
         <translation>把錢包備份到其它地方</translation>
     </message>
@@ -577,10 +538,6 @@
         <location line="-4"/>
         <source>&amp;Verify message...</source>
         <translation>驗證訊息...</translation>
-    </message>
-    <message>
-        <source>Bitcoin</source>
-        <translation type="vanished">Bitcoin</translation>
     </message>
     <message>
         <location line="-238"/>
@@ -625,36 +582,12 @@
         <translation>把錢包中的密鑰加密</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation type="vanished">用 Bitcoin 位址簽署訊息來證明位址是你的</translation>
-    </message>
-    <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation type="vanished">驗證訊息是用來確定訊息是用指定的 Bitcoin 位址簽署的</translation>
-    </message>
-    <message>
-        <source>&amp;File</source>
-        <translation type="vanished">檔案</translation>
-    </message>
-    <message>
-        <source>&amp;Settings</source>
-        <translation type="vanished">設定</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="vanished">說明</translation>
-    </message>
-    <message>
-        <location line="+67"/>
+        <location line="+71"/>
         <source>Tabs toolbar</source>
         <translation>分頁工具列</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation type="vanished">要求付款(產生 QR Code 和 bitcoin 付款協議的資源識別碼: URI)</translation>
-    </message>
-    <message>
-        <location line="-39"/>
+        <location line="-40"/>
         <source>Show the list of used sending addresses and labels</source>
         <translation>顯示已使用過的付款位址和標記的清單</translation>
     </message>
@@ -664,22 +597,12 @@
         <translation>顯示已使用過的收款位址和標記的清單</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation type="vanished">開啓 bitcoin 協議的資源識別碼(URI)或付款要求</translation>
-    </message>
-    <message>
         <location line="-9"/>
         <source>&amp;Command-line options</source>
         <translation>命令列選項</translation>
     </message>
-    <message numerus="yes">
-        <source>%n active connection(s) to Bitcoin network</source>
-        <translation type="vanished">
-            <numerusform>%n 個運作中的 Bitcoin 網路連線</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="+478"/>
+        <location line="+485"/>
         <source>Indexing blocks on disk...</source>
         <translation>正在為磁碟裡的區塊建立索引...</translation>
     </message>
@@ -731,16 +654,13 @@
         <translation>最新狀態</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
-        <translation type="vanished">顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
-    </message>
-    <message>
-        <location line="-272"/>
+        <location line="-277"/>
+        <location line="+484"/>
         <source>%1 client</source>
         <translation>%1 客戶端軟體</translation>
     </message>
     <message>
-        <location line="+258"/>
+        <location line="-221"/>
         <source>Connecting to peers...</source>
         <translation>正在跟其他節點連線中...</translation>
     </message>
@@ -748,10 +668,6 @@
         <location line="+38"/>
         <source>Catching up...</source>
         <translation>正在趕進度...</translation>
-    </message>
-    <message>
-        <source>Ecoin</source>
-        <translation type="vanished">E幣</translation>
     </message>
     <message>
         <location line="+146"/>
@@ -799,7 +715,7 @@
         <translation>收款交易</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+15"/>
         <source>mining</source>
         <translation>挖礦中</translation>
     </message>
@@ -809,7 +725,7 @@
         <translation>%1 正在挖礦</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+69"/>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
         <translation>產生 HD 金鑰&lt;b&gt;已經啟用&lt;/b&gt;</translation>
     </message>
@@ -827,10 +743,6 @@
         <location line="+8"/>
         <source>Wallet is &lt;b&gt;encrypted&lt;/b&gt; and currently &lt;b&gt;locked&lt;/b&gt;</source>
         <translation>錢包&lt;b&gt;已加密&lt;/b&gt;並且&lt;b&gt;上鎖中&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>A fatal error occurred. Bitcoin can no longer continue safely and will quit.</source>
-        <translation type="vanished">發生了致命的錯誤。Bitcoin 軟體沒辦法再繼續安全執行，只好結束。</translation>
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+520"/>
@@ -912,7 +824,7 @@
         <translation>選擇錢幣</translation>
     </message>
     <message>
-        <location line="+34"/>
+        <location line="+52"/>
         <source>Quantity:</source>
         <translation>數目:</translation>
     </message>
@@ -953,13 +865,13 @@
     </message>
     <message>
         <location line="+16"/>
-        <source>Tree mode</source>
-        <translation>樹狀模式</translation>
+        <source>Tree &amp;mode</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>List mode</source>
-        <translation>列表模式</translation>
+        <source>&amp;List mode</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+56"/>
@@ -1302,10 +1214,6 @@
         <translation>使用自訂的資料目錄:</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation type="vanished">Bitcoin</translation>
-    </message>
-    <message>
         <location filename="../intro.cpp" line="+26"/>
         <source>At least %1 GB of data will be stored in this directory, and it will grow over time.</source>
         <translation>在這個目錄中至少會存放 %1 GB 的資料，並且還會隨時間增加。</translation>
@@ -1314,18 +1222,6 @@
         <location line="+5"/>
         <source>Approximately %1 GB of data will be stored in this directory.</source>
         <translation>在這個目錄中大約會存放 %1 GB 的資料。</translation>
-    </message>
-    <message>
-        <source>%1 will download and store a copy of the Bitcoin block chain.</source>
-        <translation type="vanished">%1 會下載 Bitcoin 區塊鏈並且儲存一份副本。</translation>
-    </message>
-    <message>
-        <source>Ecoin</source>
-        <translation type="vanished">E币</translation>
-    </message>
-    <message>
-        <source>%1 will download and store a copy of the Ecoin block chain.</source>
-        <translation type="vanished">%1 會下載區塊鏈並且儲存一份副本。</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -1363,54 +1259,62 @@
     </message>
 </context>
 <context>
-    <name>ModalOverlay</name>
+    <name>MinerSetup</name>
     <message>
-        <source>Form</source>
-        <translation type="vanished">表單</translation>
+        <location filename="../forms/miner.ui" line="+6"/>
+        <location filename="../minersetup.cpp" line="+210"/>
+        <source>Contribute to a Pool</source>
+        <translation>连接到矿池挖矿</translation>
     </message>
     <message>
-        <source>Recent transactions may not yet be visible, and therefore your wallet&apos;s balance might be incorrect. This information will be correct once your wallet has finished synchronizing with the bitcoin network, as detailed below.</source>
-        <translation type="vanished">最近的交易可能還看不到，因此錢包餘額可能不正確。在錢包軟體完成跟 bitcoin 網路的同步後，這裡的資訊就會正確。詳情請見下面。</translation>
+        <location line="+38"/>
+        <source>Work for:</source>
+        <translation>连接到矿池：</translation>
     </message>
     <message>
-        <source>Attempting to spend bitcoins that are affected by not-yet-displayed transactions will not be accepted by the network.</source>
-        <translation type="vanished">使用還沒顯示出來的交易所影響到的 bitcoin 可能會不被網路所接受。</translation>
+        <location line="+35"/>
+        <source>Hash Rate:</source>
+        <translation>算力：</translation>
     </message>
     <message>
-        <source>Number of blocks left</source>
-        <translation type="vanished">剩餘區塊數</translation>
+        <location line="+7"/>
+        <source>N/A</source>
+        <translation type="unfinished">未知</translation>
     </message>
     <message>
-        <source>Unknown...</source>
-        <translation type="vanished">不明...</translation>
+        <location line="+11"/>
+        <source>Payment goes to this Address:</source>
+        <translation>收益打入這個地址：</translation>
     </message>
     <message>
-        <source>Last block time</source>
-        <translation type="vanished">最近區塊時間</translation>
+        <location line="+32"/>
+        <source>Mining With this Device</source>
+        <translation>使用这些设备挖矿</translation>
     </message>
     <message>
-        <source>Progress</source>
-        <translation type="vanished">進度</translation>
+        <location line="+39"/>
+        <source>Stop</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Progress increase per hour</source>
-        <translation type="vanished">每小時進度</translation>
+        <location line="+7"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>calculating...</source>
-        <translation type="vanished">正在計算中...</translation>
+        <location filename="../minersetup.cpp" line="-105"/>
+        <source>address to receive mining payment</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Estimated time left until synced</source>
-        <translation type="vanished">預估完成同步所需時間</translation>
+        <location line="+88"/>
+        <source>Contribute to a Pool - Mining</source>
+        <translation>连接到矿池 - 挖矿中...</translation>
     </message>
     <message>
-        <source>Hide</source>
-        <translation type="vanished">隱藏</translation>
-    </message>
-    <message>
-        <source>Unknown. Syncing Headers (%1)...</source>
-        <translation type="vanished">不明。正在同步前導資料(%1)中...</translation>
+        <location line="+9"/>
+        <source>Stopping Miner....</source>
+        <translation>正在停止挖矿</translation>
     </message>
 </context>
 <context>
@@ -1464,12 +1368,7 @@
         <translation>系統登入時啟動 %1</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <source>Size of &amp;database cache</source>
-        <translation>資料庫快取大小</translation>
-    </message>
-    <message>
-        <location line="+16"/>
+        <location line="+25"/>
         <source>MB</source>
         <translation>MB (百萬位元組)</translation>
     </message>
@@ -1479,13 +1378,33 @@
         <translation>指令碼驗證執行緒數目</translation>
     </message>
     <message>
-        <location line="+217"/>
-        <location line="+187"/>
+        <location line="+110"/>
+        <source>&amp;Use All CPU Power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Use &amp;3/4 CPU Power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Use &amp;1/4 CPU Power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+65"/>
+        <source>Pro&amp;xy IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+31"/>
+        <location line="+199"/>
         <source>IP address of the proxy (e.g. IPv4: 127.0.0.1 / IPv6: ::1)</source>
         <translation>代理伺服器的網際網路位址(像是 IPv4 的 127.0.0.1 或 IPv6 的 ::1)</translation>
     </message>
     <message>
-        <location line="-118"/>
+        <location line="-124"/>
         <location line="+23"/>
         <location line="+23"/>
         <source>Shows if the supplied default SOCKS5 proxy is used to reach peers via this network type.</source>
@@ -1497,7 +1416,12 @@
         <translation>透過另外的 SOCKS5 代理伺服器來連線到 Bitcoin 網路中的 Tor 隱藏服務。</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="+9"/>
+        <source>Prox&amp;y IP:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+111"/>
         <source>Hide the icon from the system tray.</source>
         <translation>隱藏系統通知區圖示</translation>
     </message>
@@ -1553,12 +1477,17 @@
         <translation>重設選項</translation>
     </message>
     <message>
-        <location line="-545"/>
+        <location line="-569"/>
         <source>&amp;Network</source>
         <translation>網路</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location line="-197"/>
+        <source>Si&amp;ze of database cache</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+56"/>
         <source>(0 = auto, &lt;0 = leave that many cores free)</source>
         <translation>(0 表示程式自動決定，小於 0 表示保留處理器核心不用的數目)</translation>
     </message>
@@ -1594,31 +1523,16 @@
     </message>
     <message>
         <location line="+12"/>
-        <source>Use All CPU Power</source>
-        <translation>使用全部CPU</translation>
-    </message>
-    <message>
-        <location line="+10"/>
-        <source>Use 3/4 CPU Power</source>
-        <translation>使用 75% CPU</translation>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>Use Half CPU Power</source>
         <translation>使用一半CPU</translation>
     </message>
     <message>
         <location line="+10"/>
-        <source>Use 1/4 CPU Power</source>
-        <translation>使用 25%CPU</translation>
-    </message>
-    <message>
-        <location line="+7"/>
         <source>Use One CPU Power</source>
         <translation>使用一個CPU</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+57"/>
         <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
         <translation>自動在路由器上開放 Bitcoin 的客戶端通訊埠。只有在你的路由器支援且開啓「通用即插即用」協定(UPnP)時才有作用。</translation>
     </message>
@@ -1648,25 +1562,19 @@
         <translation>透過 SOCKS5 代理伺服器連線(預設代理伺服器):</translation>
     </message>
     <message>
-        <location line="+9"/>
-        <location line="+187"/>
-        <source>Proxy &amp;IP:</source>
-        <translation>代理位址:</translation>
-    </message>
-    <message>
-        <location line="-155"/>
-        <location line="+187"/>
+        <location line="+47"/>
+        <location line="+199"/>
         <source>&amp;Port:</source>
         <translation>埠號:</translation>
     </message>
     <message>
-        <location line="-162"/>
-        <location line="+187"/>
+        <location line="-168"/>
+        <location line="+199"/>
         <source>Port of the proxy (e.g. 9050)</source>
         <translation>代理伺服器的通訊埠(像是 9050)</translation>
     </message>
     <message>
-        <location line="-163"/>
+        <location line="-175"/>
         <source>Used for reaching peers via:</source>
         <translation>用來跟其他節點聯絡的中介:</translation>
     </message>
@@ -1691,7 +1599,7 @@
         <translation>透過另外的 SOCKS5 代理伺服器來連線到 Bitcoin 網路中的 Tor 隱藏服務。</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+117"/>
         <source>&amp;Window</source>
         <translation>視窗</translation>
     </message>
@@ -1736,12 +1644,12 @@
         <translation>選擇操作界面和付款時，預設顯示金額的細分單位。</translation>
     </message>
     <message>
-        <location line="-509"/>
+        <location line="-533"/>
         <source>Whether to show coin control features or not.</source>
         <translation>是否要顯示錢幣控制功能。</translation>
     </message>
     <message>
-        <location line="+536"/>
+        <location line="+560"/>
         <source>&amp;Third party transaction URLs</source>
         <translation>第三方交易網址連結</translation>
     </message>
@@ -1825,10 +1733,6 @@
         <translation>顯示的資訊可能是過期的。跟 Bitcoin 網路的連線建立後，你的錢包會自動和網路同步，但是這個步驟還沒完成。</translation>
     </message>
     <message>
-        <source>Watch-only:</source>
-        <translation type="vanished">只能看:</translation>
-    </message>
-    <message>
         <location line="-488"/>
         <source>Available:</source>
         <translation>可用金額:</translation>
@@ -1859,10 +1763,6 @@
         <translation>還沒成熟的開採金額</translation>
     </message>
     <message>
-        <source>Balances</source>
-        <translation type="vanished">餘額</translation>
-    </message>
-    <message>
         <location line="+82"/>
         <source>Total:</source>
         <translation>總金額:</translation>
@@ -1876,10 +1776,6 @@
         <location line="-312"/>
         <source>Your current balance in watch-only addresses</source>
         <translation>所有只能看位址的目前餘額</translation>
-    </message>
-    <message>
-        <source>Spendable:</source>
-        <translation type="vanished">可支配:</translation>
     </message>
     <message>
         <location line="+401"/>
@@ -1915,10 +1811,6 @@
         <translation>要求付款時發生錯誤</translation>
     </message>
     <message>
-        <source>Cannot start bitcoin: click-to-pay handler</source>
-        <translation type="vanished">沒辦法啟動 bitcoin 協議的「按就付」處理器</translation>
-    </message>
-    <message>
         <location line="-296"/>
         <location line="+13"/>
         <location line="+7"/>
@@ -1934,18 +1826,6 @@
         <location line="+12"/>
         <source>Invalid payment address %1</source>
         <translation>無效的付款位址 %1</translation>
-    </message>
-    <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Bitcoin address or malformed URI parameters.</source>
-        <translation type="vanished">沒辦法解析 URI 位址！可能是因為 Bitcoin 位址無效，或是 URI 參數格式錯誤。</translation>
-    </message>
-    <message>
-        <source>Cannot start ecoin: click-to-pay handler</source>
-        <translation type="vanished">沒辦法啟動 ecoin 協議的「按就付」處理器</translation>
-    </message>
-    <message>
-        <source>URI cannot be parsed! This can be caused by an invalid Ecoin address or malformed URI parameters.</source>
-        <translation type="vanished">沒辦法解析 URI 位址！可能是因為 R币 位址無效，或是 URI 參數格式錯誤。</translation>
     </message>
     <message>
         <location line="-115"/>
@@ -2083,10 +1963,6 @@
         <location filename="../bitcoinunits.cpp" line="+186"/>
         <source>Amount</source>
         <translation>金額</translation>
-    </message>
-    <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation type="vanished">輸入 Bitcoin 位址 (比如說 %1)</translation>
     </message>
     <message>
         <location filename="../guiutil.cpp" line="+135"/>
@@ -2721,22 +2597,6 @@
         <translation>產生 Bech32 位址</translation>
     </message>
     <message>
-        <source>Show the selected request (does the same as double clicking an entry)</source>
-        <translation type="vanished">顯示選擇的要求內容(效果跟按它兩下一樣)</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation type="vanished">顯示</translation>
-    </message>
-    <message>
-        <source>Remove the selected entries from the list</source>
-        <translation type="vanished">從列表中刪掉選擇的項目</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">刪掉</translation>
-    </message>
-    <message>
         <location filename="../receivecoinsdialog.cpp" line="+50"/>
         <source>Copy URI</source>
         <translation>複製 URI</translation>
@@ -2759,10 +2619,6 @@
 </context>
 <context>
     <name>ReceiveRequestDialog</name>
-    <message>
-        <source>QR Code</source>
-        <translation type="vanished">QR Code</translation>
-    </message>
     <message>
         <location filename="../forms/receiverequestdialog.ui" line="+72"/>
         <source>Label:</source>
@@ -2822,26 +2678,6 @@
         <location filename="../forms/receiverequestdialog.ui" line="-137"/>
         <source>Payment information</source>
         <translation>付款資訊</translation>
-    </message>
-    <message>
-        <source>URI</source>
-        <translation type="vanished">URI</translation>
-    </message>
-    <message>
-        <source>Address</source>
-        <translation type="vanished">位址</translation>
-    </message>
-    <message>
-        <source>Amount</source>
-        <translation type="vanished">金額</translation>
-    </message>
-    <message>
-        <source>Label</source>
-        <translation type="vanished">標記:</translation>
-    </message>
-    <message>
-        <source>Message</source>
-        <translation type="vanished">訊息</translation>
     </message>
     <message>
         <location filename="../receiverequestdialog.cpp" line="+32"/>
@@ -2911,7 +2747,7 @@
     <name>SendCoinsDialog</name>
     <message>
         <location filename="../forms/sendcoinsdialog.ui" line="+14"/>
-        <location filename="../sendcoinsdialog.cpp" line="+587"/>
+        <location filename="../sendcoinsdialog.cpp" line="+588"/>
         <source>Send Coins</source>
         <translation>付款</translation>
     </message>
@@ -3011,10 +2847,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+5"/>
         <source>per kilobyte</source>
         <translation>每千位元組</translation>
-    </message>
-    <message>
-        <source>If the custom fee is set to 1000 satoshis and the transaction is only 250 bytes, then &quot;per kilobyte&quot; only pays 250 satoshis in fee, while &quot;total at least&quot; pays 1000 satoshis. For transactions bigger than a kilobyte both pay by kilobyte.</source>
-        <translation type="vanished">如果自訂手續費設定為 1000 satoshi, 而交易資料大小只有 250 個位元組的話，那麽選擇「每千位元組」就只會付 250 satoshi 的手續費，換做選「總共至少」就會付 1000 satoshi. 但是如果交易資料大小超過一千個位元組，那麽兩者都是每千位元組的費用。</translation>
     </message>
     <message>
         <location line="-53"/>
@@ -3243,17 +3075,9 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         </translation>
     </message>
     <message>
-        <location line="+101"/>
+        <location line="+106"/>
         <source>Warning: Invalid %1 address</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warning: Invalid Ecoin address</source>
-        <translation type="vanished">警告: 位址無效</translation>
-    </message>
-    <message>
-        <source>Warning: Invalid Bitcoin address</source>
-        <translation type="vanished">警告: Bitcoin 位址無效</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -3511,10 +3335,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation type="vanished">驗證這個訊息來確定是用指定的 Bitcoin 位址簽署的</translation>
-    </message>
-    <message>
         <location line="+3"/>
         <source>Verify &amp;Message</source>
         <translation>驗證訊息</translation>
@@ -3596,14 +3416,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The signature did not match the message digest.</source>
-        <translation type="vanished">這個簽章跟訊息的數位摘要不符。</translation>
-    </message>
-    <message>
-        <source>Message verification failed.</source>
-        <translation type="vanished">訊息驗證失敗。</translation>
-    </message>
-    <message>
         <location line="+5"/>
         <source>Message verified.</source>
         <translation>訊息驗證沒錯。</translation>
@@ -3620,10 +3432,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location filename="../forms/splashscreen.ui" line="+20"/>
         <source>Form</source>
         <translation>表單</translation>
-    </message>
-    <message>
-        <source>RCoins</source>
-        <translation type="vanished">R幣</translation>
     </message>
     <message>
         <location line="+75"/>
@@ -4254,15 +4062,11 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <source>Range:</source>
         <translation>範圍:</translation>
     </message>
-    <message>
-        <source>to</source>
-        <translation type="vanished">到</translation>
-    </message>
 </context>
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+202"/>
+        <location filename="../bitcoingui.cpp" line="+221"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>金額顯示單位。可以點選其他單位。</translation>
     </message>
@@ -4278,7 +4082,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>WalletModel</name>
     <message>
-        <location filename="../walletmodel.cpp" line="+353"/>
+        <location filename="../walletmodel.cpp" line="+361"/>
         <source>Send Coins</source>
         <translation>付款</translation>
     </message>
@@ -4332,14 +4136,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 </context>
 <context>
     <name>WalletView</name>
-    <message>
-        <source>&amp;Export</source>
-        <translation type="vanished">匯出</translation>
-    </message>
-    <message>
-        <source>Export the data in the current tab to a file</source>
-        <translation type="vanished">將目前分頁的資料匯出存成檔案</translation>
-    </message>
     <message>
         <location filename="../walletview.cpp" line="+266"/>
         <source>Backup Wallet</source>
@@ -4462,10 +4258,6 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
         <location line="+40"/>
         <source>Unable to start HTTP server. See debug log for details.</source>
         <translation>無法啟動 HTTP 伺服器。詳情請看除錯紀錄。</translation>
-    </message>
-    <message>
-        <source>Bitcoin Core</source>
-        <translation type="vanished">Bitcoin Core</translation>
     </message>
     <message>
         <location line="-396"/>
