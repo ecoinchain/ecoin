@@ -38,14 +38,16 @@ set(BOOST_SYSTEM_SRC
 
 if(WIN32)
 	set(BOOST_THREAD_SRC
+		libs/thread/src/tss_null.cpp
 		libs/thread/src/future.cpp
-		libs/thread/src/win32/tss.cpp
 		libs/thread/src/win32/thread.cpp
 		libs/thread/src/win32/tss_pe.cpp
+		libs/thread/src/win32/tss_dll.cpp
 		libs/thread/src/win32/thread_primitives.cpp
 	)
 else()
 	set(BOOST_THREAD_SRC
+		libs/thread/src/tss_null.cpp
 		libs/thread/src/future.cpp
 		libs/thread/src/pthread/once.cpp
 		libs/thread/src/pthread/thread.cpp
