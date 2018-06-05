@@ -361,7 +361,13 @@ endif()
 target_include_directories(boost_header INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_compile_definitions(boost_system PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_ALL_STATIC_LINK -DBOOST_THREAD_USE_LIB -DBOOST_FILESYSTEM_STATIC_LINK)
+
+if(Boost_USE_STATIC_LIBS)
 target_compile_definitions(boost_thread PRIVATE -DBOOST_THREAD_BUILD_LIB)
+else
+target_compile_definitions(boost_thread PRIVATE -DBOOST_THREAD_BUILD_DLL)
+endif()
+
 target_compile_definitions(boost_context PUBLIC -DBOOST_ALL_NO_LIB -DBOOST_ALL_STATIC_LINK)
 target_compile_definitions(boost_context PRIVATE -DBOOST_CONTEXT_EXPORT)
 
