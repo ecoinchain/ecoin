@@ -440,7 +440,6 @@
     </message>
     <message>
         <location line="+927"/>
->>>>>>> 56dc79e481623efb63c1271c5941c7305e38d190
         <source>Unable to change datadir</source>
         <translation>無法修改路徑</translation>
     </message>
