@@ -31,6 +31,9 @@ namespace compute {
 ///        argument is less than (i.e. is ordered before) the second.
 /// \param queue command queue to perform the operation
 ///
+/// Space complexity on CPUs: \Omega(1)<br>
+/// Space complexity on GPUs: \Omega(N)
+///
 /// \see max_element(), min_element()
 template<class InputIterator, class Compare>
 inline std::pair<InputIterator, InputIterator>
@@ -49,7 +52,7 @@ minmax_element(InputIterator first,
 }
 
 ///\overload
-template<class InputIterator, class Compare>
+template<class InputIterator>
 inline std::pair<InputIterator, InputIterator>
 minmax_element(InputIterator first,
                InputIterator last,

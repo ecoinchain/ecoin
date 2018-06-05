@@ -22,7 +22,7 @@
 #include <boost/compute/algorithm/copy_n.hpp>
 #include <boost/compute/algorithm/detail/inplace_reduce.hpp>
 #include <boost/compute/algorithm/detail/reduce_on_gpu.hpp>
-#include <boost/compute/algorithm/detail/serial_reduce.hpp>
+#include <boost/compute/algorithm/detail/reduce_on_cpu.hpp>
 #include <boost/compute/detail/iterator_range_size.hpp>
 #include <boost/compute/memory/local_buffer.hpp>
 #include <boost/compute/type_traits/result_of.hpp>
@@ -153,6 +153,7 @@ block_reduce(InputIterator first,
     return result_vector;
 }
 
+// Space complexity: O( ceil(n / 2 / 256) )
 template<class InputIterator, class OutputIterator, class BinaryFunction>
 inline void generic_reduce(InputIterator first,
                            InputIterator last,
@@ -173,8 +174,8 @@ inline void generic_reduce(InputIterator first,
     size_t count = detail::iterator_range_size(first, last);
 
     if(device.type() & device::cpu){
-        boost::compute::vector<result_type> value(1, context);
-        detail::serial_reduce(first, last, value.begin(), function, queue);
+        array<result_type, 1> value(context);
+        detail::reduce_on_cpu(first, last, value.begin(), function, queue);
         boost::compute::copy_n(value.begin(), 1, result, queue);
     }
     else {
@@ -209,16 +210,16 @@ inline void dispatch_reduce(InputIterator first,
     const device &device = queue.get_device();
 
     // reduce to temporary buffer on device
-    array<T, 1> tmp(context);
+    array<T, 1> value(context);
     if(device.type() & device::cpu){
-        detail::serial_reduce(first, last, tmp.begin(), function, queue);
+        detail::reduce_on_cpu(first, last, value.begin(), function, queue);
     }
     else {
-        reduce_on_gpu(first, last, tmp.begin(), function, queue);
+        reduce_on_gpu(first, last, value.begin(), function, queue);
     }
 
     // copy to result iterator
-    copy_n(tmp.begin(), 1, result, queue);
+    copy_n(value.begin(), 1, result, queue);
 }
 
 template<class InputIterator, class OutputIterator, class BinaryFunction>
@@ -263,6 +264,9 @@ inline void dispatch_reduce(InputIterator first,
 /// the \c accumulate() algorithm, its implementation is substantially more
 /// efficient on parallel hardware. For more information, see the documentation
 /// on the \c accumulate() algorithm.
+///
+/// Space complexity on GPUs: \Omega(n)<br>
+/// Space complexity on CPUs: \Omega(1)
 ///
 /// \see accumulate()
 template<class InputIterator, class OutputIterator, class BinaryFunction>
