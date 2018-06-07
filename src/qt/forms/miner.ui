@@ -2,44 +2,116 @@
 <ui version="4.0">
  <class>MinerSetup</class>
  <widget class="QWidget" name="MinerSetup">
+  <property name="font">
+   <font>
+    <weight>1</weight>
+    <italic>false</italic>
+    <bold>false</bold>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Contribute to a Pool</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">#WatchImmature , #framePending{
+   <string notr="true">#stopbutton {
+color: rgb(255, 255, 255);
+background-color:#F78F36;
 border-radius: 5px;
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(185, 188, 192, 255), stop:1 rgba(153, 158, 163, 255))
+font : 14pt;
 }
 
-QFrame#frameBalance {
-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 #009ECF, stop:1 #00AFE5);
-
+#startbutton {
+color: rgb(255, 255, 255);
+background-color:#2798FF;
 border-radius: 5px;
+font : 14pt;
 }
 
-QFrame#frameTotal {
-background-color: rgb(248, 248, 248);
+#startbutton:pressed {
+background-color:#1C8AEE ;
+}
+
+#stopbutton:pressed {
+background-color:#EA8128 ;
+}
+
+
+#startbutton:hover, #stopbutton:hover {
+}
+
+QComboBox {
+background: #F8F8F8;
+border: 1px solid #E4E4E4;
 border-radius: 5px;
+font : 14pt;
 }
 
-#frameHistory {
-background-color: rgb(248, 248, 248);
-border-radius: 5px;
+QComboBox::down-arrow {
+    image: url(:/icons/down);
 }
 
-QLabel {
-	color: rgb(57, 60, 61);
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    image: url(:/icons/up);
+}
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+
+    border-left-width: 0px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
 }
 
-</string>
+* {
+	font: 14 pt;
+}
+
+#unitlabel {
+	font : 6pt;
+}
+
+#hashrate, #Interest  {
+font-size: 14pt;
+color: #000000;
+letter-spacing: 0.5pt;
+line-height: 14pt;
+}
+
+#workfor , #hashrate_label, #Interestlabel , #username_label, #cpu_select_group {
+font-family: PingFangSC-Regular;
+font-size: 10pt;
+color: #888888;
+letter-spacing: 0.5pt;
+line-height: 14pt;
+}</string>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="2,8">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
+    <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,1,0,1,0,1,0,3,0,0">
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="workfor">
+         <property name="font">
+          <font>
+           <family>PingFangSC-Regular</family>
+           <pointsize>10</pointsize>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Work for:</string>
          </property>
@@ -47,6 +119,14 @@ QLabel {
        </item>
        <item>
         <widget class="QComboBox" name="location">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="editable">
           <bool>true</bool>
          </property>
@@ -60,21 +140,40 @@ QLabel {
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="leftMargin">
-        <number>5</number>
+      <spacer name="verticalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <property name="spacing">
+        <number>1</number>
        </property>
        <property name="topMargin">
-        <number>5</number>
-       </property>
-       <property name="rightMargin">
         <number>5</number>
        </property>
        <property name="bottomMargin">
         <number>5</number>
        </property>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="hashrate_label">
+         <property name="font">
+          <font>
+           <family>PingFangSC-Regular</family>
+           <pointsize>10</pointsize>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Hash Rate:</string>
          </property>
@@ -82,6 +181,15 @@ QLabel {
        </item>
        <item>
         <widget class="QLabel" name="hashrate">
+         <property name="font">
+          <font>
+           <family>Monospace</family>
+           <pointsize>14</pointsize>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>N/A</string>
          </property>
@@ -90,9 +198,102 @@ QLabel {
       </layout>
      </item>
      <item>
-      <layout class="FlowLayout" name="flowLayout">
+      <spacer name="verticalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="Interestlabel">
+         <property name="font">
+          <font>
+           <family>PingFangSC-Regular</family>
+           <pointsize>10</pointsize>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>Intrest:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="font">
+          <font>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;000000000.00 &lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;RCO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <property name="spacing">
+        <number>1</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>5</number>
+       </property>
        <item>
         <widget class="QLabel" name="username_label">
+         <property name="font">
+          <font>
+           <family>PingFangSC-Regular</family>
+           <pointsize>10</pointsize>
+           <weight>1</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Payment goes to this Address:</string>
          </property>
@@ -102,9 +303,17 @@ QLabel {
         <widget class="QComboBox" name="username">
          <property name="minimumSize">
           <size>
-           <width>330</width>
+           <width>500</width>
            <height>0</height>
           </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+           <weight>50</weight>
+           <italic>false</italic>
+           <bold>false</bold>
+          </font>
          </property>
          <property name="editable">
           <bool>true</bool>
@@ -113,96 +322,92 @@ QLabel {
        </item>
       </layout>
      </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QGroupBox" name="cpu_select_group">
-       <property name="minimumSize">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>0</width>
-         <height>330</height>
+         <width>20</width>
+         <height>40</height>
         </size>
        </property>
-       <property name="title">
-        <string>Mining With this Device</string>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="startbutton">
+       <property name="styleSheet">
+        <string notr="true">padding : 10px;</string>
        </property>
-       <layout class="QGridLayout" name="cpu_select_group_layout">
-        <property name="leftMargin">
-         <number>10</number>
-        </property>
-        <property name="topMargin">
-         <number>10</number>
-        </property>
-        <property name="rightMargin">
-         <number>10</number>
-        </property>
-        <property name="bottomMargin">
-         <number>10</number>
-        </property>
-        <property name="horizontalSpacing">
-         <number>6</number>
-        </property>
-       </layout>
+       <property name="text">
+        <string>Start</string>
+       </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="8,0,0,3">
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="stopbutton">
-         <property name="text">
-          <string>Stop</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="startbutton">
-         <property name="text">
-          <string>Start</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
+      <widget class="QPushButton" name="stopbutton">
+       <property name="styleSheet">
+        <string notr="true">padding : 10px;</string>
+       </property>
+       <property name="text">
+        <string>Stop</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>
+   <item>
+    <widget class="QGroupBox" name="cpu_select_group">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>330</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Mining With this Device</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>10</number>
+      </property>
+      <property name="topMargin">
+       <number>10</number>
+      </property>
+      <property name="rightMargin">
+       <number>10</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>279</width>
+           <height>525</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="cpu_select_group_layout">
+          <property name="sizeConstraint">
+           <enum>QLayout::SetMinimumSize</enum>
+          </property>
+         </layout>
+        </widget>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
  </widget>
-   <customwidgets>
-  <customwidget>
-   <class>FlowLayout</class>
-   <extends>QHBoxLayout</extends>
-   <header>qt/widgets/flowlayout.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
