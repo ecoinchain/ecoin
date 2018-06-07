@@ -46,8 +46,21 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 #endif
 	ui->setupUi(this);
 
-	QFontMetrics fm = this->fontMetrics();
-	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1   "), 0));
+	QFontMetrics fm = ui->username->fontMetrics();
+#ifdef Q_OS_MAC
+	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1    "), 0) * 2);
+#else
+	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1    "), 0));
+#endif
+
+#ifdef Q_OS_MAC
+	ui->startbutton->setStyleSheet(QStringLiteral("padding : 5px;"));
+	ui->stopbutton->setStyleSheet(QStringLiteral("padding : 5px;"));
+#else
+	ui->startbutton->setStyleSheet(QStringLiteral("padding : %1px;").arg(iconscale * 5));
+	ui->stopbutton->setStyleSheet(QStringLiteral("padding : %1px;").arg(iconscale * 5));
+#endif
+
 	ui->stopbutton->hide();
 
 	// fill CPU{id} checkbox.
@@ -88,6 +101,12 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 			QVariant stored_address = addrmodel->data(addrmodel->index(i, AddressTableModel::ColumnIndex::Address, QModelIndex()), Qt::DisplayRole);
 
 			ui->username->setCurrentText(stored_address.toString());
+
+#ifdef Q_OS_MAC
+	ui->username->setMinimumSize(QSize(fm.width(stored_address.toString() + "   "), 0) * 2);
+#else
+	ui->username->setMinimumSize(QSize(fm.width(stored_address.toString() + "   "), 0));
+#endif
 			return;
 		}
 	}
@@ -101,6 +120,12 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 	QString address = addrmodel->addRow(AddressTableModel::Receive, "mining_receive_address", "", address_type);
 	ui->username->setCurrentText(address);
+
+#ifdef Q_OS_MAC
+	ui->username->setMinimumSize(QSize(fm.width(address + "   "), 0) * 2);
+#else
+	ui->username->setMinimumSize(QSize(fm.width(address + "   "), 0));
+#endif
 
 	SendCoinsRecipient info(address, "mining_receive_address", {}, tr("address to receive mining payment"));
 
