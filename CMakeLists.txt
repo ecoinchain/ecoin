@@ -151,14 +151,9 @@ endif()
 
 link_directories(${QT_LIB_DIR})
 
-IF(WIN32)
-add_subdirectory(3rd-src/boost)
+add_subdirectory(3rd-src/boost EXCLUDE_FROM_ALL)
 include_directories(3rd-src/boost)
 set(Boost_LIBRARIES Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options Boost::regex Boost::locale)
-else()
-find_package(Boost 1.65 COMPONENTS filesystem thread system date_time program_options REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-endif()
 
 IF(WIN32)
 add_subdirectory(3rd-src/protobuf)
