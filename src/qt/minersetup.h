@@ -13,6 +13,8 @@
 
 #include <QLabel>
 #include <QCheckBox>
+#include <QNetworkAccessManager>
+
 #include <boost/asio.hpp>
 
 #include "amount.h"
@@ -70,4 +72,6 @@ private:
 	QPointer<QLabel> message_widget;
 
 	std::vector<QCheckBox*> checkboxies;
+
+	QNetworkAccessManager m_networkmanager;
 };
