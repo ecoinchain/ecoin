@@ -23,15 +23,17 @@
 #include <stdexcept>
 
 #include <boost/optional.hpp>
+#include <boost/endian/arithmetic.hpp>
 
 EhSolverCancelledException solver_cancelled;
 
 template<unsigned int N, unsigned int K>
 int Equihash<N,K>::InitialiseState(eh_HashState& base_state)
 {
-    uint32_t le_N = htole32(N);
-    uint32_t le_K = htole32(K);
-    unsigned char personalization[crypto_generichash_blake2b_PERSONALBYTES] = {};
+    boost::endian::little_uint32_t le_N = N;
+    boost::endian::little_uint32_t le_K = K;
+
+	unsigned char personalization[crypto_generichash_blake2b_PERSONALBYTES] = {};
     memcpy(personalization, "ZcashPoW", 8);
     memcpy(personalization+8,  &le_N, 4);
     memcpy(personalization+12, &le_K, 4);
@@ -47,9 +49,11 @@ void GenerateHash(const eh_HashState& base_state, eh_index g,
 {
     eh_HashState state;
     state = base_state;
-    eh_index lei = htole32(g);
-    crypto_generichash_blake2b_update(&state, (const unsigned char*) &lei,
-                                      sizeof(eh_index));
+
+    boost::endian::little_uint32_t lei = g;
+
+	crypto_generichash_blake2b_update(&state, (const unsigned char*) &lei,
+                                      sizeof(lei));
     crypto_generichash_blake2b_final(&state, hash, hLen);
 }
 
@@ -140,8 +144,8 @@ void CompressArray(const unsigned char* in, size_t in_len,
 void EhIndexToArray(const eh_index i, unsigned char* array)
 {
     BOOST_STATIC_ASSERT(sizeof(eh_index) == 4);
-    eh_index bei = htobe32(i);
-    memcpy(array, &bei, sizeof(eh_index));
+    boost::endian::big_uint32_t bei = i;
+    memcpy(array, &bei, sizeof(bei));
 }
 
 // Big-endian so that lexicographic array comparison is equivalent to integer
@@ -149,9 +153,9 @@ void EhIndexToArray(const eh_index i, unsigned char* array)
 eh_index ArrayToEhIndex(const unsigned char* array)
 {
     BOOST_STATIC_ASSERT(sizeof(eh_index) == 4);
-    eh_index bei;
+    boost::endian::big_uint32_t bei;
     memcpy(&bei, array, sizeof(eh_index));
-    return be32toh(bei);
+    return bei;
 }
 
 eh_trunc TruncateIndex(const eh_index i, const unsigned int ilen)

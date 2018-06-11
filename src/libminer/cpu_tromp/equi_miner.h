@@ -23,6 +23,10 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 typedef u32 au32;
 
 typedef uint16_t u16;
