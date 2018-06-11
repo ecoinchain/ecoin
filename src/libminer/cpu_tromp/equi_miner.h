@@ -175,14 +175,23 @@ struct htalloc {
         trees1[r/2]  = (bucket1 *)( reinterpret_cast<u32*>(heap1) + r/2);
   }
   void dealloctrees() {
-    free(heap0);
-    free(heap1);
+#ifdef _WIN32
+	VirtualFree(heap0, 0, MEM_RELEASE);
+	VirtualFree(heap1, 0, MEM_RELEASE);
+#else
+	free(heap0);
+	free(heap1);
+#endif
   }
 private:
   void *alloc(const u32 n, const u32 sz) {
+#ifdef _WIN32
+	return VirtualAlloc(NULL, n* sz, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+#else
     void *mem  = calloc(n, sz);
     assert(mem);
     return mem;
+#endif
   }
 };
 
