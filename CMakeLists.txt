@@ -150,21 +150,19 @@ if(WIN32)
 endif()
 
 link_directories(${QT_LIB_DIR})
-
-IF(WIN32)
-add_subdirectory(3rd-src/boost)
+set(Boost_USE_STATIC_LIBS ON)
+add_subdirectory(3rd-src/boost EXCLUDE_FROM_ALL)
 include_directories(3rd-src/boost)
 set(Boost_LIBRARIES Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options Boost::regex Boost::locale)
-else()
-find_package(Boost 1.65 COMPONENTS filesystem thread system date_time program_options REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
-endif()
 
-IF(WIN32)
-add_subdirectory(3rd-src/protobuf)
+set(protobuf_BUILD_TESTS OFF)
+set(BUILD_SHARED_LIBS OFF)
+set(protobuf_UNICODE ON)
+add_subdirectory(3rd-src/protobuf-3.5.2/cmake)
+
 set(Protobuf_LIBRARY libprotobuf)
-endif()
-
+set(Protobuf_PROTOC_EXECUTABLE protoc)
+set(Protobuf_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/protobuf-3.5.2/src)
 find_package(Protobuf)
 
 set(DISABLE_SSP 1)

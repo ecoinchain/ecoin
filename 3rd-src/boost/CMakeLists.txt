@@ -49,7 +49,6 @@ else()
 	set(BOOST_THREAD_SRC
 		libs/thread/src/tss_null.cpp
 		libs/thread/src/future.cpp
-		libs/thread/src/pthread/once.cpp
 		libs/thread/src/pthread/thread.cpp
 		libs/thread/src/pthread/once_atomic.cpp
 	)
@@ -194,14 +193,15 @@ if (WIN32)
 	)
 else()
 	list(APPEND BOOST_LOCALE_SRC
-		libs/locale/src/posix/collate.cpp
-		libs/locale/src/posix/numeric.cpp
-		libs/locale/src/posix/posix_backend.cpp
-		libs/locale/src/posix/posix_backend.hpp
 		libs/locale/src/posix/all_generator.hpp
-		libs/locale/src/posix/codecvt.cpp
-		libs/locale/src/posix/converter.cpp
-		libs/locale/src/posix/codecvt.hpp
+libs/locale/src/posix/codecvt.hpp
+libs/locale/src/posix/posix_backend.cpp
+libs/locale/src/posix/converter.cpp
+libs/locale/src/posix/posix_backend.hpp
+libs/locale/src/posix/numeric.cpp
+libs/locale/src/posix/collate.cpp
+libs/locale/src/posix/codecvt.cpp
+
 	)
 endif()
 
