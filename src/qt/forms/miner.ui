@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>MinerSetup</class>
  <widget class="QWidget" name="MinerSetup">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>829</width>
+    <height>770</height>
+   </rect>
+  </property>
   <property name="font">
    <font>
     <weight>1</weight>
@@ -183,7 +191,6 @@ line-height: 14pt;
         <widget class="QLabel" name="hashrate">
          <property name="font">
           <font>
-           <family>Monospace</family>
            <pointsize>14</pointsize>
            <weight>1</weight>
            <italic>false</italic>
@@ -233,7 +240,7 @@ line-height: 14pt;
           </font>
          </property>
          <property name="text">
-          <string>Intrest:</string>
+          <string>Pending Balance:</string>
          </property>
         </widget>
        </item>
@@ -253,7 +260,7 @@ line-height: 14pt;
           </font>
          </property>
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;000000000.00 &lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;ECO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;0.00000000 &lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;ECO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
@@ -392,7 +399,7 @@ line-height: 14pt;
            <x>0</x>
            <y>0</y>
            <width>279</width>
-           <height>525</height>
+           <height>685</height>
           </rect>
          </property>
          <layout class="QGridLayout" name="cpu_select_group_layout">
