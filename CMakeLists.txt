@@ -182,6 +182,10 @@ add_subdirectory(3rd-src/protobuf-3.5.2/cmake)
 
 set(Protobuf_LIBRARY libprotobuf)
 set(Protobuf_PROTOC_EXECUTABLE protoc)
+if(MSVC)
+set(Protobuf_PROTOC_EXECUTABLE "${CMAKE_CURRENT_BINARY_DIR}/Release/protoc.exe")
+endif()
+
 set(Protobuf_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/3rd-src/protobuf-3.5.2/src)
 find_package(Protobuf)
 
