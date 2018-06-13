@@ -13,6 +13,7 @@
 #include <QString>
 #include <QCheckBox>
 #include <QFontMetrics>
+#include <QDesktopServices>
 
 #include "widgets/flowlayout.h"
 #include "qt/widgets/overlaydialogembeder.h"
@@ -239,6 +240,12 @@ void MinerSetup::on_stopbutton_clicked()
 	setWindowTitle(tr("Contribute to a Pool"));
 
 	Q_EMIT MinerStatusChanged(false);
+}
+
+void MinerSetup::on_viewdetail_clicked()
+{
+	// Open Default broswer.	
+	QDesktopServices::openUrl(QString("https://rcoin.erpool.org/account/%1").arg(ui->username->currentText()));
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)

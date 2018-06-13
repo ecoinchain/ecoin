@@ -51,6 +51,8 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void on_startbutton_clicked();
 	void on_stopbutton_clicked();
+	
+	void on_viewdetail_clicked();
 
 	void timer_interrupt();
 
