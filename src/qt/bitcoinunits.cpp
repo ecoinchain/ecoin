@@ -43,7 +43,7 @@ QString BitcoinUnits::longName(int unit)
     {
     case BTC: return QString(QAPP_COIN_UNIT);
     case mBTC: return QString("m" QAPP_COIN_UNIT);
-    case uBTC: return QString::fromUtf8("µ" QAPP_COIN_UNIT " (bits)");
+    case uBTC: return QStringLiteral("µ") +  QAPP_COIN_UNIT + " (bits)";
     default: return QString("???");
     }
 }
