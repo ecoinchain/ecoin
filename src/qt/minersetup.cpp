@@ -185,9 +185,6 @@ void MinerSetup::timer_interrupt()
 
 		connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
 	}
-
-	//	m_networkmanager.get(new );
-
 }
 
 void MinerSetup::process_network_rpc_finished()
