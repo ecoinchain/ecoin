@@ -177,13 +177,16 @@ void MinerSetup::timer_interrupt()
 
 	if (ui->location->currentText() == "erpool.org")
 	{
-		QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188:81/").arg(ui->username->currentText());
+		if (ui->username->currentText().size() == 44)
+		{
+			QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188:81/").arg(ui->username->currentText());
 
-		QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
+			QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
-		connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
+			connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
 
-		connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
+			connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
+		}
 	}
 }
 
@@ -228,9 +231,25 @@ void MinerSetup::on_startbutton_clicked()
 	// start miner.
 	if (user.length() == 0)
 	{
-		std::cerr << "Invalid address. Use -u to specify your address." << std::endl;
+		error_report(tr("Invalid address."));
 		return;
 	}
+
+#if defined(_WIN32)
+	{
+		std::wstring ComputerName;
+
+		DWORD ComputerNamelen = 200;
+		ComputerName.resize(ComputerNamelen);
+
+		if (GetComputerNameW(&ComputerName[0], &ComputerNamelen))
+		{
+			ComputerName.resize(ComputerNamelen);
+
+			user = user + "." + QString::fromStdWString(ComputerName).toStdString();
+		}
+	}
+#endif
 
 	size_t delim = location.find(':');
 	std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
