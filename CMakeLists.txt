@@ -181,7 +181,7 @@ set(protobuf_UNICODE ON)
 add_subdirectory(3rd-src/protobuf-3.5.2/cmake)
 
 set(Protobuf_LIBRARY libprotobuf)
-set(Protobuf_PROTOC_EXECUTABLE protoc)
+set(Protobuf_PROTOC_EXECUTABLE /usr/bin/protoc)
 if(MSVC)
 set(Protobuf_PROTOC_EXECUTABLE "${CMAKE_CURRENT_BINARY_DIR}/Release/protoc.exe")
 endif()

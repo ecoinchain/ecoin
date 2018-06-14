@@ -1260,53 +1260,68 @@
 <context>
     <name>MinerSetup</name>
     <message>
-        <location filename="../forms/miner.ui" line="+6"/>
-        <location filename="../minersetup.cpp" line="+210"/>
+        <location filename="../forms/miner.ui" line="+21"/>
+        <location filename="../minersetup.cpp" line="+240"/>
         <source>Contribute to a Pool</source>
         <translation>连接到矿池挖矿</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+127"/>
         <source>Work for:</source>
         <translation>连接到矿池：</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+62"/>
         <source>Hash Rate:</source>
         <translation>算力：</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+15"/>
         <source>N/A</source>
         <translation type="unfinished">未知</translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+33"/>
+        <source>Pending Balance:</source>
+        <translation>待支付余额：</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>&amp;Detail...</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location line="+22"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;0.00000000 &lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;RCO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+40"/>
         <source>Payment goes to this Address:</source>
         <translation>收益打入這個地址：</translation>
     </message>
     <message>
-        <location line="+32"/>
+        <location line="+71"/>
         <source>Mining With this Device</source>
         <translation>使用这些设备挖矿</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="-15"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="-10"/>
         <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../minersetup.cpp" line="-105"/>
+        <location filename="../minersetup.cpp" line="-109"/>
         <source>address to receive mining payment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+88"/>
+        <location line="+92"/>
         <source>Contribute to a Pool - Mining</source>
         <translation>连接到矿池 - 挖矿中...</translation>
     </message>

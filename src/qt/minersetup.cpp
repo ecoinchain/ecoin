@@ -13,6 +13,9 @@
 #include <QString>
 #include <QCheckBox>
 #include <QFontMetrics>
+#include <QDesktopServices>
+#include <QNetworkReply>
+#include <QJsonDocument>
 
 #include "widgets/flowlayout.h"
 #include "qt/widgets/overlaydialogembeder.h"
@@ -32,6 +35,8 @@
 #include "libstratum/ZcashStratum.h"
 #include "libstratum/StratumClient.h"
 #include "validation.h"
+#include "bitcoinunits.h"
+#include "guiconstants.h"
 
 MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, QWidget *parent)
 	: QWidget(parent)
@@ -170,10 +175,47 @@ void MinerSetup::timer_interrupt()
 {
 	ui->hashrate->setText(QString("%1H/s").arg(speed.GetSolutionSpeed()));
 
+	if (ui->location->currentText() == "erpool.org")
+	{
+		QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188/").arg(ui->username->currentText());
 
-//	m_networkmanager.get(new );
+		QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
+
+		connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
+
+		connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
+	}
+
+	//	m_networkmanager.get(new );
 
 }
+
+void MinerSetup::process_network_rpc_finished()
+{
+	QNetworkReply* api_replay = dynamic_cast<QNetworkReply*>(sender());
+
+	if (api_replay)
+	{
+		auto replay_json = QJsonDocument::fromJson(api_replay->readAll());
+
+		// {"errCode":null,"errMsg":null,"data":{"userName":"coinyee","address":null,"assignedValue":"","toAssignValue":2055.37600000,"pooFee":0,"minAssign":0.00050}}
+		if (replay_json["data"].isObject())
+		{
+			auto pending_balance = replay_json["data"]["toAssignValue"].toString();
+
+		    //int unit = walletModel->getOptionsModel()->getDisplayUnit();
+			CAmount pending_balance_value = 0;
+			BitcoinUnits::parse(BitcoinUnit::BTC, pending_balance, &pending_balance_value);
+			pending_balance = BitcoinUnits::format(BitcoinUnit::BTC, pending_balance_value, false, BitcoinUnits::separatorStandard);
+
+			ui->balance->setText(QString(R"htmlstring(<html><head/><body><p><span style=" font-size:14pt;">%1 </span><span style=" font-size:9pt;">%2</span></p></body></html>)htmlstring")
+			.arg(pending_balance).arg(QAPP_COIN_UNIT)
+			);
+
+		}
+	}
+}
+
 
 void MinerSetup::on_startbutton_clicked()
 {
@@ -239,6 +281,17 @@ void MinerSetup::on_stopbutton_clicked()
 	setWindowTitle(tr("Contribute to a Pool"));
 
 	Q_EMIT MinerStatusChanged(false);
+}
+
+void MinerSetup::on_location_editTextChanged(QString l)
+{
+	ui->viewdetail->setVisible(l=="erpool.org");
+}
+
+void MinerSetup::on_viewdetail_clicked()
+{
+	// Open Default broswer.	
+	QDesktopServices::openUrl(QString("http://%2.erpool.org/account/%1").arg(ui->username->currentText()).arg(QAPP_COIN_SCHEME_NAME));
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)
