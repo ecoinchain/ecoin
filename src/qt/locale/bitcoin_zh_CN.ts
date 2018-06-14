@@ -1288,7 +1288,7 @@
     <message>
         <location line="+7"/>
         <source>&amp;Detail...</source>
-        <translation>open</translation>
+        <translation>详情</translation>
     </message>
     <message>
         <location line="+22"/>
