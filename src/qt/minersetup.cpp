@@ -177,7 +177,7 @@ void MinerSetup::timer_interrupt()
 
 	if (ui->location->currentText() == "erpool.org")
 	{
-		if (ui->username->currentText().size() == 44)
+		if (IsValidDestinationString(ui->username->currentText().toStdString()))
 		{
 			QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188:81/").arg(ui->username->currentText());
 
@@ -229,7 +229,7 @@ void MinerSetup::on_startbutton_clicked()
 		location = ui->location->currentText().toStdString();
 
 	// start miner.
-	if (user.length() == 0)
+	if (!IsValidDestinationString(user))
 	{
 		error_report(tr("Invalid address."));
 		return;
