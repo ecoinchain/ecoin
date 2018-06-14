@@ -125,8 +125,9 @@ private:
 	QPointer<MinerSetup> minerui;
 
     menubar *appMenuBar = nullptr;
-
+#ifndef Q_OS_MAC
     QSystemTrayIcon *trayIcon = nullptr;
+#endif
     QMenu *trayIconMenu = nullptr;
     Notificator *notificator = nullptr;
     RPCConsole *rpcConsole = nullptr;
