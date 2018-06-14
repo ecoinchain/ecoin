@@ -177,7 +177,7 @@ void MinerSetup::timer_interrupt()
 
 	if (ui->location->currentText() == "erpool.org")
 	{
-		QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188/").arg(ui->username->currentText());
+		QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188:81/").arg(ui->username->currentText());
 
 		QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
