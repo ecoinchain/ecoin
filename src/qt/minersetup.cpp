@@ -177,13 +177,16 @@ void MinerSetup::timer_interrupt()
 
 	if (ui->location->currentText() == "erpool.org")
 	{
-		QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188/").arg(ui->username->currentText());
+		if (ui->username->currentText().size() == 44)
+		{
+			QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://47.96.53.188/").arg(ui->username->currentText());
 
-		QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
+			QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
-		connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
+			connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
 
-		connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
+			connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
+		}
 	}
 }
 
@@ -243,7 +246,7 @@ void MinerSetup::on_startbutton_clicked()
 		{
 			ComputerName.resize(ComputerNamelen);
 
-			user = user + "." + QString::fromStdWString(ComputerName);
+			user = user + "." + QString::fromStdWString(ComputerName).toStdString();
 		}
 	}
 #endif
