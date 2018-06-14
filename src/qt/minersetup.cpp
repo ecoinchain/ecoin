@@ -228,9 +228,25 @@ void MinerSetup::on_startbutton_clicked()
 	// start miner.
 	if (user.length() == 0)
 	{
-		std::cerr << "Invalid address. Use -u to specify your address." << std::endl;
+		error_report(tr("Invalid address."));
 		return;
 	}
+
+#if defined(_WIN32)
+	{
+		std::wstring ComputerName;
+
+		DWORD ComputerNamelen = 200;
+		ComputerName.resize(ComputerNamelen);
+
+		if (GetComputerNameW(&ComputerName[0], &ComputerNamelen))
+		{
+			ComputerName.resize(ComputerNamelen);
+
+			user = user + "." + QString::fromStdWString(ComputerName);
+		}
+	}
+#endif
 
 	size_t delim = location.find(':');
 	std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
