@@ -235,9 +235,10 @@ BitcoinGUI::~BitcoinGUI()
 
     QSettings settings;
     settings.setValue("MainWindowGeometry", saveGeometry());
+#ifndef Q_OS_MAC
     if(trayIcon) // Hide tray icon, as deleting will let it linger until quit (on Ubuntu)
         trayIcon->hide();
-
+#endif
     delete rpcConsole;
 }
 
@@ -589,9 +590,10 @@ void BitcoinGUI::createTrayIcon(const NetworkStyle *networkStyle)
     trayIcon->setToolTip(toolTip);
     trayIcon->setIcon(networkStyle->getTrayAndWindowIcon());
     trayIcon->hide();
-#endif
-
     notificator = new Notificator(QApplication::applicationName(), trayIcon, this);
+#else
+    notificator = new Notificator(QApplication::applicationName(), nullptr, this);
+#endif
 }
 
 void BitcoinGUI::createTrayIconMenu()
@@ -1238,10 +1240,9 @@ void BitcoinGUI::showProgress(const QString &title, int nProgress)
 
 void BitcoinGUI::setTrayIconVisible(bool fHideTrayIcon)
 {
-    if (trayIcon)
-    {
-        trayIcon->setVisible(!fHideTrayIcon);
-    }
+#ifndef Q_OS_MAC
+	trayIcon->setVisible(!fHideTrayIcon);
+#endif
 }
 
 void BitcoinGUI::showModalOverlay()
