@@ -54,11 +54,15 @@ private Q_SLOTS:
 	
 	void on_viewdetail_clicked();
 
+	void on_location_editTextChanged(QString);
+
 	void timer_interrupt();
 
-	bool eventFilter(QObject * watched, QEvent * event) override;
+
+	void process_network_rpc_finished();
 
 private:
+	bool eventFilter(QObject * watched, QEvent * event) override;
 	void start_mining(std::string host, std::string port, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
 
 private:
