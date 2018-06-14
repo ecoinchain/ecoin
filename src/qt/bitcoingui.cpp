@@ -1069,10 +1069,11 @@ void BitcoinGUI::MinerStatusChanged(bool s)
 		labelWalletMinerStatusIcon->setMovie(nullptr);
 		animatedIcon.reset();
 
+	#ifndef Q_OS_MAC
 		QString toolTip = tr("%1 client").arg(tr(PACKAGE_NAME));
 		trayIcon->setToolTip(toolTip);
+	#endif
 	}
-
 }
 
 #endif // ENABLE_WALLET
