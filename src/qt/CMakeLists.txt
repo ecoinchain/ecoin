@@ -51,7 +51,7 @@ target_include_directories(ecoin-qt PUBLIC ${Boost_INCLUDE_DIRS} ${PROTOBUF_INCL
 
 target_link_libraries(ecoin-qt ecoin-qt-uis coincore wallet)
 target_link_libraries(ecoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg ${QT_EXTRA_LIBS})
-target_link_libraries(ecoin-qt libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
+target_link_libraries(ecoin-qt ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
 target_link_libraries(ecoin-qt Boost::filesystem Boost::system Boost::thread Boost::date_time Boost::program_options )
 target_link_libraries(ecoin-qt ${Boost_LIBRARIES} )
 

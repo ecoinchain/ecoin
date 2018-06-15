@@ -207,7 +207,7 @@ static u32 min(const u32 a, const u32 b) {
 
 #ifndef __CUDACC__
 struct equi {
-  crypto_generichash_blake2b_state blake_ctx;
+  blake2b_state blake_ctx;
   htalloc hta;
   bsizes nslots[2]; // PUT IN BUCKET STRUCT
   proof sols[MAXSOLS];
@@ -417,14 +417,14 @@ struct equi {
   void digit0(const u32 id)
   {
     uchar hash[HASHOUT];
-    crypto_generichash_blake2b_state state;
+    blake2b_state state;
     htlayout htl(this, 0);
     const u32 hashbytes = hashsize(0);
     for (u32 block = id; block < NBLOCKS; block += 1) {
       state = blake_ctx;
       u32 leb = block;
-      crypto_generichash_blake2b_update(&state, (uchar *)&leb, sizeof(u32));
-      crypto_generichash_blake2b_final(&state, hash, HASHOUT);
+      blake2b_update(&state, (uchar *)&leb, sizeof(u32));
+      blake2b_final(&state, hash, HASHOUT);
       for (u32 i = 0; i<HASHESPERBLAKE; i++) {
         const uchar *ph = hash + i * WN/8;
 #if BUCKBITS == 16 && RESTBITS == 4

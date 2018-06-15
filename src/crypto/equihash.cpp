@@ -16,7 +16,7 @@
 #include "config/bitcoin-config.h"
 #endif
 
-#include "crypto/equihash.h"
+#include "equihash.h"
 
 #include <algorithm>
 #include <iostream>
@@ -30,31 +30,36 @@ EhSolverCancelledException solver_cancelled;
 template<unsigned int N, unsigned int K>
 int Equihash<N,K>::InitialiseState(eh_HashState& base_state)
 {
-    boost::endian::little_uint32_t le_N = N;
-    boost::endian::little_uint32_t le_K = K;
+	boost::endian::little_uint32_t le_N = N;
+	boost::endian::little_uint32_t le_K = K;
 
-	unsigned char personalization[crypto_generichash_blake2b_PERSONALBYTES] = {};
-    memcpy(personalization, "ZcashPoW", 8);
-    memcpy(personalization+8,  &le_N, 4);
-    memcpy(personalization+12, &le_K, 4);
-    return crypto_generichash_blake2b_init_salt_personal(&base_state,
-                                                         NULL, 0, // No key.
-                                                         (512/N)*N/8,
-                                                         NULL,    // No salt.
-                                                         personalization);
+	static uint8_t personal[] = "ZcashPoW01230123";
+	memcpy(personal + 8, &le_N, 4);
+	memcpy(personal + 12, &le_K, 4);
+	blake2b_param P[1];
+	P->digest_length = (512/N)*N/8;
+	P->key_length = 0;
+	P->fanout = 1;
+	P->depth = 1;
+	P->leaf_length = 0;
+	P->node_offset = 0;
+	P->node_depth = 0;
+	P->inner_length = 0;
+	memset(P->reserved, 0, sizeof(P->reserved));
+	memset(P->salt, 0, sizeof(P->salt));
+	memcpy(P->personal, (const uint8_t *) personal, 16);
+	return blake2b_init_param(&base_state, P);
 }
 
-void GenerateHash(const eh_HashState& base_state, eh_index g,
-                  unsigned char* hash, size_t hLen)
+void GenerateHash(const eh_HashState& base_state, eh_index g, unsigned char* hash, size_t hLen)
 {
-    eh_HashState state;
-    state = base_state;
+	eh_HashState state;
+	state = base_state;
 
-    boost::endian::little_uint32_t lei = g;
+	boost::endian::little_uint32_t lei = g;
 
-	crypto_generichash_blake2b_update(&state, (const unsigned char*) &lei,
-                                      sizeof(lei));
-    crypto_generichash_blake2b_final(&state, hash, hLen);
+	blake2b_update(&state, (const unsigned char*) &lei, sizeof(lei));
+	blake2b_final(&state, hash, hLen);
 }
 
 void ExpandArray(const unsigned char* in, size_t in_len,

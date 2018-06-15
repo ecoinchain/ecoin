@@ -41,7 +41,8 @@ endif()
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 include_directories(${CUDA_INCLUDE_DIRS})
-include_directories(..)
+include_directories(.. ../..)
+
 CUDA_ADD_LIBRARY(${EXECUTABLE} STATIC ${SRC_LIST} ${HEADERS})
 TARGET_LINK_LIBRARIES(${EXECUTABLE} ${CUDA_LIBRARIES} cuda sodium concore_crypto blake2)
 

@@ -14,7 +14,6 @@
 #include <chrono>
 #include <boost/thread/exceptions.hpp>
 #include <boost/circular_buffer.hpp>
-#include <sodium/crypto_generichash_blake2b.h>
 
 #include "speed.hpp"
 

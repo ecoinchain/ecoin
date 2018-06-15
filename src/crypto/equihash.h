@@ -7,9 +7,6 @@
 #define BITCOIN_EQUIHASH_H
 
 #include <utilstrencodings.h>
-
-#include <sodium.h>
-
 #include <cstring>
 #include <exception>
 #include <functional>
@@ -19,7 +16,9 @@
 
 #include <boost/static_assert.hpp>
 
-typedef crypto_generichash_blake2b_state eh_HashState;
+#include "blake2/blake2.h"
+
+typedef blake2b_state eh_HashState;
 typedef uint32_t eh_index;
 typedef uint8_t eh_trunc;
 
