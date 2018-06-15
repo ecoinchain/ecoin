@@ -2,7 +2,8 @@
 // Equihash solver
 // Copyright (c) 2016-2016 John Tromp
 
-#include <sodium/crypto_generichash_blake2b.h>
+#include <blake2/blake2.h>
+
 #ifndef __CUDACC__
 #include <crypto/equihash.h>
 #endif
@@ -49,22 +50,22 @@ typedef unsigned char uchar;
 
 typedef u32 proof[PROOFSIZE];
 
-void equi_setheader(crypto_generichash_blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen);
+void equi_setheader(blake2b_state *ctx, const char *header, const u32 headerLen, const char* nce, const u32 nonceLen);
 
 enum verify_code { POW_OK, POW_DUPLICATE, POW_OUT_OF_ORDER, POW_NONZERO_XOR };
 
 static const char *errstr[] = { "OK", "duplicate index", "indices out of order", "nonzero xor" };
 
-static void genhash(crypto_generichash_blake2b_state *ctx, u32 idx, uchar *hash) {
-  crypto_generichash_blake2b_state state = *ctx;
+static void genhash(blake2b_state *ctx, u32 idx, uchar *hash) {
+  blake2b_state state = *ctx;
   u32 leb = (idx / HASHESPERBLAKE);
-  crypto_generichash_blake2b_update(&state, (uchar *)&leb, sizeof(u32));
+  blake2b_update(&state, (uchar *)&leb, sizeof(u32));
   uchar blakehash[HASHOUT];
-  crypto_generichash_blake2b_final(&state, blakehash, HASHOUT);
+  blake2b_final(&state, blakehash, HASHOUT);
   memcpy(hash, blakehash + (idx % HASHESPERBLAKE) * WN/8, WN/8);
 }
 
-static int verifyrec(crypto_generichash_blake2b_state *ctx, u32 *indices, uchar *hash, int r) {
+static int verifyrec(blake2b_state *ctx, u32 *indices, uchar *hash, int r) {
   if (r == 0) {
     genhash(ctx, *indices, hash);
     return POW_OK;
@@ -109,7 +110,7 @@ static bool duped(proof prf) {
 static int verify(u32 indices[PROOFSIZE], const char *header, const u32 headerlen, const char *nonce, u32 noncelen) {
   if (duped(indices))
     return POW_DUPLICATE;
-  crypto_generichash_blake2b_state ctx;
+  blake2b_state ctx;
   equi_setheader(&ctx, header, headerlen, nonce, noncelen);
   uchar hash[WN/8];
   return verifyrec(&ctx, indices, hash, WK);

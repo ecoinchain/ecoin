@@ -51,7 +51,7 @@ target_include_directories(rcoin-qt PUBLIC ${Boost_INCLUDE_DIRS} ${PROTOBUF_INCL
 
 target_link_libraries(rcoin-qt rcoin-qt-uis coincore wallet)
 target_link_libraries(rcoin-qt Qt5::Widgets Qt5::Gui Qt5::Core Qt5::Network Qt5::Svg ${QT_EXTRA_LIBS})
-target_link_libraries(rcoin-qt libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
+target_link_libraries(rcoin-qt ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb qrencode)
 target_link_libraries(rcoin-qt ${Boost_LIBRARIES} )
 
 	target_link_libraries(rcoin-qt rcoin-qt-locale)

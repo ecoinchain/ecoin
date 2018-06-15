@@ -130,7 +130,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         pblock->hashMerkleRoot = BlockMerkleRoot(*pblock);
 
         // Solve Equihash.
-        crypto_generichash_blake2b_state eh_state;
+        blake2b_state eh_state;
         EhInitialiseState(n, k, eh_state);
 
         // I = the block header minus nonce and solution.
@@ -139,7 +139,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
         ss << I;
 
         // H(I||...
-        crypto_generichash_blake2b_update(&eh_state, (unsigned char*)&ss[0], ss.size());
+        blake2b_update(&eh_state, (unsigned char*)&ss[0], ss.size());
 
         while (nMaxTries > 0) {
             // Yes, there is a chance every nonce could fail to satisfy the -regtest
@@ -147,9 +147,9 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
             pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
 
             // H(I||V||...
-            crypto_generichash_blake2b_state curr_state;
+            blake2b_state curr_state;
             curr_state = eh_state;
-            crypto_generichash_blake2b_update(&curr_state,
+            blake2b_update(&curr_state,
                                               pblock->nNonce.begin(),
                                               pblock->nNonce.size());
 

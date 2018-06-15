@@ -13,6 +13,8 @@ add_subdirectory(univalue)
 add_subdirectory(secp256k1)
 add_subdirectory(ed25519)
 
+add_subdirectory(blake2)
+
 add_subdirectory(libminer)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
@@ -23,7 +25,7 @@ add_definitions(-DCLIENT_VERSION_MAJOR=${CPACK_PACKAGE_VERSION_MAJOR} -DCLIENT_V
 
 add_definitions(-DENABLE_WALLET)
 
-link_libraries(libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
+link_libraries(${DB_LIBRARY} ${OPENSSL_LIBRARIES} ${PROTOBUF_LIBRARY} univalue leveldb)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${DB_INCLUDE_DIR})
 
@@ -191,8 +193,8 @@ add_executable(rcoin-cli bitcoin-cli.cpp)
 
 target_link_libraries(rcoind concore_crypto coincore wallet)
 target_link_libraries(rcoin-cli concore_crypto coincore wallet)
-target_link_libraries(rcoind libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
-target_link_libraries(rcoin-cli libsodium-static ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(rcoind ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
+target_link_libraries(rcoin-cli ${DB_LIBRARY} ${OPENSSL_LIBRARIES} univalue leveldb qrencode)
 target_link_libraries(rcoind ${Boost_LIBRARIES} )
 target_link_libraries(rcoin-cli ${Boost_LIBRARIES})
 endif()

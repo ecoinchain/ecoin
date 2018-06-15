@@ -7,8 +7,6 @@ option(USE_OCL_SILENTARMY "use opencl solver" OFF)
 add_definitions(-DUSE_CPU_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 
-add_subdirectory(blake2)
-
 add_subdirectory(cpu_tromp)
 
 if(USE_CUDA_DJEZO)
