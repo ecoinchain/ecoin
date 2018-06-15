@@ -304,7 +304,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+338"/>
+        <location filename="../bitcoingui.cpp" line="+339"/>
         <source>Sign &amp;message...</source>
         <translation>簽署訊息...</translation>
     </message>
@@ -319,7 +319,7 @@
         <translation>顯示 %1 的說明訊息，來取得可用命令列選項的列表</translation>
     </message>
     <message>
-        <location line="+417"/>
+        <location line="+418"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 個運作中的網路連線</translation>
     </message>
@@ -329,17 +329,17 @@
         <translation>正在跟網路進行同步...</translation>
     </message>
     <message>
-        <location line="-586"/>
+        <location line="-587"/>
         <source>&amp;Overview</source>
         <translation>總覽</translation>
     </message>
     <message>
-        <location line="-144"/>
+        <location line="-145"/>
         <source>Node</source>
         <translation>節點</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+146"/>
         <source>Show general overview of wallet</source>
         <translation>顯示錢包一般總覽</translation>
     </message>
@@ -439,7 +439,7 @@
         <translation>加入矿池协调挖矿</translation>
     </message>
     <message>
-        <location line="+927"/>
+        <location line="+928"/>
         <source>Unable to change datadir</source>
         <translation>無法修改路徑</translation>
     </message>
@@ -464,7 +464,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="-965"/>
+        <location line="-966"/>
         <source>&amp;Sending addresses...</source>
         <translation>付款位址...</translation>
     </message>
@@ -479,7 +479,7 @@
         <translation>開啓 URI...</translation>
     </message>
     <message>
-        <location line="+425"/>
+        <location line="+426"/>
         <source>Click to disable network activity.</source>
         <translation>按一下就會不使用網路。</translation>
     </message>
@@ -504,7 +504,7 @@
         <translation>正在為磁碟裡的區塊重建索引...</translation>
     </message>
     <message>
-        <location line="-514"/>
+        <location line="-515"/>
         <source>Backup wallet to another location</source>
         <translation>把錢包備份到其它地方</translation>
     </message>
@@ -539,12 +539,12 @@
         <translation>驗證訊息...</translation>
     </message>
     <message>
-        <location line="-238"/>
+        <location line="-239"/>
         <source>Wallet</source>
         <translation>錢包</translation>
     </message>
     <message>
-        <location line="+153"/>
+        <location line="+154"/>
         <location line="+7"/>
         <source>&amp;Send</source>
         <translation>付款</translation>
@@ -601,7 +601,7 @@
         <translation>命令列選項</translation>
     </message>
     <message>
-        <location line="+485"/>
+        <location line="+486"/>
         <source>Indexing blocks on disk...</source>
         <translation>正在為磁碟裡的區塊建立索引...</translation>
     </message>
@@ -653,13 +653,13 @@
         <translation>最新狀態</translation>
     </message>
     <message>
-        <location line="-277"/>
-        <location line="+484"/>
+        <location line="-278"/>
+        <location line="+486"/>
         <source>%1 client</source>
         <translation>%1 客戶端軟體</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-222"/>
         <source>Connecting to peers...</source>
         <translation>正在跟其他節點連線中...</translation>
     </message>
@@ -724,7 +724,7 @@
         <translation>%1 正在挖礦</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+70"/>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
         <translation>產生 HD 金鑰&lt;b&gt;已經啟用&lt;/b&gt;</translation>
     </message>
@@ -1260,8 +1260,8 @@
 <context>
     <name>MinerSetup</name>
     <message>
-        <location filename="../forms/miner.ui" line="+21"/>
-        <location filename="../minersetup.cpp" line="+240"/>
+        <location filename="../forms/miner.ui" line="+13"/>
+        <location filename="../minersetup.cpp" line="+301"/>
         <source>Contribute to a Pool</source>
         <translation>连接到矿池挖矿</translation>
     </message>
@@ -1308,20 +1308,25 @@
     <message>
         <location line="-15"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>停工</translation>
     </message>
     <message>
         <location line="-10"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>开工</translation>
     </message>
     <message>
-        <location filename="../minersetup.cpp" line="-109"/>
+        <location filename="../minersetup.cpp" line="-166"/>
         <source>address to receive mining payment</source>
-        <translation type="unfinished"></translation>
+        <translation>用于接收矿池的收益</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+103"/>
+        <source>Invalid address.</source>
+        <translation>非法位址</translation>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>Contribute to a Pool - Mining</source>
         <translation>连接到矿池 - 挖矿中...</translation>
     </message>
@@ -1329,6 +1334,11 @@
         <location line="+9"/>
         <source>Stopping Miner....</source>
         <translation>正在停止挖矿</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>unsupported miner pool, please view on there website</source>
+        <translation>未受支持的礦池，请直接在礦池網頁上查看</translation>
     </message>
 </context>
 <context>
@@ -4080,7 +4090,7 @@ Note:  Since the fee is calculated on a per-byte basis, a fee of &quot;100 satos
 <context>
     <name>UnitDisplayStatusBarControl</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+221"/>
+        <location filename="../bitcoingui.cpp" line="+220"/>
         <source>Unit to show amounts in. Click to select another unit.</source>
         <translation>金額顯示單位。可以點選其他單位。</translation>
     </message>

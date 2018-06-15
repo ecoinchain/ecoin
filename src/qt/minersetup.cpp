@@ -188,6 +188,10 @@ void MinerSetup::timer_interrupt()
 			connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
 		}
 	}
+	else
+	{
+		ui->balance->setText(tr("unsupported miner pool, please view on there website"));
+	}
 }
 
 void MinerSetup::process_network_rpc_finished()
