@@ -196,9 +196,9 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 			std::cerr << ec.message() << std::endl;
 			p_current.reset();
 #ifdef _WIN32
-			report_error(ansi_utf8(ec.message()));
+			report_error(ansi_utf8(ec.message()), false);
 #else
-			report_error(ec.message());
+			report_error(ec.message(), false);
 #endif
 			m_reconnect_delay = 3000;
 			reconnect();
@@ -359,6 +359,9 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 		}
 
 		if (method == "mining.notify") {
+
+			dismiss_error();
+
 			const Value& valParams = find_value(responseObject, "params");
 			if (valParams.type() == array_type) {
 				const Array& params = valParams.get_array();
@@ -457,7 +460,7 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 				if (params.size() > 1 && params[1].type() == str_type)
 				{
 					auto reason = params[1].get_str();
-					report_error(reason);
+					report_error(reason, false);
 				}
 			}
 

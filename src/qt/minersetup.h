@@ -46,9 +46,11 @@ Q_SIGNALS:
 	void MinerStatusChanged(bool);
 
 public Q_SLOTS:
-	void error_report(QString error_message);
+	void error_report(QString error_string, bool can_auto_dismiss);
+	void dismiss_error();
 
 private Q_SLOTS:
+	void dismiss_error_invoked();
 	void on_startbutton_clicked();
 	void on_stopbutton_clicked();
 	
