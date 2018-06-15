@@ -203,19 +203,23 @@ void MinerSetup::process_network_rpc_finished()
 		{
 			auto pending_balance = replay_json["data"]["toAssignValue"].toString();
 
-		    //int unit = walletModel->getOptionsModel()->getDisplayUnit();
-			CAmount pending_balance_value = 0;
-			BitcoinUnits::parse(BitcoinUnit::BTC, pending_balance, &pending_balance_value);
-			pending_balance = BitcoinUnits::format(BitcoinUnit::BTC, pending_balance_value, false, BitcoinUnits::separatorStandard);
-
-			ui->balance->setText(QString(R"htmlstring(<html><head/><body><p><span style=" font-size:14pt;">%1 </span><span style=" font-size:9pt;">%2</span></p></body></html>)htmlstring")
-			.arg(pending_balance).arg(QAPP_COIN_UNIT)
-			);
-
+			set_pending_balance(pending_balance);
 		}
 	}
 }
 
+
+void MinerSetup::set_pending_balance(QString pending_balance)
+{
+	//int unit = walletModel->getOptionsModel()->getDisplayUnit();
+	CAmount pending_balance_value = 0;
+	BitcoinUnits::parse(BitcoinUnit::BTC, pending_balance, &pending_balance_value);
+	pending_balance = BitcoinUnits::format(BitcoinUnit::BTC, pending_balance_value, false, BitcoinUnits::separatorStandard);
+
+	ui->balance->setText(QString(R"htmlstring(<html><head/><body><p><span style=" font-size:14pt;">%1 </span><span style=" font-size:9pt;">%2</span></p></body></html>)htmlstring")
+	.arg(pending_balance).arg(QAPP_COIN_UNIT)
+	);
+}
 
 void MinerSetup::on_startbutton_clicked()
 {
@@ -302,6 +306,15 @@ void MinerSetup::on_stopbutton_clicked()
 void MinerSetup::on_location_editTextChanged(QString l)
 {
 	ui->viewdetail->setVisible(l=="erpool.org");
+
+	if (l!="erpool.org")
+	{
+		ui->balance->setText(tr("unsupported miner pool, please view on there website"));
+	}
+	else
+	{
+		set_pending_balance("0.0");
+	}
 }
 
 void MinerSetup::on_viewdetail_clicked()

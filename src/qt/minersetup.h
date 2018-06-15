@@ -61,6 +61,8 @@ private Q_SLOTS:
 
 	void process_network_rpc_finished();
 
+	void set_pending_balance(QString);
+
 private:
 	bool eventFilter(QObject * watched, QEvent * event) override;
 	void start_mining(std::string host, std::string port, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
