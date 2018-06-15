@@ -120,6 +120,12 @@ public:
 		report_error.connect(f);
 	}
 
+	template<typename Func>
+	void set_dismiss_error(Func f)
+	{
+		dismiss_error.connect(f);
+	}
+
 private:
     void startWorking();
     void workLoop(boost::system::error_code ec, boost::asio::coroutine);
@@ -167,9 +173,13 @@ private:
 
 	int m_reconnect_delay = 3000;
 
-	typedef boost::signals2::signal<void (std::string)> report_error_t;
+	typedef boost::signals2::signal<void (std::string, bool can_auto_dismiss)> report_error_t;
 
 	report_error_t report_error;
+
+	typedef boost::signals2::signal<void()> dismiss_error_t;
+
+	dismiss_error_t dismiss_error;
 };
 
 

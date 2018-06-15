@@ -156,9 +156,13 @@ void MinerSetup::start_mining(std::string host, std::string port,
 		*miner_io_service, &miner, host, port, user, password, 0, 0
 	};
 
-	sc.set_report_error([this](std::string error)
+	sc.set_report_error([this](std::string error, bool can_auto_dismiss)
 	{
-		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(error.c_str(), error.length())));
+		QMetaObject::invokeMethod(this, "error_report", Qt::QueuedConnection, Q_ARG(QString, QString::fromUtf8(error.c_str(), error.length())), Q_ARG(bool, can_auto_dismiss));
+	});
+
+	sc.set_dismiss_error([this]{
+		dismiss_error();
 	});
 
 	miner.onSolutionFound([&](const EquihashSolution& solution, const std::string& jobid) {
@@ -239,7 +243,7 @@ void MinerSetup::on_startbutton_clicked()
 	// start miner.
 	if (!IsValidDestinationString(user))
 	{
-		error_report(tr("Invalid address."));
+		error_report(tr("Invalid address."), false);
 		return;
 	}
 
@@ -333,7 +337,20 @@ static QWidget* TopLevelParentWidget(QWidget* widget)
 	return widget;
 }
 
-void MinerSetup::error_report(QString error_string)
+void MinerSetup::dismiss_error()
+{
+	QMetaObject::invokeMethod(this, "dismiss_error_invoked", Qt::QueuedConnection);
+}
+
+void MinerSetup::dismiss_error_invoked()
+{
+	if (message_widget)
+	{
+		message_widget->deleteLater();
+	}
+}
+
+void MinerSetup::error_report(QString error_string, bool can_auto_dismiss)
 {
 	if (message_widget)
 	{
@@ -355,6 +372,10 @@ void MinerSetup::error_report(QString error_string)
 		embeder->show();
 	}
 
+	if (can_auto_dismiss)
+	{
+		QTimer::singleShot(5000, message_widget.data(), SLOT(deleteLater()));
+	}
 }
 
 bool MinerSetup::eventFilter(QObject * watched, QEvent * ev)
