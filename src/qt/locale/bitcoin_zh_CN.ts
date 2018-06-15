@@ -304,7 +304,7 @@
 <context>
     <name>BitcoinGUI</name>
     <message>
-        <location filename="../bitcoingui.cpp" line="+338"/>
+        <location filename="../bitcoingui.cpp" line="+339"/>
         <source>Sign &amp;message...</source>
         <translation>消息签名(&amp;M)...</translation>
     </message>
@@ -324,22 +324,22 @@
         <translation>加入矿池协调挖矿</translation>
     </message>
     <message>
-        <location line="+482"/>
+        <location line="+483"/>
         <source>Synchronizing with network...</source>
         <translation>正在与网络同步...</translation>
     </message>
     <message>
-        <location line="-586"/>
+        <location line="-587"/>
         <source>&amp;Overview</source>
         <translation>概况(&amp;O)</translation>
     </message>
     <message>
-        <location line="-144"/>
+        <location line="-145"/>
         <source>Node</source>
         <translation>节点</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+146"/>
         <source>Show general overview of wallet</source>
         <translation>显示钱包概况</translation>
     </message>
@@ -444,7 +444,7 @@
         <translation>打开 &amp;URI...</translation>
     </message>
     <message>
-        <location line="+425"/>
+        <location line="+426"/>
         <source>Click to disable network activity.</source>
         <translation>点击禁用网络活动。</translation>
     </message>
@@ -469,7 +469,7 @@
         <translation>正在为数据块重建索引...</translation>
     </message>
     <message>
-        <location line="-514"/>
+        <location line="-515"/>
         <source>Backup wallet to another location</source>
         <translation>备份钱包到其他文件夹</translation>
     </message>
@@ -504,12 +504,12 @@
         <translation>验证消息(&amp;V)...</translation>
     </message>
     <message>
-        <location line="-238"/>
+        <location line="-239"/>
         <source>Wallet</source>
         <translation>钱包</translation>
     </message>
     <message>
-        <location line="+153"/>
+        <location line="+154"/>
         <location line="+7"/>
         <source>&amp;Send</source>
         <translation>付款(&amp;S)</translation>
@@ -571,7 +571,7 @@
         <translation>显示 %1 帮助信息，获取可用命令行选项列表</translation>
     </message>
     <message>
-        <location line="+417"/>
+        <location line="+418"/>
         <source>%1 active connection(s) to network</source>
         <translation>%1 条到网络的活动连接。</translation>
     </message>
@@ -621,13 +621,13 @@
         <translation>已是最新</translation>
     </message>
     <message>
-        <location line="-277"/>
-        <location line="+484"/>
+        <location line="-278"/>
+        <location line="+486"/>
         <source>%1 client</source>
         <translation>%1 客戶</translation>
     </message>
     <message>
-        <location line="-221"/>
+        <location line="-222"/>
         <source>Connecting to peers...</source>
         <translation>正在连接到节点……</translation>
     </message>
@@ -699,7 +699,7 @@
         <translation>%1 正在挖矿</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+70"/>
         <source>HD key generation is &lt;b&gt;enabled&lt;/b&gt;</source>
         <translation>HD密钥生成&lt;b&gt;启用&lt;/b&gt;</translation>
     </message>
@@ -719,7 +719,7 @@
         <translation>钱包已被&lt;b&gt;加密&lt;/b&gt;，当前为&lt;b&gt;锁定&lt;/b&gt;状态</translation>
     </message>
     <message>
-        <location line="+113"/>
+        <location line="+112"/>
         <source>Unable to change datadir</source>
         <translation>无法修改数据目录</translation>
     </message>
@@ -1260,7 +1260,7 @@
 <context>
     <name>MinerSetup</name>
     <message>
-        <location filename="../forms/miner.ui" line="+148"/>
+        <location filename="../forms/miner.ui" line="+140"/>
         <source>Work for:</source>
         <translation>连接到矿池：</translation>
     </message>
@@ -1276,7 +1276,7 @@
     </message>
     <message>
         <location line="-189"/>
-        <location filename="../minersetup.cpp" line="+240"/>
+        <location filename="../minersetup.cpp" line="+301"/>
         <source>Contribute to a Pool</source>
         <translation>连接到矿池挖矿</translation>
     </message>
@@ -1316,12 +1316,17 @@
         <translation>收益打入这个地址：</translation>
     </message>
     <message>
-        <location filename="../minersetup.cpp" line="-109"/>
+        <location filename="../minersetup.cpp" line="-166"/>
         <source>address to receive mining payment</source>
         <translation>用于接收矿池的收益</translation>
     </message>
     <message>
-        <location line="+92"/>
+        <location line="+103"/>
+        <source>Invalid address.</source>
+        <translation>非法地址</translation>
+    </message>
+    <message>
+        <location line="+46"/>
         <source>Contribute to a Pool - Mining</source>
         <translation>连接到矿池 - 挖矿中...</translation>
     </message>
@@ -1329,6 +1334,11 @@
         <location line="+9"/>
         <source>Stopping Miner....</source>
         <translation>正在停止挖矿</translation>
+    </message>
+    <message>
+        <location line="+19"/>
+        <source>unsupported miner pool, please view on there website</source>
+        <translation>不支持的矿池，请直接在矿池网页上查看</translation>
     </message>
 </context>
 <context>
