@@ -1261,7 +1261,7 @@
     <name>MinerSetup</name>
     <message>
         <location filename="../forms/miner.ui" line="+21"/>
-        <location filename="../minersetup.cpp" line="+326"/>
+        <location filename="../minersetup.cpp" line="+332"/>
         <source>Contribute to a Pool</source>
         <translation>连接到矿池挖矿</translation>
     </message>
@@ -1307,6 +1307,7 @@
     </message>
     <message>
         <location line="-136"/>
+        <location filename="../minersetup.cpp" line="+28"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pending Balance: &lt;a href=&quot;%1&quot;&gt; (Detail)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;待支付餘額: &lt;a href=&apos;%1&apos;&gt; (詳情)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -1316,17 +1317,18 @@
         <translation>开工</translation>
     </message>
     <message>
-        <location filename="../minersetup.cpp" line="-187"/>
+        <location filename="../minersetup.cpp" line="-219"/>
         <source>address to receive mining payment</source>
         <translation>用于接收矿池的收益</translation>
     </message>
     <message>
-        <location line="+93"/>
+        <location line="+92"/>
+        <location line="+7"/>
         <source>query failed</source>
         <translation>查詢失敗</translation>
     </message>
     <message>
-        <location line="+31"/>
+        <location line="+29"/>
         <source>Invalid address.</source>
         <translation>非法位址</translation>
     </message>
@@ -1346,13 +1348,18 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;待支付餘額: &lt;a href=&apos;%1&apos;&gt; (詳情)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+18"/>
+        <source>Pending Balance:</source>
+        <translation>待支付的餘額</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>querying the balance</source>
         <translation>查詢中</translation>
     </message>
     <message>
-        <location line="-144"/>
-        <location line="+126"/>
+        <location line="-162"/>
+        <location line="+131"/>
         <source>unsupported miner pool, please view on there website</source>
         <translation>未受支持的礦池，请直接在礦池網頁上查看</translation>
     </message>
