@@ -181,8 +181,6 @@ void MinerSetup::start_mining(std::string host, std::string port,
 
 	miner.stop();
 	speed.Reset();
-
-	miner_io_service.reset();
 }
 
 void MinerSetup::timer_interrupt()

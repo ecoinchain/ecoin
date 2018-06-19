@@ -231,7 +231,7 @@ libbitcoin_server_a_SOURCES = \
   miner.cpp \
   libminer/speed.cpp \
   libminer/MinerFactory.cpp \
-  libminer/blake2/blake2bx.cpp \
+  blake2/blake2bx.cpp \
   libminer/cpu_tromp/cpu_tromp.cpp
 
 
