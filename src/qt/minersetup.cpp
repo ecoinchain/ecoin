@@ -90,6 +90,12 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 	connect(&ui_update_timer, SIGNAL(timeout()), this, SLOT(timer_interrupt()));
 	ui_update_timer.start();
 
+	balance_update_timer.setInterval(std::chrono::minutes(30));
+	connect(&balance_update_timer, SIGNAL(timeout()), this, SLOT(second_timer_interrupt()));
+	balance_update_timer.start();
+
+	connect(ui->balance_detail,SIGNAL(linkActivated(QString)),this, SLOT(openUrl(QString)));
+
 	if(!model || !model->getOptionsModel() || !model->getAddressTableModel() || !model->getRecentRequestsTableModel())
 		return;
 
@@ -169,16 +175,23 @@ void MinerSetup::start_mining(std::string host, std::string port,
 		return sc.submit(&solution, jobid);
 	});
 
+	QMetaObject::invokeMethod(this, "second_timer_interrupt", Qt::QueuedConnection);
+
 	miner_io_service->run();
 
 	miner.stop();
 	speed.Reset();
+
+	miner_io_service.reset();
 }
 
 void MinerSetup::timer_interrupt()
 {
 	ui->hashrate->setText(QString("%1H/s").arg(speed.GetSolutionSpeed()));
+}
 
+void MinerSetup::second_timer_interrupt()
+{
 	if (ui->location->currentText() == "erpool.org")
 	{
 		if (IsValidDestinationString(ui->username->currentText().toStdString()))
@@ -188,7 +201,9 @@ void MinerSetup::timer_interrupt()
 			QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
 			connect(api_replay, SIGNAL(finished()), api_replay, SLOT(deleteLater()));
+			connect(api_replay, SIGNAL(error(QNetworkReply::NetworkError)), api_replay, SLOT(deleteLater()));
 
+			connect(api_replay, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(process_network_error(QNetworkReply::NetworkError)));
 			connect(api_replay, SIGNAL(readChannelFinished()), this, SLOT(process_network_rpc_finished()));
 		}
 	}
@@ -213,9 +228,17 @@ void MinerSetup::process_network_rpc_finished()
 
 			set_pending_balance(pending_balance);
 		}
+		else
+		{
+			ui->balance->setText(tr("query failed"));
+		}
 	}
 }
 
+void MinerSetup::process_network_error(QNetworkReply::NetworkError)
+{
+	ui->balance->setText(tr("query failed"));
+}
 
 void MinerSetup::set_pending_balance(QString pending_balance)
 {
@@ -313,7 +336,7 @@ void MinerSetup::on_stopbutton_clicked()
 
 void MinerSetup::on_location_editTextChanged(QString l)
 {
-	ui->viewdetail->setVisible(l=="erpool.org");
+	ui->balance->setVisible(l=="erpool.org");
 
 	if (l!="erpool.org")
 	{
@@ -321,14 +344,35 @@ void MinerSetup::on_location_editTextChanged(QString l)
 	}
 	else
 	{
+		QString detailurl = QStringLiteral("http://%1.erpool.org/account/%2").arg(QAPP_COIN_SCHEME_NAME).arg(l);
+		ui->balance->setText(tr("<html><head/><body><p>Pending Balance: <a href='%1'> (Detail)</a></p></body></html>").arg(detailurl));
 		set_pending_balance("0.0");
 	}
 }
 
-void MinerSetup::on_viewdetail_clicked()
+void MinerSetup::on_username_editTextChanged(QString l)
 {
-	// Open Default broswer.	
-	QDesktopServices::openUrl(QString("http://%2.erpool.org/account/%1").arg(ui->username->currentText()).arg(QAPP_COIN_SCHEME_NAME));
+	if (ui->location->currentText()=="erpool.org")
+	{
+		if (IsValidDestinationString(ui->username->currentText().toStdString()))
+		{
+			QString detailurl = QStringLiteral("http://%1.erpool.org/account/%2").arg(QAPP_COIN_SCHEME_NAME).arg(l);
+			QString htmltext = tr("<html><head/><body><p>Pending Balance: <a href=\"%1\"> (Detail)</a></p></body></html>").arg(detailurl);
+			ui->balance_detail->setText(htmltext);
+			set_pending_balance("0.0");
+		}
+		else
+		{
+			ui->balance_detail->setText(tr("Pending Balance:"));
+			set_pending_balance("0.0");
+		}
+	}
+}
+
+void MinerSetup::on_refresh_clicked()
+{
+	ui->balance->setText(tr("querying the balance"));
+	second_timer_interrupt();
 }
 
 static QWidget* TopLevelParentWidget(QWidget* widget)
@@ -340,6 +384,11 @@ static QWidget* TopLevelParentWidget(QWidget* widget)
 void MinerSetup::dismiss_error()
 {
 	QMetaObject::invokeMethod(this, "dismiss_error_invoked", Qt::QueuedConnection);
+}
+
+void MinerSetup::openUrl(QString u)
+{
+	QDesktopServices::openUrl(u);
 }
 
 void MinerSetup::dismiss_error_invoked()

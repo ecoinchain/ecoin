@@ -1260,7 +1260,7 @@
 <context>
     <name>MinerSetup</name>
     <message>
-        <location filename="../forms/miner.ui" line="+140"/>
+        <location filename="../forms/miner.ui" line="+155"/>
         <source>Work for:</source>
         <translation>连接到矿池：</translation>
     </message>
@@ -1275,28 +1275,23 @@
         <translation>算力：</translation>
     </message>
     <message>
-        <location line="-189"/>
-        <location filename="../minersetup.cpp" line="+301"/>
+        <location line="-196"/>
+        <location filename="../minersetup.cpp" line="+326"/>
         <source>Contribute to a Pool</source>
         <translation>连接到矿池挖矿</translation>
     </message>
     <message>
-        <location line="+237"/>
-        <source>Pending Balance:</source>
-        <translation>待支付余额：</translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>&amp;Detail...</source>
-        <translation>详情</translation>
-    </message>
-    <message>
-        <location line="+22"/>
+        <location line="+264"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;0.00000000 &lt;/span&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;RCO&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="+16"/>
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <location line="+113"/>
         <source>Mining With this Device</source>
         <translation>使用这些设备挖矿</translation>
     </message>
@@ -1306,7 +1301,12 @@
         <translation>停工</translation>
     </message>
     <message>
-        <location line="-10"/>
+        <location line="-136"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pending Balance: &lt;a href=&quot;%1&quot;&gt; (Detail)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;待支付余额：&lt;a href=&apos;%1&apos;&gt; (详情)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+126"/>
         <source>Start</source>
         <translation>开始</translation>
     </message>
@@ -1316,12 +1316,17 @@
         <translation>收益打入这个地址：</translation>
     </message>
     <message>
-        <location filename="../minersetup.cpp" line="-166"/>
+        <location filename="../minersetup.cpp" line="-187"/>
         <source>address to receive mining payment</source>
         <translation>用于接收矿池的收益</translation>
     </message>
     <message>
-        <location line="+103"/>
+        <location line="+93"/>
+        <source>query failed</source>
+        <translation>查询失败</translation>
+    </message>
+    <message>
+        <location line="+31"/>
         <source>Invalid address.</source>
         <translation>非法地址</translation>
     </message>
@@ -1336,7 +1341,18 @@
         <translation>正在停止挖矿</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+24"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pending Balance: &lt;a href=&apos;%1&apos;&gt; (Detail)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;待支付余额：&lt;a href=&apos;%1&apos;&gt; (详情)&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>querying the balance</source>
+        <translation>查詢中</translation>
+    </message>
+    <message>
+        <location line="-144"/>
+        <location line="+126"/>
         <source>unsupported miner pool, please view on there website</source>
         <translation>不支持的矿池，请直接在矿池网页上查看</translation>
     </message>

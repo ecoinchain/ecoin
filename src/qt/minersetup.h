@@ -14,7 +14,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QNetworkAccessManager>
-
+#include <QNetworkReply>
 #include <boost/asio.hpp>
 
 #include "amount.h"
@@ -48,20 +48,25 @@ Q_SIGNALS:
 public Q_SLOTS:
 	void error_report(QString error_string, bool can_auto_dismiss);
 	void dismiss_error();
+	void openUrl(QString);
 
 private Q_SLOTS:
 	void dismiss_error_invoked();
 	void on_startbutton_clicked();
 	void on_stopbutton_clicked();
-	
-	void on_viewdetail_clicked();
+
+	void on_refresh_clicked();
 
 	void on_location_editTextChanged(QString);
+	void on_username_editTextChanged(QString);
 
 	void timer_interrupt();
 
+	void second_timer_interrupt();
 
 	void process_network_rpc_finished();
+
+	void process_network_error(QNetworkReply::NetworkError);
 
 	void set_pending_balance(QString);
 
@@ -78,6 +83,8 @@ private:
 	Speed speed;
 
 	QTimer ui_update_timer;
+
+	QTimer balance_update_timer;
 
 	QPointer<QLabel> message_widget;
 

@@ -307,7 +307,7 @@ ZcashMiner::~ZcashMiner()
 
 std::string ZcashMiner::userAgent()
 {
-	return "coinyeeminer/0.17.4";
+	return "coinyeeminer/0.17.5";
 }
 
 void ZcashMiner::start()
