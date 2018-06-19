@@ -53,6 +53,9 @@ string(REGEX MATCH        "define\\(_CLIENT_VERSION_MINOR, ([0-9]+)\\)"
 string(REGEX MATCH        "define\\(_CLIENT_VERSION_REVISION, ([0-9]+)\\)"
     _PACKAGE_VERSION_PATCH_LINE    "${bitcoin_configure_ac_file_content}")
 
+string(REGEX MATCH        "define\\(_CLIENT_VERSION_BUILD, ([0-9]+)\\)"
+    _PACKAGE_VERSION_BUILD_LINE    "${bitcoin_configure_ac_file_content}")
+
 string(REGEX MATCH        "([0-9]+)"
     CPACK_PACKAGE_VERSION_MAJOR    "${_PACKAGE_VERSION_MAJOR_LINE}")
 string(REGEX MATCH        "([0-9]+)"

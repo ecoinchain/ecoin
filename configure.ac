@@ -2,7 +2,7 @@ dnl require autoconf 2.60 (AS_ECHO/AS_ECHO_N)
 AC_PREREQ([2.60])
 define(_CLIENT_VERSION_MAJOR, 0)
 define(_CLIENT_VERSION_MINOR, 17)
-define(_CLIENT_VERSION_REVISION, 5)
+define(_CLIENT_VERSION_REVISION, 6)
 define(_CLIENT_VERSION_BUILD, 0)
 define(_CLIENT_VERSION_IS_RELEASE, true)
 define(_COPYRIGHT_YEAR, 2018)
@@ -1090,7 +1090,7 @@ AC_SUBST(UNIVALUE_LIBS)
 
 BITCOIN_QT_PATH_PROGS([PROTOC], [protoc],$protoc_bin_path)
 
-LIBEQUIHASH_LIBS="-lcrypto -lsodium"
+LIBEQUIHASH_LIBS="-lcrypto"
 
 AC_MSG_CHECKING([whether to build bitcoind])
 AM_CONDITIONAL([BUILD_BITCOIND], [test x$build_bitcoind = xyes])
