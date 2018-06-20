@@ -88,8 +88,7 @@ using namespace json_spirit;
 
 
 typedef struct {
-        string host;
-        string port;
+        string location;
         string user;
         string pass;
 } cred_t;
@@ -99,14 +98,10 @@ class StratumClient
 {
 public:
 	StratumClient(boost::asio::io_service& io_s, Miner * m,
-                  string const & host, string const & port,
+                  std::vector<string> locations,
                   string const & user, string const & pass,
                   int const & retries, int const & worktimeout);
     ~StratumClient() { }
-
-    void setFailover(string const & host, string const & port);
-    void setFailover(string const & host, string const & port,
-                     string const & user, string const & pass);
 
     bool isRunning() { return m_running; }
     bool current() { return !!p_current; }
@@ -137,9 +132,8 @@ private:
 
     void processReponse(const Object& responseObject);
 
-    cred_t * p_active;
-    cred_t m_primary;
-    cred_t m_failover;
+	int server_active_idx = 0;
+    std::vector<cred_t> m_servers;
 
     bool m_authorized;
     bool m_running = true;

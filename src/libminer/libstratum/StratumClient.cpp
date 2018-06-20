@@ -17,46 +17,27 @@ using boost::asio::ip::tcp;
 using namespace json_spirit;
 
 template <typename Miner, typename Job, typename Solution>
-StratumClient<Miner, Job, Solution>::StratumClient(
-		boost::asio::io_service& io_s, Miner * m,
-        string const & host, string const & port,
-        string const & user, string const & pass,
-        int const & retries, int const & worktimeout)
-    : m_io_service(io_s)
+StratumClient<Miner, Job, Solution>::StratumClient(boost::asio::io_service& io_s, Miner * m,
+	std::vector<string> locations, string const & user, string const & pass, int const & retries, int const & worktimeout)
+	: m_io_service(io_s)
 	, m_socket(m_io_service)
 {
-    m_primary.host = host;
-    m_primary.port = port;
-    m_primary.user = user;
-    m_primary.pass = pass;
+	for (auto l : locations)
+	{
+		cred_t c;
+		c.location = l;
+		c.user = user;
+		c.pass = pass;
+		m_servers.push_back(c);
+	}
 
-    p_active = &m_primary;
+	m_authorized = false;
+	m_maxRetries = retries;
+	m_worktimeout = worktimeout;
 
-    m_authorized = false;
-    m_maxRetries = retries;
-    m_worktimeout = worktimeout;
-
-    p_miner = m;
+	p_miner = m;
 
 	startWorking();
-}
-
-template <typename Miner, typename Job, typename Solution>
-void StratumClient<Miner, Job, Solution>::setFailover(
-        string const & host, string const & port)
-{
-    setFailover(host, port, p_active->user, p_active->pass);
-}
-
-template <typename Miner, typename Job, typename Solution>
-void StratumClient<Miner, Job, Solution>::setFailover(
-        string const & host, string const & port,
-        string const & user, string const & pass)
-{
-    m_failover.host = host;
-    m_failover.port = port;
-    m_failover.user = user;
-    m_failover.pass = pass;
 }
 
 template <typename Miner, typename Job, typename Solution>
@@ -67,56 +48,139 @@ void StratumClient<Miner, Job, Solution>::startWorking()
 	this->workLoop(boost::system::error_code(), boost::asio::coroutine());
 }
 
-
 template<typename Handler>
 struct connect_op : boost::asio::coroutine
 {
-	connect_op(tcp::socket& socket, std::string host, std::string port, Handler handler)
+	connect_op(tcp::socket& socket, std::vector<cred_t> locations, int& cur_location_idx, Handler handler)
 		: _socket(socket)
 		, m_handler(handler)
-		, q(host, port)
+		, m_locations(locations)
+		, cur_location_idx(cur_location_idx)
 	{
 		r.reset(new tcp::resolver(socket.get_io_service()));
+		m_cancal_connect_timer = std::make_shared<boost::asio::steady_timer>(socket.get_io_context());
 	}
 
 
 	void operator()(boost::system::error_code ec = boost::system::error_code(), tcp::resolver::iterator endpoint_iterator = tcp::resolver::iterator())
 	{
-		if (ec)
-		{
-			LogPrintf("Could not connect to stratum server %s\n", ec.message());
-			m_handler(ec);
-			return;
-		}
-
 		BOOST_ASIO_CORO_REENTER(this)
 		{
-			BOOST_ASIO_CORO_YIELD r->async_resolve(q, *this);
+			while(true)
+			{
+				// pick a locations
+				q = from_string(m_locations[cur_location_idx].location);
 
-			BOOST_ASIO_CORO_YIELD boost::asio::async_connect(_socket, endpoint_iterator, tcp::resolver::iterator(), *this);
+				BOOST_ASIO_CORO_YIELD r->async_resolve(*q, *this);
 
+				if (ec)
+				{
+					if (m_locations.size()>1)
+					{
+						cur_location_idx++;
+						m_tried ++;
+						cur_location_idx %= m_locations.size();
 
-			LogPrintf("Connected!\n");
+						if (m_tried == m_locations.size())
+						{
+							LogPrintf("Could not connect to stratum server: %s\n", ec.message());
+							m_handler(ec);
+							return;
+						}
 
-			m_handler(ec);
+						LogPrintf("Could not connect to stratum server: %s, try next server %s\n", ec.message(), m_locations[cur_location_idx].location);
+						continue;
+					}
+
+					LogPrintf("Could not connect to stratum server: %s\n", ec.message());
+					m_handler(ec);
+					return;
+				}
+
+				LogPrintf("Connecting to stratum server %s\n", m_locations[cur_location_idx].location);
+
+				m_cancal_connect_timer->expires_from_now(std::chrono::seconds(5));
+				{
+					tcp::socket& ts = _socket;
+					m_cancal_connect_timer->async_wait([&ts](auto ec)
+					{
+						if (!ec )
+						{
+							boost::system::error_code ignored_ec;
+							ts.close(ignored_ec);
+						}
+					});
+				}
+				BOOST_ASIO_CORO_YIELD boost::asio::async_connect(_socket, endpoint_iterator, tcp::resolver::iterator(), *this);
+
+				if (ec)
+				{
+					if (ec == boost::asio::error::operation_aborted)
+					{
+						ec = boost::asio::error::make_error_code(boost::asio::error::timed_out);
+
+						if (m_locations.size()>1)
+						{
+							cur_location_idx++;
+							m_tried ++;
+							cur_location_idx %= m_locations.size();
+
+							if (m_tried == m_locations.size())
+							{
+								m_handler(ec);
+								return;
+							}
+
+							LogPrintf("Could not connect to stratum server: %s, try next server %s\n", ec.message(), m_locations[cur_location_idx].location);
+							continue;
+						}
+					}
+					else
+					{
+						boost::system::error_code ignore_ec;
+						m_cancal_connect_timer->cancel(ignore_ec);
+					}
+					LogPrintf("Could not connect to stratum server: %s\n", ec.message());
+					m_handler(ec);
+					return;
+				}
+
+				m_cancal_connect_timer->cancel(ec);
+
+				LogPrintf("Connected!\n");
+
+				m_handler(ec);
+			}
 		}
+	}
+
+	static std::shared_ptr<tcp::resolver::query> from_string(std::string location)
+	{
+		size_t delim = location.find(':');
+		std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
+		std::string port = delim != std::string::npos ? location.substr(delim + 1) : "3333";
+
+		return std::make_shared<tcp::resolver::query>(host, port);
 	}
 
 	tcp::socket& _socket;
 
 	std::shared_ptr<tcp::resolver> r;
-	tcp::resolver::query q;
+	std::shared_ptr<tcp::resolver::query> q;
 
 	Handler m_handler;
+
+	int& cur_location_idx;
+	int m_tried = 0;
+	std::vector<cred_t> m_locations;
+	std::shared_ptr<boost::asio::steady_timer> m_cancal_connect_timer;
 };
 
 template <typename Miner, typename Job, typename Solution>
 template <typename Handler>
 void StratumClient<Miner, Job, Solution>::async_connect(Handler handler)
 {
-	LogPrintf("Connecting to stratum server %s:%s\n", p_active->host, p_active->port);
-
-	connect_op<Handler>(this->m_socket, p_active->host, p_active->port, handler)();
+	connect_op<Handler>(this->m_socket, m_servers, server_active_idx, handler)();
 }
 
 
@@ -211,9 +275,7 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 			m_socket.set_option(boost::asio::ip::tcp::no_delay(true));
 			std::stringstream ss;
 			ss << "{\"id\":1,\"method\":\"mining.subscribe\",\"params\":[\""
-			<< p_miner->userAgent() << "\", null,\""
-			<< p_active->host << "\",\""
-			<< p_active->port << "\"]}\n";
+			<< p_miner->userAgent() << "\", null,\"\", \"\"]}\n";
 			std::string sss = ss.str();
 			std::ostream os(&m_requestBuffer);
 			os << sss;
@@ -289,26 +351,15 @@ void StratumClient<Miner, Job, Solution>::reconnect()
     //m_socket.close(); // leads to crashes on Linux
     m_authorized = false;
 
-    if (!m_failover.host.empty()) {
-        m_retries++;
+	server_active_idx++;
+	server_active_idx %= m_servers.size();
 
-        if (m_retries > m_maxRetries) {
-            if (m_failover.host == "exit") {
-                disconnect();
-                return;
-            } else if (p_active == &m_primary) {
-                p_active = &m_failover;
-            } else {
-                p_active = &m_primary;
-            }
-            m_retries = 0;
-        }
-    }
+	m_retries++;
 
-    LogPrintf("Reconnecting in 3 seconds...\n");
-    boost::asio::deadline_timer timer(m_io_service, boost::posix_time::milliseconds(m_reconnect_delay));
+	LogPrintf("Reconnecting in 3 seconds...\n");
+	boost::asio::deadline_timer timer(m_io_service, boost::posix_time::milliseconds(m_reconnect_delay));
 	m_reconnect_delay = 3000;
-    timer.wait();
+	timer.wait();
 	startWorking();
 }
 
@@ -406,19 +457,6 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
 				p_miner->setServerNonce(params[0].get_str());
 			}
 		}
-		else if (method == "client.reconnect") {
-			const Value& valParams = find_value(responseObject, "params");
-			if (valParams.type() == array_type) {
-				const Array& params = valParams.get_array();
-				if (params.size() > 1) {
-					p_active->host = params[0].get_str();
-					p_active->port = params[1].get_str();
-				}
-				// TODO: Handle wait time
-		 		p_current.reset();
-				//reconnect();
-			}
-		}
 		break;
 	}
     case 1:
@@ -428,7 +466,7 @@ void StratumClient<Miner, Job, Solution>::processReponse(const Object& responseO
             // Ignore session ID for now.
             p_miner->setServerNonce(result[1].get_str());
 			ss << "{\"id\":2,\"method\":\"mining.authorize\",\"params\":[\""
-			   << p_active->user << "\",\"" << p_active->pass << "\"]}\n";
+			   << m_servers[server_active_idx].user << "\",\"" << m_servers[server_active_idx].pass << "\"]}\n";
 			std::string sss = ss.str();
 			os << sss;
 			boost::system::error_code ec;
@@ -523,7 +561,7 @@ bool StratumClient<Miner, Job, Solution>::submit(const Solution* solution, const
 
 	std::stringstream stream;
 	stream << R"json({"id":")json" << id << R"json(", "method":"mining.submit","params":[")json";
-	stream << p_active->user;
+	stream << m_servers[server_active_idx].user;
 	stream << "\",\"" << jobid;
 	stream << "\",\"" << solution->time;
 	stream << "\",\"" << HexStr(solution->nonce);

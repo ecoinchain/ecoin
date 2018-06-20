@@ -156,7 +156,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 
 					speed->AddSolution();
 
-					//LogPrintf( "miner#%d, RChecking solution against target %s", pos, actualTarget.ToString());
+					//LogPrintf( "miner#%d, RChecking solution against target %s\n", pos, actualTarget.ToString());
 
 					uint256 headerhash = actualHeader.GetHash();
 
@@ -169,9 +169,6 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 					LogPrintf( "miner#%d, Found solution with header hash: %s\n", pos, headerhash.ToString());
 					EquihashSolution solution{ bNonce, actualHeader.nSolution, actualTime, actualNonce1size };
 
-					CDataStream ss2(SER_NETWORK, PROTOCOL_VERSION);
-					ss2 << actualHeader.nSolution;
-					std::string strHex2 = HexStr(ss2.begin(), ss2.end());
 					miner->submitSolution(solution, actualJobId);
 // 					std::cerr << "submitSolution: nVersion = " << actualHeader.nVersion
 // 						<< "\nhashPrevBlock = " << actualHeader.hashPrevBlock.ToString()
@@ -248,20 +245,6 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 	LogPrintf( "miner#%d, Thread #%d ended(%s)\n", pos, pos, solver->getname());
 }
 
-ZcashJob* ZcashJob::clone() const
-{
-    ZcashJob* ret = new ZcashJob();
-    ret->job = job;
-    ret->header = header;
-    ret->time = time;
-    ret->nonce1Size = nonce1Size;
-    ret->nonce2Space = nonce2Space;
-    ret->nonce2Inc = nonce2Inc;
-    ret->serverTarget = serverTarget;
-    ret->clean = clean;
-    return ret;
-}
-
 void ZcashJob::setTarget(std::string target)
 {
 	if (target.size() > 0) {
@@ -271,24 +254,6 @@ void ZcashJob::setTarget(std::string target)
 		serverTarget = UintToArith256(uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"));
     }
 }
-
-
-std::string ZcashJob::getSubmission(const EquihashSolution* solution)
-{
-    CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
-    ss << solution->nonce;
-    ss << solution->solution;
-    std::string strHex = HexStr(ss.begin(), ss.end());
-
-    std::stringstream stream;
-    stream << "\"" << job;
-    stream << "\",\"" << time;
-    stream << "\",\"" << strHex.substr(nonce1Size, 64-nonce1Size);
-    stream << "\",\"" << strHex.substr(64);
-    stream << "\"";
-    return stream.str();
-}
-
 
 ZcashMiner::ZcashMiner(Speed* speed, std::vector<std::unique_ptr<ISolver>> && i_solvers)
 	: speed(speed)

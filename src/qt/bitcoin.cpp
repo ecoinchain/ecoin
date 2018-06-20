@@ -473,8 +473,6 @@ void BitcoinApplication::initializeResult(bool success)
 
             connect(walletModel.get(), SIGNAL(coinsSent(CWallet*,SendCoinsRecipient,QByteArray)),
                     paymentServer.get(), SLOT(fetchPaymentACK(CWallet*,const SendCoinsRecipient&,QByteArray)));
-            connect(walletModel.get(), SIGNAL(MinerStatusChanged(bool)),
-                    window.get(), SLOT(MinerStatusChanged(bool)), Qt::QueuedConnection);
 
             window->addWallet(BitcoinGUI::DEFAULT_WALLET, walletModel.get());
             window->setCurrentWallet(BitcoinGUI::DEFAULT_WALLET);

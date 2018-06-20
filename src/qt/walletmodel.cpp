@@ -205,8 +205,6 @@ void WalletModel::onGenerateChanged(bool fGenerate)
 		GenerateBitcoins(fGenerate, 1);
 	}
 #endif
-
-	Q_EMIT MinerStatusChanged(fGenerate);
 }
 
 void WalletModel::checkBalanceChanged()

@@ -48,7 +48,6 @@ struct ZcashJob
     arith_uint256 serverTarget;
     bool clean;
 
-    ZcashJob* clone() const;
     bool equals(const ZcashJob& a) const { return job == a.job; }
 
     // Access Stratum flags
@@ -56,17 +55,6 @@ struct ZcashJob
     bool cleanJobs() const { return clean; }
 
     void setTarget(std::string target);
-
-    /**
-     * Checks whether the given solution satisfies this work order.
-     */
-    bool evalSolution(const EquihashSolution* solution);
-
-    /**
-     * Returns a comma-separated string of Stratum submission values
-     * corresponding to the given solution.
-     */
-    std::string getSubmission(const EquihashSolution* solution);
 };
 
 inline bool operator==(const ZcashJob& a, const ZcashJob& b)
