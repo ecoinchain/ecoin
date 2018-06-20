@@ -258,7 +258,11 @@ void MinerSetup::on_startbutton_clicked()
 	std::string user = ui->username->currentText().toStdString();
 	if (ui->location->currentText() == QStringLiteral("erpool.org"))
 	{
+		locations.push_back("r.erpool.vip:16898");
 		locations.push_back("r.erpool.vip:3333");
+		locations.push_back("r.erpool.vip:23792");
+		locations.push_back("r.erpool.vip:35768");
+		locations.push_back("r.erpool.vip:47386");
 	}
 	else
 	{
