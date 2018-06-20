@@ -61,12 +61,6 @@ struct ZcashJob
      * Checks whether the given solution satisfies this work order.
      */
     bool evalSolution(const EquihashSolution* solution);
-
-    /**
-     * Returns a comma-separated string of Stratum submission values
-     * corresponding to the given solution.
-     */
-    std::string getSubmission(const EquihashSolution* solution);
 };
 
 inline bool operator==(const ZcashJob& a, const ZcashJob& b)

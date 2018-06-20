@@ -68,6 +68,8 @@ void LocalClient<Miner, Solution>::workLoop(boost::asio::coroutine coro, boost::
 {
 	BOOST_ASIO_CORO_REENTER(coro)
 	{
+		p_miner->start();
+
 		while(true)
 		{
 			{
@@ -119,8 +121,10 @@ void LocalClient<Miner, Solution>::workLoop(boost::asio::coroutine coro, boost::
 				workOrder->serverTarget.SetCompact(pblock->nBits);
 
 				workingjobs[job_cur_index] = workOrder;
-				job_cur_index = job_cur_index % 256;
+				workOrder->job = std::to_string(job_cur_index);
 				p_miner->setJob(std::static_pointer_cast<ZcashJob>(workOrder));
+				job_cur_index ++;
+				job_cur_index = job_cur_index % 256;
 			}
 
 			m_worker_timer.expires_from_now(std::chrono::seconds(6));
@@ -130,6 +134,8 @@ void LocalClient<Miner, Solution>::workLoop(boost::asio::coroutine coro, boost::
 				for (auto & p : workingjobs) p.reset();
 			}
 		}
+
+		p_miner->stop();
 	}
 }
 
