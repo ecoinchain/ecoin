@@ -231,9 +231,10 @@ libbitcoin_server_a_SOURCES = \
   miner.cpp LocalClient.cpp \
   libminer/speed.cpp \
   libminer/MinerFactory.cpp \
+  libminer/libstratum/StratumClient.cpp \
+  libminer/libstratum/ZcashStratum.cpp \
   blake2/blake2bx.cpp \
   libminer/cpu_tromp/cpu_tromp.cpp
-
 
 if ENABLE_ZMQ
 libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
