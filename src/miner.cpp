@@ -519,6 +519,8 @@ void start_mining(std::vector<std::unique_ptr<ISolver>> i_solvers)
 {
 	miner_io_service = std::make_shared<boost::asio::io_service>();
 
+	uiInterface.MinerStatusChanged(true);
+
 	ZcashMiner miner(&speed, std::move(i_solvers));
 #ifdef ENABLE_WALLET
 	ZcashLocalMiner sc(*miner_io_service, &miner, pwallet);
@@ -542,12 +544,13 @@ void GenerateBitcoins(bool fGenerate, int nThreads)
     if (nThreads < 0)
         nThreads = GetNumCores();
 
-    if (nThreads == 0 || !fGenerate)
+    if (nThreads == 0)
         return;
 
 	if (!fGenerate)
 	{
-		miner_io_service->stop();
+		if (miner_io_service)
+			miner_io_service->stop();
 
 		if (miner_io_thread.joinable())
 			miner_io_thread.join();

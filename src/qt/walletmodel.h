@@ -282,8 +282,6 @@ Q_SIGNALS:
     // Watch-only address added
     void notifyWatchonlyChanged(bool fHaveWatchonly);
 
-	void MinerStatusChanged(bool);
-
 public Q_SLOTS:
     /* Wallet status might have changed */
     void updateStatus();

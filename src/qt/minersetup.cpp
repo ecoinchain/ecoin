@@ -152,14 +152,13 @@ MinerSetup::~MinerSetup()
 		miner_io_thread.join();
 }
 
-void MinerSetup::start_mining(std::string host, std::string port,
-	std::string user, std::string password, std::vector<std::unique_ptr<ISolver>> i_solvers)
+void MinerSetup::start_mining(std::vector<std::string> locations, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>> i_solvers)
 {
 	miner_io_service = std::make_shared<boost::asio::io_service>();
 
 	ZcashMiner miner(&speed, std::move(i_solvers));
 	ZcashStratumClient sc{
-		*miner_io_service, &miner, host, port, user, password, 0, 0
+		*miner_io_service, &miner, locations, user, password, 0, 0
 	};
 
 	sc.set_report_error([this](std::string error, bool can_auto_dismiss)
@@ -254,12 +253,17 @@ void MinerSetup::on_startbutton_clicked()
 {
 	int num_threads = std::accumulate(checkboxies.begin(), checkboxies.end(), 0, [](int sum, QCheckBox* box){ return box->checkState() == Qt::Unchecked ?  sum  : sum + 1;});
 
-	std::string location;
+	std::vector<std::string> locations;
+
 	std::string user = ui->username->currentText().toStdString();
 	if (ui->location->currentText() == QStringLiteral("erpool.org"))
-		location = "r.erpool.vip:3333";
+	{
+		locations.push_back("r.erpool.vip:3333");
+	}
 	else
-		location = ui->location->currentText().toStdString();
+	{
+		locations.push_back(ui->location->currentText().toStdString());
+	}
 
 	// start miner.
 	if (!IsValidDestinationString(user))
@@ -284,14 +288,10 @@ void MinerSetup::on_startbutton_clicked()
 	}
 #endif
 
-	size_t delim = location.find(':');
-	std::string host = delim != std::string::npos ? location.substr(0, delim) : location;
-	std::string port = delim != std::string::npos ? location.substr(delim + 1) : "3333";
-
 	if (this->miner_io_thread.joinable())
 		this->miner_io_thread.join();
 
-	this->miner_io_thread = std::thread([this, num_threads, user, host, port](){
+	this->miner_io_thread = std::thread([this, num_threads, user, locations](){
 
 		std::vector<int> cuda_enabled;
 		std::vector<int> cuda_blocks;
@@ -302,7 +302,7 @@ void MinerSetup::on_startbutton_clicked()
 
 		auto _MinerFactory = new MinerFactory();
 
-		start_mining(host, port, user, "",
+		start_mining(locations, user, "",
 			_MinerFactory->GenerateSolvers(num_threads, cuda_enabled.size(), cuda_enabled.data(), cuda_blocks.data(),
 			cuda_tpb.data(), opencl_enabled.size(), 0, opencl_enabled.data()));
 	});

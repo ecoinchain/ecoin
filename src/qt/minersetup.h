@@ -72,7 +72,7 @@ private Q_SLOTS:
 
 private:
 	bool eventFilter(QObject * watched, QEvent * event) override;
-	void start_mining(std::string host, std::string port, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
+	void start_mining(std::vector<std::string> locations, std::string user, std::string password, std::vector<std::unique_ptr<ISolver>>);
 
 private:
 	Ui::MinerSetup* ui;

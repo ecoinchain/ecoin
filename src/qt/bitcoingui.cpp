@@ -226,6 +226,11 @@ BitcoinGUI::BitcoinGUI(const PlatformStyle *_platformStyle, const NetworkStyle *
         connect(progressBar, SIGNAL(clicked(QPoint)), this, SLOT(showModalOverlay()));
     }
 #endif
+
+	uiInterface.MinerStatusChanged.connect([this](bool s)
+	{
+		QMetaObject::invokeMethod(this, "MinerStatusChanged", Qt::QueuedConnection, Q_ARG(bool, s));
+	});
 }
 
 BitcoinGUI::~BitcoinGUI()
