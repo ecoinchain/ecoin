@@ -297,12 +297,7 @@ BITCOIN_QT_BASE_CPP = \
   qt/widgets/greylay.cpp \
   qt/widgets/overlaydialogembeder.cpp  \
   qt/widgets/flowlayout.cpp  \
-  qt/minersetup.cpp \
-  libminer/json/json_spirit_reader.cpp \
-  libminer/json/json_spirit_value.cpp \
-  libminer/json/json_spirit_writer.cpp \
-  libminer/libstratum/ZcashStratum.cpp \
-  libminer/libstratum/StratumClient.cpp
+  qt/minersetup.cpp 
 
 BITCOIN_QT_WINDOWS_CPP = qt/winshutdownmonitor.cpp
 
