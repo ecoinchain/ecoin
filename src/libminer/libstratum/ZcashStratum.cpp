@@ -245,20 +245,6 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 	LogPrintf( "miner#%d, Thread #%d ended(%s)\n", pos, pos, solver->getname());
 }
 
-ZcashJob* ZcashJob::clone() const
-{
-    ZcashJob* ret = new ZcashJob();
-    ret->job = job;
-    ret->header = header;
-    ret->time = time;
-    ret->nonce1Size = nonce1Size;
-    ret->nonce2Space = nonce2Space;
-    ret->nonce2Inc = nonce2Inc;
-    ret->serverTarget = serverTarget;
-    ret->clean = clean;
-    return ret;
-}
-
 void ZcashJob::setTarget(std::string target)
 {
 	if (target.size() > 0) {
