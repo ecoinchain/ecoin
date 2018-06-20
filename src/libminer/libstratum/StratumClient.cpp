@@ -102,7 +102,7 @@ struct connect_op : boost::asio::coroutine
 				m_cancal_connect_timer->expires_from_now(std::chrono::seconds(5));
 				{
 					tcp::socket& ts = _socket;
-					m_cancal_connect_timer->async_wait([&ts](auto ec)
+					m_cancal_connect_timer->async_wait([&ts](boost::system::error_code ec)
 					{
 						if (!ec )
 						{
