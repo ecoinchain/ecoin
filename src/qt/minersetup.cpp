@@ -334,8 +334,6 @@ void MinerSetup::on_stopbutton_clicked()
 
 void MinerSetup::on_location_editTextChanged(QString l)
 {
-	ui->balance->setVisible(l=="erpool.org");
-
 	if (l!="erpool.org")
 	{
 		ui->balance->setText(tr("unsupported miner pool, please view on there website"));
