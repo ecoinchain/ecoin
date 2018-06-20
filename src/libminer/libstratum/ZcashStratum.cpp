@@ -156,7 +156,7 @@ void static ZcashMinerThread(ZcashMiner* miner, int size, int pos, ISolver *solv
 
 					speed->AddSolution();
 
-					LogPrintf( "miner#%d, RChecking solution against target %s\n", pos, actualTarget.ToString());
+					//LogPrintf( "miner#%d, RChecking solution against target %s\n", pos, actualTarget.ToString());
 
 					uint256 headerhash = actualHeader.GetHash();
 
