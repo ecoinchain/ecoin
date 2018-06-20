@@ -75,6 +75,23 @@ struct connect_op : boost::asio::coroutine
 
 				if (ec)
 				{
+					if (m_locations.size()>1)
+					{
+						cur_location_idx++;
+						m_tried ++;
+						cur_location_idx %= m_locations.size();
+
+						if (m_tried == m_locations.size())
+						{
+							LogPrintf("Could not connect to stratum server: %s\n", ec.message());
+							m_handler(ec);
+							return;
+						}
+
+						LogPrintf("Could not connect to stratum server: %s, try next server %s\n", ec.message(), m_locations[cur_location_idx].location);
+						continue;
+					}
+
 					LogPrintf("Could not connect to stratum server: %s\n", ec.message());
 					m_handler(ec);
 					return;
