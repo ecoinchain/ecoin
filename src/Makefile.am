@@ -228,7 +228,7 @@ libbitcoin_server_a_SOURCES = \
   libminer/MinerFactory.cpp \
   libminer/cpu_tromp/cpu_tromp.cpp \
   $(BITCOIN_CORE_H) \
-  miner.cpp \
+  miner.cpp LocalClient.cpp \
   libminer/speed.cpp \
   libminer/MinerFactory.cpp \
   blake2/blake2bx.cpp \
