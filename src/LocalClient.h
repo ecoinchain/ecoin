@@ -15,7 +15,10 @@
 #include <thread>
 #include <atomic>
 
+#ifdef ENABLE_WALLET
 #include <wallet/wallet.h>
+#endif
+
 #include <miner.h>
 
 #include "json/json_spirit_value.h"
@@ -27,8 +30,11 @@ template <typename Miner, typename Solution>
 class LocalClient
 {
 public:
+#ifdef ENABLE_WALLET
+	LocalClient(boost::asio::io_service& io_s, Miner * m, CWallet* w);
+#else
 	LocalClient(boost::asio::io_service& io_s, Miner * m);
-
+#endif
 	~LocalClient() { }
 
     bool isRunning() { return m_running; }
@@ -53,13 +59,7 @@ private:
     bool m_running = true;
 
     int m_worktimeout = 60;
-
-    string m_response;
-
     Miner * p_miner;
-    std::mutex x_current;
-
-	int workingjobs_idx = 0;
 
 	struct workJob : ZcashJob {
 				    // network and disk

@@ -20,18 +20,28 @@
 
 using namespace json_spirit;
 
+#ifdef ENABLE_WALLET
+template <typename Miner, typename Solution>
+LocalClient<Miner, Solution>::LocalClient(boost::asio::io_service& io_s, Miner * m, CWallet* w)
+    : m_io_service(io_s)
+	, m_worker_timer(m_io_service)
+	, pwallet(w)
+	, p_miner(m)
+{
+    m_worktimeout = 0;
+	startWorking();
+}
+#else
 template <typename Miner, typename Solution>
 LocalClient<Miner, Solution>::LocalClient(boost::asio::io_service& io_s, Miner * m)
     : m_io_service(io_s)
 	, m_worker_timer(m_io_service)
+	, p_miner(m)
 {
     m_worktimeout = 0;
-
-    p_miner = m;
-
 	startWorking();
 }
-
+#endif
 
 template <typename Miner, typename Solution>
 void LocalClient<Miner, Solution>::startWorking()
@@ -177,8 +187,6 @@ bool LocalClient<Miner, Solution>::submit(const Solution* solution, const std::s
 	CBlock tmpblock(job_of_sol->header);
 
 	tmpblock.vtx = job_of_sol->vtx;
-
-	//CBlockTemplate* blocktemplate = workingblocktemplates[id];
 
 #ifdef ENABLE_WALLET
 	auto ProcessBlockFoundRet = ProcessBlockFound(&tmpblock, *pwallet, job_of_sol->key);
