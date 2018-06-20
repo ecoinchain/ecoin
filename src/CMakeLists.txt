@@ -141,6 +141,7 @@ add_library(coincore STATIC
   dbwrapper.cpp
   merkleblock.cpp
   miner.cpp
+  LocalClient.cpp
   net.cpp
   net_processing.cpp
   noui.cpp
