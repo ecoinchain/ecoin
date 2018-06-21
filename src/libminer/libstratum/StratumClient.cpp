@@ -150,6 +150,7 @@ struct connect_op : boost::asio::coroutine
 				LogPrintf("Connected!\n");
 
 				m_handler(ec);
+				return;
 			}
 		}
 	}
