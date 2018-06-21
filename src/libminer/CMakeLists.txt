@@ -1,6 +1,4 @@
 
-option(USE_CUDA_DJEZO "USE CUDA_DJEZO" OFF)
-
 option(USE_OCL_SILENTARMY "use opencl solver" OFF)
 
 ## Add solvers here
@@ -8,10 +6,6 @@ add_definitions(-DUSE_CPU_TROMP)
 message("-- USE_CPU_TROMP DEFINED")
 
 add_subdirectory(cpu_tromp)
-
-if(USE_CUDA_DJEZO)
-add_subdirectory(cuda_djezo)
-endif()
 
 if(USE_OCL_SILENTARMY)
 add_subdirectory(ocl_silentarmy)
@@ -22,12 +16,6 @@ add_library(libminer STATIC MinerFactory.cpp MinerFactory.h speed.cpp libstratum
 target_compile_definitions(libminer PUBLIC -DUSE_CPU_TROMP)
 
 target_link_libraries(libminer cpu_tromp)
-
-if(USE_CUDA_DJEZO)
-message("-- USE_CUDA_DJEZO DEFINED")
-target_compile_definitions(libminer PUBLIC -DUSE_CUDA_DJEZO)
-target_link_libraries(libminer cuda_djezo)
-endif()
 
 if(USE_OCL_SILENTARMY)
 target_compile_definitions(libminer PUBLIC -DUSE_OCL_SILENTARMY)

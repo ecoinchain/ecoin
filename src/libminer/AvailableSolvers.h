@@ -59,14 +59,7 @@ public:
 // CUDA solvers
 class CUDASolverDjezo : public Solver<cuda_djezo> {
 public:
-	CUDASolverDjezo(int dev_id, int blocks, int threadsperblock) : Solver<cuda_djezo>(new cuda_djezo(0, dev_id), SolverType::CUDA) {
-		if (blocks > 0) {
-			_context->blocks = blocks;
-		}
-		if (threadsperblock > 0) {
-			_context->threadsperblock = threadsperblock;
-		}
-	}
+	CUDASolverDjezo(int dev_id, int blocks, int threadsperblock) : Solver<cuda_djezo>(new cuda_djezo(0, dev_id), SolverType::CUDA) {}
 	virtual ~CUDASolverDjezo() {}
 };
 class CUDASolverTromp : public Solver<cuda_tromp> {

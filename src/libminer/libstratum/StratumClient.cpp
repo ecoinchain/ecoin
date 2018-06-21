@@ -150,6 +150,7 @@ struct connect_op : boost::asio::coroutine
 				LogPrintf("Connected!\n");
 
 				m_handler(ec);
+				return;
 			}
 		}
 	}
@@ -316,8 +317,8 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 						const Object& responseObject = valResponse.get_obj();
 						if (!responseObject.empty())
 						{
-							processReponse(responseObject);
 							m_response = response;
+							processReponse(responseObject);
 						}
 						else
 						{

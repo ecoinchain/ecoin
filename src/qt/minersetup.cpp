@@ -53,9 +53,9 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 
 	QFontMetrics fm = ui->username->fontMetrics();
 #ifdef Q_OS_MAC
-	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1    "), 0) * 2);
+	ui->username->setMinimumSize(QSize(fm.width("6WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW    "), 0) * 2);
 #else
-	ui->username->setMinimumSize(QSize(fm.width("6KtbGLHHTqskwx6nS28mTXkERW15uVtLT1    "), 0));
+	ui->username->setMinimumSize(QSize(fm.width("6WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW    "), 0));
 #endif
 
 #ifdef Q_OS_MAC
@@ -251,7 +251,19 @@ void MinerSetup::set_pending_balance(QString pending_balance)
 
 void MinerSetup::on_startbutton_clicked()
 {
-	int num_threads = std::accumulate(checkboxies.begin(), checkboxies.end(), 0, [](int sum, QCheckBox* box){ return box->checkState() == Qt::Unchecked ?  sum  : sum + 1;});
+	int num_threads = std::accumulate(checkboxies.begin(), checkboxies.end(), 0,
+		[](int sum, QCheckBox* box){
+
+			if (box->checkState() == Qt::Checked)
+			{
+				if (box->text().contains("CPU"))
+				{
+					return sum + 1;
+				}
+			}
+			return sum;
+		}
+	);
 
 	std::vector<std::string> locations;
 
