@@ -50,6 +50,8 @@
 #define MICRO 0.000001
 #define MILLI 0.001
 
+#include "utxomap.hpp"
+
 /**
  * Global state
  */
@@ -143,6 +145,7 @@ private:
 public:
     CChain chainActive;
     BlockMap mapBlockIndex;
+
     std::multimap<CBlockIndex*, CBlockIndex*> mapBlocksUnlinked;
     CBlockIndex *pindexBestInvalid = nullptr;
 
@@ -2006,6 +2009,8 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     assert(pindex->phashBlock);
     // add this block to the view's block chain
     view.SetBestBlock(pindex->GetBlockHash());
+
+	ConnectForBlock(block);
 
     int64_t nTime5 = GetTimeMicros(); nTimeIndex += nTime5 - nTime4;
     LogPrint(BCLog::BENCH, "    - Index writing: %.2fms [%.2fs (%.2fms/blk)]\n", MILLI * (nTime5 - nTime4), nTimeIndex * MICRO, nTimeIndex * MILLI / nBlocksTotal);

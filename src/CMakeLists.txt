@@ -166,7 +166,7 @@ add_library(coincore STATIC
   validation.cpp
   validationinterface.cpp
   versionbits.cpp
-
+  utxomap.cpp
   )
 
 if(WIN32)

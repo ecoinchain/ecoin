@@ -69,6 +69,8 @@
 #include <zmq/zmqnotificationinterface.h>
 #endif
 
+#include "utxomap.hpp"
+
 bool fFeeEstimatesInitialized = false;
 static const bool DEFAULT_PROXYRANDOMIZE = true;
 static const bool DEFAULT_REST_ENABLE = false;
@@ -1814,6 +1816,11 @@ bool AppInitMain()
 
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));
+
+    CBlockIndex* pindexRescan = chainActive.Genesis();
+
+	if (gArgs.GetBoolArg("-fullmap", false))
+		RescanforAddressIndex(pindexRescan, nullptr);
 
 #ifdef ENABLE_WALLET
     StartWallets(scheduler);

@@ -318,10 +318,17 @@ public:
     // Compute a hash that includes both transaction and witness data
     uint256 GetWitnessHash() const;
 
-    // Return sum of txouts.
+    // Return sum of txins.
+    CAmount GetValueIn() const;
+
+	// Return sum of txouts.
     CAmount GetValueOut() const;
-    // GetValueIn() is a method on CCoinsViewCache, because
+
+	// GetValueIn() is a method on CCoinsViewCache, because
     // inputs must be known to compute value in.
+
+	// Return value of txout at index
+    CAmount GetValueOut(uint32_t idx) const;
 
     /**
      * Get the total transaction size in bytes, including witness data.

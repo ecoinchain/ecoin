@@ -16,6 +16,7 @@
 #include <protocol.h> // For CMessageHeader::MessageStartChars
 #include <policy/feerate.h>
 #include <script/script_error.h>
+#include "script/standard.h"
 #include <sync.h>
 #include <versionbits.h>
 
@@ -44,6 +45,7 @@ struct ChainTxData;
 
 struct PrecomputedTransactionData;
 struct LockPoints;
+class UTXOMap;
 
 /** Default for -whitelistrelay. */
 static const bool DEFAULT_WHITELISTRELAY = true;
@@ -159,7 +161,9 @@ extern CCriticalSection cs_main;
 extern CBlockPolicyEstimator feeEstimator;
 extern CTxMemPool mempool;
 typedef std::unordered_map<uint256, CBlockIndex*, BlockHasher> BlockMap;
+
 extern BlockMap& mapBlockIndex;
+
 extern uint64_t nLastBlockTx;
 extern uint64_t nLastBlockWeight;
 extern const std::string strMessageMagic;
