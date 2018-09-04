@@ -80,26 +80,6 @@ CTransaction::CTransaction() : vin(), vout(), nVersion(CTransaction::CURRENT_VER
 CTransaction::CTransaction(const CMutableTransaction &tx) : vin(tx.vin), vout(tx.vout), nVersion(tx.nVersion), nLockTime(tx.nLockTime), hash(ComputeHash()) {}
 CTransaction::CTransaction(CMutableTransaction &&tx) : vin(std::move(tx.vin)), vout(std::move(tx.vout)), nVersion(tx.nVersion), nLockTime(tx.nLockTime), hash(ComputeHash()) {}
 
-#include "validation.h"
-#include "chainparams.h"
-
-CAmount CTransaction::GetValueIn() const
-{
-	CCoinsViewCache view(pcoinsTip.get());
-
-	CAmount nValueIn = 0;
-	for (const CTxIn& tx_in : vin)
-	{
-		CTransactionRef tx;
-		uint256 hash_block;
-
-		Coin c;
-		if (view.GetCoin(tx_in.prevout, c))
-			nValueIn += c.out.nValue;
-	}
-	return nValueIn;
-}
-
 CAmount CTransaction::GetValueOut() const
 {
     CAmount nValueOut = 0;
@@ -109,11 +89,6 @@ CAmount CTransaction::GetValueOut() const
             throw std::runtime_error(std::string(__func__) + ": value out of range");
     }
     return nValueOut;
-}
-
-CAmount CTransaction::GetValueOut(uint32_t idx) const
-{
-	return vout[idx].nValue;
 }
 
 unsigned int CTransaction::GetTotalSize() const

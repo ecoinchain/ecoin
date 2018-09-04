@@ -37,7 +37,6 @@
 
 #include <univalue.h>
 #include <miner.h>
-#include "utxomap.hpp"
 
 static const std::string WALLET_ENDPOINT_BASE = "/wallet/";
 
@@ -1745,125 +1744,6 @@ void AcentryToJSON(const CAccountingEntry& acentry, const std::string& strAccoun
     }
 }
 
-UniValue listtransactionbyaddress(const JSONRPCRequest& request)
-{
-	if (request.fHelp || request.params.size() != 1)
-		throw std::runtime_error(
-			"listtransactionbyaddress \"address\" \n"
-			"\nReturns all transactions for address 'address'.\n"
-			"\nArguments:\n"
-			"1. \"address\"    (string) . The address.\n"
-			"\nResult:\n"
-			"[\n"
-			"  {\n"
-			"    \"address\":\"address\",    (string) The bitcoin address of the transaction. Not present for \n"
-			"                                                move transactions (category = move).\n"
-			"    \"category\":\"send|receive\", (string) The transaction category\n"
-			"                                                'send' and 'receive' transactions are \n"
-			"                                                associated with an address, transaction id and block details\n"
-			"    \"amount\": x.xxx,          (numeric) The amount in " + CURRENCY_UNIT + ". This is negative for the 'send' category, and for the\n"
-			"                                         'move' category for moves outbound. It is positive for the 'receive' category,\n"
-			"                                         and for the 'move' category for inbound funds.\n"
-			"    \"vout\": n,                (numeric) the vout value\n"
-			"    \"fee\": x.xxx,             (numeric) The amount of the fee in " + CURRENCY_UNIT + ". This is negative and only available for the \n"
-			"                                         'send' category of transactions.\n"
-			"    \"confirmations\": n,       (numeric) The number of confirmations for the transaction. Available for 'send' and \n"
-			"                                         'receive' category of transactions. Negative confirmations indicate the\n"
-			"                                         transaction conflicts with the block chain\n"
-			"    \"trusted\": xxx,           (bool) Whether we consider the outputs of this unconfirmed transaction safe to spend.\n"
-			"    \"blockhash\": \"hashvalue\", (string) The block hash containing the transaction. Available for 'send' and 'receive'\n"
-			"                                          category of transactions.\n"
-			"    \"blockindex\": n,          (numeric) The index of the transaction in the block that includes it. Available for 'send' and 'receive'\n"
-			"                                          category of transactions.\n"
-			"    \"blocktime\": xxx,         (numeric) The block time in seconds since epoch (1 Jan 1970 GMT).\n"
-			"    \"txid\": \"transactionid\", (string) The transaction id. Available for 'send' and 'receive' category of transactions.\n"
-			"    \"time\": xxx,              (numeric) The transaction time in seconds since epoch (midnight Jan 1 1970 GMT).\n"
-			"    \"timereceived\": xxx,      (numeric) The time received in seconds since epoch (midnight Jan 1 1970 GMT). Available \n"
-			"                                          for 'send' and 'receive' category of transactions.\n"
-			"    \"comment\": \"...\",       (string) If a comment is associated with the transaction.\n"
-			"    \"bip125-replaceable\": \"yes|no|unknown\",  (string) Whether this transaction could be replaced due to BIP125 (replace-by-fee);\n"
-			"                                                     may be unknown for unconfirmed transactions not in the mempool\n"
-			"    \"abandoned\": xxx          (bool) 'true' if the transaction has been abandoned (inputs are respendable). Only available for the \n"
-			"                                         'send' category of transactions.\n"
-			"  }\n"
-			"]\n"
-
-			"\nExamples:\n"
-			"\nList the transactions for a given address\n"
-			+ HelpExampleCli("listtransactionbyaddress", "xxxxxxxxxxxxx") +
-			"\nAs a json rpc call\n"
-			+ HelpExampleRpc("listtransactions", "xxxxxxxxxxxxx")
-		);
-
-	std::string strAddress = "";
-	if (!request.params[0].isNull())
-		strAddress = request.params[0].get_str();
-
-	UniValue ret(UniValue::VARR);
-
-
-	struct ret_item_content
-	{
-		uint64_t time;
-		uint256 txid;
-		CAmount relatedamount, totalamount;
-		std::string category;
-	};
-
-	std::vector<ret_item_content> unsorted_ret;
-
-	{auto [b,e] = mapSendAddressIndex.equal_range(strAddress);
-
-	std::for_each(b, e, [&unsorted_ret](auto v)
-	{
-		CTransactionRef s = v.second;
-
-		ret_item_content c;
-
-		c.time = s->nLockTime;
-		c.txid = s->GetHash();
-		c.relatedamount = s->GetValueIn();
-		c.totalamount = s->GetValueIn();
-		c.category = "send";
-
-		unsorted_ret.push_back(c);
-	});
-	}
-
-	{auto [b,e] = mapreceiveAddressIndex.equal_range(strAddress);
-
-	std::for_each(b, e, [&unsorted_ret](auto v)
-	{
-		CTransactionRef s = v.second;
-
-		ret_item_content c;
-
-		c.time = s->nLockTime;
-		c.txid = s->GetHash();
-		c.relatedamount = s->GetValueOut();
-		c.totalamount = s->GetValueOut();
-		c.category = "receive";
-		unsorted_ret.push_back(c);
-	});
-	}
-
-	std::sort(unsorted_ret.begin(), unsorted_ret.end(), [](const ret_item_content& a, const ret_item_content& b){return a.time > b.time;});
-
-	for (auto c : unsorted_ret)
-	{
-		UniValue entry(UniValue::VOBJ);
-
-		entry.pushKV("category", c.category);
-		entry.pushKV("totalamount", c.totalamount);
-		entry.pushKV("relatedamount", c.relatedamount);
-		entry.pushKV("txid", c.txid.ToString());
-		entry.pushKV("time", c.time);
-		ret.push_back(entry);
-	}
-
-	return ret;
-}
-
 UniValue listtransactions(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -3080,6 +2960,8 @@ UniValue listunspent(const JSONRPCRequest& request)
             + HelpExampleRpc("listunspent", "6, 9999999, [] , true, { \"minimumAmount\": 0.005 } ")
         );
 
+    ObserveSafeMode();
+
     int nMinDepth = 1;
     if (!request.params[0].isNull()) {
         RPCTypeCheckArgument(request.params[0], UniValue::VNUM);
@@ -4067,7 +3949,6 @@ static const CRPCCommand commands[] =
     { "wallet",             "listreceivedbyaddress",            &listreceivedbyaddress,         {"minconf","include_empty","include_watchonly","address_filter"} },
     { "wallet",             "listsinceblock",                   &listsinceblock,                {"blockhash","target_confirmations","include_watchonly","include_removed"} },
     { "wallet",             "listtransactions",                 &listtransactions,              {"account","count","skip","include_watchonly"} },
-    { "wallet",             "listtransactionbyaddress",         &listtransactionbyaddress,      {"address"} },
     { "wallet",             "listunspent",                      &listunspent,                   {"minconf","maxconf","addresses","include_unsafe","query_options"} },
     { "wallet",             "listwallets",                      &listwallets,                   {} },
     { "wallet",             "lockunspent",                      &lockunspent,                   {"unlock","transactions"} },
