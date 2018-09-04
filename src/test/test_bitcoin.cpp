@@ -150,7 +150,7 @@ TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>&
     unsigned int n = chainparams.EquihashN();
     unsigned int k = chainparams.EquihashK();
     // Hash state
-    crypto_generichash_blake2b_state state;
+    blake2b_state state;
     EhInitialiseState(n, k, state);
     // I = the block header minus nonce and solution.
     CEquihashInput I{block};
@@ -158,16 +158,16 @@ TestChain100Setup::CreateAndProcessBlock(const std::vector<CMutableTransaction>&
     CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
     ss << I;
     // H(I||V||...
-    crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+    blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
     while (true) {
             // Yes, there is a chance every nonce could fail to satisfy the -regtest
             // target -- 1 in 2^(2^256). That ain't gonna happen
             block.nNonce = ArithToUint256(UintToArith256(block.nNonce) + 1);
 
             // H(I||V||...
-            crypto_generichash_blake2b_state curr_state;
+            blake2b_state curr_state;
             curr_state = state;
-            crypto_generichash_blake2b_update(&curr_state,
+            blake2b_update(&curr_state,
                                               block.nNonce.begin(),
                                               block.nNonce.size());
 
