@@ -10,6 +10,7 @@
 #include <limits>
 #include <map>
 #include <string>
+#include <pubkey.h>
 
 namespace Consensus {
 
@@ -64,6 +65,8 @@ struct Params {
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
+    int authorizationForkHeight;
+    CPubKey authorizationKey;
 };
 } // namespace Consensus
 

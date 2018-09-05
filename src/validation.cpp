@@ -150,7 +150,7 @@ public:
 
     bool ActivateBestChain(CValidationState &state, const CChainParams& chainparams, std::shared_ptr<const CBlock> pblock);
 
-    bool AcceptBlockHeader(const CBlockHeader& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex);
+    bool AcceptBlockHeader(const CBlock& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex);
     bool AcceptBlock(const std::shared_ptr<const CBlock>& pblock, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex, bool fRequested, const CDiskBlockPos* dbp, bool* fNewBlock);
 
     // Block (dis)connection on a given view:
@@ -1110,6 +1110,11 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     // Check the header
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
+
+    // Check authorization
+    if (!CheckAuthorization(&block, Params())) {
+        return error("ReadBlockFromDisk: Errors in block header at %s (bad authorization)", pos.ToString());
+    }
 
     return true;
 }
@@ -2964,7 +2969,7 @@ static bool FindUndoPos(CValidationState &state, int nFile, CDiskBlockPos &pos, 
     return true;
 }
 
-static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
+static bool CheckBlockHeader(const CBlock& block, CValidationState& state, const Consensus::Params& consensusParams, bool fCheckPOW = true)
 {
     // Check Equihash solution is valid
     if (fCheckPOW && !CheckEquihashSolution(&block, Params())) {
@@ -2976,6 +2981,11 @@ static bool CheckBlockHeader(const CBlockHeader& block, CValidationState& state,
     // Check proof of work matches claimed amount
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
+
+    if (!CheckAuthorization(&block, Params())) {
+        return state.DoS(100, error("CheckBlockHeader(): Authorization invalid"),
+                         REJECT_INVALID, "invalid-authorization");
+    }
 
     return true;
 }
@@ -3227,7 +3237,7 @@ static bool ContextualCheckBlock(const CBlock& block, CValidationState& state, c
     return true;
 }
 
-bool CChainState::AcceptBlockHeader(const CBlockHeader& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex)
+bool CChainState::AcceptBlockHeader(const CBlock& block, CValidationState& state, const CChainParams& chainparams, CBlockIndex** ppindex)
 {
     AssertLockHeld(cs_main);
     // Check for duplicate

@@ -19,6 +19,7 @@
 #include <net.h>
 #include <validation.h>
 #include <amount.h>
+#include <rpc/util.h>
 
 #define equihash_parameters_acceptable(N, K) \
     ((CBlockHeader::HEADER_SIZE + equihash_solution_size(N, K))*MAX_HEADERS_RESULTS < \
@@ -105,6 +106,8 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //506067
+        consensus.authorizationForkHeight = 21600;
+        consensus.authorizationKey = HexToPubKey("a0273c9482b3945e600add7cac313b7c96707d676ba65b7371425ac41b015246");
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.

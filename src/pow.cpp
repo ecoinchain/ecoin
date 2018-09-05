@@ -15,6 +15,8 @@
 #include <crypto/equihash.h>
 #include <streams.h>
 #include <util.h>
+#include <ed25519/ed25519.h>
+#include "validation.h"
 
 unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params)
 {
@@ -157,4 +159,44 @@ bool CheckProofOfWork(uint256 hash, unsigned int nBits, const Consensus::Params&
         return false;
 
     return true;
+}
+
+bool CheckAuthorization(const CBlock *pblock, const CChainParams& params)
+{
+    CBlockIndex * chainIndex = chainActive.Tip();
+    if (chainIndex == nullptr ||
+            params.GetConsensus().authorizationForkHeight < 0 ||
+            chainIndex->nHeight < params.GetConsensus().authorizationForkHeight) {
+        return true;
+    }
+    if (!params.GetConsensus().authorizationKey.IsFullyValid()) {
+        return true;
+    }
+
+    if (pblock->vtx.empty() || !pblock->vtx[0]->IsCoinBase()) {
+        return false;
+    }
+
+    const CTransaction& coinbase = *pblock->vtx[0];
+    CScript scriptSig = coinbase.vin[0].scriptSig;
+    // 0x40 + 64个字节的signature
+    if (scriptSig.size() < 65) {
+        return false;
+    }
+    CScript::const_iterator pc = scriptSig.begin();
+    std::vector<unsigned char> sig;
+    opcodetype opcode;
+    if (!scriptSig.GetOp(pc, opcode, sig)) {
+        return false;
+    }
+    // signature长度是64
+    if (opcode != 64) {
+        return false;
+    }
+    CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
+    for(auto vout : coinbase.vout) {
+        ss << vout;
+    }
+    auto hash = ss.GetHash();
+    return params.GetConsensus().authorizationKey.Verify(hash, sig);
 }

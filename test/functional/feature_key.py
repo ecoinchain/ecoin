@@ -43,6 +43,8 @@ def single_key(wif_version, is_main, password):
 	# 加密数据必须是16位的整数倍，采用pkcs7进行pad，跟PaddedBufferedBlockCipher中的一致
 	ciphertext = obj.encrypt(pad(wif.encode('utf-8'), 16))
 	key_info = {
+		'pubkey': pk.hex(),
+		'wif': wif,
 		'address': address,
 		'salt': salt.hex(),
 		'n': n,
