@@ -167,7 +167,7 @@ bool CheckAuthorization(const CBlock *pblock, const CChainParams& params)
     CBlockIndex * chainIndex = chainActive.Tip();
     if (chainIndex == nullptr ||
             params.GetConsensus().authorizationForkHeight <= 0 ||
-            chainIndex->nHeight < params.GetConsensus().authorizationForkHeight) {
+            chainIndex->nHeight + 1 < params.GetConsensus().authorizationForkHeight) {
         return true;
     }
     if (!params.GetConsensus().authorizationKey.IsFullyValid()) {
@@ -185,6 +185,14 @@ bool CheckAuthorization(const CBlock *pblock, const CChainParams& params)
         return false;
     }
     CScript::const_iterator pc = scriptSig.begin();
+
+    // 第一个元素是区块高度
+    const int nHeight = chainIndex->nHeight + 1;
+    CScript nHeightScript = CScript() << nHeight;
+    // 第二个元素是timestamp
+    CScript nTimeScript = CScript() << pblock->nTime;
+    pc = pc + nHeightScript.size() + nTimeScript.size();
+
     std::vector<unsigned char> sig;
     opcodetype opcode;
     if (!scriptSig.GetOp(pc, opcode, sig)) {
