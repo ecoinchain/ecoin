@@ -229,7 +229,6 @@ libbitcoin_server_a_SOURCES = \
   libminer/cpu_tromp/cpu_tromp.cpp \
   $(BITCOIN_CORE_H) \
   miner.cpp LocalClient.cpp \
-  blake2/blake2bx.cpp \
   libminer/speed.cpp \
   libminer/MinerFactory.cpp \
   libminer/json/json_spirit_reader.cpp \
@@ -311,7 +310,8 @@ crypto_libbitcoin_crypto_a_SOURCES = \
   crypto/sha3_256.cpp \
   crypto/sha3_256.h \
   crypto/sha512.cpp \
-  crypto/sha512.h
+  crypto/sha512.h \
+  blake2/blake2bx.cpp
 
 if USE_ASM
 crypto_libbitcoin_crypto_a_SOURCES += crypto/sha256_sse4.cpp
