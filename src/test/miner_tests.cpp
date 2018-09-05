@@ -221,7 +221,7 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 //         unsigned int n = chainparams.EquihashN();
 //         unsigned int k = chainparams.EquihashK();
 //         // Hash state
-//         crypto_generichash_blake2b_state state;
+//         blake2b_state state;
 //         EhInitialiseState(n, k, state);
 //         // I = the block header minus nonce and solution.
 //         CEquihashInput I{*pblock};
@@ -229,16 +229,16 @@ BOOST_AUTO_TEST_CASE(CreateNewBlock_validity)
 //         CDataStream ss(SER_NETWORK, PROTOCOL_VERSION);
 //         ss << I;
 //         // H(I||V||...
-//         crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+//         blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
 //         while (true) {
 //             // Yes, there is a chance every nonce could fail to satisfy the -regtest
 //             // target -- 1 in 2^(2^256). That ain't gonna happen
 //             pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
 //             printf("nonce = %s\n", pblock->nNonce.GetHex().c_str());
 //             // H(I||V||...
-//             crypto_generichash_blake2b_state curr_state;
+//             blake2b_state curr_state;
 //             curr_state = state;
-//             crypto_generichash_blake2b_update(&curr_state,
+//             blake2b_update(&curr_state,
 //                                               pblock->nNonce.begin(),
 //                                               pblock->nNonce.size());
 
