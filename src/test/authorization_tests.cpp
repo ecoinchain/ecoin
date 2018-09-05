@@ -109,7 +109,7 @@ BOOST_AUTO_TEST_CASE(invalid_script_size)
 BOOST_AUTO_TEST_CASE(invalid_signature)
 {
 
-    CScript script = CScript() << ParseHex("ff0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
+    CScript script = CScript() << ParseHex("f8cf1799073d9b19de6207474cfe9ce87d53de0cec3b8f3e1ba2a6250f6f35c66f6e45cc8918278e477efcb61cfee0c87a40c5ef065fec85bebeb45e4d739600");
     CBlock* block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(invalid_signature)
 BOOST_AUTO_TEST_CASE(valid_signature)
 {
 
-    CScript script = CScript() << ParseHex("df0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
+    CScript script = CScript() << ParseHex("98cf1799073d9b19de6207474cfe9ce87d53de0cec3b8f3e1ba2a6250f6f35c66f6e45cc8918278e477efcb61cfee0c87a40c5ef065fec85bebeb45e4d739600");
     CBlock* block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
