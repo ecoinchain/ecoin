@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(GenesisReg)
 
 printf("%d %d\n", n, k);
     // Hash state
-    crypto_generichash_blake2b_state state;
+    blake2b_state state;
     EhInitialiseState(n, k, state);
 
     // I = the block header minus nonce and solution.
@@ -54,7 +54,7 @@ printf("%d %d\n", n, k);
     // ss << pblock->nNonce;
 
     // H(I||V||...
-    crypto_generichash_blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
+    blake2b_update(&state, (unsigned char*)&ss[0], ss.size());
 
     while (true) {
             // Yes, there is a chance every nonce could fail to satisfy the -regtest
@@ -62,9 +62,9 @@ printf("%d %d\n", n, k);
             pblock->nNonce = ArithToUint256(UintToArith256(pblock->nNonce) + 1);
 
             // H(I||V||...
-            crypto_generichash_blake2b_state curr_state;
+            blake2b_state curr_state;
             curr_state = state;
-            crypto_generichash_blake2b_update(&curr_state,
+            blake2b_update(&curr_state,
                                               pblock->nNonce.begin(),
                                               pblock->nNonce.size());
 
@@ -82,7 +82,7 @@ printf("%d %d\n", n, k);
 endloop:
     printf("%s\n", pblock->nNonce.GetHex().c_str());
 
-    crypto_generichash_blake2b_update(&state,
+    blake2b_update(&state,
                                               pblock->nNonce.begin(),
                                               pblock->nNonce.size());
 

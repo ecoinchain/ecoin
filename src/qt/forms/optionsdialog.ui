@@ -305,6 +305,9 @@ QCheckBox::indicator::checked {
           </item>
           <item>
            <widget class="QGroupBox" name="enableMinner">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="title">
              <string>Enable Mining</string>
             </property>

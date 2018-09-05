@@ -160,6 +160,7 @@ void WalletModel::pollBalanceChanged()
 
 void WalletModel::onGenerateChanged(bool fGenerate)
 {
+	return ;
 	QVariant cpucount = this->optionsModel->data(optionsModel->index(OptionsModel::MinnerCPUCount, 0), Qt::EditRole);
 
 #ifdef ENABLE_WALLET

@@ -1664,6 +1664,7 @@ bool AppInitMain()
 #endif // ENABLE_WALLET
     }
 
+#if 0
 #ifdef ENABLE_WALLET
     CWallet *pwalletMain = ::vpwallets.size() > 0 ? ::vpwallets[0] : nullptr;
     if (pwalletMain || !gArgs.IsArgSet("-mineraddress"))
@@ -1671,7 +1672,7 @@ bool AppInitMain()
  #else
     GenerateBitcoins(gArgs.GetBoolArg("-gen", false), gArgs.GetArg("-genproclimit", 1));
  #endif
-
+#endif
     // ********************************************************* Step 9: data directory maintenance
 
     // if pruning, unset the service bit and perform the initial blockstore prune
