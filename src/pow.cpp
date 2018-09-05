@@ -165,7 +165,7 @@ bool CheckAuthorization(const CBlock *pblock, const CChainParams& params)
 {
     CBlockIndex * chainIndex = chainActive.Tip();
     if (chainIndex == nullptr ||
-            params.GetConsensus().authorizationForkHeight < 0 ||
+            params.GetConsensus().authorizationForkHeight <= 0 ||
             chainIndex->nHeight < params.GetConsensus().authorizationForkHeight) {
         return true;
     }
