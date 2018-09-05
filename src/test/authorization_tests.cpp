@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(height_lt_fork)
     CBlock *block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
-    block_index->nHeight = 15677;
+    block_index->nHeight = 15676;
     chainActive.SetTip(block_index);
 
     CAuthTestParams params(15678, "67de5101fed5e846d9093f84c2fc4f8a49d32f40f83c325893c06287413c63dc");
@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(no_auth_pubkey)
     CBlock *block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
-    block_index->nHeight = 15678;
+    block_index->nHeight = 15677;
     chainActive.SetTip(block_index);
 
     CAuthTestParams params(15678);
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(invalid_script_size)
     CBlock *block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
-    block_index->nHeight = 15678;
+    block_index->nHeight = 15677;
     chainActive.SetTip(block_index);
 
     CAuthTestParams params(15678, "67de5101fed5e846d9093f84c2fc4f8a49d32f40f83c325893c06287413c63dc");
@@ -109,11 +109,11 @@ BOOST_AUTO_TEST_CASE(invalid_script_size)
 BOOST_AUTO_TEST_CASE(invalid_signature)
 {
 
-    CScript script = CScript() << ParseHex("ff0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
+    CScript script = CScript() << 15678 << time(nullptr) << ParseHex("ff0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
     CBlock* block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
-    block_index->nHeight = 15678;
+    block_index->nHeight = 15677;
     chainActive.SetTip(block_index);
 
     CAuthTestParams params(15678, "67de5101fed5e846d9093f84c2fc4f8a49d32f40f83c325893c06287413c63dc");
@@ -124,12 +124,11 @@ BOOST_AUTO_TEST_CASE(invalid_signature)
 
 BOOST_AUTO_TEST_CASE(valid_signature)
 {
-
-    CScript script = CScript() << ParseHex("df0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
+    CScript script = CScript() << 15678 << time(nullptr) << ParseHex("df0c1419e5b97fbd3e2d8ccc431b9effccc9a3f88fefe693ed4055612867cc472e7731770adeb26e4260bd4cf8095525d66120d110c805d1edaa37d22d013d09");
     CBlock* block = CreateBlock(script);
 
     CBlockIndex* block_index = new CBlockIndex();
-    block_index->nHeight = 15678;
+    block_index->nHeight = 15677;
     chainActive.SetTip(block_index);
 
     CAuthTestParams params(15678, "67de5101fed5e846d9093f84c2fc4f8a49d32f40f83c325893c06287413c63dc");
