@@ -1,5 +1,5 @@
-﻿cmake_minimum_required(VERSION 3.2)
-project(Boost)
+﻿
+option(Boost_USE_STATIC_LIBS "" ON)
 
 if(WIN32)
 ENABLE_LANGUAGE(ASM_MASM)
@@ -104,6 +104,8 @@ else()
 		else()
 			set(ARCH "arm")
 		endif()
+	else()
+		message(FATAL_ERROR "unsupported cpu")
 	endif()
 endif()
 
