@@ -3966,9 +3966,9 @@ static const CRPCCommand commands[] =
     { "wallet",             "removeprunedfunds",                &removeprunedfunds,             {"txid"} },
     { "wallet",             "rescanblockchain",                 &rescanblockchain,              {"start_height", "stop_height"} },
 
-    { "generating",         "getgenerate",                 &getgenerate,                 {} },
-    { "generating",         "setgenerate",                 &setgenerate,                 {"generate","genproclimit"} },
-    { "generating",         "generate",                         &generate,                      {"nblocks","maxtries"} },
+//    { "generating",         "getgenerate",                 &getgenerate,                 {} },
+//    { "generating",         "setgenerate",                 &setgenerate,                 {"generate","genproclimit"} },
+//    { "generating",         "generate",                         &generate,                      {"nblocks","maxtries"} },
 };
 
 void RegisterWalletRPCCommands(CRPCTable &t)
