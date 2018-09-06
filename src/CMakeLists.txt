@@ -186,7 +186,9 @@ endif()
 target_link_libraries(coincore libminer)
 
 add_subdirectory(wallet)
+if(WITH_GUI)
 add_subdirectory(qt)
+endif()
 
 if(NOT WIN32) # do not build command line tools on windows
 add_executable(rcoind bitcoind.cpp)
