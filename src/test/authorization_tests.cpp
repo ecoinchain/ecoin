@@ -1,7 +1,6 @@
 #include <chainparams.h>
 #include <consensus/merkle.h>
 #include <pow.h>
-#include <rpc/util.h>
 #include <validation.h>
 #include <key_io.h>
 
@@ -15,11 +14,12 @@ public:
 
     CAuthTestParams(int height) {
         consensus.authorizationForkHeight = height;
+        consensus.authorizationKey = CPubKey();
     }
 
     CAuthTestParams(int height, const std::string& hex_in) {
         consensus.authorizationForkHeight = height;
-        consensus.authorizationKey = HexToPubKey(hex_in);
+        consensus.authorizationKey = CPubKey(ParseHex(hex_in));
     }
 };
 

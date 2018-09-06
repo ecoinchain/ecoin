@@ -19,7 +19,6 @@
 #include <net.h>
 #include <validation.h>
 #include <amount.h>
-#include <rpc/util.h>
 
 #define equihash_parameters_acceptable(N, K) \
     ((CBlockHeader::HEADER_SIZE + equihash_solution_size(N, K))*MAX_HEADERS_RESULTS < \
@@ -107,7 +106,7 @@ public:
         // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //506067
         consensus.authorizationForkHeight = 208800;
-        consensus.authorizationKey = HexToPubKey("c453c7e1c44b925431424585177cc271d5065266bfc27e3883f03609f9e1f06b");
+        consensus.authorizationKey = CPubKey(ParseHex("c453c7e1c44b925431424585177cc271d5065266bfc27e3883f03609f9e1f06b"));
 
         /**
          * The message start string is designed to be unlikely to occur in normal data.
@@ -201,6 +200,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 1199145601; // January 1, 2008
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = 1230767999; // December 31, 2008
+        consensus.authorizationForkHeight = 0;
+        consensus.authorizationKey = CPubKey();
 
         // The best chain should have at least this much work.
         // todo 后面等链变长之后需要修改.
@@ -294,6 +295,8 @@ public:
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].bit = 28;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nStartTime = 0;
         consensus.vDeployments[Consensus::DEPLOYMENT_TESTDUMMY].nTimeout = Consensus::BIP9Deployment::NO_TIMEOUT;
+        consensus.authorizationForkHeight = 0;
+        consensus.authorizationKey = CPubKey();
 
         // The best chain should have at least this much work.
         consensus.nMinimumChainWork = uint256S("0x00");

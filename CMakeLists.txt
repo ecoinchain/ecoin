@@ -9,6 +9,8 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 option(ENABLE_QT_STATIC "link to static qt" ON)
 option(Boost_USE_STATIC_LIBS "use static Boost" ON)
+option(WITH_GUI "build gui" ON)
+
 SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "1")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
@@ -88,7 +90,9 @@ if (APPLE)
 	link_libraries(${CoreFoundation} ${IOKit} ${ObjC} ${COCOA_LIBRARY})
 endif (APPLE)
 
+if (WITH_GUI)
 find_package(Qt5 5.9 COMPONENTS ${RCOIN_QT_COMPONENTS} REQUIRED)
+endif()
 
 if(MSVC AND ENABLE_QT_STATIC)
 	# For static Windows builds, we also need to pull in the Qt5 Platform
