@@ -225,17 +225,9 @@ libbitcoin_server_a_SOURCES = \
   validation.cpp \
   validationinterface.cpp \
   versionbits.cpp \
-  libminer/MinerFactory.cpp \
-  libminer/cpu_tromp/cpu_tromp.cpp \
-  $(BITCOIN_CORE_H) \
-  miner.cpp LocalClient.cpp \
-  libminer/speed.cpp \
-  libminer/MinerFactory.cpp \
-  libminer/json/json_spirit_reader.cpp \
-  libminer/json/json_spirit_value.cpp \
-  libminer/json/json_spirit_writer.cpp \
-  libminer/libstratum/ZcashStratum.cpp \
-  libminer/libstratum/StratumClient.cpp
+  miner.cpp \
+  LocalClient.cpp \
+  $(BITCOIN_CORE_H)
 
 if ENABLE_ZMQ
 libbitcoin_zmq_a_CPPFLAGS = $(BITCOIN_INCLUDES) $(ZMQ_CFLAGS)
@@ -262,6 +254,15 @@ libbitcoin_wallet_a_SOURCES = \
   wallet/wallet.cpp \
   wallet/walletdb.cpp \
   wallet/walletutil.cpp \
+  libminer/MinerFactory.cpp \
+  libminer/cpu_tromp/cpu_tromp.cpp \
+  libminer/speed.cpp \
+  libminer/MinerFactory.cpp \
+  libminer/json/json_spirit_reader.cpp \
+  libminer/json/json_spirit_value.cpp \
+  libminer/json/json_spirit_writer.cpp \
+  libminer/libstratum/ZcashStratum.cpp \
+  libminer/libstratum/StratumClient.cpp \
   $(BITCOIN_CORE_H)
 
 libed25519_a_CPPFLAGS = $(AM_CPPFLAGS)

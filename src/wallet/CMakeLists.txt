@@ -24,4 +24,4 @@ add_library(wallet STATIC
 
 target_include_directories(wallet PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-target_link_libraries(wallet coincore)
+target_link_libraries(wallet bitcoin_crypto bitcoin_common bitcoin_consensus bitcoin_server bitcoin_util)
