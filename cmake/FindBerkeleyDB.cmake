@@ -22,8 +22,8 @@ FIND_PATH(DB_INCLUDE_DIR db_cxx.h
 SET(DB_NAMES ${DB_NAMES} db_cxx-4.8 db_cxx)
 FIND_LIBRARY(DB_LIBRARY
   NAMES ${DB_NAMES}
-  PATHS /usr/local/opt/berkeley-db@4/lib/ /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib /usr/db4.8/lib64 /usr/db4.8/lib ${DB_LIB_PATH}
-  )
+  PATHS /usr/local/opt/berkeley-db@4/lib/ /usr/lib64 /usr/lib /usr/local/lib64 /usr/local/lib /usr/db4/lib64 /usr/db4/lib /usr/db4.8/lib64 /usr/db4.8/lib ${DB_LIB_PATH}
+)
 
 IF (DB_LIBRARY AND DB_INCLUDE_DIR)
   SET(DB_LIBRARIES ${DB_LIBRARY})
