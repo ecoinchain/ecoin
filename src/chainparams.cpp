@@ -105,7 +105,7 @@ public:
         // By default assume that the signatures in ancestors of this block are valid.
         // todo 等到链成长到一定的长度再设置.
         consensus.defaultAssumeValid = uint256S("0x0000000000000000000000000000000000000000000000000000000000000000"); //506067
-        consensus.authorizationForkHeight = 21744;
+        consensus.authorizationForkHeight = 21888;
         consensus.authorizationKey = CPubKey(ParseHex("a0273c9482b3945e600add7cac313b7c96707d676ba65b7371425ac41b015246"));
 
         /**
