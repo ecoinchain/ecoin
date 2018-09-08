@@ -1111,11 +1111,6 @@ bool ReadBlockFromDisk(CBlock& block, const CDiskBlockPos& pos, const Consensus:
     if (!CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return error("ReadBlockFromDisk: Errors in block header at %s", pos.ToString());
 
-    // Check authorization
-    if (!CheckAuthorization(&block, Params())) {
-        return error("ReadBlockFromDisk: Errors in block header at %s (bad authorization)", pos.ToString());
-    }
-
     return true;
 }
 
@@ -2982,11 +2977,6 @@ static bool CheckBlockHeader(const CBlock& block, CValidationState& state, const
     if (fCheckPOW && !CheckProofOfWork(block.GetHash(), block.nBits, consensusParams))
         return state.DoS(50, false, REJECT_INVALID, "high-hash", false, "proof of work failed");
 
-    if (!CheckAuthorization(&block, Params())) {
-        return state.DoS(100, error("CheckBlockHeader(): Authorization invalid"),
-                         REJECT_INVALID, "invalid-authorization");
-    }
-
     return true;
 }
 
@@ -3032,6 +3022,53 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
     for (unsigned int i = 1; i < block.vtx.size(); i++)
         if (block.vtx[i]->IsCoinBase())
             return state.DoS(100, false, REJECT_INVALID, "bad-cb-multiple", false, "more than one coinbase");
+
+    // Check mine auth
+    bool checkAuth = true;
+    CBlockIndex * chainIndex = chainActive.Tip();
+    if (chainIndex == nullptr ||
+            consensusParams.authorizationForkHeight <= 0 ||
+        chainIndex->nHeight + 1 < consensusParams.authorizationForkHeight) {
+        checkAuth = false;
+    }
+    if (!consensusParams.authorizationKey.IsFullyValid()) {
+        checkAuth = false;
+    }
+    if (checkAuth) {
+        const CTransaction& coinbase = *block.vtx[0];
+        CScript scriptSig = coinbase.vin[0].scriptSig;
+        // 0x40 + 64个字节的signature
+        if (scriptSig.size() < 65) {
+            return state.DoS(100, false, REJECT_INVALID, "bad-coinbase-scriptsig", false, "script sig too small");
+        }
+        CScript::const_iterator pc = scriptSig.begin();
+
+        // 第一个元素是区块高度
+        const int nHeight = chainIndex->nHeight + 1;
+        CScript nHeightScript = CScript() << nHeight;
+        // 第二个元素是timestamp
+        CScript nTimeScript = CScript() << block.nTime;
+        pc = pc + nHeightScript.size() + nTimeScript.size();
+
+        std::vector<unsigned char> sig;
+        opcodetype opcode;
+        if (!scriptSig.GetOp(pc, opcode, sig)) {
+            return state.DoS(100, false, REJECT_INVALID, "bad-coinbase-scriptsig", false, "no signature in script sig");
+        }
+        // signature长度是64
+        if (opcode != 64) {
+            return state.DoS(100, false, REJECT_INVALID, "bad-coinbase-scriptsig", false, "bad signature length");
+        }
+        CHashWriter ss(SER_GETHASH, PROTOCOL_VERSION);
+        for(auto vout : coinbase.vout) {
+            ss << vout;
+        }
+        auto hash = ss.GetHash();
+        bool r = consensusParams.authorizationKey.Verify(hash, sig);
+        if (!r) {
+            return state.DoS(100, false, REJECT_INVALID, "bad-coinbase-scriptsig", false, "invalid signature");
+        }
+    }
 
     // Check transactions
     for (const auto& tx : block.vtx)
