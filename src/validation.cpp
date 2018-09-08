@@ -3034,7 +3034,7 @@ bool CheckBlock(const CBlock& block, CValidationState& state, const Consensus::P
     if (!consensusParams.authorizationKey.IsFullyValid()) {
         checkAuth = false;
     }
-    if (checkAuth) {
+    if (checkAuth && fCheckPOW) {
         const CTransaction& coinbase = *block.vtx[0];
         CScript scriptSig = coinbase.vin[0].scriptSig;
         // 0x40 + 64个字节的signature
