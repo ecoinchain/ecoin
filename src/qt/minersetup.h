@@ -87,6 +87,7 @@ private:
 	QTimer balance_update_timer;
 
 	QPointer<QLabel> message_widget;
+	QPointer<QWidget> embeder;
 
 	std::vector<QCheckBox*> checkboxies;
 
