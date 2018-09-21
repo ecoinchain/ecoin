@@ -287,6 +287,8 @@ void StratumClient<Miner, Job, Solution>::workLoop(boost::system::error_code ec,
 			m_share_id = 4;
 		}
 
+		report_error("", true);
+
 		while (m_running)
 		{
 			{
