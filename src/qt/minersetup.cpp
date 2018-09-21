@@ -422,7 +422,7 @@ void MinerSetup::error_report(QString error_string, bool can_auto_dismiss)
 		message_widget = new QLabel(error_string);
 		message_widget->setStyleSheet("color: red");
 
-		auto embeder = new OverlayDialogEmbeder(message_widget, TopLevelParentWidget(this));
+		embeder = new OverlayDialogEmbeder(message_widget, TopLevelParentWidget(this));
 
 		embeder->setProperty("greycolor", QColor(255, 255, 124, 200));
 
@@ -435,7 +435,7 @@ void MinerSetup::error_report(QString error_string, bool can_auto_dismiss)
 
 	if (can_auto_dismiss)
 	{
-		QTimer::singleShot(5000, message_widget.data(), SLOT(deleteLater()));
+		QTimer::singleShot(3010, this, [this](){ message_widget->deleteLater(); embeder->deleteLater(); });
 	}
 }
 
