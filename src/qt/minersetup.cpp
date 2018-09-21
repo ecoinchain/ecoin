@@ -413,29 +413,36 @@ void MinerSetup::dismiss_error_invoked()
 
 void MinerSetup::error_report(QString error_string, bool can_auto_dismiss)
 {
-	if (message_widget)
+	if (error_string.isEmpty())
 	{
-		message_widget->setText(message_widget->text() + "\r\n" + error_string);
+		message_widget->deleteLater(); embeder->deleteLater();
 	}
 	else
 	{
-		message_widget = new QLabel(error_string);
-		message_widget->setStyleSheet("color: red");
+		if (message_widget)
+		{
+			message_widget->setText(message_widget->text() + "\r\n" + error_string);
+		}
+		else
+		{
+			message_widget = new QLabel(error_string);
+			message_widget->setStyleSheet("color: red");
 
-		embeder = new OverlayDialogEmbeder(message_widget, TopLevelParentWidget(this));
+			embeder = new OverlayDialogEmbeder(message_widget, TopLevelParentWidget(this));
 
-		embeder->setProperty("greycolor", QColor(255, 255, 124, 200));
+			embeder->setProperty("greycolor", QColor(255, 255, 124, 200));
 
-		embeder->installEventFilter(this);
+			embeder->installEventFilter(this);
 
-		embeder->setAttribute(Qt::WA_DeleteOnClose, true);
-		message_widget->show();
-		embeder->show();
-	}
+			embeder->setAttribute(Qt::WA_DeleteOnClose, true);
+			message_widget->show();
+			embeder->show();
+		}
 
-	if (can_auto_dismiss)
-	{
-		QTimer::singleShot(3010, this, [this](){ message_widget->deleteLater(); embeder->deleteLater(); });
+		if (can_auto_dismiss)
+		{
+			QTimer::singleShot(3010, this, [this](){ message_widget->deleteLater(); embeder->deleteLater(); });
+		}
 	}
 }
 
