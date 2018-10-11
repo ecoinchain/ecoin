@@ -193,7 +193,7 @@ void MinerSetup::second_timer_interrupt()
 	{
 		if (IsValidDestinationString(ui->username->currentText().toStdString()))
 		{
-			QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://r.erpool.vip:3333/").arg(ui->username->currentText());
+			QUrl url = QString("%1/v3/getBenefit/%2").arg("http://r.erpool.vip:3333/").arg(ui->username->currentText());
 
 			QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
