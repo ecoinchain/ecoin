@@ -68,7 +68,7 @@ private Q_SLOTS:
 
 	void process_network_error(QNetworkReply::NetworkError);
 
-	void set_pending_balance(QString);
+	void set_pending_balance(double);
 
 private:
 	bool eventFilter(QObject * watched, QEvent * event) override;

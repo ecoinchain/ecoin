@@ -193,7 +193,7 @@ void MinerSetup::second_timer_interrupt()
 	{
 		if (IsValidDestinationString(ui->username->currentText().toStdString()))
 		{
-			QUrl url = QString("%1/v3/getBenefit/%2").arg("http://e.erpool.vip:3333/").arg(ui->username->currentText());
+			QUrl url = QString("%1/userapi/getBenefit/%2").arg("http://ecoin.erpool.org").arg(ui->username->currentText());
 
 			QNetworkReply* api_replay = m_networkmanager.get(QNetworkRequest(url));
 
@@ -221,7 +221,7 @@ void MinerSetup::process_network_rpc_finished()
 		// {"errCode":null,"errMsg":null,"data":{"userName":"coinyee","address":null,"assignedValue":"","toAssignValue":2055.37600000,"pooFee":0,"minAssign":0.00050}}
 		if (replay_json["data"].isObject())
 		{
-			auto pending_balance = replay_json["data"]["toAssignValue"].toString();
+			auto pending_balance = replay_json["data"]["toAssignValue"].toDouble();
 
 			set_pending_balance(pending_balance);
 		}
@@ -237,12 +237,11 @@ void MinerSetup::process_network_error(QNetworkReply::NetworkError)
 	ui->balance->setText(tr("query failed"));
 }
 
-void MinerSetup::set_pending_balance(QString pending_balance)
+void MinerSetup::set_pending_balance(double pending_balance)
 {
 	//int unit = walletModel->getOptionsModel()->getDisplayUnit();
-	CAmount pending_balance_value = 0;
-	BitcoinUnits::parse(BitcoinUnit::BTC, pending_balance, &pending_balance_value);
-	pending_balance = BitcoinUnits::format(BitcoinUnit::BTC, pending_balance_value, false, BitcoinUnits::separatorStandard);
+	CAmount pending_balance_value = pending_balance * COIN;
+	auto pending_balance_str = BitcoinUnits::format(BitcoinUnit::BTC, pending_balance_value, false, BitcoinUnits::separatorStandard);
 
 	ui->balance->setText(QString(R"htmlstring(<html><head/><body><p><span style=" font-size:14pt;">%1 </span><span style=" font-size:9pt;">%2</span></p></body></html>)htmlstring")
 	.arg(pending_balance).arg(QAPP_COIN_UNIT)
@@ -358,7 +357,7 @@ void MinerSetup::on_location_editTextChanged(QString l)
 	{
 		QString detailurl = QStringLiteral("http://%1.erpool.org/account/%2").arg(QAPP_COIN_SCHEME_NAME).arg(l);
 		ui->balance->setText(tr("<html><head/><body><p>Pending Balance: <a href='%1'> (Detail)</a></p></body></html>").arg(detailurl));
-		set_pending_balance("0.0");
+		set_pending_balance(0.0);
 	}
 }
 
@@ -371,12 +370,12 @@ void MinerSetup::on_username_editTextChanged(QString l)
 			QString detailurl = QStringLiteral("http://%1.erpool.org/account/%2").arg(QAPP_COIN_SCHEME_NAME).arg(l);
 			QString htmltext = tr("<html><head/><body><p>Pending Balance: <a href=\"%1\"> (Detail)</a></p></body></html>").arg(detailurl);
 			ui->balance_detail->setText(htmltext);
-			set_pending_balance("0.0");
+			set_pending_balance(0.0);
 		}
 		else
 		{
 			ui->balance_detail->setText(tr("Pending Balance:"));
-			set_pending_balance("0.0");
+			set_pending_balance(0.0);
 		}
 	}
 }
