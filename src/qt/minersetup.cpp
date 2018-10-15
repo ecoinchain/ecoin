@@ -90,7 +90,7 @@ MinerSetup::MinerSetup(const PlatformStyle *platformStyle, WalletModel* model, Q
 	connect(&ui_update_timer, SIGNAL(timeout()), this, SLOT(timer_interrupt()));
 	ui_update_timer.start();
 
-	balance_update_timer.setInterval(std::chrono::minutes(30));
+	balance_update_timer.setInterval(std::chrono::seconds(30));
 	connect(&balance_update_timer, SIGNAL(timeout()), this, SLOT(second_timer_interrupt()));
 	balance_update_timer.start();
 
