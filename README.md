@@ -12,4 +12,4 @@ Ecoin is a new digit coin, compare to bitcoin ecoin has some significant differe
 ## Links
 
 * Website: http://ecoin.org
-* Trade: http://www.coinyee.com
+* Trade: http://www.coinyee.io
